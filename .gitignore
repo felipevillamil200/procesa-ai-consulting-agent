@@ -1,0 +1,34 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+ENV/
+
+# Python cache y compilados
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# Archivos de configuración sensible y secretos
+.env
+.env.local
+*.key
+*.pem
+
+# Base de datos y archivos generados temporales
+*.db-journal
+chroma_db/
+*.zip
+extracted/
+
+# IDEs y editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,16 @@
+# Core IA y Modelos LLM
+openai>=1.30.0
+pydantic>=2.0.0
+
+# Procesamiento de Documentos (PDF)
+pypdf>=4.0.0
+
+# Variables de entorno y utilidades
+python-dotenv>=1.0.0
+
+# Interfaces de Usuario
+rich>=13.0.0
+streamlit>=1.35.0
+
+# Testing y Calidad de Código
+pytest>=8.0.0
