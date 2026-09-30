@@ -143,10 +143,22 @@ class DatabaseManager:
         finally:
             conn.close()
 
+    def delete_proyecto(self, codigo_proyecto: str) -> bool:
+        """Elimina un proyecto de la base de datos SQLite por su código."""
+        conn = self.get_connection()
+        try:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM proyectos WHERE codigo_proyecto = ?", (codigo_proyecto,))
+            conn.commit()
+            return cursor.rowcount > 0
+        finally:
+            conn.close()
+
     def get_all_proyectos(self) -> List[Dict[str, Any]]:
         """Obtiene todas las fichas de proyectos registradas."""
         result = self.execute_read_query("SELECT * FROM proyectos ORDER BY codigo_proyecto ASC")
         return result.get("rows", [])
+
 
     def get_schema_description(self) -> str:
         """Devuelve el DDL y descripción de columnas para el system prompt del agente."""

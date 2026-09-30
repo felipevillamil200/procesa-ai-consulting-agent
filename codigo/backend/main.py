@@ -135,9 +135,79 @@ def get_all_projects():
     return {"success": True, "count": len(formatted), "proyectos": formatted}
 
 
+@app.delete("/api/proyectos/{codigo_proyecto}")
+def delete_project(codigo_proyecto: str):
+    """Elimina un proyecto de la base de datos SQLite, borra su ficha JSON y actualiza el índice RAG."""
+    # 1. Eliminar de SQLite
+    deleted = db_manager.delete_proyecto(codigo_proyecto)
+    
+    # 2. Eliminar ficha JSON si existe
+    json_path = FICHAS_DIR / f"{codigo_proyecto}.json"
+    if json_path.exists():
+        json_path.unlink()
+        
+    # 3. Eliminar PDF si existe
+    from codigo.backend.config import RAW_REPORTS_DIR
+    for pdf in RAW_REPORTS_DIR.glob(f"*{codigo_proyecto}*.pdf"):
+        try:
+            pdf.unlink()
+        except Exception:
+            pass
+
+    # 4. Reindexar RAG
+    agent.search_engine.reload_index()
+
+    return {"success": True, "deleted": deleted, "codigo_proyecto": codigo_proyecto, "message": f"Proyecto {codigo_proyecto} eliminado correctamente"}
+
+
+@app.post("/api/proyectos/reset")
+def reset_projects():
+    """Restaura los 4 proyectos oficiales de prueba técnica regenerando fichas, SQLite y RAG."""
+    from codigo.backend.extractor import process_all_reports
+    # Restaurar PDFs originales desde extracted si hacen falta
+    from codigo.backend.config import RAW_REPORTS_DIR
+    extracted_dir = PROJECT_ROOT / "extracted"
+    if extracted_dir.exists():
+        import shutil
+        for pdf in extracted_dir.glob("Informe_Cierre_*.pdf"):
+            shutil.copy(pdf, RAW_REPORTS_DIR / pdf.name)
+            
+    fichas = process_all_reports(use_llm=False)
+    agent.search_engine.reload_index()
+    return {"success": True, "count": len(fichas), "message": "Base de datos y RAG restaurados con los 4 proyectos oficiales"}
+
+
+from fastapi import UploadFile, File
+import shutil
+
+@app.post("/api/upload")
+async def upload_document(file: UploadFile = File(...)):
+    """Sube un nuevo informe PDF, ejecuta la extracción estructurada, lo persiste en SQLite y reindexa RAG."""
+    from codigo.backend.config import RAW_REPORTS_DIR
+    from codigo.backend.extractor import process_single_pdf
+    
+    if not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Solo se permiten archivos PDF.")
+
+    save_path = RAW_REPORTS_DIR / file.filename
+    with open(save_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    try:
+        ficha = process_single_pdf(save_path, db_manager)
+        agent.search_engine.reload_index()
+        return {
+            "success": True,
+            "message": f"Documento '{file.filename}' procesado e indexado con éxito.",
+            "proyecto": ficha.model_dump()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error procesando PDF: {str(e)}")
+
+
 @app.get("/api/fichas")
 def get_fichas_json():
-    """Retorna las 4 fichas estructuradas completas en formato JSON."""
+    """Retorna las fichas estructuradas completas en formato JSON."""
     fichas = []
     for jf in sorted(list(FICHAS_DIR.glob("*.json"))):
         with open(jf, "r", encoding="utf-8") as f:
@@ -161,3 +231,4 @@ if FRONTEND_DIR.exists():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+

@@ -219,35 +219,92 @@
       </div>
     </section>
 
-    <!-- TAB 3: EXPLORADOR SQLITE -->
+    <!-- TAB 3: EXPLORADOR SQLITE & GESTOR DE DOCUMENTOS -->
     <section id="tabSqlite" class="hidden flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
       <div class="max-w-6xl mx-auto space-y-6">
+        
+        <!-- Header & Action Bar -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-xl font-bold text-slate-900">Gestor de Documentos y Base Relacional SQLite (`proyectos.db`)</h2>
+              <span class="px-2.5 py-0.5 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded-full text-xs font-mono font-bold">SQLite 3</span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">Añade o elimina informes de proyectos dinámicamente; las fichas estructuradas y el índice RAG se sincronizan automáticamente.</p>
+          </div>
+          
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="openUploadModal()" class="px-3.5 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold rounded-xl text-xs shadow-sm transition flex items-center gap-2">
+              <i class="fa-solid fa-cloud-arrow-up text-sm"></i> Subir Informe PDF
+            </button>
+            <button onclick="resetOfficialProjects()" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs border border-slate-300 transition flex items-center gap-2" title="Restaura los 4 proyectos de prueba oficial">
+              <i class="fa-solid fa-rotate-left text-slate-500"></i> Restaurar Originales
+            </button>
+          </div>
+        </div>
+
+        <!-- Documentos y Proyectos Activos (CRUD Table) -->
         <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
           <div class="flex items-center justify-between">
-            <div>
-              <h2 class="text-xl font-bold text-slate-900">Explorador de Base de Datos Relacional (`proyectos.db`)</h2>
-              <p class="text-xs text-slate-500 mt-1">Ejecuta consultas SQL en vivo con guardrails de seguridad (Solo lectura SELECT).</p>
-            </div>
-            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-mono font-semibold">SQLite 3</span>
+            <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-layer-group text-cyan-600"></i> Proyectos e Informes Activos en Base de Datos
+            </h3>
+            <span id="activeProjectsCountBadge" class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg font-semibold border border-slate-200">
+              4 Proyectos
+            </span>
           </div>
 
-          <div class="space-y-2">
-            <label class="text-xs font-semibold text-slate-700 uppercase tracking-wider">Consola SQL Interactiva:</label>
-            <textarea id="sqlInput" rows="3" class="w-full font-mono text-xs p-3 bg-slate-900 text-emerald-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto FROM proyectos ORDER BY duracion_semanas DESC;</textarea>
-            <div class="flex justify-end">
-              <button onclick="runCustomSQL()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg text-xs transition flex items-center gap-2">
-                <i class="fa-solid fa-play text-[10px]"></i> Ejecutar Consulta SQL
-              </button>
+          <div class="overflow-x-auto border border-slate-200 rounded-xl">
+            <table class="w-full text-xs text-left">
+              <thead class="bg-slate-100/80 text-slate-700 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="p-3">Código</th>
+                  <th class="p-3">Cliente / Empresa</th>
+                  <th class="p-3">Sector</th>
+                  <th class="p-3">Duración</th>
+                  <th class="p-3">Documento Fuente PDF</th>
+                  <th class="p-3 text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="projectsTableBody" class="divide-y divide-slate-200 font-medium text-slate-700">
+                <!-- Dinámico via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Consola SQL Interactiva -->
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-2">
+              <i class="fa-solid fa-terminal text-emerald-600"></i> Consola SQL Interactiva (Solo Lectura SELECT):
+            </label>
+            <div class="flex gap-2">
+              <button onclick="setQuery('SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto FROM proyectos ORDER BY duracion_semanas DESC;')" class="text-[11px] text-cyan-600 hover:underline">Por Duración</button>
+              <span class="text-slate-300">•</span>
+              <button onclick="setQuery('SELECT sector, count(*) as total, avg(duracion_semanas) as duracion_promedio FROM proyectos GROUP BY sector;')" class="text-[11px] text-cyan-600 hover:underline">Por Sector</button>
+              <span class="text-slate-300">•</span>
+              <button onclick="setQuery('SELECT * FROM proyectos;')" class="text-[11px] text-cyan-600 hover:underline">Todos los Datos</button>
             </div>
+          </div>
+
+          <textarea id="sqlInput" rows="3" class="w-full font-mono text-xs p-3.5 bg-slate-900 text-emerald-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-500 shadow-inner">SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto FROM proyectos ORDER BY duracion_semanas DESC;</textarea>
+          
+          <div class="flex justify-between items-center">
+            <span class="text-[11px] text-slate-400">Guardrails activos: Prevención de SQL Injection y bloqueo de mutaciones (INSERT/UPDATE/DELETE por consola directa).</span>
+            <button onclick="runCustomSQL()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl text-xs transition flex items-center gap-2 shadow-sm">
+              <i class="fa-solid fa-play text-[10px]"></i> Ejecutar Consulta SQL
+            </button>
           </div>
 
           <!-- SQL Results Area -->
-          <div id="sqlResultsArea" class="overflow-x-auto">
+          <div id="sqlResultsArea" class="overflow-x-auto pt-2">
             <!-- Dinámico via JS -->
           </div>
         </div>
       </div>
     </section>
+
 
     <!-- TAB 4: ARQUITECTURA -->
     <section id="tabArquitectura" class="hidden flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
@@ -390,6 +447,49 @@
     </div>
   </div>
 
+  <!-- ================= MODAL DE SUBIDA DE PDF ================= -->
+  <div id="uploadModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-lg w-full overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-5 bg-gradient-to-r from-slate-900 to-slate-800 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center text-cyan-400">
+            <i class="fa-solid fa-file-arrow-up text-base"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm">Subir Nuevo Informe de Cierre (PDF)</h3>
+            <p class="text-[11px] text-slate-300">Extracción Pydantic + SQLite + RAG Automático</p>
+          </div>
+        </div>
+        <button onclick="closeUploadModal()" class="w-8 h-8 rounded-lg hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center transition">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div class="border-2 border-dashed border-slate-300 hover:border-cyan-500 bg-slate-50 rounded-2xl p-6 text-center transition cursor-pointer" onclick="document.getElementById('pdfFileInput').click()">
+          <input type="file" id="pdfFileInput" accept=".pdf" class="hidden" onchange="handleFileSelect(event)">
+          <div class="w-12 h-12 mx-auto mb-2 rounded-xl bg-cyan-100 text-cyan-700 flex items-center justify-center text-xl">
+            <i class="fa-solid fa-file-pdf"></i>
+          </div>
+          <div class="font-bold text-slate-800 text-sm" id="uploadFilenameText">Haz clic o arrastra un archivo PDF aquí</div>
+          <p class="text-[11px] text-slate-400 mt-1">Soporta informes de consultoría oficiales de Procesa (.pdf)</p>
+        </div>
+
+        <div id="uploadAlert" class="hidden p-3 rounded-xl text-[11px] font-medium"></div>
+
+        <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+          <button onclick="closeUploadModal()" class="px-4 py-2 rounded-xl text-slate-600 hover:bg-slate-100 font-medium transition">
+            Cancelar
+          </button>
+          <button onclick="uploadPDF()" id="btnUploadSubmit" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white font-semibold shadow-md shadow-cyan-500/20 transition flex items-center gap-2">
+            <i class="fa-solid fa-cloud-arrow-up"></i> Iniciar Ingesta
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ================= JAVASCRIPT LOGIC ================= -->
   <script>
     const API_BASE = window.location.origin;
@@ -401,6 +501,8 @@
       'PC-2025-033': 'Informe_Cierre_PC-2025-033_Clinica_Santa_Lucia.pdf',
       'PC-2026-006': 'Informe_Cierre_PC-2026-006_Supermercados_La_Canasta.pdf'
     };
+
+    let selectedFile = null;
 
     // Inicializar datos al cargar la página
     document.addEventListener('DOMContentLoaded', () => {
@@ -423,6 +525,119 @@
           btn.className = 'px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-2';
         }
       });
+    }
+
+    function setQuery(q) {
+      document.getElementById('sqlInput').value = q;
+      runCustomSQL();
+    }
+
+    // Modal de Subida de PDF
+    function openUploadModal() {
+      selectedFile = null;
+      document.getElementById('uploadFilenameText').innerText = 'Haz clic o arrastra un archivo PDF aquí';
+      document.getElementById('uploadAlert').classList.add('hidden');
+      document.getElementById('uploadModal').classList.remove('hidden');
+    }
+
+    function closeUploadModal() {
+      document.getElementById('uploadModal').classList.add('hidden');
+    }
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0];
+      if (file) {
+        selectedFile = file;
+        document.getElementById('uploadFilenameText').innerText = `📄 ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+      }
+    }
+
+    async function uploadPDF() {
+      if (!selectedFile) {
+        const alertBox = document.getElementById('uploadAlert');
+        alertBox.className = 'p-3 rounded-xl text-[11px] font-medium bg-amber-50 text-amber-800 border border-amber-200 block';
+        alertBox.innerText = 'Por favor selecciona un archivo PDF primero.';
+        return;
+      }
+
+      const btn = document.getElementById('btnUploadSubmit');
+      const alertBox = document.getElementById('uploadAlert');
+      btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Procesando...';
+      alertBox.className = 'p-3 rounded-xl text-[11px] font-medium bg-cyan-50 text-cyan-800 border border-cyan-200 block';
+      alertBox.innerText = 'Extrayendo datos con Pydantic, indexando en SQLite y actualizando RAG...';
+
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+
+      try {
+        const res = await fetch(`${API_BASE}/api/upload`, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Iniciar Ingesta';
+
+        if (data.success) {
+          alertBox.className = 'p-3 rounded-xl text-[11px] font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 block';
+          alertBox.innerText = `✓ ¡Documento procesado con éxito! Se indexó el proyecto ${data.proyecto.codigo_proyecto}.`;
+          await loadProjects();
+          await loadFichas();
+          await runCustomSQL();
+          setTimeout(() => closeUploadModal(), 1800);
+        } else {
+          alertBox.className = 'p-3 rounded-xl text-[11px] font-medium bg-red-50 text-red-800 border border-red-200 block';
+          alertBox.innerText = data.detail || 'Error procesando documento.';
+        }
+      } catch (err) {
+        btn.innerHTML = '<i class="fa-solid fa-cloud-arrow-up"></i> Iniciar Ingesta';
+        alertBox.className = 'p-3 rounded-xl text-[11px] font-medium bg-red-50 text-red-800 border border-red-200 block';
+        alertBox.innerText = 'Error de conexión: ' + err.message;
+      }
+    }
+
+    // Eliminar Proyecto de SQLite y RAG
+    async function deleteProject(codigo) {
+      if (!confirm(`¿Estás seguro de que deseas eliminar el proyecto ${codigo} de la base de datos y del índice RAG?`)) {
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/proyectos/${codigo}`, {
+          method: 'DELETE'
+        });
+        const data = await res.json();
+        if (data.success) {
+          await loadProjects();
+          await loadFichas();
+          await runCustomSQL();
+        } else {
+          alert('Error eliminando proyecto: ' + (data.detail || ''));
+        }
+      } catch (err) {
+        alert('Error de conexión: ' + err.message);
+      }
+    }
+
+    // Restaurar los 4 proyectos oficiales
+    async function resetOfficialProjects() {
+      if (!confirm('¿Deseas restaurar la base de datos a los 4 proyectos oficiales originales de Procesa Consultores?')) {
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/proyectos/reset`, {
+          method: 'POST'
+        });
+        const data = await res.json();
+        if (data.success) {
+          await loadProjects();
+          await loadFichas();
+          await runCustomSQL();
+          alert('✓ ¡Base de datos y RAG restaurados con éxito a los 4 proyectos oficiales!');
+        }
+      } catch (err) {
+        alert('Error restaurando proyectos: ' + err.message);
+      }
     }
 
     // Modal de Configuración
@@ -509,28 +724,66 @@
       }
     }
 
-    // Cargar proyectos en la barra lateral con detalles de los documentos fuente
+    // Cargar proyectos en la barra lateral y en la tabla CRUD
     async function loadProjects() {
       try {
         const res = await fetch(`${API_BASE}/api/proyectos`);
         const data = await res.json();
         if (data.success) {
+          const countBadge = document.getElementById('activeProjectsCountBadge');
+          if (countBadge) countBadge.innerText = `${data.count} Proyecto(s)`;
+
+          // 1. Sidebar List
           const list = document.getElementById('projectSidebarList');
-          list.innerHTML = data.proyectos.map(p => `
-            <div onclick="askQuickQuestion('¿Qué resumen, objetivos y resultados obtuvimos en el proyecto ${p.codigo_proyecto}?')" class="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60 hover:border-cyan-400/60 hover:bg-slate-800 transition group cursor-pointer">
-              <div class="flex items-center justify-between mb-1">
-                <span class="font-mono text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
-                  <i class="fa-solid fa-file-lines text-cyan-500 text-[10px]"></i> ${p.codigo_proyecto}
-                </span>
-                <span class="text-[9px] px-2 py-0.5 rounded bg-slate-700/80 text-slate-300 font-mono">${p.duracion_semanas} sem</span>
+          if (data.proyectos.length === 0) {
+            list.innerHTML = '<div class="p-3 text-xs text-slate-400 bg-slate-800/40 rounded-xl">Sin proyectos registrados.</div>';
+          } else {
+            list.innerHTML = data.proyectos.map(p => `
+              <div onclick="askQuickQuestion('¿Qué resumen, objetivos y resultados obtuvimos en el proyecto ${p.codigo_proyecto}?')" class="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60 hover:border-cyan-400/60 hover:bg-slate-800 transition group cursor-pointer">
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-mono text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-file-lines text-cyan-500 text-[10px]"></i> ${p.codigo_proyecto}
+                  </span>
+                  <span class="text-[9px] px-2 py-0.5 rounded bg-slate-700/80 text-slate-300 font-mono">${p.duracion_semanas || '-'} sem</span>
+                </div>
+                <div class="font-semibold text-xs text-white truncate group-hover:text-cyan-300 transition">${p.cliente}</div>
+                <div class="text-[10px] text-slate-400 mt-1 flex items-center gap-1 truncate font-mono">
+                  <i class="fa-solid fa-file-pdf text-red-400 text-[9px]"></i>
+                  <span class="truncate">${PDF_FILENAMES[p.codigo_proyecto] || `${p.codigo_proyecto}_informe.pdf`}</span>
+                </div>
               </div>
-              <div class="font-semibold text-xs text-white truncate group-hover:text-cyan-300 transition">${p.cliente}</div>
-              <div class="text-[10px] text-slate-400 mt-1 flex items-center gap-1 truncate font-mono">
-                <i class="fa-solid fa-file-pdf text-red-400 text-[9px]"></i>
-                <span class="truncate">${PDF_FILENAMES[p.codigo_proyecto] || 'Informe.pdf'}</span>
-              </div>
-            </div>
-          `).join('');
+            `).join('');
+          }
+
+          // 2. Table CRUD in Tab SQLite
+          const tableBody = document.getElementById('projectsTableBody');
+          if (tableBody) {
+            if (data.proyectos.length === 0) {
+              tableBody.innerHTML = '<tr><td colspan="6" class="p-4 text-center text-slate-400">No hay proyectos en la base de datos. Haz clic en "Restaurar Originales" o "Subir Informe PDF".</td></tr>';
+            } else {
+              tableBody.innerHTML = data.proyectos.map(p => `
+                <tr class="hover:bg-slate-50 transition">
+                  <td class="p-3 font-mono font-bold text-cyan-700">${p.codigo_proyecto}</td>
+                  <td class="p-3 font-semibold text-slate-900">${p.cliente}</td>
+                  <td class="p-3 text-slate-600">${p.sector}</td>
+                  <td class="p-3 font-mono">${p.duracion_semanas || '-'} semanas</td>
+                  <td class="p-3">
+                    <span class="px-2 py-1 bg-red-50 text-red-700 border border-red-200 rounded-lg text-[10px] font-mono flex items-center gap-1 w-fit">
+                      <i class="fa-solid fa-file-pdf text-red-500"></i> ${PDF_FILENAMES[p.codigo_proyecto] || `${p.codigo_proyecto}.pdf`}
+                    </span>
+                  </td>
+                  <td class="p-3 text-right space-x-1">
+                    <button onclick="askQuickQuestion('¿Cuáles fueron las lecciones y resultados del proyecto ${p.codigo_proyecto}?')" class="px-2.5 py-1 bg-cyan-50 text-cyan-700 hover:bg-cyan-100 rounded-lg font-semibold transition" title="Consultar con IA">
+                      <i class="fa-regular fa-comments mr-1"></i> Consultar
+                    </button>
+                    <button onclick="deleteProject('${p.codigo_proyecto}')" class="px-2.5 py-1 bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 rounded-lg font-semibold transition" title="Eliminar proyecto y documento">
+                      <i class="fa-regular fa-trash-can mr-1"></i> Eliminar
+                    </button>
+                  </td>
+                </tr>
+              `).join('');
+            }
+          }
         }
       } catch (err) {
         console.error('Error cargando proyectos:', err);
@@ -544,39 +797,43 @@
         const data = await res.json();
         if (data.success) {
           const grid = document.getElementById('fichasGrid');
-          grid.innerHTML = data.fichas.map(f => `
-            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hover:shadow-md transition">
-              <div class="flex items-start justify-between">
+          if (data.fichas.length === 0) {
+            grid.innerHTML = '<div class="col-span-2 p-8 text-center bg-white rounded-2xl border border-slate-200 text-slate-400">No hay fichas técnicas activas.</div>';
+          } else {
+            grid.innerHTML = data.fichas.map(f => `
+              <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hover:shadow-md transition">
+                <div class="flex items-start justify-between">
+                  <div>
+                    <span class="px-2.5 py-1 rounded bg-brand-50 text-brand-700 border border-brand-200 font-mono text-xs font-bold">${f.codigo_proyecto}</span>
+                    <h3 class="font-bold text-base text-slate-900 mt-2">${f.cliente}</h3>
+                    <p class="text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-slate-400"></i>${f.ubicacion}</p>
+                  </div>
+                  <span class="text-xs font-bold text-slate-700 px-3 py-1 bg-slate-100 rounded-full">${f.duracion_semanas || '-'} semanas</span>
+                </div>
+
+                <div class="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <strong>Objetivo:</strong> ${f.objetivo_general}
+                </div>
+
                 <div>
-                  <span class="px-2.5 py-1 rounded bg-brand-50 text-brand-700 border border-brand-200 font-mono text-xs font-bold">${f.codigo_proyecto}</span>
-                  <h3 class="font-bold text-base text-slate-900 mt-2">${f.cliente}</h3>
-                  <p class="text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-slate-400"></i>${f.ubicacion}</p>
+                  <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Indicadores de Impacto (Antes vs Después):</h4>
+                  <div class="space-y-1 text-xs">
+                    ${(f.kpis_impacto || []).map(k => `
+                      <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-100">
+                        <span class="font-medium text-slate-700">${k.indicador}</span>
+                        <span class="font-mono text-emerald-600 font-semibold">${k.linea_base_antes} ➔ ${k.resultado_despues} (${k.variacion_porcentual || ''})</span>
+                      </div>
+                    `).join('')}
+                  </div>
                 </div>
-                <span class="text-xs font-bold text-slate-700 px-3 py-1 bg-slate-100 rounded-full">${f.duracion_semanas} semanas</span>
-              </div>
 
-              <div class="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
-                <strong>Objetivo:</strong> ${f.objetivo_general}
-              </div>
-
-              <div>
-                <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Indicadores de Impacto (Antes vs Después):</h4>
-                <div class="space-y-1 text-xs">
-                  ${(f.kpis_impacto || []).map(k => `
-                    <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-100">
-                      <span class="font-medium text-slate-700">${k.indicador}</span>
-                      <span class="font-mono text-emerald-600 font-semibold">${k.linea_base_antes} ➔ ${k.resultado_despues} (${k.variacion_porcentual || ''})</span>
-                    </div>
-                  `).join('')}
+                <div class="pt-2 border-t border-slate-100 text-xs flex items-center justify-between text-slate-500">
+                  <span><strong>Gerente:</strong> ${f.gerente_proyecto}</span>
+                  <span class="text-emerald-600 font-semibold"><i class="fa-solid fa-sack-dollar mr-1"></i>${f.beneficios_economicos ? f.beneficios_economicos.slice(0, 30) + '...' : ''}</span>
                 </div>
               </div>
-
-              <div class="pt-2 border-t border-slate-100 text-xs flex items-center justify-between text-slate-500">
-                <span><strong>Gerente:</strong> ${f.gerente_proyecto}</span>
-                <span class="text-emerald-600 font-semibold"><i class="fa-solid fa-sack-dollar mr-1"></i>${f.beneficios_economicos ? f.beneficios_economicos.slice(0, 30) + '...' : ''}</span>
-              </div>
-            </div>
-          `).join('');
+            `).join('');
+          }
         }
       } catch (err) {
         console.error('Error cargando fichas:', err);
@@ -588,6 +845,7 @@
       const query = document.getElementById('sqlInput').value.trim();
       const area = document.getElementById('sqlResultsArea');
       area.innerHTML = '<div class="p-4 text-xs text-slate-400">Ejecutando consulta...</div>';
+
 
 
       try {

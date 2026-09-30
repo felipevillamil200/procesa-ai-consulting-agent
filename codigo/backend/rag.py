@@ -48,6 +48,11 @@ class DocumentSearchEngine:
         self.chunks: List[DocumentChunk] = []
         self._build_index()
 
+    def reload_index(self) -> int:
+        """Reconstruye el índice RAG leyendo los informes actuales."""
+        self._build_index()
+        return len(self.chunks)
+
     def _extract_project_metadata(self, filename: str) -> tuple[str, str]:
         """Extrae el código y nombre legible del cliente a partir del nombre del archivo."""
         if "PC-2025-014" in filename:
@@ -58,7 +63,16 @@ class DocumentSearchEngine:
             return "PC-2025-033", "Clínica Santa Lucía del Valle"
         elif "PC-2026-006" in filename:
             return "PC-2026-006", "Supermercados La Canasta"
-        return "PC-DESCONOCIDO", "Cliente Desconocido"
+        
+        match = re.search(r"(PC-\d{4}-\d{3})", filename)
+        if match:
+            code = match.group(1)
+            name = filename.replace(code, "").replace(".pdf", "").replace("_", " ").strip(" -_")
+            return code, name or "Proyecto " + code
+
+        clean_name = filename.replace(".pdf", "").replace("_", " ").strip()
+        return "PC-DOC", clean_name or "Documento Adicional"
+
 
     def _sanitize_text(self, text: str) -> str:
         """Normaliza caracteres especiales para evitar errores de codificación en consolas."""

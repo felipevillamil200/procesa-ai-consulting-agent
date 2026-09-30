@@ -353,6 +353,32 @@ def extract_ficha_deterministic(full_text: str, filename: str) -> ProyectoFicha:
         )
 
 
+def process_single_pdf(pdf_path: Path, db_manager: Optional[DatabaseManager] = None) -> ProyectoFicha:
+    """Procesa un único archivo PDF, extrae su ficha, guarda el JSON y lo persiste en SQLite."""
+    db_manager = db_manager or DatabaseManager()
+    extracted_data = extract_raw_text_from_pdf(pdf_path)
+    ficha = extract_ficha_deterministic(extracted_data["full_text"], pdf_path.name)
+
+    # Si es un documento desconocido, intentar extraer datos del texto
+    if ficha.cliente == "Cliente Desconocido":
+        full_text = extracted_data["full_text"]
+        lines = [line.strip() for line in full_text.split("\n") if line.strip()]
+        if lines:
+            ficha.cliente = lines[0][:100]
+        match_code = re.search(r"PC-\d{4}-\d{3}", full_text)
+        if match_code:
+            ficha.codigo_proyecto = match_code.group(0)
+
+    # Guardar en archivo JSON individual
+    json_path = FICHAS_DIR / f"{ficha.codigo_proyecto}.json"
+    with open(json_path, "w", encoding="utf-8") as f:
+        f.write(json.dumps(ficha.model_dump(), indent=2, ensure_ascii=False))
+
+    # Guardar en base de datos relacional SQLite
+    db_manager.upsert_proyecto(ficha)
+    return ficha
+
+
 def process_all_reports(use_llm: bool = False) -> List[ProyectoFicha]:
     """
     Ejecuta el pipeline completo:
@@ -368,33 +394,13 @@ def process_all_reports(use_llm: bool = False) -> List[ProyectoFicha]:
     print(f"[*] Procesando {len(pdf_files)} informes de cierre...")
 
     for pdf_path in pdf_files:
-        print(f"  -> Extrayendo: {pdf_path.name}")
-        extracted_data = extract_raw_text_from_pdf(pdf_path)
-
-        ficha: Optional[ProyectoFicha] = None
-
-        if use_llm and OPENAI_API_KEY:
-            try:
-                print("     [LLM] Extrayendo con OpenAI Structured Outputs...")
-                ficha = extract_ficha_with_llm(extracted_data["full_text"])
-            except Exception as e:
-                print(f"     [WARN] Falló extracción LLM ({e}), usando extractor determinista.")
-                ficha = extract_ficha_deterministic(extracted_data["full_text"], pdf_path.name)
-        else:
-            ficha = extract_ficha_deterministic(extracted_data["full_text"], pdf_path.name)
-
-        # Guardar en archivo JSON individual
-        json_path = FICHAS_DIR / f"{ficha.codigo_proyecto}.json"
-        with open(json_path, "w", encoding="utf-8") as f:
-            f.write(json.dumps(ficha.model_dump(), indent=2, ensure_ascii=False))
-
-        # Guardar en base de datos relacional SQLite
-        db_manager.upsert_proyecto(ficha)
+        ficha = process_single_pdf(pdf_path, db_manager)
         fichas.append(ficha)
         print(f"     [OK] Ficha guardada: {ficha.codigo_proyecto} - {ficha.cliente} (JSON + SQLite)")
 
     print(f"[OK] Pipeline completado: {len(fichas)} proyectos extraidos y persistidos.")
     return fichas
+
 
 
 if __name__ == "__main__":
