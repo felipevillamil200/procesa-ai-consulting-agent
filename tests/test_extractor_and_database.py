@@ -8,9 +8,9 @@ import unittest
 from pathlib import Path
 import tempfile
 
-from src.database import DatabaseManager
-from src.models import KPIImpacto, ProyectoFicha
-from src.config import FICHAS_DIR
+from codigo.backend.database import DatabaseManager
+from codigo.backend.models import KPIImpacto, ProyectoFicha
+from codigo.backend.config import FICHAS_DIR
 
 
 class TestExtractorAndDatabase(unittest.TestCase):

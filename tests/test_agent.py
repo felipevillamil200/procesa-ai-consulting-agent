@@ -3,7 +3,7 @@ Pruebas Unitarias y de Integración para el Agente Consultor (src/agent.py).
 """
 
 import unittest
-from src.agent import ConsultorAgent
+from codigo.backend.agent import ConsultorAgent
 
 
 class TestConsultorAgent(unittest.TestCase):

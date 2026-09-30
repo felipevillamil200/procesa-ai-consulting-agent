@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Rutas Base del Proyecto
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
 RAW_REPORTS_DIR = DATA_DIR / "raw_reports"
 FICHAS_DIR = DATA_DIR / "fichas"
@@ -25,7 +25,7 @@ FICHAS_DIR.mkdir(parents=True, exist_ok=True)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini" if GEMINI_API_KEY else "openai")
-LLM_MODEL = os.getenv("LLM_MODEL", "gemini-2.5-flash" if LLM_PROVIDER == "gemini" else "gpt-4o-mini")
+LLM_MODEL = os.getenv("LLM_MODEL", "gemini-flash-latest" if LLM_PROVIDER == "gemini" else "gpt-4o-mini")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
 
 # Configuración del Agente

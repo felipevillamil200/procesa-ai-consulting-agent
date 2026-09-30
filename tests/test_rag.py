@@ -3,7 +3,7 @@ Pruebas Unitarias para el Motor de Búsqueda RAG (src/rag.py).
 """
 
 import unittest
-from src.rag import DocumentSearchEngine, get_search_engine
+from codigo.backend.rag import DocumentSearchEngine, get_search_engine
 
 
 class TestRAGEngine(unittest.TestCase):

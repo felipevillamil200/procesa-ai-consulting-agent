@@ -59,8 +59,10 @@ flowchart TD
     end
 
     subgraph Presentation ["3. Capas de Presentación"]
-        TraceEngine --> CLI["💻 Consola Interactiva Rich (src/cli.py)"]
-        TraceEngine --> WebApp["🌐 Aplicación Web Streamlit (src/app.py)"]
+        TraceEngine --> API["🚀 API REST FastAPI (codigo/backend/main.py)"]
+        API --> WebSPA["🌐 Frontend Web SPA (codigo/frontend/index.html)"]
+        TraceEngine --> CLI["💻 Consola Interactiva Rich (codigo/backend/cli.py)"]
+        TraceEngine --> StreamlitApp["📊 App Streamlit (codigo/backend/app.py)"]
     end
 ```
 
@@ -80,27 +82,30 @@ Talen GV/
 │   ├── agent_loop.md               # Máquina de estados y guardrails
 │   ├── prompts/                    # Prompts del sistema, extractor y generador SQL
 │   └── skills/                     # Skills especializadas (extracción, BD, RAG, CLI, tests)
-├── data/
-│   ├── raw_reports/                # 4 Informes originales en PDF
-│   ├── fichas/                     # 4 Fichas estructuradas generadas en JSON
-│   └── proyectos.db                # Base de datos SQLite relacional
-├── src/
-│   ├── __init__.py                 # Paquete principal
-│   ├── config.py                   # Rutas dinámicas y variables de entorno
-│   ├── models.py                   # Esquemas Pydantic v2 (ProyectoFicha, KPIImpacto)
-│   ├── database.py                 # SQLite DatabaseManager con guardrails de seguridad
-│   ├── extractor.py                # Pipeline PDF -> Pydantic -> JSON / SQLite
-│   ├── rag.py                      # Motor de búsqueda documental BM25 con chunking
-│   ├── agent.py                    # Orquestador con Function Calling y trazabilidad
-│   ├── cli.py                      # Consola interactiva moderna con Rich
-│   └── app.py                      # Aplicación Web interactiva con Streamlit
-├── Sustentacion/                   # Bitácoras de trabajo paso a paso para la defensa técnica
+├── bitacora/                       # Bitácoras de trabajo paso a paso para la defensa técnica
 │   ├── 01_estructura_y_git/
 │   ├── 02_extraccion_pydantic_sqlite/
 │   ├── 03_motor_rag/
 │   ├── 04_agente_y_herramientas/
 │   ├── 05_interfaces_cli_web/
 │   └── 06_pruebas_y_costos/
+├── codigo/
+│   ├── backend/                    # Servidor API REST, Base de datos y Agente de IA
+│   │   ├── main.py                 # FastAPI endpoints (/api/chat, /api/proyectos, /api/sql)
+│   │   ├── agent.py                # Orquestador con Function Calling (Gemini Flash)
+│   │   ├── database.py             # SQLite DatabaseManager con guardrails de seguridad
+│   │   ├── extractor.py            # Pipeline PDF -> Pydantic -> JSON / SQLite
+│   │   ├── models.py               # Esquemas Pydantic v2 (ProyectoFicha, KPIImpacto)
+│   │   ├── rag.py                  # Motor de búsqueda documental BM25 con chunking
+│   │   ├── cli.py                  # Consola interactiva moderna con Rich
+│   │   ├── app.py                  # Aplicación Streamlit alternativa
+│   │   └── config.py               # Rutas y variables de entorno
+│   └── frontend/                   # Aplicación Web Moderna (Single Page App)
+│       └── index.html              # Interfaz con Tailwind CSS, chat, fichas y consola SQL
+├── data/
+│   ├── raw_reports/                # 4 Informes originales en PDF
+│   ├── fichas/                     # 4 Fichas estructuradas generadas en JSON
+│   └── proyectos.db                # Base de datos SQLite relacional
 ├── tests/                          # Suite de pruebas automatizadas con pytest
 │   ├── test_extractor_and_database.py
 │   ├── test_rag.py
@@ -119,36 +124,37 @@ Talen GV/
 ### Prerrequisitos
 * Python 3.10 o superior instalado.
 
-### Paso 1: Clonar e instalar dependencias
+### Paso 1: Instalar dependencias
 ```bash
-# 1. Instalar librerías requeridas
 pip install -r requirements.txt
 ```
 
-### Paso 2: Configurar variables de entorno (Opcional para modo OpenAI)
-Crear un archivo `.env` a partir de la plantilla:
-```bash
-cp .env.example .env
-```
-Editar `.env` y colocar tu clave de API si deseas usar OpenAI en producción:
+### Paso 2: Configurar variables de entorno
+El archivo `.env` ya contiene configurada la clave de Google Gemini gratuita (`GEMINI_API_KEY`). Si deseas modificarla:
 ```env
-OPENAI_API_KEY=sk-tu-api-key-aqui
-LLM_MODEL=gpt-4o-mini
+GEMINI_API_KEY=tu_api_key_aqui
+LLM_PROVIDER=gemini
+LLM_MODEL=gemini-flash-latest
 ```
-> **Nota de Resiliencia:** El sistema cuenta con un motor de inferencia local determinista de respaldo, por lo que **funciona y pasa todas las pruebas aun sin clave de API**.
 
 ### Paso 3: Ejecutar la extracción de informes (Poblado de BD)
 ```bash
-python -m src.extractor
+python -m codigo.backend.extractor
 ```
 
 ---
 
-## 5. 💻 Guía de Uso (CLI y Web App)
+## 5. 💻 Guía de Uso (Web App y CLI)
 
-### Opción A: Interfaz de Consola Interactiva (CLI con Rich)
+### Opción A: Aplicación Web Fullstack Moderna (Recomendada)
 ```bash
-python -m src.cli
+python -m uvicorn codigo.backend.main:app --host 0.0.0.0 --port 8000
+```
+Abrir en el navegador: **`http://localhost:8000/app/`**
+
+### Opción B: Interfaz de Consola Interactiva (CLI con Rich)
+```bash
+python -m codigo.backend.cli
 ```
 * **Características:**
   * Tabla inicial con el resumen de proyectos.

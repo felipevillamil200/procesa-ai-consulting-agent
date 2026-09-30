@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 import pypdf
 
-from src.config import RAW_REPORTS_DIR, OPENAI_API_KEY, EMBEDDING_MODEL
+from codigo.backend.config import RAW_REPORTS_DIR, OPENAI_API_KEY, EMBEDDING_MODEL
 
 
 class DocumentChunk:

@@ -8,9 +8,9 @@ import time
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
-from src.config import LLM_MODEL, OPENAI_API_KEY, GEMINI_API_KEY, LLM_PROVIDER
-from src.database import DatabaseManager
-from src.rag import get_search_engine
+from codigo.backend.config import LLM_MODEL, OPENAI_API_KEY, GEMINI_API_KEY, LLM_PROVIDER
+from codigo.backend.database import DatabaseManager
+from codigo.backend.rag import get_search_engine
 
 
 class ToolExecutionLog(BaseModel):

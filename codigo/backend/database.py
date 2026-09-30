@@ -8,8 +8,8 @@ import sqlite3
 from typing import Any, Dict, List, Optional
 from pathlib import Path
 
-from src.config import DATABASE_PATH
-from src.models import ProyectoFicha
+from codigo.backend.config import DATABASE_PATH
+from codigo.backend.models import ProyectoFicha
 
 
 class DatabaseManager:

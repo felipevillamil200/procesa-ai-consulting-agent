@@ -21,9 +21,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Optional
 
-from src.agent import ConsultorAgent
-from src.database import DatabaseManager
-from src.config import FICHAS_DIR, BASE_DIR
+from codigo.backend.agent import ConsultorAgent
+from codigo.backend.database import DatabaseManager
+from codigo.backend.config import FICHAS_DIR, BASE_DIR
 
 
 app = FastAPI(

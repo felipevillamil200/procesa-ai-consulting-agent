@@ -12,8 +12,8 @@ from rich.table import Table
 from rich.markdown import Markdown
 from rich.prompt import Prompt
 
-from src.agent import ConsultorAgent
-from src.database import DatabaseManager
+from codigo.backend.agent import ConsultorAgent
+from codigo.backend.database import DatabaseManager
 
 
 console = Console()

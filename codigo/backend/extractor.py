@@ -10,9 +10,9 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 import pypdf
 
-from src.config import FICHAS_DIR, OPENAI_API_KEY, RAW_REPORTS_DIR, LLM_MODEL
-from src.database import DatabaseManager
-from src.models import KPIImpacto, ProyectoFicha
+from codigo.backend.config import FICHAS_DIR, OPENAI_API_KEY, RAW_REPORTS_DIR, LLM_MODEL
+from codigo.backend.database import DatabaseManager
+from codigo.backend.models import KPIImpacto, ProyectoFicha
 
 
 def extract_raw_text_from_pdf(pdf_path: Path) -> Dict[str, Any]:

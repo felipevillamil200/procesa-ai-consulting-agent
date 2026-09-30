@@ -10,9 +10,9 @@ if str(BASE_DIR) not in sys.path:
 import streamlit as st
 import pandas as pd
 
-from src.agent import ConsultorAgent
-from src.database import DatabaseManager
-from src.config import FICHAS_DIR
+from codigo.backend.agent import ConsultorAgent
+from codigo.backend.database import DatabaseManager
+from codigo.backend.config import FICHAS_DIR
 
 
 # Configuración de página
