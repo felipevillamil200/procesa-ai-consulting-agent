@@ -222,13 +222,17 @@ def execute_custom_sql(req: SQLRequest):
     return result
 
 
-# Montar archivos estáticos del frontend si existen
+# Montar archivos estáticos del frontend (React compilado en dist/ o raíz)
 FRONTEND_DIR = PROJECT_ROOT / "codigo" / "frontend"
-if FRONTEND_DIR.exists():
-    app.mount("/app", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="frontend")
+FRONTEND_DIST = FRONTEND_DIR / "dist"
+target_static_dir = FRONTEND_DIST if FRONTEND_DIST.exists() else FRONTEND_DIR
+
+if target_static_dir.exists():
+    app.mount("/app", StaticFiles(directory=str(target_static_dir), html=True), name="frontend")
 
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+
 
