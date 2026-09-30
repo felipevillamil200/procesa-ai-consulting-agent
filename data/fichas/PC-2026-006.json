@@ -1,0 +1,71 @@
+{
+  "codigo_proyecto": "PC-2026-006",
+  "cliente": "Supermercados La Canasta Cía. Ltda.",
+  "sector": "Retail - supermercados",
+  "ubicacion": "Pichincha, Imbabura y Cotopaxi (14 tiendas)",
+  "fecha_inicio": "2026-03-02",
+  "fecha_fin": "2026-08-21",
+  "duracion_semanas": 25,
+  "gerente_proyecto": "Ing. David Salazar",
+  "equipo_consultor": [
+    "David Salazar",
+    "Camila Torres",
+    "Jorge Moncayo"
+  ],
+  "objetivo_general": "Optimizar el proceso de reposición de inventario en tiendas reduciendo quiebres de stock y mejorando la productividad logística nocturna.",
+  "metodologias_herramientas": [
+    "Lean Retail",
+    "Modelo Min-Max de Inventario",
+    "Planogramas de Reposición Nocturna",
+    "App Móvil de Conteo Rápido",
+    "Cross-Docking en Centro de Distribución"
+  ],
+  "kpis_impacto": [
+    {
+      "indicador": "Nivel de quiebres de stock en góndola (Out-of-Stock)",
+      "linea_base_antes": "11.8%",
+      "resultado_despues": "3.4%",
+      "variacion_porcentual": "-71.2% (-8.4 pp)"
+    },
+    {
+      "indicador": "Tiempo de reposición por tarima/pallet",
+      "linea_base_antes": "45 minutos",
+      "resultado_despues": "22 minutos",
+      "variacion_porcentual": "-51.1%"
+    },
+    {
+      "indicador": "Exactitud del inventario en tienda (IRA)",
+      "linea_base_antes": "84.2%",
+      "resultado_despues": "96.5%",
+      "variacion_porcentual": "+12.3 pp"
+    },
+    {
+      "indicador": "Horas extras del equipo de reposición",
+      "linea_base_antes": "160 hrs/tienda/mes",
+      "resultado_despues": "42 hrs/tienda/mes",
+      "variacion_porcentual": "-73.8%"
+    },
+    {
+      "indicador": "Merma operativa por manipulación",
+      "linea_base_antes": "1.9% sobre ventas",
+      "resultado_despues": "0.8% sobre ventas",
+      "variacion_porcentual": "-57.9%"
+    }
+  ],
+  "beneficios_economicos": "Ahorro anual estimado de $320,000 USD en horas extras y mermas, más $890,000 USD de recuperación de ventas por disponibilidad de producto.",
+  "principales_hitos": [
+    "Auditoría de inventarios y análisis ABC de rotación (Semanas 1-5)",
+    "Diseño de rutas de reposición y estandarización del turno nocturno (Semanas 6-12)",
+    "Prueba piloto en 3 tiendas de alto tráfico (Semanas 13-18)",
+    "Roll-out a las 14 tiendas y auditoría final de procesos (Semanas 19-25)"
+  ],
+  "lecciones_aprendidas": [
+    "La reposición nocturna sin pre-clasificación en el Centro de Distribución saturaba los pasillos; se debió implementar cross-docking.",
+    "La app móvil de conteo aumentó la adopción cuando se diseñó con interfaz para una sola mano.",
+    "Capacitar a los administradores de tienda en rotación de inventarios evitó sobrestock en bodegas locales."
+  ],
+  "factores_riesgo": [
+    "Alta rotación en el personal de bodega nocturna (mitigado con incentivos por productividad)",
+    "Retrasos en entregas de proveedores clave (mitigado con política de stock de seguridad para productos 'A')"
+  ]
+}

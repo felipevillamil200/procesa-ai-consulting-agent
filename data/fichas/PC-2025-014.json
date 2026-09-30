@@ -1,0 +1,71 @@
+{
+  "codigo_proyecto": "PC-2025-014",
+  "cliente": "Cooperativa de Ahorro y Crédito Horizonte Andino Ltda.",
+  "sector": "Servicios financieros - cooperativas de ahorro y crédito",
+  "ubicacion": "Sierra centro (22 agencias)",
+  "fecha_inicio": "2025-02-03",
+  "fecha_fin": "2025-06-20",
+  "duracion_semanas": 20,
+  "gerente_proyecto": "Ing. Santiago Morales",
+  "equipo_consultor": [
+    "Santiago Morales",
+    "Valeria Gómez",
+    "Andrés Peñafiel"
+  ],
+  "objetivo_general": "Optimizar el proceso de aprobación de créditos de consumo y microcrédito reduciendo tiempos de respuesta y reprocesos.",
+  "metodologias_herramientas": [
+    "Lean Six Sigma",
+    "Mapeo de Cadena de Valor (VSM)",
+    "Estandarización de Procesos",
+    "Tableros de Control Diario (Tier 1 y Tier 2)",
+    "Motor de Reglas de Precalificación"
+  ],
+  "kpis_impacto": [
+    {
+      "indicador": "Tiempo de ciclo de aprobación - Crédito de consumo",
+      "linea_base_antes": "8.4 días",
+      "resultado_despues": "2.1 días",
+      "variacion_porcentual": "-75.0%"
+    },
+    {
+      "indicador": "Tiempo de ciclo de aprobación - Microcrédito",
+      "linea_base_antes": "14.2 días",
+      "resultado_despues": "4.6 días",
+      "variacion_porcentual": "-67.6%"
+    },
+    {
+      "indicador": "Tasa de reproceso de solicitudes",
+      "linea_base_antes": "34.0%",
+      "resultado_despues": "11.2%",
+      "variacion_porcentual": "-67.1%"
+    },
+    {
+      "indicador": "Productividad por analista (créditos/mes)",
+      "linea_base_antes": "18 créditos/mes",
+      "resultado_despues": "29 créditos/mes",
+      "variacion_porcentual": "+61.1%"
+    },
+    {
+      "indicador": "Satisfacción del socio (NPS)",
+      "linea_base_antes": "2.8 / 5.0",
+      "resultado_despues": "4.3 / 5.0",
+      "variacion_porcentual": "+53.6%"
+    }
+  ],
+  "beneficios_economicos": "Ahorro estimado de $145,000 USD anuales por reducción de horas extras y reprocesos, más $1.2M en colocación incremental de cartera.",
+  "principales_hitos": [
+    "Diagnóstico y VSM inicial (Semanas 1-4)",
+    "Diseño del nuevo flujo estandarizado y motor de reglas (Semanas 5-9)",
+    "Piloto en 4 agencias cabecera (Semanas 10-14)",
+    "Despliegue a las 22 agencias y estabilización (Semanas 15-20)"
+  ],
+  "lecciones_aprendidas": [
+    "La resistencia al cambio se concentró en los mandos medios (jefes de agencia); involucrarlos como dueños del tablero diario fue determinante.",
+    "El piloto debe incluir agencias con alto y bajo volumen para calibrar la carga real de trabajo.",
+    "La calidad de datos en el sistema heredado (core financiero) requirió un esfuerzo de limpieza no presupuestado inicialmente."
+  ],
+  "factores_riesgo": [
+    "Rotación de analistas de crédito (mitigado con manuales estándar y videos de inducción)",
+    "Intermitencia en conectividad de agencias rurales (mitigado con modo offline en captura)"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "codigo_proyecto": "PC-2025-033",
+  "cliente": "Clínica Santa Lucía del Valle",
+  "sector": "Salud - clínicas y hospitales privados",
+  "ubicacion": "Valle de los Chillos, Quito",
+  "fecha_inicio": "2025-07-07",
+  "fecha_fin": "2025-11-07",
+  "duracion_semanas": 18,
+  "gerente_proyecto": "Dra. Gabriela Paredes",
+  "equipo_consultor": [
+    "Gabriela Paredes",
+    "Esteban Narváez",
+    "Carolina Vega"
+  ],
+  "objetivo_general": "Reducir los tiempos de admisión, espera y atención en el área de consulta externa y optimizar la ocupación de consultorios.",
+  "metodologias_herramientas": [
+    "Lean Healthcare",
+    "Mapeo del Flujo del Paciente (Patient Flow Mapping)",
+    "Pre-admisión Digital",
+    "Gestión Visual de Salas de Espera",
+    "Nivelación de Cargas de Agenda Médica"
+  ],
+  "kpis_impacto": [
+    {
+      "indicador": "Tiempo total de espera del paciente",
+      "linea_base_antes": "58 minutos",
+      "resultado_despues": "18 minutos",
+      "variacion_porcentual": "-69.0%"
+    },
+    {
+      "indicador": "Tiempo de trámite de admisión presencial",
+      "linea_base_antes": "16.5 minutos",
+      "resultado_despues": "4.2 minutos",
+      "variacion_porcentual": "-74.5%"
+    },
+    {
+      "indicador": "Tasa de ausentismo de citas (No-Show)",
+      "linea_base_antes": "22.0%",
+      "resultado_despues": "15.0%",
+      "variacion_porcentual": "-31.8% (-7 pp)"
+    },
+    {
+      "indicador": "Ocupación efectiva de consultorios",
+      "linea_base_antes": "61.0%",
+      "resultado_despues": "82.5%",
+      "variacion_porcentual": "+21.5 pp"
+    },
+    {
+      "indicador": "Satisfacción del paciente (NPS)",
+      "linea_base_antes": "18 puntos",
+      "resultado_despues": "37 puntos",
+      "variacion_porcentual": "+19 puntos"
+    }
+  ],
+  "beneficios_economicos": "Incremento proyectado de $180,000 USD anuales en facturación por habilitación de 1,400 consultas adicionales y reducción de cancelaciones.",
+  "principales_hitos": [
+    "Estudio de tiempos y movimientos en salas de espera (Semanas 1-4)",
+    "Despliegue del módulo de pre-admisión web y recordatorios SMS/WhatsApp (Semanas 5-9)",
+    "Reconfiguración del agendamiento y bloques por especialidad (Semanas 10-14)",
+    "Capacitación al personal de counter y estabilización del servicio (Semanas 15-18)"
+  ],
+  "lecciones_aprendidas": [
+    "El cuerpo médico mostró resistencia inicial al ajuste de agendas; involucrar a los jefes de especialidad en el diseño clínico fue vital.",
+    "El formulario de pre-admisión en línea redujo cuellos de botella solo cuando se simplificó de 14 a 5 campos indispensables.",
+    "La señalética y gestión visual redujeron significativamente las preguntas y desorientación de los pacientes."
+  ],
+  "factores_riesgo": [
+    "Sobrecarga de pacientes sin cita previa (walk-in) (mitigado con cupos de reserva de contingencia)",
+    "Fallas de integración entre el sistema de citas y el HIS (mitigado con soporte técnico prioritario)"
+  ]
+}

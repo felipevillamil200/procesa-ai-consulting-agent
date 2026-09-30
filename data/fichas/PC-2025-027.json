@@ -1,0 +1,71 @@
+{
+  "codigo_proyecto": "PC-2025-027",
+  "cliente": "Plásticos del Pacífico S.A.",
+  "sector": "Manufactura - plásticos y envases",
+  "ubicacion": "Planta industrial de Durán, provincia del Guayas",
+  "fecha_inicio": "2025-04-07",
+  "fecha_fin": "2025-09-19",
+  "duracion_semanas": 24,
+  "gerente_proyecto": "Ing. Fernando Rivas",
+  "equipo_consultor": [
+    "Fernando Rivas",
+    "Lucía Vintimilla",
+    "Carlos Andrade"
+  ],
+  "objetivo_general": "Mejorar la Efectividad Global de los Equipos (OEE) en las líneas de inyección y soplado de la planta de Durán.",
+  "metodologias_herramientas": [
+    "Total Productive Maintenance (TPM)",
+    "SMED (Single-Minute Exchange of Die)",
+    "Mantenimiento Autónomo",
+    "5S en planta",
+    "Análisis de Causa Raíz (5 Porqués / Ishikawa)"
+  ],
+  "kpis_impacto": [
+    {
+      "indicador": "OEE Global Línea 1 (Inyección)",
+      "linea_base_antes": "54.2%",
+      "resultado_despues": "71.8%",
+      "variacion_porcentual": "+17.6 pp (+32.5%)"
+    },
+    {
+      "indicador": "Tiempo de cambio de formato (Molde)",
+      "linea_base_antes": "142 minutos",
+      "resultado_despues": "48 minutos",
+      "variacion_porcentual": "-66.2%"
+    },
+    {
+      "indicador": "Disponibilidad operativa",
+      "linea_base_antes": "68.5%",
+      "resultado_despues": "83.1%",
+      "variacion_porcentual": "+14.6 pp"
+    },
+    {
+      "indicador": "Rendimiento / Velocidad de línea",
+      "linea_base_antes": "81.0%",
+      "resultado_despues": "88.4%",
+      "variacion_porcentual": "+7.4 pp"
+    },
+    {
+      "indicador": "Tasa de defectos / Scrap",
+      "linea_base_antes": "4.8%",
+      "resultado_despues": "2.1%",
+      "variacion_porcentual": "-56.3%"
+    }
+  ],
+  "beneficios_economicos": "Ahorro anual estimado de $210,000 USD por menor desperdicio de resina y recuperación de 480 horas productivas de máquina.",
+  "principales_hitos": [
+    "Diagnóstico de 6 grandes pérdidas e instalación de tableros OEE (Semanas 1-5)",
+    "Eventos Kaizen SMED para reducción de cambios de formato (Semanas 6-12)",
+    "Implementación de Mantenimiento Autónomo y 5S (Semanas 13-18)",
+    "Estandarización de parámetros de inyección y auditoría de sostenibilidad (Semanas 19-24)"
+  ],
+  "lecciones_aprendidas": [
+    "El registro manual subestimaba las microparadas en un 40%; medir con precisión al inicio evitó atacar causas equivocadas.",
+    "Empezar por SMED generó victorias rápidas y credibilidad con los operadores de planta.",
+    "El compromiso del área de mantenimiento es tan crucial como el de producción para sostener el TPM."
+  ],
+  "factores_riesgo": [
+    "Desgaste de moldes antiguos sin repuestos originales (mitigado con plan de reacondicionamiento local)",
+    "Turnos rotativos nocturnos con menor supervisión (mitigado con listas de verificación visuales)"
+  ]
+}
