@@ -1,9 +1,12 @@
-"""
-Aplicación Web Interactiva con Streamlit.
-Permite interacción por chat, visualización de trazabilidad, fichas y base de datos relacional.
-"""
-
 import json
+import sys
+from pathlib import Path
+
+# Asegurar que el directorio raíz esté en sys.path
+BASE_DIR = Path(__file__).resolve().parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
 import streamlit as st
 import pandas as pd
 

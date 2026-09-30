@@ -1,9 +1,11 @@
-"""
-Interfaz de Consola Interactiva (CLI) con Rich.
-Proporciona una experiencia de terminal profesional, colorida y con trazabilidad visible.
-"""
-
 import sys
+from pathlib import Path
+
+# Asegurar que el directorio raíz esté en sys.path
+BASE_DIR = Path(__file__).resolve().parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.insert(0, str(BASE_DIR))
+
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
