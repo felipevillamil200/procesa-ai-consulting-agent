@@ -72,25 +72,36 @@ flowchart TD
 
 ---
 
-## 3. 📁 Estructura del Proyecto
+## 3. 📁 Estructura del Proyecto y Guía para el Evaluador (RH / Tech Lead)
+
+Para facilitar la navegación y comprensión del proyecto, la arquitectura se divide limpiamente en carpetas con responsabilidades únicas:
 
 ```
 Talen GV/
-├── agent/                          # Especificaciones, bucle ReAct, prompts y skills del agente
+├── agent/                          # Prompts del sistema, arquitectura ReAct y especificaciones del agente
 │   ├── README.md                   # Mapeo maestro de recursos
 │   ├── system_prompt.md            # Directivas inviolables y reglas anti-alucinación
 │   ├── agent_loop.md               # Máquina de estados y guardrails
 │   ├── prompts/                    # Prompts del sistema, extractor y generador SQL
 │   └── skills/                     # Skills especializadas (extracción, BD, RAG, CLI, tests)
-├── bitacora/                       # Bitácoras de trabajo paso a paso para la defensa técnica
-│   ├── 01_estructura_y_git/
-│   ├── 02_extraccion_pydantic_sqlite/
-│   ├── 03_motor_rag/
-│   ├── 04_agente_y_herramientas/
-│   ├── 05_interfaces_cli_web/
-│   └── 06_pruebas_y_costos/
-├── codigo/
-│   ├── backend/                    # Servidor API REST, Base de datos y Agente de IA
+├── bitacora/                       # Guías paso a paso para la sustentación de la entrevista
+│   ├── 01_estructura_y_git/        # Configuración inicial y repositorio
+│   ├── 02_extraccion_pydantic_sqlite/ # Pipeline de extracción e ingesta relacional
+│   ├── 03_motor_rag/               # Motor de búsqueda semántica e indexación
+│   ├── 04_agente_y_herramientas/   # Orquestador ReAct y Function Calling
+│   ├── 05_interfaces_cli_web/      # Despliegue de interfaces CLI y Web
+│   └── 06_pruebas_y_costos/        # Batería de pruebas y memoria de costos (50 usuarios)
+├── extracted/                      # Archivos originales e insumos extraídos del ZIP
+│   ├── Informe_Cierre_PC-2025-014...pdf
+│   ├── Informe_Cierre_PC-2025-027...pdf
+│   ├── Informe_Cierre_PC-2025-033...pdf
+│   ├── Informe_Cierre_PC-2026-006...pdf
+│   └── Prueba_Tecnica_Consultor_IA.pdf # Enunciado oficial de la prueba técnica
+├── notas-agente/                   # Notas de análisis del problema y solución técnica
+│   ├── problematica.md             # Desglose de retos y requerimientos
+│   └── solucion.md                 # Enfoque de ingeniería y comparativa de soluciones
+├── codigo/                         # 💻 NÚCLEO OPERATIVO: Todo el código fuente de la aplicación
+│   ├── backend/                    # Servidor API REST FastAPI, Base de datos y Agente de IA
 │   │   ├── main.py                 # FastAPI endpoints (/api/chat, /api/proyectos, /api/sql)
 │   │   ├── agent.py                # Orquestador con Function Calling (Gemini Flash)
 │   │   ├── database.py             # SQLite DatabaseManager con guardrails de seguridad
@@ -102,11 +113,11 @@ Talen GV/
 │   │   └── config.py               # Rutas y variables de entorno
 │   └── frontend/                   # Aplicación Web Moderna (Single Page App)
 │       └── index.html              # Interfaz con Tailwind CSS, chat, fichas y consola SQL
-├── data/
+├── data/                           # 💾 Base de datos SQLite y reportes
 │   ├── raw_reports/                # 4 Informes originales en PDF
 │   ├── fichas/                     # 4 Fichas estructuradas generadas en JSON
 │   └── proyectos.db                # Base de datos SQLite relacional
-├── tests/                          # Suite de pruebas automatizadas con pytest
+├── tests/                          # 🧪 Suite completa de pruebas unitarias (11 tests con pytest)
 │   ├── test_extractor_and_database.py
 │   ├── test_rag.py
 │   └── test_agent.py
@@ -116,6 +127,15 @@ Talen GV/
 ├── requirements.txt                # Dependencias del proyecto
 └── README.md                       # Documentación técnica maestra
 ```
+
+### 📌 Resumen de responsabilidades por carpeta:
+* **`agent/`**: Prompts del sistema, arquitectura ReAct y especificaciones del agente.
+* **`bitacora/`**: Guías paso a paso para la sustentación de la entrevista.
+* **`extracted/`**: Archivos originales e insumos extraídos del ZIP.
+* **`notas-agente/`**: Notas de análisis del problema y solución técnica.
+* **`codigo/`** (`backend` + `frontend`): Todo el código fuente de la aplicación.
+* **`data/`**: Base de datos SQLite y reportes.
+* **`tests/`**: Suite completa de pruebas unitarias.
 
 ---
 
