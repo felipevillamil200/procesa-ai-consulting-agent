@@ -56,10 +56,46 @@ class SQLRequest(BaseModel):
     query: str = Field(..., description="Consulta SQL SELECT")
 
 
+class ConfigUpdateRequest(BaseModel):
+    api_key: Optional[str] = Field(default=None, description="Clave de Google Gemini API")
+    model: Optional[str] = Field(default=None, description="Nombre del modelo LLM")
+    provider: Optional[str] = Field(default=None, description="Proveedor LLM (gemini/openai)")
+
+
 @app.get("/health")
 def health_check():
     """Estado de salud de la API."""
     return {"status": "ok", "service": "Procesa Consultores IA Backend"}
+
+
+@app.get("/api/config")
+def get_config():
+    """Retorna la configuración activa del LLM y estado de la API Key."""
+    import os
+    from codigo.backend.config import GEMINI_API_KEY, LLM_MODEL, LLM_PROVIDER
+    current_key = os.getenv("GEMINI_API_KEY", GEMINI_API_KEY)
+    masked = f"{current_key[:6]}...{current_key[-4:]}" if len(current_key) > 10 else ("Configurada" if current_key else "No configurada")
+    return {
+        "success": True,
+        "provider": os.getenv("LLM_PROVIDER", LLM_PROVIDER),
+        "model": os.getenv("LLM_MODEL", LLM_MODEL),
+        "has_api_key": bool(current_key),
+        "masked_key": masked
+    }
+
+
+@app.post("/api/config")
+def update_config(req: ConfigUpdateRequest):
+    """Actualiza en memoria la clave de API o modelo LLM."""
+    import os
+    if req.api_key and req.api_key.strip():
+        os.environ["GEMINI_API_KEY"] = req.api_key.strip()
+    if req.model and req.model.strip():
+        os.environ["LLM_MODEL"] = req.model.strip()
+    if req.provider and req.provider.strip():
+        os.environ["LLM_PROVIDER"] = req.provider.strip()
+    return {"success": True, "message": "Configuración actualizada correctamente"}
+
 
 
 @app.post("/api/chat")
