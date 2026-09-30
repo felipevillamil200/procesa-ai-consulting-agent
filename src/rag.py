@@ -60,8 +60,26 @@ class DocumentSearchEngine:
             return "PC-2026-006", "Supermercados La Canasta"
         return "PC-DESCONOCIDO", "Cliente Desconocido"
 
+    def _sanitize_text(self, text: str) -> str:
+        """Normaliza caracteres especiales para evitar errores de codificación en consolas."""
+        replacements = {
+            "\u2264": "<=",
+            "\u2265": ">=",
+            "\u2022": "-",
+            "\u2013": "-",
+            "\u2014": "-",
+            "\u2018": "'",
+            "\u2019": "'",
+            "\u201c": '"',
+            "\u201d": '"',
+        }
+        for char, rep in replacements.items():
+            text = text.replace(char, rep)
+        return text
+
     def _chunk_text(self, text: str, max_chars: int = 600, overlap: int = 100) -> List[str]:
         """Divide el texto en fragmentos coherentes basados en párrafos y saltos de línea."""
+        text = self._sanitize_text(text)
         paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
         chunks: List[str] = []
         current_chunk = ""
