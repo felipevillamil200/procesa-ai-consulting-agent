@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Procesa Consultores | Agente Inteligente de Proyectos</title>
+  
+  <!-- Tailwind CSS CDN + Google Fonts + FontAwesome + Marked (Markdown) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              900: '#0c4a6e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .chat-bubble-ai {
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid #e2e8f0;
+    }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
+
+  <!-- ================= SIDEBAR ================= -->
+  <aside class="w-80 bg-slate-900 text-white flex flex-col border-r border-slate-800 shrink-0 select-none">
+    <!-- Brand Header -->
+    <div class="p-5 border-b border-slate-800 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
+        <i class="fa-solid fa-brain text-xl"></i>
+      </div>
+      <div>
+        <h1 class="font-bold text-lg leading-tight tracking-tight text-white">PROCESA</h1>
+        <p class="text-xs text-cyan-400 font-medium">Consultores • Agente IA</p>
+      </div>
+    </div>
+
+    <!-- Status Banner -->
+    <div class="px-5 py-3 bg-slate-800/60 border-b border-slate-800 flex items-center justify-between text-xs">
+      <span class="flex items-center gap-2 text-slate-300">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        API Google Gemini / SQL
+      </span>
+      <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-mono text-[10px]">Activo</span>
+    </div>
+
+    <!-- Project List Scrollable -->
+    <div class="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-4">
+      <div>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 px-1">
+          <i class="fa-solid fa-folder-open mr-1.5 text-cyan-400"></i> Proyectos en Base de Datos (4)
+        </h2>
+        <div id="projectSidebarList" class="space-y-2">
+          <!-- Dinámico via JS -->
+          <div class="animate-pulse p-3 bg-slate-800/40 rounded-lg text-xs text-slate-400">Cargando proyectos...</div>
+        </div>
+      </div>
+
+      <!-- Quick Questions -->
+      <div>
+        <h2 class="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2 px-1">
+          <i class="fa-solid fa-bolt mr-1.5 text-amber-400"></i> Preguntas Rápidas
+        </h2>
+        <div class="space-y-1.5 text-xs">
+          <button onclick="askQuickQuestion('¿Qué proyectos se ejecutaron en 2025 y cuál duró más semanas?')" class="w-full text-left p-2.5 rounded-lg bg-slate-800/40 hover:bg-slate-800 text-slate-300 hover:text-white transition border border-slate-700/40 hover:border-cyan-500/50 flex items-center justify-between group">
+            <span class="truncate">📊 Proyectos 2025 y mayor duración</span>
+            <i class="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-cyan-400 text-[10px] transition"></i>
+          </button>
+          <button onclick="askQuickQuestion('¿Qué lecciones aprendimos sobre resistencia al cambio de mandos medios?')" class="w-full text-left p-2.5 rounded-lg bg-slate-800/40 hover:bg-slate-800 text-slate-300 hover:text-white transition border border-slate-700/40 hover:border-cyan-500/50 flex items-center justify-between group">
+            <span class="truncate">💡 Lecciones de resistencia al cambio</span>
+            <i class="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-cyan-400 text-[10px] transition"></i>
+          </button>
+          <button onclick="askQuickQuestion('¿Cuáles fueron los resultados de OEE en Plásticos del Pacífico?')" class="w-full text-left p-2.5 rounded-lg bg-slate-800/40 hover:bg-slate-800 text-slate-300 hover:text-white transition border border-slate-700/40 hover:border-cyan-500/50 flex items-center justify-between group">
+            <span class="truncate">📈 Resultados de OEE en planta</span>
+            <i class="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-cyan-400 text-[10px] transition"></i>
+          </button>
+          <button onclick="askQuickQuestion('¿Qué metodologías se aplicaron en la Clínica Santa Lucía?')" class="w-full text-left p-2.5 rounded-lg bg-slate-800/40 hover:bg-slate-800 text-slate-300 hover:text-white transition border border-slate-700/40 hover:border-cyan-500/50 flex items-center justify-between group">
+            <span class="truncate">🏥 Metodologías en Clínica Santa Lucía</span>
+            <i class="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-cyan-400 text-[10px] transition"></i>
+          </button>
+          <button onclick="askQuickQuestion('¿Qué proyectos tenemos en minería o petróleo?')" class="w-full text-left p-2.5 rounded-lg bg-slate-800/40 hover:bg-slate-800 text-slate-300 hover:text-white transition border border-slate-700/40 hover:border-red-500/50 flex items-center justify-between group">
+            <span class="truncate text-red-300">🛑 Prueba Anti-Alucinación (Minería)</span>
+            <i class="fa-solid fa-chevron-right opacity-0 group-hover:opacity-100 text-red-400 text-[10px] transition"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Info -->
+    <div class="p-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+      <span>Prueba Técnica • Consultor IA</span>
+      <span class="text-cyan-400 font-mono">v1.0.0</span>
+    </div>
+  </aside>
+
+  <!-- ================= MAIN CONTENT ================= -->
+  <main class="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
+    
+    <!-- Top Navigation Tabs -->
+    <header class="h-16 bg-white border-b border-slate-200 px-6 flex items-center justify-between shrink-0 shadow-sm">
+      <div class="flex items-center gap-2">
+        <button onclick="switchTab('chat')" id="tabBtnChat" class="px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 bg-brand-50 text-brand-700 border border-brand-200">
+          <i class="fa-regular fa-comments"></i> Chat Inteligente
+        </button>
+        <button onclick="switchTab('fichas')" id="tabBtnFichas" class="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-2">
+          <i class="fa-solid fa-table-list"></i> Fichas Estructuradas
+        </button>
+        <button onclick="switchTab('sqlite')" id="tabBtnSqlite" class="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-2">
+          <i class="fa-solid fa-database"></i> Explorador SQLite
+        </button>
+        <button onclick="switchTab('arquitectura')" id="tabBtnArquitectura" class="px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-2">
+          <i class="fa-solid fa-diagram-project"></i> Arquitectura
+        </button>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="clearChat()" class="px-3 py-1.5 text-xs text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-md transition flex items-center gap-1.5">
+          <i class="fa-regular fa-trash-can"></i> Limpiar Chat
+        </button>
+      </div>
+    </header>
+
+    <!-- TAB 1: CHAT INTELIGENTE -->
+    <section id="tabChat" class="flex-1 flex flex-col h-full overflow-hidden">
+      <!-- Chat Messages Container -->
+      <div id="chatMessages" class="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+        
+        <!-- Welcome Message -->
+        <div class="flex gap-4 max-w-4xl">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shrink-0 shadow-md">
+            <i class="fa-solid fa-robot text-lg"></i>
+          </div>
+          <div class="chat-bubble-ai p-5 rounded-2xl shadow-sm text-sm space-y-2 border border-slate-200">
+            <div class="font-bold text-slate-900 flex items-center gap-2">
+              <span>Agente Consultor de Procesa</span>
+              <span class="text-[10px] px-2 py-0.5 rounded-full bg-cyan-100 text-cyan-800 font-semibold">Gemini + SQL/RAG</span>
+            </div>
+            <p class="text-slate-600 leading-relaxed">
+              ¡Hola! Soy tu asistente técnico de inteligencia artificial. Puedo responder preguntas sobre los 4 informes de cierre de proyectos terminados (Financiero, Manufactura, Salud y Retail) combinando consultas a la <strong>Base de Datos Relacional (SQLite)</strong> y búsqueda profunda en los <strong>PDFs originales (RAG)</strong>.
+            </p>
+            <p class="text-xs text-slate-400">
+              Prueba haciendo una pregunta abajo o eligiendo una opción del menú lateral.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Chat Input Area -->
+      <div class="p-4 bg-white border-t border-slate-200 shrink-0">
+        <div class="max-w-4xl mx-auto flex gap-2">
+          <input 
+            type="text" 
+            id="chatInput" 
+            placeholder="Haz una pregunta sobre los proyectos (ej. ¿Qué resultados de OEE obtuvimos?)..." 
+            class="flex-1 px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition"
+            onkeydown="if(event.key === 'Enter') sendMessage()"
+          />
+          <button 
+            onclick="sendMessage()" 
+            id="sendBtn"
+            class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-medium rounded-xl text-sm shadow-md shadow-brand-500/20 transition flex items-center gap-2 shrink-0">
+            <span>Consultar</span>
+            <i class="fa-solid fa-paper-plane text-xs"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: FICHAS ESTRUCTURADAS -->
+    <section id="tabFichas" class="hidden flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+      <div class="max-w-6xl mx-auto space-y-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900">Fichas Técnicas Estructuradas de Proyectos</h2>
+            <p class="text-xs text-slate-500 mt-1">Extraídas mediante Pydantic v2 (JSON Schema) a partir de los informes de cierre en PDF.</p>
+          </div>
+          <span class="px-3 py-1 bg-cyan-50 text-cyan-700 border border-cyan-200 rounded-lg text-xs font-semibold">4 Proyectos Indexados</span>
+        </div>
+
+        <div id="fichasGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Dinámico via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: EXPLORADOR SQLITE -->
+    <section id="tabSqlite" class="hidden flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+      <div class="max-w-6xl mx-auto space-y-6">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-xl font-bold text-slate-900">Explorador de Base de Datos Relacional (`proyectos.db`)</h2>
+              <p class="text-xs text-slate-500 mt-1">Ejecuta consultas SQL en vivo con guardrails de seguridad (Solo lectura SELECT).</p>
+            </div>
+            <span class="px-3 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-xs font-mono font-semibold">SQLite 3</span>
+          </div>
+
+          <div class="space-y-2">
+            <label class="text-xs font-semibold text-slate-700 uppercase tracking-wider">Consola SQL Interactiva:</label>
+            <textarea id="sqlInput" rows="3" class="w-full font-mono text-xs p-3 bg-slate-900 text-emerald-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500">SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto FROM proyectos ORDER BY duracion_semanas DESC;</textarea>
+            <div class="flex justify-end">
+              <button onclick="runCustomSQL()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg text-xs transition flex items-center gap-2">
+                <i class="fa-solid fa-play text-[10px]"></i> Ejecutar Consulta SQL
+              </button>
+            </div>
+          </div>
+
+          <!-- SQL Results Area -->
+          <div id="sqlResultsArea" class="overflow-x-auto">
+            <!-- Dinámico via JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: ARQUITECTURA -->
+    <section id="tabArquitectura" class="hidden flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+      <div class="max-w-5xl mx-auto bg-white p-8 rounded-2xl border border-slate-200 shadow-sm space-y-6">
+        <div class="border-b border-slate-100 pb-4">
+          <h2 class="text-2xl font-bold text-slate-900">Arquitectura Híbrida del Sistema</h2>
+          <p class="text-sm text-slate-500 mt-1">Diseño desacoplado: Extracción Estructurada + Text-to-SQL + RAG Documental + Control de Trazabilidad.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">1</div>
+            <h3 class="font-bold text-slate-900 text-sm">Ingesta y Extracción</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Los PDFs son analizados por <code>pypdf</code> y transformados en fichas tipadas con <strong>Pydantic v2</strong>, guardadas en <strong>SQLite</strong> e indexadas por fragmentos semánticos.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-700 flex items-center justify-center font-bold text-sm">2</div>
+            <h3 class="font-bold text-slate-900 text-sm">Agente con Function Calling</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              El LLM (Google Gemini / OpenAI) decide autónomamente si consultar la base de datos (<code>query_project_database</code>) o buscar texto en los PDFs (<code>search_project_documents</code>).
+            </p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+            <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm">3</div>
+            <h3 class="font-bold text-slate-900 text-sm">Citas y Anti-Alucinación</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Toda afirmación incluye el código y nombre del proyecto. Si una consulta indaga sobre temas inexistentes, el agente declara que no hay datos disponibles.
+            </p>
+          </div>
+        </div>
+
+        <!-- Cost Calculation Table -->
+        <div class="mt-6 border-t border-slate-100 pt-6">
+          <h3 class="font-bold text-slate-900 text-base mb-3">Estimación Económica para 50 Consultores Diarios</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-xs text-left">
+              <thead class="bg-slate-100 text-slate-700 font-semibold">
+                <tr>
+                  <th class="p-3">Métrica</th>
+                  <th class="p-3">Valor Diario</th>
+                  <th class="p-3">Valor Mensual (22 días)</th>
+                  <th class="p-3">Costo con Gemini / GPT-4o-mini</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200">
+                <tr>
+                  <td class="p-3 font-medium">Volumen de Consultas</td>
+                  <td class="p-3">500 queries/día</td>
+                  <td class="p-3">11,000 queries/mes</td>
+                  <td class="p-3 text-emerald-600 font-bold font-mono">~$3.63 USD / mes</td>
+                </tr>
+                <tr>
+                  <td class="p-3 font-medium">Tokens Consumidos</td>
+                  <td class="p-3">~500k input / ~150k output</td>
+                  <td class="p-3">11M input / 3.3M output</td>
+                  <td class="p-3 text-slate-500 font-mono">Costo casi nulo</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    const API_BASE = window.location.origin;
+
+    // Inicializar datos al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProjects();
+      loadFichas();
+      runCustomSQL();
+    });
+
+    // Cambiar pestañas
+    function switchTab(tabId) {
+      ['chat', 'fichas', 'sqlite', 'arquitectura'].forEach(t => {
+        const section = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+        const btn = document.getElementById('tabBtn' + t.charAt(0).toUpperCase() + t.slice(1));
+        if (t === tabId) {
+          section.classList.remove('hidden');
+          btn.className = 'px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 bg-brand-50 text-brand-700 border border-brand-200';
+        } else {
+          section.classList.add('hidden');
+          btn.className = 'px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition flex items-center gap-2';
+        }
+      });
+    }
+
+    // Cargar proyectos en la barra lateral
+    async function loadProjects() {
+      try {
+        const res = await fetch(`${API_BASE}/api/proyectos`);
+        const data = await res.json();
+        if (data.success) {
+          const list = document.getElementById('projectSidebarList');
+          list.innerHTML = data.proyectos.map(p => `
+            <div class="p-3 rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-cyan-500/50 transition">
+              <div class="flex items-center justify-between mb-1">
+                <span class="font-mono text-[11px] font-bold text-cyan-400">${p.codigo_proyecto}</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-slate-700 text-slate-300 font-medium">${p.duracion_semanas} sem</span>
+              </div>
+              <div class="font-medium text-xs text-white truncate">${p.cliente}</div>
+              <div class="text-[11px] text-slate-400 mt-0.5 truncate"><i class="fa-solid fa-briefcase text-[9px] mr-1"></i>${p.sector}</div>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error('Error cargando proyectos:', err);
+      }
+    }
+
+    // Cargar fichas técnicas en Tab 2
+    async function loadFichas() {
+      try {
+        const res = await fetch(`${API_BASE}/api/fichas`);
+        const data = await res.json();
+        if (data.success) {
+          const grid = document.getElementById('fichasGrid');
+          grid.innerHTML = data.fichas.map(f => `
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-4 hover:shadow-md transition">
+              <div class="flex items-start justify-between">
+                <div>
+                  <span class="px-2.5 py-1 rounded bg-brand-50 text-brand-700 border border-brand-200 font-mono text-xs font-bold">${f.codigo_proyecto}</span>
+                  <h3 class="font-bold text-base text-slate-900 mt-2">${f.cliente}</h3>
+                  <p class="text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-slate-400"></i>${f.ubicacion}</p>
+                </div>
+                <span class="text-xs font-bold text-slate-700 px-3 py-1 bg-slate-100 rounded-full">${f.duracion_semanas} semanas</span>
+              </div>
+
+              <div class="text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                <strong>Objetivo:</strong> ${f.objetivo_general}
+              </div>
+
+              <div>
+                <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Indicadores de Impacto (Antes vs Después):</h4>
+                <div class="space-y-1 text-xs">
+                  ${(f.kpis_impacto || []).map(k => `
+                    <div class="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-100">
+                      <span class="font-medium text-slate-700">${k.indicador}</span>
+                      <span class="font-mono text-emerald-600 font-semibold">${k.linea_base_antes} ➔ ${k.resultado_despues} (${k.variacion_porcentual || ''})</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="pt-2 border-t border-slate-100 text-xs flex items-center justify-between text-slate-500">
+                <span><strong>Gerente:</strong> ${f.gerente_proyecto}</span>
+                <span class="text-emerald-600 font-semibold"><i class="fa-solid fa-sack-dollar mr-1"></i>${f.beneficios_economicos ? f.beneficios_economicos.slice(0, 30) + '...' : ''}</span>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (err) {
+        console.error('Error cargando fichas:', err);
+      }
+    }
+
+    // Ejecutar SQL personalizado en Tab 3
+    async function runCustomSQL() {
+      const query = document.getElementById('sqlInput').value.trim();
+      const area = document.getElementById('sqlResultsArea');
+      area.innerHTML = '<div class="p-4 text-xs text-slate-400">Ejecutando consulta...</div>';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/sql`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query })
+        });
+        const data = await res.json();
+
+        if (data.success && data.rows.length > 0) {
+          const cols = Object.keys(data.rows[0]);
+          area.innerHTML = `
+            <div class="mb-2 text-xs font-medium text-emerald-600">✓ ${data.row_count} fila(s) retornada(s) con éxito:</div>
+            <table class="w-full text-xs text-left border border-slate-200 rounded-lg overflow-hidden">
+              <thead class="bg-slate-100 text-slate-700 font-bold">
+                <tr>${cols.map(c => `<th class="p-2.5 border-b border-slate-200">${c}</th>`).join('')}</tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 font-mono text-[11px]">
+                ${data.rows.map(r => `<tr>${cols.map(c => `<td class="p-2.5">${typeof r[c] === 'object' ? JSON.stringify(r[c]) : (r[c] || '-')}</td>`).join('')}</tr>`).join('')}
+              </tbody>
+            </table>
+          `;
+        } else if (data.success && data.rows.length === 0) {
+          area.innerHTML = '<div class="p-4 text-xs text-amber-600 bg-amber-50 rounded-lg border border-amber-200">La consulta no retornó registros.</div>';
+        } else {
+          area.innerHTML = `<div class="p-4 text-xs text-red-600 bg-red-50 rounded-lg border border-red-200">Error: ${data.error || 'Error en consulta SQL'}</div>`;
+        }
+      } catch (err) {
+        area.innerHTML = `<div class="p-4 text-xs text-red-600">Error conectando al servidor: ${err.message}</div>`;
+      }
+    }
+
+    // Enviar pregunta rápida desde el sidebar
+    function askQuickQuestion(q) {
+      switchTab('chat');
+      document.getElementById('chatInput').value = q;
+      sendMessage();
+    }
+
+    // Limpiar chat
+    function clearChat() {
+      const container = document.getElementById('chatMessages');
+      container.innerHTML = `
+        <div class="flex gap-4 max-w-4xl">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shrink-0 shadow-md">
+            <i class="fa-solid fa-robot text-lg"></i>
+          </div>
+          <div class="chat-bubble-ai p-5 rounded-2xl shadow-sm text-sm space-y-2 border border-slate-200">
+            <div class="font-bold text-slate-900">Chat Reiniciado</div>
+            <p class="text-slate-600">¿Qué otra pregunta deseas consultar sobre los informes?</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // Enviar mensaje al agente
+    async function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const question = input.value.trim();
+      if (!question) return;
+
+      input.value = '';
+      const container = document.getElementById('chatMessages');
+
+      // 1. Renderizar mensaje del usuario
+      container.innerHTML += `
+        <div class="flex gap-4 max-w-4xl ml-auto justify-end">
+          <div class="bg-brand-600 text-white p-4 rounded-2xl shadow-sm text-sm max-w-xl">
+            ${question}
+          </div>
+          <div class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center text-white shrink-0 shadow-md">
+            <i class="fa-solid fa-user text-sm"></i>
+          </div>
+        </div>
+      `;
+      container.scrollTop = container.scrollHeight;
+
+      // 2. Renderizar burbuja de "Pensando..."
+      const loadingId = 'loading-' + Date.now();
+      container.innerHTML += `
+        <div id="${loadingId}" class="flex gap-4 max-w-4xl">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shrink-0 shadow-md">
+            <i class="fa-solid fa-robot text-lg"></i>
+          </div>
+          <div class="chat-bubble-ai p-4 rounded-2xl shadow-sm text-xs flex items-center gap-3 text-slate-500 border border-slate-200">
+            <i class="fa-solid fa-circle-notch fa-spin text-cyan-600"></i>
+            <span>Consultando base de datos y fragmentos documentales con Gemini...</span>
+          </div>
+        </div>
+      `;
+      container.scrollTop = container.scrollHeight;
+
+      // 3. Petición al Backend FastAPI
+      try {
+        const res = await fetch(`${API_BASE}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
+        const data = await res.json();
+        document.getElementById(loadingId)?.remove();
+
+        if (data.success) {
+          // Renderizar Trazabilidad de Herramientas
+          let traceHtml = '';
+          if (data.tools_used && data.tools_used.length > 0) {
+            traceHtml = `
+              <details class="text-xs bg-amber-50/70 border border-amber-200 rounded-xl p-3 my-2">
+                <summary class="font-bold text-amber-800 cursor-pointer flex items-center gap-2">
+                  <i class="fa-solid fa-wrench text-amber-600"></i>
+                  <span>Trazabilidad: ${data.tools_used.length} herramienta(s) invocada(s)</span>
+                </summary>
+                <div class="mt-2 space-y-1.5 pt-2 border-t border-amber-200/60 font-mono text-[11px]">
+                  ${data.tools_used.map(t => `
+                    <div class="p-2 bg-white rounded border border-amber-100">
+                      <div class="flex justify-between font-bold text-amber-900">
+                        <span>🔧 ${t.tool_name}</span>
+                        <span class="text-slate-400">${t.execution_time_ms} ms</span>
+                      </div>
+                      <div class="text-slate-600 mt-1">${t.result_summary}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              </details>
+            `;
+          }
+
+          // Renderizar Badges de Fuentes
+          let sourcesHtml = '';
+          if (data.sources && data.sources.length > 0) {
+            sourcesHtml = `
+              <div class="flex items-center gap-1.5 mt-3 pt-2 border-t border-slate-100 text-xs">
+                <span class="text-slate-400 font-medium">Fuentes Validadas:</span>
+                ${data.sources.map(s => `<span class="px-2 py-0.5 rounded bg-cyan-100 text-cyan-800 font-mono text-[11px] font-semibold">${s}</span>`).join('')}
+              </div>
+            `;
+          }
+
+          // Renderizar Respuesta Final con Markdown
+          const formattedAnswer = marked.parse(data.answer);
+          const isWarning = !data.found_info;
+
+          container.innerHTML += `
+            <div class="flex gap-4 max-w-4xl">
+              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shrink-0 shadow-md">
+                <i class="fa-solid fa-robot text-lg"></i>
+              </div>
+              <div class="chat-bubble-ai p-5 rounded-2xl shadow-sm text-sm space-y-2 border ${isWarning ? 'border-red-300 bg-red-50/40' : 'border-slate-200'}">
+                <div class="font-bold text-slate-900 flex items-center justify-between">
+                  <span>Respuesta del Agente</span>
+                  ${isWarning ? '<span class="text-[10px] px-2 py-0.5 rounded bg-red-100 text-red-700 font-bold">Anti-Alucinación</span>' : ''}
+                </div>
+                ${traceHtml}
+                <div class="prose prose-sm max-w-none text-slate-700 leading-relaxed">
+                  ${formattedAnswer}
+                </div>
+                ${sourcesHtml}
+              </div>
+            </div>
+          `;
+        } else {
+          container.innerHTML += `
+            <div class="p-4 text-xs text-red-600 bg-red-50 rounded-xl border border-red-200">Error: ${data.detail || 'Ocurrió un error'}</div>
+          `;
+        }
+      } catch (err) {
+        document.getElementById(loadingId)?.remove();
+        container.innerHTML += `
+          <div class="p-4 text-xs text-red-600 bg-red-50 rounded-xl border border-red-200">Error al conectar con la API: ${err.message}</div>
+        `;
+      }
+
+      container.scrollTop = container.scrollHeight;
+    }
+  </script>
+</body>
+</html>
