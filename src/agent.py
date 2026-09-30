@@ -8,7 +8,7 @@ import time
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
-from src.config import LLM_MODEL, OPENAI_API_KEY
+from src.config import LLM_MODEL, OPENAI_API_KEY, GEMINI_API_KEY, LLM_PROVIDER
 from src.database import DatabaseManager
 from src.rag import get_search_engine
 
@@ -188,11 +188,18 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
         tools_log: List[ToolExecutionLog] = []
         sources: set[str] = set()
 
-        # Si tenemos API Key de OpenAI, ejecutamos Function Calling nativo
-        if OPENAI_API_KEY:
+        # Si tenemos API Key de Gemini o OpenAI, ejecutamos Function Calling nativo
+        has_api_key = bool(GEMINI_API_KEY or OPENAI_API_KEY)
+        if has_api_key:
             try:
                 from openai import OpenAI
-                client = OpenAI(api_key=OPENAI_API_KEY)
+                if GEMINI_API_KEY and LLM_PROVIDER == "gemini":
+                    client = OpenAI(
+                        api_key=GEMINI_API_KEY,
+                        base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+                    )
+                else:
+                    client = OpenAI(api_key=OPENAI_API_KEY)
 
                 messages = [{"role": "system", "content": self.system_prompt}]
                 if chat_history:
@@ -240,19 +247,36 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                         temperature=0.1
                     )
                     answer = final_response.choices[0].message.content or ""
+                    
+                    # Detectar si se encontró información válida
+                    has_info = not any(phrase in answer.lower() for phrase in [
+                        "no se dispone de información",
+                        "no se dispone de informacion",
+                        "no contiene información",
+                        "no contiene informacion",
+                        "no se cuenta con información"
+                    ])
+
                     return AgentResponse(
                         answer=answer,
                         tools_used=tools_log,
                         sources=sorted(list(sources)),
-                        found_info=True
+                        found_info=has_info
                     )
                 else:
                     # El LLM respondió directamente sin herramientas
+                    raw_answer = response_message.content or ""
+                    has_info = not any(phrase in raw_answer.lower() for phrase in [
+                        "no se dispone de información",
+                        "no se dispone de informacion",
+                        "no contiene información",
+                        "no se cuenta con información"
+                    ])
                     return AgentResponse(
-                        answer=response_message.content or "",
+                        answer=raw_answer,
                         tools_used=[],
                         sources=[],
-                        found_info=True
+                        found_info=has_info
                     )
 
             except Exception as e:

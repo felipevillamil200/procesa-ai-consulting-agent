@@ -21,9 +21,11 @@ DATABASE_PATH = DATA_DIR / "proyectos.db"
 RAW_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 FICHAS_DIR.mkdir(parents=True, exist_ok=True)
 
-# Configuración de OpenAI y Modelos LLM
+# Configuración de Proveedores LLM (Google Gemini / OpenAI)
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
-LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
+LLM_PROVIDER = os.getenv("LLM_PROVIDER", "gemini" if GEMINI_API_KEY else "openai")
+LLM_MODEL = os.getenv("LLM_MODEL", "gemini-2.5-flash" if LLM_PROVIDER == "gemini" else "gpt-4o-mini")
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
 
 # Configuración del Agente

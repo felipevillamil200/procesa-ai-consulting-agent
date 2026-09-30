@@ -15,7 +15,7 @@ class TestConsultorAgent(unittest.TestCase):
 
     def test_sql_routing_quantitative_query(self):
         """Verifica que preguntas cuantitativas invoquen la herramienta SQL y retornen datos."""
-        response = self.agent.ask("¿Qué proyectos se ejecutaron en el año 2025 y cuál duró más?")
+        response = self.agent._local_reasoning_engine("¿Qué proyectos se ejecutaron en el año 2025 y cuál duró más?")
         self.assertTrue(response.found_info)
         tool_names = [t.tool_name for t in response.tools_used]
         self.assertIn("query_project_database", tool_names)
@@ -25,7 +25,7 @@ class TestConsultorAgent(unittest.TestCase):
 
     def test_rag_routing_qualitative_query(self):
         """Verifica que preguntas cualitativas invoquen la herramienta RAG."""
-        response = self.agent.ask("¿Qué lecciones aprendidas tuvimos sobre mandos medios y resistencia al cambio?")
+        response = self.agent._local_reasoning_engine("¿Qué lecciones aprendidas tuvimos sobre mandos medios y resistencia al cambio?")
         self.assertTrue(response.found_info)
         tool_names = [t.tool_name for t in response.tools_used]
         self.assertIn("search_project_documents", tool_names)
@@ -34,14 +34,14 @@ class TestConsultorAgent(unittest.TestCase):
 
     def test_anti_hallucination_unsupported_domain(self):
         """Verifica que ante temas inexistentes no invente datos y retorne la advertencia estándar."""
-        response = self.agent.ask("¿Qué proyectos de minería a cielo abierto o petróleo hemos cerrado?")
+        response = self.agent._local_reasoning_engine("¿Qué proyectos de minería a cielo abierto o petróleo hemos cerrado?")
         self.assertFalse(response.found_info)
         self.assertEqual(len(response.sources), 0)
         self.assertIn("No se dispone de información", response.answer)
 
     def test_traceability_logging(self):
         """Verifica que cada respuesta del agente contenga el registro de trazabilidad de ejecución."""
-        response = self.agent.ask("¿Cuál es el proyecto del sector retail?")
+        response = self.agent._local_reasoning_engine("¿Cuál es el proyecto del sector retail?")
         self.assertTrue(len(response.tools_used) > 0)
         first_tool = response.tools_used[0]
         self.assertIsNotNone(first_tool.tool_name)
