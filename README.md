@@ -111,8 +111,17 @@ Talen GV/
 │   │   ├── cli.py                  # Consola interactiva moderna con Rich
 │   │   ├── app.py                  # Aplicación Streamlit alternativa
 │   │   └── config.py               # Rutas y variables de entorno
-│   └── frontend/                   # Aplicación Web Moderna (Single Page App)
-│       └── index.html              # Interfaz con Tailwind CSS, chat, fichas y consola SQL
+│   └── frontend/                   # ⚛️ APLICACIÓN WEB REACT + VITE + TAILWIND CSS
+│       ├── src/                    # Componentes React (ChatView, FichasView, SqlExplorerView, etc.)
+│       │   ├── components/         # Sidebar, Header, Modales de Configuración y Subida
+│       │   ├── services/api.js     # Cliente API REST desacoplado
+│       │   ├── App.jsx             # Contenedor principal con React Hooks
+│       │   ├── main.jsx            # Entry point de React 18
+│       │   └── index.css           # Estilos con Tailwind CSS
+│       ├── package.json            # Dependencias de React, Lucide-React, Tailwind y Vite
+│       ├── vite.config.js          # Configuración de compilador Vite y Proxy API
+│       └── dist/                   # Bundle de producción precompilado (listo para FastAPI)
+
 ├── data/                           # 💾 Base de datos SQLite y reportes
 │   ├── raw_reports/                # 4 Informes originales en PDF
 │   ├── fichas/                     # 4 Fichas estructuradas generadas en JSON
