@@ -278,7 +278,7 @@ export default function App() {
           <ArchitectureView />
         )}
 
-        {activeTab === 'leads' && (
+        {(activeTab === 'inicio' || activeTab === 'leads') && (
           <LandingView onNavigateToChat={() => setActiveTab('chat')} />
         )}
       </main>

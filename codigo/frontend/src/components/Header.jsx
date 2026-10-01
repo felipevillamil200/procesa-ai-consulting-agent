@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { MessageSquare, Table, Database, Network, Settings, Trash2, HelpCircle, Sparkles } from 'lucide-react';
+import { MessageSquare, Table, Database, Network, Settings, Trash2, HelpCircle, Sparkles, Home } from 'lucide-react';
 import SystemGuideModal from './SystemGuideModal';
 
 const TABS = [
   { id: 'chat', label: 'Chat Inteligente', icon: MessageSquare, badge: 'IA' },
   { id: 'fichas', label: 'Fichas Estructuradas', icon: Table, badge: null },
   { id: 'sqlite', label: 'Explorador SQLite & CRUD', icon: Database, badge: 'SQL' },
-  { id: 'arquitectura', label: 'Arquitectura & Costos', icon: Network, badge: null },
-  { id: 'leads', label: 'Solución & Leads', icon: Sparkles, badge: 'NUEVO' }
+  { id: 'arquitectura', label: 'Arquitectura & Costos', icon: Network, badge: null }
 ];
 
 export default function Header({ activeTab, onTabChange, onOpenConfig, onClearChat }) {
@@ -47,6 +46,20 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
 
         {/* Top Actions Floating Bar */}
         <div className="flex items-center gap-2">
+          {/* Botón de Inicio / Presentación Comercial */}
+          <button
+            onClick={() => onTabChange('inicio')}
+            className={`px-3.5 py-1.5 text-xs rounded-xl transition-all duration-150 flex items-center gap-1.5 font-bold border shadow-xs cursor-pointer btn-tactile ${
+              activeTab === 'inicio'
+                ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white border-cyan-500 shadow-md shadow-cyan-500/20'
+                : 'text-slate-700 bg-white hover:bg-cyan-50 hover:text-cyan-800 hover:border-cyan-300 border-slate-200'
+            }`}
+            title="Ir a la página de Inicio y Presentación de la Solución"
+          >
+            <Home className={`w-3.5 h-3.5 ${activeTab === 'inicio' ? 'text-white' : 'text-cyan-600'}`} />
+            <span>Inicio</span>
+          </button>
+
           {/* Botón de Ayuda y Guía del Sistema */}
           <button
             onClick={() => setIsGuideOpen(true)}
