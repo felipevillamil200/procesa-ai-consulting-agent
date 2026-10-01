@@ -8,36 +8,84 @@ const PDF_NAMES = {
   'PC-2026-006': 'Informe_Cierre_PC-2026-006_Supermercados_La_Canasta.pdf'
 };
 
-const QUICK_PROMPTS = [
-  {
+// Generador dinámico de preguntas sugeridas según la documentación indexada en memoria
+const getDynamicPrompts = (projects) => {
+  if (!projects || projects.length === 0) {
+    return [
+      {
+        icon: '🛡️',
+        label: 'Consultar proyectos disponibles (BD Vacía)',
+        query: '¿Qué proyectos o informes tenemos disponibles en este momento?',
+        isAntiHallucination: true
+      }
+    ];
+  }
+
+  const prompts = [];
+
+  // 1. Pregunta analítica cuantitativa (SQL)
+  prompts.push({
     icon: '📊',
-    label: 'Proyectos 2025 y mayor duración',
-    query: '¿Qué proyectos se ejecutaron en 2025 y cuál duró más semanas?'
-  },
-  {
-    icon: '💡',
-    label: 'Lecciones de resistencia al cambio',
-    query: '¿Qué lecciones aprendimos sobre resistencia al cambio de mandos medios?'
-  },
-  {
-    icon: '📈',
-    label: 'Resultados de OEE en planta',
-    query: '¿Cuáles fueron los resultados de OEE en Plásticos del Pacífico?'
-  },
-  {
-    icon: '🏥',
-    label: 'Metodologías en Clínica Santa Lucía',
-    query: '¿Qué metodologías se aplicaron en la Clínica Santa Lucía?'
-  },
-  {
+    label: 'Proyectos y mayor duración',
+    query: '¿Cuáles son los proyectos registrados en la base de datos y cuál tuvo la mayor duración en semanas?'
+  });
+
+  // 2. Pregunta específica sobre el primer proyecto indexado
+  if (projects[0]) {
+    const name = projects[0].cliente.length > 24 ? `${projects[0].cliente.slice(0, 22)}...` : projects[0].cliente;
+    prompts.push({
+      icon: '🎯',
+      label: `Impacto en ${name}`,
+      query: `¿Qué objetivos y resultados principales se alcanzaron en el proyecto ${projects[0].codigo_proyecto} (${projects[0].cliente})?`
+    });
+  }
+
+  // 3. Pregunta específica sobre el segundo proyecto indexado
+  if (projects[1]) {
+    const name = projects[1].cliente.length > 24 ? `${projects[1].cliente.slice(0, 22)}...` : projects[1].cliente;
+    prompts.push({
+      icon: '⚙️',
+      label: `Metodologías en ${name}`,
+      query: `¿Qué metodologías y herramientas se aplicaron en ${projects[1].cliente} (${projects[1].codigo_proyecto})?`
+    });
+  } else {
+    prompts.push({
+      icon: '💡',
+      label: 'Lecciones aprendidas críticas',
+      query: '¿Cuáles fueron las lecciones aprendidas más importantes en los proyectos ejecutados?'
+    });
+  }
+
+  // 4. Pregunta cualitativa de lecciones o KPIs
+  if (projects[2]) {
+    const name = projects[2].cliente.length > 24 ? `${projects[2].cliente.slice(0, 22)}...` : projects[2].cliente;
+    prompts.push({
+      icon: '💡',
+      label: `Lecciones en ${name}`,
+      query: `¿Qué lecciones aprendidas se documentaron en ${projects[2].cliente} (${projects[2].codigo_proyecto})?`
+    });
+  } else {
+    prompts.push({
+      icon: '📈',
+      label: 'KPIs de impacto Antes vs Después',
+      query: '¿Qué indicadores clave de impacto mejoraron entre la línea base y el resultado final?'
+    });
+  }
+
+  // 5. Prueba de control anti-alucinación
+  prompts.push({
     icon: '🛑',
     label: 'Prueba Anti-Alucinación (Minería)',
-    query: '¿Qué proyectos tenemos en minería o petróleo?',
+    query: '¿Qué proyectos o experiencia tenemos en sectores de minería o petróleo?',
     isAntiHallucination: true
-  }
-];
+  });
+
+  return prompts;
+};
 
 export default function Sidebar({ projects = [], onSelectPrompt, config }) {
+  const dynamicPrompts = getDynamicPrompts(projects);
+
   return (
     <aside className="w-80 bg-slate-900 text-white flex flex-col border-r border-slate-800 shrink-0 select-none">
       {/* Brand Header */}
@@ -120,15 +168,21 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
           <div className="flex items-center justify-between mb-2.5 px-1">
             <h2 className="text-[11px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1.5">
               <Zap className="w-3.5 h-3.5 text-amber-400" />
-              PREGUNTAS RÁPIDAS
+              PREGUNTAS RÁPIDAS ({dynamicPrompts.length})
             </h2>
             <span className="text-[9px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded font-mono border border-amber-500/20">
-              Prompts
+              {projects.length > 0 ? 'Dinámicas' : 'Modo Vacío'}
             </span>
           </div>
 
+          {projects.length === 0 && (
+            <p className="text-[10px] text-slate-400 mb-2 px-1 leading-tight">
+              Sube un PDF o restaura proyectos para generar sugerencias automáticas sobre los informes activos.
+            </p>
+          )}
+
           <div className="space-y-1.5 text-xs">
-            {QUICK_PROMPTS.map((item, idx) => (
+            {dynamicPrompts.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => onSelectPrompt(item.query)}
@@ -150,9 +204,14 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
       </div>
 
       {/* Footer Info */}
-      <div className="p-4 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
-        <span>Prueba Técnica • React + Vite</span>
-        <span className="text-cyan-400 font-mono font-bold">v2.0.0</span>
+      <div className="p-3.5 border-t border-slate-800 text-[11px] text-slate-400 flex items-center justify-between">
+        <span className="font-medium text-slate-300 flex items-center gap-1.5">
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+          <span>Solución Documental Inteligente</span>
+        </span>
+        <span className="text-cyan-400 font-mono font-bold text-[10px] bg-cyan-950/70 border border-cyan-800/60 px-1.5 py-0.5 rounded">
+          RAG + SQL
+        </span>
       </div>
     </aside>
   );

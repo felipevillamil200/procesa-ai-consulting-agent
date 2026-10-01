@@ -39,12 +39,10 @@ export default function SqlExplorerView({
     handleRunSQL(presetQuery);
   };
 
-  // Run initial query if not run yet
+  // Re-run query automatically whenever projects list changes (delete/upload/reset)
   React.useEffect(() => {
-    if (!sqlResults) {
-      handleRunSQL(DEFAULT_QUERY);
-    }
-  }, []);
+    handleRunSQL(query);
+  }, [projects]);
 
   return (
     <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6 bg-slate-50">

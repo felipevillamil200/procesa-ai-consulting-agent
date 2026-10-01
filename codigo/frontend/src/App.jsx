@@ -7,6 +7,7 @@ import SqlExplorerView from './components/SqlExplorerView';
 import ArchitectureView from './components/ArchitectureView';
 import ConfigModal from './components/ConfigModal';
 import UploadModal from './components/UploadModal';
+import ConfirmModal from './components/ConfirmModal';
 import { api } from './services/api';
 
 const INITIAL_MESSAGE = {
@@ -31,6 +32,18 @@ export default function App() {
   // Modals state
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
+
+  // In-App Confirm Modal state
+  const [confirmModal, setConfirmModal] = useState({
+    isOpen: false,
+    title: '',
+    message: '',
+    confirmText: 'Confirmar',
+    cancelText: 'Cancelar',
+    type: 'danger',
+    isLoading: false,
+    onConfirm: null
+  });
 
   // Load all initial data
   const loadInitialData = useCallback(async () => {
@@ -116,8 +129,8 @@ export default function App() {
   };
 
   // Save config
-  const handleSaveConfig = async (apiKey, model) => {
-    const res = await api.updateConfig(apiKey, model);
+  const handleSaveConfig = async (apiKey, model, provider) => {
+    const res = await api.updateConfig(apiKey, model, provider);
     if (res.success) {
       const updatedConfig = await api.getConfig();
       if (updatedConfig.success) setConfig(updatedConfig);
@@ -134,37 +147,74 @@ export default function App() {
     return res;
   };
 
-  // Delete project
-  const handleDeleteProject = async (codigo) => {
-    if (!window.confirm(`¿Estás seguro de que deseas eliminar el proyecto ${codigo} de SQLite y del motor RAG?`)) {
-      return;
-    }
-    try {
-      const res = await api.deleteProject(codigo);
-      if (res.success) {
-        await loadInitialData();
-      } else {
-        alert('Error eliminando proyecto: ' + (res.detail || ''));
+  // Delete project trigger
+  const handleDeleteProject = (codigo) => {
+    setConfirmModal({
+      isOpen: true,
+      title: `Eliminar Proyecto ${codigo}`,
+      message: `¿Estás seguro de que deseas eliminar permanentemente el proyecto ${codigo}? Se eliminará del esquema relacional SQLite ('proyectos.db'), de las fichas estructuradas y del índice vectorial RAG.`,
+      confirmText: 'Sí, Eliminar',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      isLoading: false,
+      onConfirm: async () => {
+        setConfirmModal((prev) => ({ ...prev, isLoading: true }));
+        try {
+          const res = await api.deleteProject(codigo);
+          if (res.success) {
+            await loadInitialData();
+            setConfirmModal({ isOpen: false });
+          } else {
+            setConfirmModal((prev) => ({
+              ...prev,
+              isLoading: false,
+              message: `Error al eliminar: ${res.detail || 'Ocurrió un error inesperado'}`
+            }));
+          }
+        } catch (err) {
+          setConfirmModal((prev) => ({
+            ...prev,
+            isLoading: false,
+            message: `Error de conexión: ${err.message}`
+          }));
+        }
       }
-    } catch (err) {
-      alert('Error de conexión: ' + err.message);
-    }
+    });
   };
 
-  // Reset official projects
-  const handleResetProjects = async () => {
-    if (!window.confirm('¿Deseas restaurar la base de datos a los 4 proyectos oficiales de Procesa Consultores?')) {
-      return;
-    }
-    try {
-      const res = await api.resetProjects();
-      if (res.success) {
-        await loadInitialData();
-        alert('✓ ¡Base de datos y RAG restaurados con los 4 proyectos oficiales!');
+  // Reset official projects trigger
+  const handleResetProjects = () => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Restaurar Proyectos Oficiales',
+      message: '¿Deseas restablecer la base de datos y el motor RAG a los 4 proyectos oficiales de la prueba técnica de Procesa Consultores?',
+      confirmText: 'Sí, Restaurar',
+      cancelText: 'Cancelar',
+      type: 'warning',
+      isLoading: false,
+      onConfirm: async () => {
+        setConfirmModal((prev) => ({ ...prev, isLoading: true }));
+        try {
+          const res = await api.resetProjects();
+          if (res.success) {
+            await loadInitialData();
+            setConfirmModal({ isOpen: false });
+          } else {
+            setConfirmModal((prev) => ({
+              ...prev,
+              isLoading: false,
+              message: `Error al restaurar: ${res.detail || 'No se pudo completar la restauración'}`
+            }));
+          }
+        } catch (err) {
+          setConfirmModal((prev) => ({
+            ...prev,
+            isLoading: false,
+            message: `Error de conexión: ${err.message}`
+          }));
+        }
       }
-    } catch (err) {
-      alert('Error restaurando proyectos: ' + err.message);
-    }
+    });
   };
 
   return (
@@ -194,6 +244,7 @@ export default function App() {
             isLoading={isLoading}
             pendingPrompt={pendingPrompt}
             onClearPendingPrompt={() => setPendingPrompt(null)}
+            fichas={fichas}
           />
         )}
 
@@ -229,6 +280,18 @@ export default function App() {
         isOpen={isUploadOpen}
         onClose={() => setIsUploadOpen(false)}
         onUploadSuccess={handleUploadSuccess}
+      />
+
+      <ConfirmModal
+        isOpen={confirmModal.isOpen}
+        title={confirmModal.title}
+        message={confirmModal.message}
+        confirmText={confirmModal.confirmText}
+        cancelText={confirmModal.cancelText}
+        type={confirmModal.type}
+        isLoading={confirmModal.isLoading}
+        onConfirm={confirmModal.onConfirm}
+        onClose={() => setConfirmModal((prev) => ({ ...prev, isOpen: false }))}
       />
     </div>
   );

@@ -35,6 +35,14 @@ export const api = {
   },
 
   /**
+   * Obtiene la vista previa completa del documento PDF con páginas y chunks
+   */
+  async getDocumentPreview(codigo) {
+    const res = await fetch(`${API_BASE}/api/proyectos/${codigo}/preview`);
+    return res.json();
+  },
+
+  /**
    * Ejecuta una consulta SQL segura (solo lectura)
    */
   async executeSQL(query) {

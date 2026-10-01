@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía Ejecutiva del Asistente de Proyectos • Procesa Consultores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfeff',
+              100: '#cffafe',
+              500: '#06b6d4',
+              600: '#0891b2',
+              700: '#0e7490',
+              900: '#164e63',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-slate-950">
+
+  <!-- Header de la Página -->
+  <header class="sticky top-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+            <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
+            <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
+            <path d="M12 5v13"/>
+            <path d="M12 8h4"/>
+            <path d="M12 11h3"/>
+            <path d="M12 14h4"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="font-bold text-base leading-tight tracking-tight text-white flex items-center gap-1.5">
+            PROCESA
+          </h1>
+          <p class="text-xs text-cyan-400 font-medium flex items-center gap-1">
+            Consultores • Agente IA
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="./" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 hover:text-white transition flex items-center gap-1.5 border border-slate-700">
+          <span>← Volver a la Aplicación</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+    <section class="text-center space-y-4 max-w-3xl mx-auto pt-2">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/90 border border-cyan-800/60 text-cyan-300 text-xs font-semibold">
+        <span>📘 Documento Informativo y de Buenas Prácticas</span>
+      </div>
+      <h2 class="font-display font-extrabold text-3xl sm:text-4xl text-white tracking-tight leading-tight">
+        ¿Qué esperar de esta herramienta, cómo funciona y por qué sus límites?
+      </h2>
+      <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+        Una guía clara, directa y sin tecnicismos complejos para que consultores, directores y evaluadores comprendan el verdadero potencial y las reglas de uso del Asistente de Proyectos Históricos.
+      </p>
+    </section>
+
+    <!-- SECCIÓN 1: EL PROBLEMA Y LA VISIÓN -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center font-bold text-lg">
+          1
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-lg text-white">¿Para qué sirve esta herramienta? (El problema real)</h3>
+          <p class="text-xs text-slate-400">Dejar de perder horas buscando datos en carpetas estáticas de informes cerrados.</p>
+        </div>
+      </div>
+
+      <p class="text-slate-300 text-sm leading-relaxed">
+        Cada vez que la consultora finaliza un proyecto de optimización de procesos (sea en Banca, Manufactura, Salud o Retail), se elabora un <strong>informe de cierre de 20 a 50 páginas</strong> con métricas de impacto, metodologías aplicadas y lecciones aprendidas. Sin embargo, en el día a día:
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-5 rounded-2xl bg-red-950/20 border border-red-900/30 space-y-2">
+          <div class="text-red-400 font-bold text-xs flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-red-900/40 flex items-center justify-center text-[11px]">✕</span>
+            El Problema Tradicional
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Nadie tiene tiempo de abrir y leer 15 informes en PDF para armar una nueva propuesta o saber si ya resolvimos un problema similar. La experiencia se queda atrapada en carpetas o se pierde cuando los consultores cambian de equipo.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-emerald-950/20 border border-emerald-900/30 space-y-2">
+          <div class="text-emerald-400 font-bold text-xs flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-emerald-900/40 flex items-center justify-center text-[11px]">✓</span>
+            La Solución con este Asistente
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Le preguntas en español natural (<em>"¿Qué herramientas usamos en manufactura para reducir tiempos?"</em>) y en <strong>2 segundos</strong> te entrega la respuesta exacta, con cifras matemáticas auditables y citando el documento original.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: QUÉ PUEDES ESPERAR -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center font-bold text-lg">
+          2
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-lg text-white">¿Qué puedes esperar de esta herramienta? (Los 4 Pilares)</h3>
+          <p class="text-xs text-slate-400">Garantías de calidad y confiabilidad para tomar decisiones empresariales.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="p-5 rounded-2xl bg-slate-800/40 border border-slate-700/60 space-y-2">
+          <div class="text-cyan-400 font-bold text-sm flex items-center gap-2">
+            📊 1. Cifras Matemáticas Exactas
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            La IA no "calcula a ojo". Si preguntas por el promedio de semanas o el porcentaje de variación en un KPI (ej. OEE del 48% al 71%), los cálculos se realizan sobre una base de datos relacional para garantizar 0% de error numérico.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-800/40 border border-slate-700/60 space-y-2">
+          <div class="text-emerald-400 font-bold text-sm flex items-center gap-2">
+            🛡️ 2. Cero Alucinaciones (Honestidad)
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Si preguntas por proyectos en industrias inexistentes en el archivo (como Minería o Petróleo), el sistema tiene prohibido inventar: responderá honestamente que no dispone de información en los informes disponibles.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-800/40 border border-slate-700/60 space-y-2">
+          <div class="text-brand-400 font-bold text-sm flex items-center gap-2">
+            📄 3. Citas de Fuente Obligatorias
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Toda afirmación incluye el código del proyecto (ej. <span class="bg-slate-750 text-cyan-300 px-1.5 py-0.5 rounded font-mono text-[11px]">PC-2025-014</span>) y el nombre del cliente, permitiendo auditar la información con el visor de evidencia en PDF.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-slate-800/40 border border-slate-700/60 space-y-2">
+          <div class="text-purple-400 font-bold text-sm flex items-center gap-2">
+            💡 4. Memoria de Lecciones y Riesgos
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            No solo almacena números: preserva los problemas de cultura organizacional, resistencia al cambio y factores de riesgo que enfrentó cada equipo para no repetir errores en el futuro.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: CÓMO FUNCIONA POR DENTRO -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center font-bold text-lg">
+          3
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-lg text-white">¿Cómo trabaja por dentro? (Explicado con una analogía)</h3>
+          <p class="text-xs text-slate-400">Dos especialistas trabajando juntos bajo la coordinación de un asistente.</p>
+        </div>
+      </div>
+
+      <div class="p-5 rounded-2xl bg-slate-800/80 border border-cyan-500/30 space-y-4">
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Cuando escribes una pregunta en el chat, el sistema no le pasa todo el trabajo a un modelo ciego. En su lugar, utiliza <strong>dos herramientas complementarias</strong>:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-700 space-y-1.5">
+            <div class="font-bold text-xs text-cyan-400 flex items-center gap-2">
+              💾 1. El Archivador Matemático (SQLite)
+            </div>
+            <p class="text-[11px] text-slate-300">
+              Maneja datos estructurados: duraciones, fechas, sectores, clientes y tablas numéricas de KPIs (Antes vs. Después). Responde a preguntas como: <em>"¿Cuál fue el proyecto más largo?"</em> o <em>"¿Cuántos proyectos tenemos en Salud?"</em>.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-900 border border-slate-700 space-y-1.5">
+            <div class="font-bold text-xs text-purple-400 flex items-center gap-2">
+              🔍 2. El Lector Cualitativo (Motor RAG)
+            </div>
+            <p class="text-[11px] text-slate-300">
+              Lee párrafos completos de texto libre: metodologías Lean, problemas de adopción, factores de riesgo y recomendaciones humanas. Responde a: <em>"¿Cómo gestionaron la resistencia al cambio en el personal?"</em>.
+            </p>
+          </div>
+        </div>
+
+        <div class="p-3 bg-cyan-950/60 border border-cyan-800/40 rounded-xl text-cyan-200 text-xs">
+          🤖 <strong>El Orquestador:</strong> Analiza tu consulta, consulta al Archivador, al Lector o a ambos, cruza las evidencias y te redacta una síntesis clara con citas.
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 4: POR QUÉ LOS LÍMITES -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center justify-center font-bold text-lg">
+          4
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-lg text-white">¿Por qué existen límites de 10 MB y 30 páginas por informe?</h3>
+          <p class="text-xs text-amber-400/90 font-medium">La razón técnica explicada para cualquier usuario de negocio.</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <p class="text-xs text-slate-300 leading-relaxed">
+          Para que la Inteligencia Artificial mantenga una <strong>precisión del 100%</strong> y nunca distorsione un KPI o una fecha, los informes subidos deben cumplir con límites razonables:
+        </p>
+
+        <div class="space-y-3">
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 space-y-1.5">
+            <h4 class="font-bold text-xs text-white flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-cyan-900 text-cyan-300 flex items-center justify-center text-[10px] font-bold">1</span>
+              La "Ventana de Atención" de la IA (Límite de Contexto)
+            </h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              La IA lee el informe completo en una sola pasada para extraer tablas de indicadores, objetivos y lecciones. Si se sube un documento de 200 páginas, la IA puede sufrir <em>"saturación de contexto"</em>, lo que podría provocar que pase por alto cifras diminutas o confunda una línea base con un resultado final.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 space-y-1.5">
+            <h4 class="font-bold text-xs text-white flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-cyan-900 text-cyan-300 flex items-center justify-center text-[10px] font-bold">2</span>
+              Velocidad de Respuesta Inmediata (2 a 4 segundos)
+            </h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Un informe de 10 a 30 páginas se procesa, valida con Pydantic, se guarda en SQLite y se indexa en el motor de búsqueda en apenas <strong>3 segundos</strong>. Documentos excesivamente masivos generarían tiempos de espera incómodos para el usuario.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-800/40 border border-slate-700/60 space-y-1.5">
+            <h4 class="font-bold text-xs text-white flex items-center gap-2">
+              <span class="w-5 h-5 rounded-full bg-cyan-900 text-cyan-300 flex items-center justify-center text-[10px] font-bold">3</span>
+              Informes Ejecutivos vs. Repositorios de Archivo Muerto
+            </h4>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              El propósito de esta herramienta es la <strong>Gestión del Conocimiento de Consultoría</strong>. Se esperan Informes Oficiales de Cierre de Proyecto. No está diseñada para almacenar anexos de facturación, listas de compras o planos arquitectónicos pesados.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 5: PREGUNTAS SUGERIDAS -->
+    <section class="bg-slate-900/70 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+      <div class="flex items-center gap-3 border-b border-slate-800 pb-4">
+        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center font-bold text-lg">
+          5
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-lg text-white">Preguntas recomendadas para poner a prueba el sistema</h3>
+          <p class="text-xs text-slate-400">Pega estas preguntas directamente en el chat para ver la combinación de SQL y RAG en acción.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-800/50">Consulta Cuantitativa (SQL)</span>
+          <p class="font-semibold text-xs text-white">"¿Cuál fue el proyecto con mayor duración en semanas y cuánto duró?"</p>
+          <p class="text-[11px] text-slate-400">El agente ejecuta una consulta SQL SELECT MAX(duracion_semanas) y responde con precisión matemática.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-purple-950 text-purple-300 border border-purple-800/50">Consulta Cualitativa (RAG)</span>
+          <p class="font-semibold text-xs text-white">"¿Qué metodologías y herramientas se aplicaron en la fábrica de plásticos?"</p>
+          <p class="text-[11px] text-slate-400">Busca en el informe PC-2025-027 y detalla Lean Manufacturing, SMED, 5S y mantenimiento preventivo.</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800/50">Comparativa de KPIs</span>
+          <p class="font-semibold text-xs text-white">"¿Cuál fue la mejora en el OEE de Plásticos del Pacífico antes y después?"</p>
+          <p class="text-[11px] text-slate-400">Presenta la línea base inicial (48%), el resultado final (71%) y la variación positiva (+47.9%).</p>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-800/40 border border-slate-700 space-y-1">
+          <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800/50">Prueba Anti-Alucinación</span>
+          <p class="font-semibold text-xs text-white">"¿Qué proyectos tenemos en Minería o Extracción Petrolera?"</p>
+          <p class="text-[11px] text-slate-400">Comprueba que el agente rechaza inventar datos y responde con total transparencia.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer Call to Action -->
+    <footer class="text-center pt-6 pb-12 space-y-4">
+      <a href="./" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-sm shadow-xl shadow-cyan-500/20 transition transform hover:-translate-y-0.5">
+        <span>← Volver a la Aplicación de Consulta</span>
+      </a>
+      <p class="text-xs text-slate-500 font-mono">Procesa Consultores • Sistema de Inteligencia Artificial Confiable</p>
+    </footer>
+  </main>
+
+</body>
+</html>
