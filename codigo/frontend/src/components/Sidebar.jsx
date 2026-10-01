@@ -186,17 +186,32 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
                   return (
                     <div
                       key={p.codigo_proyecto}
+                      draggable={true}
+                      onDragStart={(e) => {
+                        e.dataTransfer.setData('application/json', JSON.stringify({
+                          codigo_proyecto: p.codigo_proyecto,
+                          cliente: p.cliente,
+                          sector: p.sector,
+                          duracion_semanas: p.duracion_semanas,
+                          pdf_name: PDF_NAMES[p.codigo_proyecto] || `${p.codigo_proyecto}.pdf`
+                        }));
+                        e.dataTransfer.setData('text/plain', p.codigo_proyecto);
+                        e.dataTransfer.effectAllowed = 'copy';
+                      }}
                       onClick={() => onSelectPrompt(`¿Qué objetivos, metodologías y resultados se lograron en el proyecto ${p.codigo_proyecto}?`)}
-                      className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-cyan-500/50 hover:bg-slate-850 hover:shadow-lg hover:shadow-cyan-950/20 transition-all duration-200 group cursor-pointer active:scale-[0.98]"
+                      className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-cyan-500/50 hover:bg-slate-850 hover:shadow-lg hover:shadow-cyan-950/20 transition-all duration-200 group cursor-grab active:cursor-grabbing active:scale-[0.98] select-none relative"
+                      title="Haz clic para consultar o arrastra este PDF directamente al Chat para enfocar el análisis"
                     >
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="font-mono text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
-                          <FileCode2 className="w-3.5 h-3.5 text-cyan-400" />
+                          <FileCode2 className="w-3.5 h-3.5 text-cyan-400 group-hover:scale-110 transition-transform" />
                           {p.codigo_proyecto}
                         </span>
-                        <span className={`text-[9px] px-2 py-0.5 rounded-full border font-semibold font-mono ${tag.color}`}>
-                          {tag.label}
-                        </span>
+                        <div className="flex items-center gap-1">
+                          <span className={`text-[9px] px-2 py-0.5 rounded-full border font-semibold font-mono ${tag.color}`}>
+                            {tag.label}
+                          </span>
+                        </div>
                       </div>
                       <div className="font-semibold text-xs text-slate-200 group-hover:text-white transition line-clamp-1">
                         {p.cliente}
@@ -204,10 +219,12 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
                       <div className="flex items-center justify-between text-[10px] text-slate-400 mt-2 font-mono">
                         <span className="flex items-center gap-1 truncate max-w-[140px]">
                           <FileText className="w-3 h-3 text-red-400 shrink-0" />
-                          <span className="truncate">{PDF_NAMES[p.codigo_proyecto] ? 'PDF Original' : 'Informe'}</span>
+                          <span className="truncate text-slate-300 group-hover:text-cyan-200 transition">
+                            {PDF_NAMES[p.codigo_proyecto] ? 'PDF Original' : 'Informe'}
+                          </span>
                         </span>
-                        <span className="text-slate-500 bg-slate-800 px-1.5 py-0.2 rounded text-[9px]">
-                          {p.duracion_semanas || '-'} sem
+                        <span className="text-[9px] text-slate-400 bg-slate-800/80 border border-slate-700/50 px-1.5 py-0.5 rounded font-mono group-hover:border-cyan-500/30 transition">
+                          Arrastrar ↗
                         </span>
                       </div>
                     </div>

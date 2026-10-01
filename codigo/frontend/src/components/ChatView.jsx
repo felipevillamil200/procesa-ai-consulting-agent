@@ -47,6 +47,8 @@ export default function ChatView({
   fichas = []
 }) {
   const [input, setInput] = useState('');
+  const [attachedDoc, setAttachedDoc] = useState(null);
+  const [isDragOver, setIsDragOver] = useState(false);
   const [selectedEvidence, setSelectedEvidence] = useState(null);
   const [perplexityMode, setPerplexityMode] = useState(() => {
     return localStorage.getItem('perplexity_mode') !== 'false';
@@ -57,6 +59,7 @@ export default function ChatView({
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
   const optionsMenuRef = useRef(null);
   const messagesEndRef = useRef(null);
+  const dragCounterRef = useRef(0);
 
   // Cerrar el popover al hacer clic fuera
   useEffect(() => {
@@ -85,11 +88,99 @@ export default function ChatView({
     const q = input.trim();
     if (!q || isLoading) return;
     setInput('');
-    onSendMessage(q);
+    onSendMessage(q, attachedDoc);
   };
 
   const handleOpenEvidence = (data) => {
     setSelectedEvidence(data);
+  };
+
+  // Drag & Drop Handlers
+  const handleDragEnter = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current += 1;
+    if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+      setIsDragOver(true);
+    }
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragCounterRef.current -= 1;
+    if (dragCounterRef.current <= 0) {
+      setIsDragOver(false);
+      dragCounterRef.current = 0;
+    }
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.dataTransfer.dropEffect = 'copy';
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+    dragCounterRef.current = 0;
+
+    // 1. Verificar si se arrastró un objeto JSON de proyecto desde el Sidebar
+    const rawJson = e.dataTransfer.getData('application/json');
+    if (rawJson) {
+      try {
+        const projData = JSON.parse(rawJson);
+        if (projData && projData.codigo_proyecto) {
+          setAttachedDoc(projData);
+          return;
+        }
+      } catch (err) {
+        console.error('Error parseando drag JSON:', err);
+      }
+    }
+
+    // 2. Verificar si se arrastró texto plano con código de proyecto
+    const plainText = e.dataTransfer.getData('text/plain');
+    if (plainText && plainText.startsWith('PC-')) {
+      const match = fichas.find(f => f.codigo_proyecto === plainText);
+      if (match) {
+        setAttachedDoc({
+          codigo_proyecto: match.codigo_proyecto,
+          cliente: match.cliente,
+          sector: match.sector,
+          duracion_semanas: match.duracion_semanas
+        });
+        return;
+      }
+    }
+
+    // 3. Verificar si se arrastró un archivo PDF nativo
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      const file = e.dataTransfer.files[0];
+      if (file.name.endsWith('.pdf')) {
+        // Buscar si coincide con alguno existente
+        const matchedFicha = fichas.find(f => file.name.toUpperCase().includes(f.codigo_proyecto.toUpperCase()));
+        if (matchedFicha) {
+          setAttachedDoc({
+            codigo_proyecto: matchedFicha.codigo_proyecto,
+            cliente: matchedFicha.cliente,
+            sector: matchedFicha.sector,
+            duracion_semanas: matchedFicha.duracion_semanas,
+            pdf_name: file.name
+          });
+        } else {
+          setAttachedDoc({
+            codigo_proyecto: file.name.replace('.pdf', '').slice(0, 15),
+            cliente: file.name,
+            sector: 'Documento PDF',
+            pdf_name: file.name,
+            isCustomFile: true
+          });
+        }
+      }
+    }
   };
 
   // Manejador de clics en las negritas y citas interactivas dentro del mensaje (Perplexity Style)
@@ -107,8 +198,33 @@ export default function ChatView({
   };
 
   return (
-    <div className="flex-1 flex h-full overflow-hidden bg-dot-grid bg-radial-ambient relative">
-      
+    <div 
+      onDragEnter={handleDragEnter}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      className="flex-1 flex h-full overflow-hidden bg-dot-grid bg-radial-ambient relative"
+    >
+      {/* Visual Drag & Drop Overlay Indicator */}
+      {isDragOver && (
+        <div className="absolute inset-0 z-50 bg-slate-950/75 backdrop-blur-md flex flex-col items-center justify-center p-6 animate-fade-in pointer-events-none border-4 border-dashed border-cyan-400/90 rounded-3xl m-3 shadow-2xl shadow-cyan-500/30">
+          <div className="p-5 rounded-3xl bg-slate-900 border border-cyan-400/60 shadow-2xl flex flex-col items-center text-center max-w-md space-y-3">
+            <div className="w-16 h-16 rounded-2xl bg-cyan-500/20 border border-cyan-400/60 flex items-center justify-center text-cyan-300 animate-bounce">
+              <FileText className="w-8 h-8 text-cyan-300" />
+            </div>
+            <div>
+              <h3 className="text-lg font-extrabold text-white">Suelta el PDF aquí</h3>
+              <p className="text-xs text-cyan-200 mt-1">
+                El asistente fijará este documento en el chat para enfocar las consultas con evidencia RAG y datos de SQLite.
+              </p>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1 bg-cyan-950 border border-cyan-700/80 rounded-full text-[11px] font-mono text-cyan-300 font-bold">
+              <span>📎 Adjuntar al Chat</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Left / Center Chat Stream */}
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         
@@ -120,7 +236,19 @@ export default function ChatView({
               return (
                 <div key={index} className="flex gap-3.5 max-w-3xl ml-auto justify-end animate-slide-up">
                   <div className="bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 text-white p-4 px-5 rounded-2xl rounded-tr-sm shadow-md shadow-blue-500/15 text-xs sm:text-sm font-medium leading-relaxed">
-                    {msg.content}
+                    {/* Attached Doc Pill inside User message if present */}
+                    {msg.attachedDoc && (
+                      <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/20 text-[11px] font-bold text-cyan-100">
+                        <div className="w-5 h-5 rounded-md bg-white/20 flex items-center justify-center">
+                          <FileText className="w-3 h-3 text-white" />
+                        </div>
+                        <span className="font-mono bg-cyan-900/60 border border-cyan-300/40 px-1.5 py-0.5 rounded text-[10px]">
+                          {msg.attachedDoc.codigo_proyecto}
+                        </span>
+                        <span className="truncate">{msg.attachedDoc.cliente}</span>
+                      </div>
+                    )}
+                    <div>{msg.content}</div>
                   </div>
                   <div className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center text-white shrink-0 shadow-md">
                     <User className="w-4 h-4 text-cyan-300" />
@@ -271,7 +399,45 @@ export default function ChatView({
 
         {/* Floating Chat Input Dock */}
         <div className="p-4 pt-2 bg-gradient-to-t from-slate-100/90 via-slate-100/50 to-transparent shrink-0">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto space-y-2">
+            
+            {/* Attached PDF Badge Pill */}
+            {attachedDoc && (
+              <div className="flex items-center justify-between bg-slate-900/95 border border-cyan-500/50 text-white px-3.5 py-2 rounded-2xl shadow-xl shadow-cyan-950/20 text-xs backdrop-blur-md animate-scale-up">
+                <div className="flex items-center gap-2.5 truncate">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                  </span>
+                  <div className="w-6 h-6 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center shrink-0">
+                    <FileText className="w-3.5 h-3.5 text-red-400" />
+                  </div>
+                  <span className="font-mono font-bold text-cyan-300 text-xs shrink-0">
+                    {attachedDoc.codigo_proyecto}
+                  </span>
+                  <span className="text-slate-200 font-medium truncate max-w-xs sm:max-w-md">
+                    {attachedDoc.cliente}
+                  </span>
+                  <span className="text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-700/80 px-2 py-0.5 rounded-full font-mono font-bold shrink-0 hidden sm:inline">
+                    PDF Enfocado
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-[10px] text-cyan-400/90 hidden md:inline font-mono">
+                    ● Análisis dirigido a este documento
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setAttachedDoc(null)}
+                    className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+                    title="Desvincular PDF enfocado"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="glass-panel p-1.5 rounded-2xl shadow-elevated border border-slate-200/90 flex items-center gap-2">
               
               {/* Botón de Opciones Grounding / Inspector */}
@@ -280,7 +446,7 @@ export default function ChatView({
                   type="button"
                   onClick={() => setShowOptionsMenu(prev => !prev)}
                   className={`h-10 px-3 rounded-xl border flex items-center gap-2 text-xs font-semibold transition select-none cursor-pointer btn-tactile ${
-                    perplexityMode || inspectorEnabled
+                    perplexityMode || inspectorEnabled || attachedDoc
                       ? 'bg-slate-50 text-slate-800 border-slate-300 hover:bg-slate-100 shadow-2xs'
                       : 'bg-slate-100 text-slate-500 border-slate-200 hover:bg-slate-200'
                   }`}
@@ -295,15 +461,15 @@ export default function ChatView({
                   <span className="font-bold text-xs text-slate-800 hidden sm:inline">Grounding</span>
                   
                   <span className={`w-2 h-2 rounded-full ${
-                    perplexityMode ? 'bg-emerald-500 shadow-xs ring-2 ring-emerald-500/20' : 'bg-slate-400'
+                    attachedDoc ? 'bg-cyan-500 shadow-xs ring-2 ring-cyan-500/20' : (perplexityMode ? 'bg-emerald-500 shadow-xs ring-2 ring-emerald-500/20' : 'bg-slate-400')
                   }`} />
                 </button>
 
                 {/* Popover Minimalista y Limpio */}
                 {showOptionsMenu && (
-                  <div className="absolute bottom-full left-0 mb-3 w-72 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-3.5 z-40 animate-scale-up">
+                  <div className="absolute bottom-full left-0 mb-3 w-80 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200 p-3.5 z-40 animate-scale-up">
                     <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-100">
-                      <span className="text-xs font-bold text-slate-900">Opciones de Consulta</span>
+                      <span className="text-xs font-bold text-slate-900">Opciones de Consulta & RAG</span>
                       <button
                         type="button"
                         onClick={() => setShowOptionsMenu(false)}
@@ -382,6 +548,44 @@ export default function ChatView({
                           />
                         </button>
                       </div>
+
+                      {/* Item 3: Fijar PDF para Foco */}
+                      <div className="pt-2 border-t border-slate-100">
+                        <div className="text-[11px] font-bold text-slate-700 mb-1.5 px-1">
+                          Enfocar Documento PDF:
+                        </div>
+                        <div className="space-y-1 max-h-36 overflow-y-auto custom-scrollbar pr-1">
+                          {fichas.map(f => (
+                            <button
+                              key={f.codigo_proyecto}
+                              type="button"
+                              onClick={() => {
+                                setAttachedDoc({
+                                  codigo_proyecto: f.codigo_proyecto,
+                                  cliente: f.cliente,
+                                  sector: f.sector,
+                                  duracion_semanas: f.duracion_semanas
+                                });
+                                setShowOptionsMenu(false);
+                              }}
+                              className={`w-full text-left p-1.5 px-2 rounded-lg text-xs flex items-center justify-between transition cursor-pointer ${
+                                attachedDoc?.codigo_proyecto === f.codigo_proyecto
+                                  ? 'bg-cyan-50 text-cyan-900 font-bold border border-cyan-200'
+                                  : 'hover:bg-slate-100 text-slate-700'
+                              }`}
+                            >
+                              <div className="flex items-center gap-1.5 truncate">
+                                <FileText className="w-3 h-3 text-red-500 shrink-0" />
+                                <span className="font-mono text-[10px] text-cyan-700 font-bold">{f.codigo_proyecto}</span>
+                                <span className="truncate text-[11px]">{f.cliente}</span>
+                              </div>
+                              {attachedDoc?.codigo_proyecto === f.codigo_proyecto && (
+                                <Check className="w-3.5 h-3.5 text-cyan-600 shrink-0" />
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -391,7 +595,7 @@ export default function ChatView({
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Pregunta sobre proyectos (ej. ¿Qué metodologías se aplicaron en Plásticos del Pacífico?)..."
+                placeholder={attachedDoc ? `Pregunta sobre ${attachedDoc.codigo_proyecto} (${attachedDoc.cliente})...` : "Pregunta sobre proyectos o arrastra un PDF aquí..."}
                 className="flex-1 px-3 py-2 bg-transparent text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none"
                 disabled={isLoading}
               />

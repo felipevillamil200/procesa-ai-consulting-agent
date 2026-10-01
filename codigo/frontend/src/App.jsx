@@ -67,13 +67,23 @@ export default function App() {
   }, [loadInitialData]);
 
   // Handle chat message sending
-  const handleSendMessage = async (question) => {
-    const userMsg = { role: 'user', content: question };
+  const handleSendMessage = async (question, attachedDoc = null) => {
+    const userMsg = { 
+      role: 'user', 
+      content: question,
+      attachedDoc: attachedDoc ? { ...attachedDoc } : null
+    };
     setMessages((prev) => [...prev, userMsg]);
     setIsLoading(true);
 
+    // If an attached document is present and not explicitly mentioned, inject target focus
+    let finalQuery = question;
+    if (attachedDoc && attachedDoc.codigo_proyecto && !question.toUpperCase().includes(attachedDoc.codigo_proyecto.toUpperCase())) {
+      finalQuery = `[Foco en informe ${attachedDoc.codigo_proyecto} - ${attachedDoc.cliente}]: ${question}`;
+    }
+
     try {
-      const res = await api.sendMessage(question);
+      const res = await api.sendMessage(finalQuery);
       if (res.success) {
         const assistantMsg = {
           role: 'assistant',
