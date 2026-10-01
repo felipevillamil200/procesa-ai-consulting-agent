@@ -5,23 +5,70 @@
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #0b1120;
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   code, pre, .font-mono {
     font-family: 'JetBrains Mono', monospace;
   }
 }
 
+/* Dot grid and background textures */
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(148, 163, 184, 0.25) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.bg-dot-grid-dark {
+  background-image: radial-gradient(rgba(56, 189, 248, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.bg-radial-ambient {
+  background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 70%);
+}
+
+/* Glassmorphic Components */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.glass-panel-dark {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.07), 0 4px 6px -2px rgba(15, 23, 42, 0.03);
+  border-color: rgba(56, 189, 248, 0.5);
+}
+
 /* Custom Scrollbars */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
@@ -29,15 +76,15 @@
 
 /* Dark Custom Scrollbars */
 .custom-scrollbar-dark::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 .custom-scrollbar-dark::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: transparent;
 }
 .custom-scrollbar-dark::-webkit-scrollbar-thumb {
   background: #334155;
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 .custom-scrollbar-dark::-webkit-scrollbar-thumb:hover {
   background: #475569;
@@ -45,6 +92,99 @@
 
 /* Chat bubble aesthetics */
 .chat-bubble-ai {
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+}
+
+/* Markdown prose styling inside AI messages */
+.ai-prose {
+  line-height: 1.65;
+  color: #1e293b;
+}
+
+.ai-prose h1, .ai-prose h2, .ai-prose h3, .ai-prose h4 {
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ai-prose h2 {
+  font-size: 1.05rem;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 0.25rem;
+}
+
+.ai-prose p {
+  margin-bottom: 0.75rem;
+}
+
+.ai-prose ul {
+  list-style-type: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.ai-prose li {
+  margin-bottom: 0.35rem;
+}
+
+.ai-prose strong {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ai-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.75rem;
+  margin: 0.75rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
   border: 1px solid #e2e8f0;
 }
+
+.ai-prose th {
+  background-color: #f1f5f9;
+  color: #334155;
+  font-weight: 700;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.ai-prose td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ai-prose tr:nth-child(even) {
+  background-color: #f8fafc;
+}
+
+.ai-prose tr:hover {
+  background-color: #f0fdf4;
+}
+
+.ai-prose blockquote {
+  border-left: 3px solid #0284c7;
+  padding-left: 0.75rem;
+  color: #475569;
+  font-style: italic;
+  margin: 0.75rem 0;
+  background: #f0f9ff;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Micro-animations */
+.btn-tactile {
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-tactile:active {
+  transform: scale(0.96);
+}
+
