@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROCESA AI • Agente Inteligente Empresarial para Documentos & Facturas</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
+  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .bg-dot-grid-dark {
+      background-image: radial-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .bg-radial-ambient {
+      background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.15) 0%, transparent 60%);
+    }
+    .glass-panel-dark {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(51, 65, 85, 0.6);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-white bg-dot-grid-dark min-h-screen">
+  
+  <div class="bg-radial-ambient min-h-screen flex flex-col">
+    <!-- Top Nav -->
+    <header class="sticky top-0 z-50 glass-panel-dark border-b border-slate-800/80 px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 font-extrabold text-lg">
+          🧠
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-base tracking-tight text-white">PROCESA AI</span>
+            <span class="px-2 py-0.5 bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-[10px] font-mono font-bold rounded">v2.0</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">Agente Inteligente de Documentos & Base de Datos</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="/" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-xl text-xs transition shadow-md shadow-cyan-600/30 flex items-center gap-1.5">
+          <span>Abrir Aplicación en Vivo</span>
+          <span>→</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-6xl mx-auto px-4 py-12 space-y-16">
+      
+      <!-- Hero -->
+      <section class="text-center space-y-6 pt-6">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold shadow-lg">
+          <span>✨ RAG HÍBRIDO + SQL RELACIONAL • CERO ALUCINACIONES</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight max-w-4xl mx-auto">
+          Transforma cualquier <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">PDF, Factura o Reporte</span> en Respuestas Precisas al Instante.
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
+          Deja de revisar manualmente cientos de páginas. Arrastra cualquier archivo —facturas de luz y servicios, balances financieros, contratos o informes técnicos— y obtén respuestas fundamentadas con <strong>cita textual exacta y cálculo matemático relacional</strong>.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
+          <a href="/" class="px-8 py-3.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:scale-105 text-white font-extrabold rounded-2xl text-sm transition-all duration-200 shadow-xl shadow-cyan-500/30 flex items-center gap-2">
+            <span>Probar la Demo Interactiva</span>
+            <span>⚡</span>
+          </a>
+          <a href="#lead-section" class="px-8 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold rounded-2xl text-sm transition-all flex items-center gap-2">
+            <span>Solicitar Piloto Corporativo</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- Bento Grid: Casos de Uso Universales -->
+      <section class="space-y-6">
+        <div class="text-center space-y-1">
+          <h2 class="text-2xl sm:text-3xl font-black text-white">¿Por qué esta herramienta sorprende a cualquiera?</h2>
+          <p class="text-xs text-slate-400">Capacidades reales probadas con documentos complejos de cualquier formato</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Card 1 -->
+          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-3 shadow-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">🧾</span>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800">Facturación & Pagos</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Facturas de Luz, Agua y Servicios</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Sube facturas de servicios públicos o extractos bancarios. Pregunta por montos totales, consumos en kWh, cargos fijos y fechas de vencimiento sin abrir el visor.
+            </p>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
+              💡 <em>"¿Cuánto se pagó de energía en enero y cuál fue el valor del cargo por consumo?"</em>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-3 shadow-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">📊</span>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-800">Operaciones & RAG</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Informes de Cierre y Metodologías</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Cruza datos cualitativos de metodologías Lean, SMED y TPM con indicadores duros de impacto (OEE, reducción de mermas y tiempos de ciclo).
+            </p>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
+              💡 <em>"¿Qué metodologías aplicaron en Plásticos del Pacífico y cuánto mejoró el OEE?"</em>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-3 shadow-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">⚖️</span>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800">Legal & Contratos</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Contratos, Pólizas y Acuerdos</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Encuentra cláusulas de penalización, plazos de rescisión y compromisos de confidencialidad en segundos con subrayado de evidencia en el PDF original.
+            </p>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
+              💡 <em>"¿Cuáles son las cláusulas de penalidad ante incumplimientos de entrega?"</em>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-3 shadow-xl">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">🛡️</span>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-800">Anti-Alucinación</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Cero Alucinaciones Garantizado</h3>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Si un dato no existe en los documentos cargados, el Agente no inventa respuestas. Declara con certeza técnica que no hay información disponible.
+            </p>
+            <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
+              💡 <em>"¿Qué proyectos tenemos en minería o petróleo?" → "No se dispone de información"</em>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lead Capture Section -->
+      <section id="lead-section" class="max-w-2xl mx-auto p-8 rounded-3xl bg-slate-900/90 border border-cyan-500/40 shadow-2xl space-y-6">
+        <div class="text-center space-y-2">
+          <span class="text-3xl">🚀</span>
+          <h3 class="text-2xl font-black text-white">Solicita un Piloto con tus Propios Documentos</h3>
+          <p class="text-xs text-slate-400">Completa el formulario y te configuraremos un espacio de prueba exclusivo.</p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('¡Gracias! Tu solicitud ha sido registrada con éxito en el sistema.'); window.location.href='/';" class="space-y-4 text-xs">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Nombre Completo *</label>
+              <input type="text" required placeholder="Ej. Valentina Gómez" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
+            </div>
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Empresa *</label>
+              <input type="text" required placeholder="Ej. Procesa Consultores" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
+            </div>
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">Correo Corporativo *</label>
+              <input type="email" required placeholder="valentina@empresa.com" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
+            </div>
+            <div>
+              <label class="block text-slate-300 font-semibold mb-1">WhatsApp o Celular</label>
+              <input type="tel" placeholder="+57 300 000 0000" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Tipo de Documentos a Procesar</label>
+            <select class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
+              <option>Facturas, Servicios Públicos y Contabilidad</option>
+              <option>Informes Técnicos y de Consultoría</option>
+              <option>Contratos y Documentos Legales</option>
+              <option>Balances y Auditorías Financieras</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold rounded-2xl text-sm transition shadow-lg shadow-cyan-600/30 cursor-pointer">
+            Solicitar Acceso a la Plataforma
+          </button>
+        </form>
+      </section>
+
+      <!-- Footer -->
+      <footer class="text-center text-xs text-slate-500 py-6 border-t border-slate-800/80">
+        PROCESA Consultores • Agente IA Empresarial de Documentos • RAG + SQLite + Gemini
+      </footer>
+    </main>
+  </div>
+
+</body>
+</html>

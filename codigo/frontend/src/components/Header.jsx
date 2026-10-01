@@ -6,7 +6,8 @@ const TABS = [
   { id: 'chat', label: 'Chat Inteligente', icon: MessageSquare, badge: 'IA' },
   { id: 'fichas', label: 'Fichas Estructuradas', icon: Table, badge: null },
   { id: 'sqlite', label: 'Explorador SQLite & CRUD', icon: Database, badge: 'SQL' },
-  { id: 'arquitectura', label: 'Arquitectura & Costos', icon: Network, badge: null }
+  { id: 'arquitectura', label: 'Arquitectura & Costos', icon: Network, badge: null },
+  { id: 'leads', label: 'Solución & Leads', icon: Sparkles, badge: 'NUEVO' }
 ];
 
 export default function Header({ activeTab, onTabChange, onOpenConfig, onClearChat }) {

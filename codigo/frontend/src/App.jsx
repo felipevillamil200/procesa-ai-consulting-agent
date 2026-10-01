@@ -5,6 +5,7 @@ import ChatView from './components/ChatView';
 import FichasView from './components/FichasView';
 import SqlExplorerView from './components/SqlExplorerView';
 import ArchitectureView from './components/ArchitectureView';
+import LandingView from './components/LandingView';
 import ConfigModal from './components/ConfigModal';
 import UploadModal from './components/UploadModal';
 import ConfirmModal from './components/ConfirmModal';
@@ -275,6 +276,10 @@ export default function App() {
 
         {activeTab === 'arquitectura' && (
           <ArchitectureView />
+        )}
+
+        {activeTab === 'leads' && (
+          <LandingView onNavigateToChat={() => setActiveTab('chat')} />
         )}
       </main>
 
