@@ -81,54 +81,76 @@
     </header>
 
     <!-- Main Content -->
-    <main class="flex-1 max-w-6xl mx-auto px-4 py-12 space-y-16">
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-16">
       
-      <!-- Hero -->
-      <section class="text-center space-y-6 pt-6">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold shadow-lg">
-          <span>✨ INTELIGENCIA ARTIFICIAL DOCUMENTAL & RELACIONAL</span>
-        </div>
+      <!-- Unified Hero (2-Column Side-by-Side: Text & Visual Proof) -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pt-4 pb-2">
+        
+        <!-- Left: Value Proposition & CTAs -->
+        <div class="lg:col-span-7 space-y-6 text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono font-bold shadow-lg">
+            <span>✨ INTELIGENCIA ARTIFICIAL DOCUMENTAL & RELACIONAL</span>
+          </div>
 
-        <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight max-w-4xl mx-auto">
-          De <span class="text-red-400 line-through decoration-red-500/70">4 horas leyendo PDFs</span> a <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">3 segundos de respuesta exacta</span>.
-        </h1>
+          <h1 class="text-3xl sm:text-5xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+            De <span class="text-red-400 line-through decoration-red-500/70">4 horas leyendo PDFs</span> a <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">3 segundos de respuesta exacta</span>.
+          </h1>
 
-        <p class="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-          Diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios (luz/agua), balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
-        </p>
+          <p class="text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
+            Diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios (luz/agua), balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
+          </p>
 
-        <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
-          <a href="/" class="px-8 py-3.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:scale-105 text-white font-extrabold rounded-2xl text-sm transition-all duration-200 shadow-xl shadow-cyan-500/30 flex items-center gap-2">
-            <span>Probar la Demo Interactiva</span>
-            <span>⚡</span>
-          </a>
-          <a href="#piloto" class="px-8 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold rounded-2xl text-sm transition-all flex items-center gap-2">
-            <span>Probar con mis Documentos</span>
-          </a>
-        </div>
-      </section>
+          <div class="flex flex-wrap items-center gap-3.5 pt-2">
+            <a href="/" class="px-7 py-3.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:scale-105 text-white font-extrabold rounded-2xl text-sm transition-all duration-200 shadow-xl shadow-cyan-500/30 flex items-center gap-2 cursor-pointer">
+              <span>Probar la Demo Interactiva</span>
+              <span>⚡</span>
+            </a>
+            <a href="#piloto" class="px-7 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold rounded-2xl text-sm transition-all flex items-center gap-2 cursor-pointer">
+              <span>Probar con mis Documentos</span>
+            </a>
+          </div>
 
-      <!-- Hero Image Workflow -->
-      <section class="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-900">
-        <img 
-          src="/images/executive_workflow.jpg" 
-          alt="Ejecutiva procesando documentos con Inteligencia Artificial" 
-          class="w-full h-80 sm:h-[460px] object-cover object-center"
-        />
-        <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-slate-800">
-          <div>
-            <div class="text-xs font-extrabold text-white flex items-center gap-2">
-              <span>Grounding Verificado en Tiempo Real</span>
-              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+          <!-- Micro-Trust Badges -->
+          <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
+            <div class="flex items-center gap-1.5 text-cyan-300">
+              <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+              <span>Latencia: ~240 ms</span>
             </div>
-            <div class="text-[11px] text-slate-400">Cada respuesta cita la página y el párrafo exacto del PDF original.</div>
-          </div>
-          <div class="flex items-center gap-4 text-xs font-mono text-cyan-300">
-            <span>Latencia: ~240 ms</span>
-            <span>•</span>
-            <span>100% Confidencial</span>
+            <div class="flex items-center gap-1.5 text-emerald-300">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span>Grounding Forense</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-slate-300">
+              <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+              <span>100% Confidencial</span>
+            </div>
           </div>
         </div>
+
+        <!-- Right: Executive AI Workflow Visual Proof -->
+        <div class="lg:col-span-5">
+          <div class="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl shadow-cyan-950/40 bg-slate-900 group">
+            <img 
+              src="/images/executive_workflow.jpg" 
+              alt="Ejecutiva procesando documentos con Inteligencia Artificial" 
+              class="w-full h-72 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none"></div>
+            
+            <div class="absolute bottom-3 left-3 right-3 p-3 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-slate-800 text-xs">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span class="font-bold text-white text-[11px]">AI VERIFIED • DATA INTEGRITY</span>
+                </div>
+                <span class="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800">
+                  RAG + SQL
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <!-- Problema Real -> Solución Concreta -->

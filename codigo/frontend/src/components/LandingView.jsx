@@ -114,31 +114,31 @@ export default function LandingView({ onNavigateToChat }) {
   return (
     <div className="flex-1 overflow-y-auto custom-scrollbar bg-slate-950 text-slate-100 p-4 sm:p-8 space-y-16">
       
-      {/* Hero Section with High-Impact Value & Visual Proof */}
-      <div className="max-w-6xl mx-auto space-y-8 pt-4">
+      {/* Unified Hero (2-Column Side-by-Side: Text & Visual Proof) */}
+      <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pt-2 pb-4">
         
-        <div className="text-center space-y-5 max-w-4xl mx-auto">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono font-bold shadow-lg shadow-cyan-950/40 animate-fade-in">
+        {/* Left: Value Proposition & CTAs */}
+        <div className="lg:col-span-7 space-y-6 text-left">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono font-bold shadow-lg shadow-cyan-950/40 animate-fade-in">
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
             <span>INTELIGENCIA ARTIFICIAL DOCUMENTAL & RELACIONAL</span>
           </div>
 
-          <h1 className="text-3xl sm:text-6xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-5xl lg:text-5xl font-black tracking-tight text-white leading-tight">
             De <span className="text-red-400 line-through decoration-red-500/70">4 horas leyendo PDFs</span> a <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">3 segundos de respuesta exacta</span>.
           </h1>
 
-          <p className="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-            Un asistente inteligente diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios, balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
+          <p className="text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
+            Diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios (luz/agua), balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+          <div className="flex flex-wrap items-center gap-3.5 pt-2">
             <button
               onClick={onNavigateToChat}
               className="px-7 py-3.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2.5 shadow-xl shadow-cyan-600/30 cursor-pointer btn-tactile hover:scale-105"
             >
               <Zap className="w-4 h-4" />
-              <span>Probar el Chat en Vivo</span>
+              <span>Probar la Demo Interactiva</span>
               <ArrowRight className="w-4 h-4" />
             </button>
             
@@ -150,48 +150,49 @@ export default function LandingView({ onNavigateToChat }) {
               <span>Probar con mis Documentos</span>
             </a>
           </div>
+
+          {/* Micro-Trust Badges */}
+          <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
+            <div className="flex items-center gap-1.5 text-cyan-300">
+              <span className="w-2 h-2 rounded-full bg-cyan-400" />
+              <span>Latencia: ~240 ms</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-emerald-300">
+              <span className="w-2 h-2 rounded-full bg-emerald-400" />
+              <span>Grounding Forense</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-slate-300">
+              <span className="w-2 h-2 rounded-full bg-slate-400" />
+              <span>100% Confidencial</span>
+            </div>
+          </div>
         </div>
 
-        {/* Hero Image Showcase (Executive working with AI Verified HUD) */}
-        <div className="relative rounded-3xl overflow-hidden border border-slate-800/80 shadow-2xl shadow-cyan-950/40 bg-slate-900/40 group">
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent z-10 pointer-events-none" />
-          
-          <img 
-            src="/images/executive_workflow.jpg" 
-            alt="Ejecutiva procesando documentos con Inteligencia Artificial" 
-            className="w-full h-72 sm:h-[440px] object-cover object-center group-hover:scale-[1.01] transition-transform duration-700"
-          />
-
-          {/* Floating Trust Overlay Badges */}
-          <div className="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-slate-950/80 backdrop-blur-md border border-slate-800">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="text-xs font-extrabold text-white flex items-center gap-1.5">
-                  <span>Grounding Verificado en Tiempo Real</span>
+        {/* Right: Executive AI Workflow Visual Proof */}
+        <div className="lg:col-span-5">
+          <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl shadow-cyan-950/40 bg-slate-900 group">
+            <img 
+              src="/images/executive_workflow.jpg" 
+              alt="Ejecutiva procesando documentos con Inteligencia Artificial" 
+              className="w-full h-72 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none" />
+            
+            <div className="absolute bottom-3 left-3 right-3 p-3 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-slate-800 text-xs">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <span className="font-bold text-white text-[11px]">AI VERIFIED • DATA INTEGRITY</span>
                 </div>
-                <div className="text-[11px] text-slate-400">
-                  Cada cifra y respuesta cita la página y el párrafo del archivo original.
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4 text-xs font-mono text-slate-300">
-              <div className="flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-cyan-400" />
-                <span>Latencia: ~240 ms</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <Lock className="w-3.5 h-3.5 text-emerald-400" />
-                <span>100% Confidencial</span>
+                <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800">
+                  RAG + SQL
+                </span>
               </div>
             </div>
           </div>
         </div>
-      </div>
+
+      </section>
 
       {/* Lo que la herramienta realmente hace (Problema Real -> Solución Concreta) */}
       <div className="max-w-6xl mx-auto space-y-6">
