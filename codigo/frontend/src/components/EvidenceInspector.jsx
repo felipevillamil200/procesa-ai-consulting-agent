@@ -14,7 +14,7 @@ const PDF_NAMES = {
   'PC-2026-006': 'Informe_Cierre_PC-2026-006_Supermercados_La_Canasta.pdf'
 };
 
-const API_BASE = window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin;
+const API_BASE = import.meta.env.VITE_API_BASE || (window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin);
 
 export default function EvidenceInspector({ 
   evidenceData, // { projectCode, query, chunks, activeSource }

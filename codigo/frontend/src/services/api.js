@@ -2,8 +2,8 @@
  * Servicio API de comunicación con el Backend FastAPI de Procesa Consultores.
  */
 
-// Detectar base URL dinámicamente según el entorno
-const API_BASE = window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin;
+// Detectar base URL dinámicamente según el entorno o variable VITE_API_BASE
+const API_BASE = import.meta.env.VITE_API_BASE || (window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin);
 
 export const api = {
   /**
