@@ -46,6 +46,12 @@ app.add_middleware(
 db_manager = DatabaseManager()
 agent = ConsultorAgent(db_manager=db_manager)
 
+@app.get("/health")
+@app.get("/api/health")
+async def health_check():
+    """Endpoint de comprobación de salud del sistema."""
+    return {"status": "ok", "service": "procesa-consultores-api", "version": "1.0.0"}
+
 
 # Schemas de Request y Response
 class ChatRequest(BaseModel):

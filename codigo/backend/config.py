@@ -12,14 +12,22 @@ load_dotenv()
 
 # Rutas Base del Proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATA_DIR = BASE_DIR / "data"
+
+if os.environ.get("VERCEL"):
+    DATA_DIR = Path("/tmp/data")
+else:
+    DATA_DIR = BASE_DIR / "data"
+
 RAW_REPORTS_DIR = DATA_DIR / "raw_reports"
 FICHAS_DIR = DATA_DIR / "fichas"
 DATABASE_PATH = DATA_DIR / "proyectos.db"
 
-# Asegurar existencia de directorios clave y auto-poblado desde extracted
-RAW_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-FICHAS_DIR.mkdir(parents=True, exist_ok=True)
+# Asegurar existencia de directorios clave
+try:
+    RAW_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    FICHAS_DIR.mkdir(parents=True, exist_ok=True)
+except Exception:
+    pass
 
 def ensure_official_data():
     """Garantiza que data/ contenga los 4 PDFs oficiales desde extracted."""
