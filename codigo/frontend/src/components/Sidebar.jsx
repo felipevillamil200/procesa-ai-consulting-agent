@@ -155,20 +155,20 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
           <button
             type="button"
             onClick={() => setIsDocsOpen(prev => !prev)}
-            className="w-full flex items-center justify-between mb-3 px-1 py-1 rounded-lg text-left group/header hover:bg-slate-800/50 transition cursor-pointer"
+            className="w-full flex items-center justify-between mb-3 px-1.5 py-1.5 rounded-xl text-left group/header hover:bg-slate-800/60 transition cursor-pointer"
             title={isDocsOpen ? 'Plegar lista de documentos' : 'Desplegar lista de documentos'}
           >
             <div className="flex items-center gap-2">
               <FolderOpen className="w-3.5 h-3.5 text-cyan-400" />
-              <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 group-hover/header:text-slate-200 transition">
+              <h2 className="text-[11px] font-extrabold uppercase tracking-wider text-white transition">
                 DOCUMENTOS FUENTE ({projects.length})
               </h2>
-              <ChevronDown className={`w-3.5 h-3.5 text-slate-500 group-hover/header:text-cyan-400 transition-transform duration-200 ${
+              <ChevronDown className={`w-3.5 h-3.5 text-cyan-300 group-hover/header:text-white transition-transform duration-200 ${
                 isDocsOpen ? 'rotate-0' : '-rotate-90'
               }`} />
             </div>
 
-            <span className="text-[9px] bg-slate-900/80 text-cyan-400 px-2 py-0.5 rounded font-mono border border-cyan-900/50">
+            <span className="text-[9px] bg-cyan-950 text-cyan-300 px-2 py-0.5 rounded-full font-mono font-bold border border-cyan-700/80 shadow-xs">
               PDF / RAG
             </span>
           </button>
@@ -223,20 +223,20 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
           <button
             type="button"
             onClick={() => setIsPromptsOpen(prev => !prev)}
-            className="w-full flex items-center justify-between mb-3 px-1 py-1 rounded-lg text-left group/header hover:bg-slate-800/50 transition cursor-pointer"
+            className="w-full flex items-center justify-between mb-3 px-1.5 py-1.5 rounded-xl text-left group/header hover:bg-slate-800/60 transition cursor-pointer"
             title={isPromptsOpen ? 'Plegar consultas sugeridas' : 'Desplegar consultas sugeridas'}
           >
             <div className="flex items-center gap-2">
               <Zap className="w-3.5 h-3.5 text-amber-400" />
-              <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 group-hover/header:text-slate-200 transition">
+              <h2 className="text-[11px] font-extrabold uppercase tracking-wider text-white transition">
                 CONSULTAS SUGERIDAS ({dynamicPrompts.length})
               </h2>
-              <ChevronDown className={`w-3.5 h-3.5 text-slate-500 group-hover/header:text-amber-400 transition-transform duration-200 ${
+              <ChevronDown className={`w-3.5 h-3.5 text-amber-300 group-hover/header:text-white transition-transform duration-200 ${
                 isPromptsOpen ? 'rotate-0' : '-rotate-90'
               }`} />
             </div>
 
-            <span className="text-[9px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full font-mono border border-amber-500/30">
+            <span className="text-[9px] bg-amber-950 text-amber-300 px-2.5 py-0.5 rounded-full font-mono font-bold border border-amber-700/80 shadow-xs">
               Instantáneo
             </span>
           </button>
