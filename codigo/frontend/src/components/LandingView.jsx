@@ -3,41 +3,69 @@ import {
   Sparkles, Zap, ShieldCheck, FileText, Database, ArrowRight, 
   CheckCircle2, Users, Clock, DollarSign, Building, Mail, Phone, 
   Layers, Lock, Check, Send, Award, FileSpreadsheet, Scale, 
-  TrendingUp, BarChart3, HelpCircle
+  TrendingUp, BarChart3, HelpCircle, ChevronDown, Cpu, FileCheck2,
+  Shield, Eye, Flame, Search
 } from 'lucide-react';
 
-const USE_CASES = [
+const REAL_CAPABILITIES = [
   {
     icon: FileSpreadsheet,
-    title: 'Facturas, Servicios y Finanzas',
-    badge: 'Contabilidad & Pagos',
-    color: 'from-emerald-500/20 to-teal-500/10 border-emerald-500/30 text-emerald-600',
-    desc: 'Sube facturas de luz, agua, proveedores o balances. Pregunta por totales a pagar, consumos en kWh, cargos fijos y fechas límite.',
-    sampleQuery: '¿Cuánto pagamos de energía en enero y cuál fue el cargo por consumo?'
-  },
-  {
-    icon: TrendingUp,
-    title: 'Informes de Proyectos y Cierre',
-    badge: 'Consultoría & Operaciones',
-    color: 'from-blue-500/20 to-cyan-500/10 border-blue-500/30 text-blue-600',
-    desc: 'Audita decenas de informes de consultoría. Cruza datos de metodologías (Lean, SMED, TPM), KPIs de impacto y lecciones aprendidas.',
-    sampleQuery: '¿Qué lecciones aprendimos sobre resistencia al cambio en mandos medios?'
+    tag: 'Finanzas & Contabilidad',
+    title: 'Facturas de Servicios, Luz y Proveedores',
+    problem: 'Tener que abrir 50 PDFs para buscar cuánto se pagó, qué cargo fijo cobraron y cuándo vence.',
+    solution: 'Preguntas en lenguaje natural y el agente extrae montos, consumos en kWh, fechas de corte y compara meses.',
+    exampleQuery: '¿Cuál fue el total facturado en energía eléctrica en enero y cuál fue el cargo fijo?',
+    badgeColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30'
   },
   {
     icon: Scale,
-    title: 'Contratos Legales y Acuerdos',
-    badge: 'Legal & Compliance',
-    color: 'from-purple-500/20 to-indigo-500/10 border-purple-500/30 text-purple-600',
-    desc: 'Extrae cláusulas críticas de confidencialidad, vigencias, penalidades por incumplimiento y condiciones de rescisión sin leer 100 páginas.',
-    sampleQuery: '¿Cuál es la penalidad estipulada por retraso en la entrega?'
+    tag: 'Legal & Auditoría',
+    title: 'Contratos, Pólizas y Acuerdos Comerciales',
+    problem: 'Revisar contratos de 80 páginas buscando si hay penalidades por retraso o cláusulas de rescisión.',
+    solution: 'El sistema localiza el párrafo legal exacto y lo resalta en amarillo con número de página para firma y auditoría.',
+    exampleQuery: '¿Cuáles son las cláusulas de penalización por retraso en la entrega?',
+    badgeColor: 'text-purple-400 bg-purple-500/10 border-purple-500/30'
+  },
+  {
+    icon: TrendingUp,
+    tag: 'Operaciones & Proyectos',
+    title: 'Informes de Cierre, KPIs y Metodologías',
+    problem: 'Perder el conocimiento de proyectos anteriores y repetir los mismos errores operacionales.',
+    solution: 'Cruza metodologías Lean/SMED/TPM con datos de base de datos relacional (duración, ahorros económicos, lecciones).',
+    exampleQuery: '¿Qué lecciones aprendimos sobre resistencia al cambio en mandos medios?',
+    badgeColor: 'text-blue-400 bg-blue-500/10 border-blue-500/30'
   },
   {
     icon: ShieldCheck,
-    title: 'Prevención Total de Alucinaciones',
-    badge: 'Grounding Verificado',
-    color: 'from-amber-500/20 to-yellow-500/10 border-amber-500/30 text-amber-600',
-    desc: 'A diferencia de ChatGPT tradicional, si el dato no existe en tus documentos o en la base SQLite, el sistema lo indica textualmente con honestidad.',
-    sampleQuery: '¿Qué experiencia tenemos en minería? → "No se dispone de información"'
+    tag: 'Cero Alucinación',
+    title: 'Verificación Forense y Honestidad Estricta',
+    problem: 'Herramientas como ChatGPT inventan datos cuando no saben la respuesta.',
+    solution: 'Si el dato no está en el documento, el agente declara explícitamente que no existe. Cero alucinaciones garantizado.',
+    exampleQuery: '¿Qué proyectos tenemos en minería o petróleo? → "No se dispone de información"',
+    badgeColor: 'text-amber-400 bg-amber-500/10 border-amber-500/30'
+  }
+];
+
+const FAQS = [
+  {
+    q: '¿Qué tipo de documentos PDF puede procesar esta herramienta?',
+    a: 'Cualquier archivo PDF con texto digital o estructurado. Esto incluye facturas de servicios públicos (luz, agua, gas), extractos bancarios, contratos comerciales, pólizas, informes técnicos de consultoría, balances contables y manuales operativos.'
+  },
+  {
+    q: '¿Cómo garantizan que la IA no invente datos (alucinaciones)?',
+    a: 'El sistema utiliza una arquitectura estricta de Grounding y RAG Híbrido (BM25 + TF-IDF + Embeddings). Cada respuesta generada está obligada a respaldarse en fragmentos de texto exactos del documento con código de fuente, página y párrafo. Si una información no existe, el agente declara honestamente que no dispone de datos.'
+  },
+  {
+    q: '¿Puede hacer sumas, promedios y cruzar datos matemáticos?',
+    a: 'Sí. A diferencia de un chat convencional que suele fallar en matemáticas, esta herramienta cuenta con un motor relacional SQLite integrado mediante Function Calling. Puede calcular duraciones promedio, rankings de costos y filtros estructurados con precisión de base de datos.'
+  },
+  {
+    q: '¿Mis documentos y datos están protegidos?',
+    a: 'Absolutamente. El motor de extracción y la base de datos se ejecutan en un entorno seguro y aislado. Los documentos no se utilizan para re-entrenar modelos públicos y toda la trazabilidad queda bajo control estricto de tu organización.'
+  },
+  {
+    q: '¿Necesito instalar software complicado en las computadoras del equipo?',
+    a: 'No. La solución funciona 100% en el navegador web con una interfaz ultra-rápida e intuitiva. Cualquier colaborador puede arrastrar un PDF al chat y empezar a recibir respuestas fundamentadas en segundos.'
   }
 ];
 
@@ -54,6 +82,7 @@ export default function LandingView({ onNavigateToChat }) {
 
   const [submitted, setSubmitted] = useState(false);
   const [leadsList, setLeadsList] = useState([]);
+  const [openFaq, setOpenFaq] = useState(0);
 
   useEffect(() => {
     const saved = localStorage.getItem('procesa_leads');
@@ -83,82 +112,136 @@ export default function LandingView({ onNavigateToChat }) {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto custom-scrollbar bg-slate-900 text-slate-100 p-4 sm:p-8 space-y-12">
+    <div className="flex-1 overflow-y-auto custom-scrollbar bg-slate-950 text-slate-100 p-4 sm:p-8 space-y-16">
       
-      {/* Hero Section */}
-      <div className="max-w-5xl mx-auto text-center space-y-6 pt-4 pb-2">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/20 to-purple-500/20 border border-cyan-400/40 text-cyan-300 text-xs font-mono font-bold shadow-lg shadow-cyan-950/40 animate-fade-in">
-          <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-spin" />
-          <span>AGENTE IA EMPRESARIAL • RAG HÍBRIDO + SQL RELACIONAL</span>
+      {/* Hero Section with High-Impact Value & Visual Proof */}
+      <div className="max-w-6xl mx-auto space-y-8 pt-4">
+        
+        <div className="text-center space-y-5 max-w-4xl mx-auto">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono font-bold shadow-lg shadow-cyan-950/40 animate-fade-in">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span>INTELIGENCIA ARTIFICIAL DOCUMENTAL & RELACIONAL</span>
+          </div>
+
+          <h1 className="text-3xl sm:text-6xl font-black tracking-tight text-white leading-tight">
+            De <span className="text-red-400 line-through decoration-red-500/70">4 horas leyendo PDFs</span> a <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">3 segundos de respuesta exacta</span>.
+          </h1>
+
+          <p className="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
+            Un asistente inteligente diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios, balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+            <button
+              onClick={onNavigateToChat}
+              className="px-7 py-3.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2.5 shadow-xl shadow-cyan-600/30 cursor-pointer btn-tactile hover:scale-105"
+            >
+              <Zap className="w-4 h-4" />
+              <span>Probar el Chat en Vivo</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+            
+            <a
+              href="#piloto"
+              className="px-7 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-bold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2 cursor-pointer btn-tactile"
+            >
+              <Users className="w-4 h-4 text-cyan-400" />
+              <span>Probar con mis Documentos</span>
+            </a>
+          </div>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight max-w-4xl mx-auto">
-          Convierte cualquier <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">PDF, Factura o Contrato</span> en Inteligencia de Negocio al Instante.
-        </h1>
-
-        <p className="text-sm sm:text-base text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-          Olvídate de buscar manualmente en cientos de páginas. Arrastra cualquier documento —desde <strong>facturas de servicios y balances contables</strong> hasta <strong>informes técnicos de consultoría</strong>— y obtén respuestas inmediatas con <strong>citas textuales verificadas y cero alucinaciones</strong>.
-        </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-          <button
-            onClick={onNavigateToChat}
-            className="px-6 py-3 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2.5 shadow-xl shadow-cyan-600/30 cursor-pointer btn-tactile hover:scale-105"
-          >
-            <span>Probar Demo Interactiva</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
+        {/* Hero Image Showcase (Executive working with AI Verified HUD) */}
+        <div className="relative rounded-3xl overflow-hidden border border-slate-800/80 shadow-2xl shadow-cyan-950/40 bg-slate-900/40 group">
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent z-10 pointer-events-none" />
           
-          <a
-            href="#lead-form"
-            className="px-6 py-3 bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 hover:border-slate-600 font-bold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2 cursor-pointer btn-tactile"
-          >
-            <Users className="w-4 h-4 text-cyan-400" />
-            <span>Solicitar Piloto para mi Empresa</span>
-          </a>
+          <img 
+            src="/images/executive_workflow.jpg" 
+            alt="Ejecutiva procesando documentos con Inteligencia Artificial" 
+            className="w-full h-72 sm:h-[440px] object-cover object-center group-hover:scale-[1.01] transition-transform duration-700"
+          />
+
+          {/* Floating Trust Overlay Badges */}
+          <div className="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-slate-950/80 backdrop-blur-md border border-slate-800">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="text-xs font-extrabold text-white flex items-center gap-1.5">
+                  <span>Grounding Verificado en Tiempo Real</span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                </div>
+                <div className="text-[11px] text-slate-400">
+                  Cada cifra y respuesta cita la página y el párrafo del archivo original.
+                </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4 text-xs font-mono text-slate-300">
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Latencia: ~240 ms</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <Lock className="w-3.5 h-3.5 text-emerald-400" />
+                <span>100% Confidencial</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Bento Grid: Lo que sorprende de esta herramienta */}
-      <div className="max-w-5xl mx-auto space-y-4">
-        <div className="text-center space-y-1">
-          <h2 className="text-xl sm:text-2xl font-black text-white">
-            ¿Por qué esta herramienta está a otro nivel?
+      {/* Lo que la herramienta realmente hace (Problema Real -> Solución Concreta) */}
+      <div className="max-w-6xl mx-auto space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl sm:text-3xl font-black text-white">
+            ¿Qué problemas resuelve en el día a día de tu empresa?
           </h2>
-          <p className="text-xs text-slate-400">
-            Capacidades reales probadas con documentos complejos y bases de datos relacionales
+          <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto">
+            No necesitas ser un experto técnico para usarlo. Diseñado para simplificar el trabajo administrativo, financiero y operativo.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {USE_CASES.map((uc, i) => {
-            const Icon = uc.icon;
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {REAL_CAPABILITIES.map((cap, i) => {
+            const Icon = cap.icon;
             return (
               <div
                 key={i}
-                className="p-5 rounded-3xl bg-slate-950/60 border border-slate-800 hover:border-cyan-500/40 transition-all duration-300 shadow-xl space-y-3 relative group"
+                className="p-6 rounded-3xl bg-slate-900/60 border border-slate-800/90 hover:border-cyan-500/50 hover:bg-slate-900/90 transition-all duration-300 shadow-xl space-y-4 group"
               >
                 <div className="flex items-center justify-between">
-                  <div className={`w-10 h-10 rounded-2xl bg-gradient-to-br ${uc.color} flex items-center justify-center`}>
+                  <div className="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700/80 flex items-center justify-center text-cyan-400 group-hover:scale-110 transition-transform">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                    {uc.badge}
+                  <span className={`text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full border ${cap.badgeColor}`}>
+                    {cap.tag}
                   </span>
                 </div>
 
                 <div>
-                  <h3 className="text-base font-bold text-white group-hover:text-cyan-300 transition">
-                    {uc.title}
+                  <h3 className="text-base font-extrabold text-white group-hover:text-cyan-300 transition">
+                    {cap.title}
                   </h3>
-                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                    {uc.desc}
-                  </p>
+                  
+                  <div className="mt-2.5 space-y-2 text-xs">
+                    <div className="p-2.5 rounded-xl bg-red-950/20 border border-red-900/40 text-red-200 flex items-start gap-2">
+                      <span className="font-bold shrink-0 text-red-400">Antes:</span>
+                      <span>{cap.problem}</span>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-emerald-950/20 border border-emerald-900/40 text-emerald-200 flex items-start gap-2">
+                      <span className="font-bold shrink-0 text-emerald-400">Con Procesa AI:</span>
+                      <span>{cap.solution}</span>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="p-3 bg-slate-900/80 rounded-xl border border-slate-800/80 text-[11px] font-mono text-cyan-300 flex items-start gap-2">
-                  <span className="text-slate-500 font-bold">Ejemplo:</span>
-                  <span className="italic">"{uc.sampleQuery}"</span>
+                <div className="p-3 bg-slate-950 rounded-2xl border border-slate-800/80 text-[11px] font-mono text-cyan-300 flex items-start gap-2">
+                  <span className="text-slate-500 font-bold shrink-0">Ejemplo:</span>
+                  <span className="italic">"{cap.exampleQuery}"</span>
                 </div>
               </div>
             );
@@ -166,65 +249,107 @@ export default function LandingView({ onNavigateToChat }) {
         </div>
       </div>
 
-      {/* Tabla Comparativa: Tradicional vs Procesa AI */}
-      <div className="max-w-5xl mx-auto p-6 rounded-3xl bg-slate-950/70 border border-slate-800 shadow-2xl space-y-4">
-        <div className="flex items-center gap-2.5 pb-3 border-b border-slate-800">
-          <Award className="w-5 h-5 text-cyan-400" />
-          <h3 className="text-base font-bold text-white">Comparativa de Eficiencia Operativa</h3>
+      {/* Sección de Confianza y Seguridad */}
+      <div className="max-w-6xl mx-auto p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 border border-slate-800 shadow-2xl space-y-6">
+        <div className="text-center space-y-2">
+          <h3 className="text-xl sm:text-2xl font-black text-white flex items-center justify-center gap-2">
+            <Shield className="w-6 h-6 text-cyan-400" />
+            <span>Diseñado con Principios de Confianza Empresarial</span>
+          </h3>
+          <p className="text-xs text-slate-400 max-w-xl mx-auto">
+            Garantías arquitectónicas que protegen la integridad de tu información y evitan errores humanos.
+          </p>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead>
-              <tr className="border-b border-slate-800 text-slate-400 font-mono">
-                <th className="py-2.5 px-3">Capacidad</th>
-                <th className="py-2.5 px-3 text-red-400">Búsqueda Tradicional</th>
-                <th className="py-2.5 px-3 text-amber-400">ChatGPT Tradicional</th>
-                <th className="py-2.5 px-3 text-cyan-400 font-bold bg-cyan-950/30 rounded-t-lg">PROCESA AI (RAG + SQL)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800/60 text-slate-300 font-medium">
-              <tr>
-                <td className="py-3 px-3 font-semibold text-white">Cualquier PDF (Luz, Facturas, Informes)</td>
-                <td className="py-3 px-3 text-slate-400">Lectura manual lenta (30-60 min)</td>
-                <td className="py-3 px-3 text-slate-400">Sube pero alucina cifras</td>
-                <td className="py-3 px-3 font-bold text-emerald-400 bg-cyan-950/20">✓ Extracción exacta en 240 ms</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-3 font-semibold text-white">Cálculos SQL & Base Relacional</td>
-                <td className="py-3 px-3 text-slate-400">Requiere analista de datos</td>
-                <td className="py-3 px-3 text-slate-400">No tiene conexión a BD real</td>
-                <td className="py-3 px-3 font-bold text-emerald-400 bg-cyan-950/20">✓ Function Calling SQLite nativo</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-3 font-semibold text-white">Trazabilidad & Evidencia</td>
-                <td className="py-3 px-3 text-slate-400">Manual con resaltador</td>
-                <td className="py-3 px-3 text-slate-400">Cita genérica sin página</td>
-                <td className="py-3 px-3 font-bold text-emerald-400 bg-cyan-950/20">✓ Resaltado de párrafo y página en PDF</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-3 font-semibold text-white">Arrastrar y Soltar (Drag & Drop)</td>
-                <td className="py-3 px-3 text-slate-400">No aplica</td>
-                <td className="py-3 px-3 text-slate-400">Solo como adjunto estático</td>
-                <td className="py-3 px-3 font-bold text-emerald-400 bg-cyan-950/20">✓ Foco interactivo dinámico en Chat</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+          <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-2">
+            <div className="text-cyan-400 font-bold flex items-center gap-1.5">
+              <FileCheck2 className="w-4 h-4" />
+              <span>Evidencia Subrayada</span>
+            </div>
+            <p className="text-slate-300 text-[11px] leading-relaxed">
+              No tienes que confiar a ciegas: el sistema abre el visor lateral con el texto exacto del PDF subrayado en amarillo.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-2">
+            <div className="text-emerald-400 font-bold flex items-center gap-1.5">
+              <Lock className="w-4 h-4" />
+              <span>Privacidad Estricta</span>
+            </div>
+            <p className="text-slate-300 text-[11px] leading-relaxed">
+              Tus documentos financieros, balances o facturas permanecen privados y protegidos en tu propia infraestructura.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-2">
+            <div className="text-blue-400 font-bold flex items-center gap-1.5">
+              <Cpu className="w-4 h-4" />
+              <span>Foco por Drag & Drop</span>
+            </div>
+            <p className="text-slate-300 text-[11px] leading-relaxed">
+              Arrastra el PDF que quieras analizar para que el agente filtre su búsqueda 100% a ese documento sin mezclar datos.
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Formulario de Captura de Leads */}
-      <div id="lead-form" className="max-w-3xl mx-auto p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 border border-cyan-500/40 shadow-2xl shadow-cyan-950/30 space-y-6 scroll-mt-20">
+      {/* Preguntas Frecuentes (FAQ Accordion) */}
+      <div className="max-w-4xl mx-auto space-y-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl sm:text-3xl font-black text-white">
+            Preguntas Frecuentes
+          </h2>
+          <p className="text-xs text-slate-400">
+            Todo lo que necesitas saber sobre el funcionamiento del Agente
+          </p>
+        </div>
+
+        <div className="space-y-3">
+          {FAQS.map((faq, idx) => {
+            const isOpen = openFaq === idx;
+            return (
+              <div
+                key={idx}
+                className="rounded-2xl bg-slate-900/70 border border-slate-800/90 overflow-hidden transition-all duration-200"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(isOpen ? null : idx)}
+                  className="w-full p-4 px-5 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm text-slate-100 hover:text-cyan-300 transition cursor-pointer"
+                >
+                  <span className="flex items-center gap-2.5">
+                    <HelpCircle className="w-4 h-4 text-cyan-400 shrink-0" />
+                    <span>{faq.q}</span>
+                  </span>
+                  <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform duration-200 shrink-0 ${
+                    isOpen ? 'rotate-180 text-cyan-400' : ''
+                  }`} />
+                </button>
+
+                {isOpen && (
+                  <div className="px-5 pb-4 pt-1 text-xs text-slate-300 leading-relaxed border-t border-slate-800/60 animate-fade-in font-normal">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Formulario de Solicitud de Piloto / Probar con mis documentos */}
+      <div id="piloto" className="max-w-3xl mx-auto p-6 sm:p-8 rounded-3xl bg-slate-900 border border-cyan-500/40 shadow-2xl shadow-cyan-950/40 space-y-6 scroll-mt-20">
         
         <div className="text-center space-y-2">
           <div className="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-400/50 flex items-center justify-center text-cyan-300 mx-auto">
             <Mail className="w-6 h-6" />
           </div>
           <h3 className="text-xl sm:text-2xl font-black text-white">
-            Solicita una Demostración con tus Propios Documentos
+            Pruébalo con los Documentos de tu Organización
           </h3>
           <p className="text-xs text-slate-300 max-w-md mx-auto">
-            Déjanos tus datos y configuraremos un piloto gratuito para probar con las facturas, contratos o informes de tu organización.
+            Déjanos tus datos para coordinar una prueba con tus facturas, contratos o informes internos sin compromiso.
           </p>
         </div>
 
@@ -235,13 +360,13 @@ export default function LandingView({ onNavigateToChat }) {
             </div>
             <h4 className="text-base font-bold text-white">¡Solicitud Registrada con Éxito!</h4>
             <p className="text-xs text-emerald-200">
-              Hemos guardado tus datos en el sistema. Puedes consultar el chat interactivo mientras un consultor de Procesa AI se pone en contacto contigo.
+              Hemos guardado tu solicitud en el sistema. Puedes probar el chat interactivo mientras nos contactamos.
             </p>
             <button
               onClick={() => { setSubmitted(false); onNavigateToChat(); }}
               className="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl text-xs transition cursor-pointer"
             >
-              Ir a la Demo en Vivo
+              Ir al Chat en Vivo
             </button>
           </div>
         ) : (
@@ -252,7 +377,7 @@ export default function LandingView({ onNavigateToChat }) {
                 <input
                   type="text"
                   required
-                  placeholder="Ej. Carlos Mendoza"
+                  placeholder="Ej. Sofía Hernández"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition"
@@ -264,7 +389,7 @@ export default function LandingView({ onNavigateToChat }) {
                 <input
                   type="text"
                   required
-                  placeholder="Ej. Distribuidora del Norte S.A."
+                  placeholder="Ej. Constructora del Valle S.A."
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition"
@@ -276,7 +401,7 @@ export default function LandingView({ onNavigateToChat }) {
                 <input
                   type="email"
                   required
-                  placeholder="carlos@empresa.com"
+                  placeholder="sofia@empresa.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition"
@@ -284,10 +409,10 @@ export default function LandingView({ onNavigateToChat }) {
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">WhatsApp o Teléfono</label>
+                <label className="block text-slate-300 font-semibold mb-1">WhatsApp o Celular</label>
                 <input
                   type="tel"
-                  placeholder="+57 300 123 4567"
+                  placeholder="+57 310 000 0000"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition"
@@ -295,22 +420,22 @@ export default function LandingView({ onNavigateToChat }) {
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Tipo Principal de Documentos</label>
+                <label className="block text-slate-300 font-semibold mb-1">Tipo de Documentos a Analizar</label>
                 <select
                   value={formData.docType}
                   onChange={(e) => setFormData({ ...formData, docType: e.target.value })}
                   className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white focus:outline-none focus:border-cyan-400 transition"
                 >
-                  <option value="Facturas & Finanzas">Facturas de Servicios, Luz, Agua y Pagos</option>
-                  <option value="Informes de Consultoría">Informes de Proyectos y Operaciones</option>
-                  <option value="Contratos & Legal">Contratos, Pólizas y Documentos Legales</option>
-                  <option value="Auditoría">Balances, Auditorías y Estados Financieros</option>
-                  <option value="Mixto">Múltiples tipos de documentos</option>
+                  <option value="Facturas & Finanzas">Facturas de Servicios (Luz/Agua), Pagos y Balances</option>
+                  <option value="Informes de Consultoría">Informes de Proyectos, Gestión y Operaciones</option>
+                  <option value="Contratos & Legal">Contratos, Pólizas y Cláusulas Legales</option>
+                  <option value="Auditoría">Auditorías, Actas y Certificaciones</option>
+                  <option value="Mixto">Múltiples formatos</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-slate-300 font-semibold mb-1">Volumen Estimado Mensual</label>
+                <label className="block text-slate-300 font-semibold mb-1">Volumen Estimado</label>
                 <select
                   value={formData.docVolume}
                   onChange={(e) => setFormData({ ...formData, docVolume: e.target.value })}
@@ -319,20 +444,9 @@ export default function LandingView({ onNavigateToChat }) {
                   <option value="1 - 10 documentos">1 - 10 documentos / mes</option>
                   <option value="10 - 100 documentos">10 - 100 documentos / mes</option>
                   <option value="100 - 1,000 documentos">100 - 1,000 documentos / mes</option>
-                  <option value="+1,000 documentos">+1,000 documentos / mes (Empresarial)</option>
+                  <option value="+1,000 documentos">+1,000 documentos / mes (Corporativo)</option>
                 </select>
               </div>
-            </div>
-
-            <div>
-              <label className="block text-slate-300 font-semibold mb-1">¿Qué caso de uso te gustaría resolver?</label>
-              <textarea
-                rows={2}
-                placeholder="Ej. Queremos automatizar la extracción de cobros de facturas y auditar reportes de entrega..."
-                value={formData.comments}
-                onChange={(e) => setFormData({ ...formData, comments: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 transition"
-              />
             </div>
 
             <button
@@ -340,31 +454,31 @@ export default function LandingView({ onNavigateToChat }) {
               className="w-full py-3.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold rounded-2xl text-xs sm:text-sm transition-all shadow-xl shadow-cyan-600/30 flex items-center justify-center gap-2 cursor-pointer btn-tactile"
             >
               <Send className="w-4 h-4" />
-              <span>Solicitar Acceso a Piloto Exclusivo</span>
+              <span>Solicitar Espacio de Demostración</span>
             </button>
           </form>
         )}
       </div>
 
-      {/* Registro de Leads Capturados (CRM Demo) */}
+      {/* Registro de Solicitudes Capturadas (Panel Demo) */}
       {leadsList.length > 0 && (
-        <div className="max-w-3xl mx-auto p-5 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-3">
+        <div className="max-w-3xl mx-auto p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-300 flex items-center gap-2">
               <Users className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Solicitudes de Piloto Registradas ({leadsList.length})</span>
+              <span>Solicitudes Registradas en este Entorno ({leadsList.length})</span>
             </span>
             <button
               onClick={() => { localStorage.removeItem('procesa_leads'); setLeadsList([]); }}
-              className="text-[10px] text-slate-500 hover:text-red-400 transition"
+              className="text-[10px] text-slate-500 hover:text-red-400 transition cursor-pointer"
             >
-              Limpiar leads demo
+              Limpiar registros demo
             </button>
           </div>
 
           <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
             {leadsList.map((lead) => (
-              <div key={lead.id} className="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs flex items-center justify-between">
+              <div key={lead.id} className="p-3 bg-slate-950 rounded-xl border border-slate-800 text-xs flex items-center justify-between">
                 <div>
                   <div className="font-bold text-white flex items-center gap-2">
                     <span>{lead.name}</span>
@@ -373,7 +487,7 @@ export default function LandingView({ onNavigateToChat }) {
                     </span>
                   </div>
                   <div className="text-[11px] text-slate-400 mt-0.5">
-                    {lead.email} • {lead.phone || 'Sin tel'} • {lead.docType}
+                    {lead.email} • {lead.phone || 'Sin cel'} • {lead.docType}
                   </div>
                 </div>
                 <span className="text-[10px] font-mono text-slate-500">{lead.createdAt}</span>
@@ -384,8 +498,8 @@ export default function LandingView({ onNavigateToChat }) {
       )}
 
       {/* Footer */}
-      <div className="text-center text-xs text-slate-500 py-4 border-t border-slate-800 max-w-5xl mx-auto">
-        PROCESA Consultores • Agente IA Empresarial de Proyectos & Documentos • RAG + SQLite + Gemini
+      <div className="text-center text-xs text-slate-500 py-6 border-t border-slate-800/80 max-w-6xl mx-auto">
+        PROCESA Consultores • Agente IA Empresarial de Documentos • RAG + SQLite + Gemini
       </div>
     </div>
   );

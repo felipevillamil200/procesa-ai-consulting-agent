@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PROCESA AI • Agente Inteligente Empresarial para Documentos & Facturas</title>
+  <title>PROCESA AI • Agente Inteligente de Documentos & Facturas</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
   <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,21 +44,23 @@
     <!-- Top Nav -->
     <header class="sticky top-0 z-50 glass-panel-dark border-b border-slate-800/80 px-6 py-4 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 font-extrabold text-lg">
-          🧠
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20 font-extrabold text-lg">
+          <svg class="w-5 h-5 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
         </div>
         <div>
           <div class="flex items-center gap-2">
             <span class="font-extrabold text-base tracking-tight text-white">PROCESA AI</span>
             <span class="px-2 py-0.5 bg-cyan-500/10 text-cyan-300 border border-cyan-500/30 text-[10px] font-mono font-bold rounded">v2.0</span>
           </div>
-          <p class="text-[11px] text-slate-400 font-medium">Agente Inteligente de Documentos & Base de Datos</p>
+          <p class="text-[11px] text-slate-400 font-medium">Inteligencia Documental & Base Relacional</p>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <a href="/" class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-xl text-xs transition shadow-md shadow-cyan-600/30 flex items-center gap-1.5">
-          <span>Abrir Aplicación en Vivo</span>
+        <a href="/" class="px-5 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-xl text-xs transition shadow-md shadow-cyan-600/30 flex items-center gap-2">
+          <span>Abrir Aplicación & Chat</span>
           <span>→</span>
         </a>
       </div>
@@ -70,15 +72,15 @@
       <!-- Hero -->
       <section class="text-center space-y-6 pt-6">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold shadow-lg">
-          <span>✨ RAG HÍBRIDO + SQL RELACIONAL • CERO ALUCINACIONES</span>
+          <span>✨ INTELIGENCIA ARTIFICIAL DOCUMENTAL & RELACIONAL</span>
         </div>
 
         <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight max-w-4xl mx-auto">
-          Transforma cualquier <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">PDF, Factura o Reporte</span> en Respuestas Precisas al Instante.
+          De <span class="text-red-400 line-through decoration-red-500/70">4 horas leyendo PDFs</span> a <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">3 segundos de respuesta exacta</span>.
         </h1>
 
         <p class="text-base sm:text-lg text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-          Deja de revisar manualmente cientos de páginas. Arrastra cualquier archivo —facturas de luz y servicios, balances financieros, contratos o informes técnicos— y obtén respuestas fundamentadas con <strong>cita textual exacta y cálculo matemático relacional</strong>.
+          Diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios (luz/agua), balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
         </p>
 
         <div class="flex flex-wrap items-center justify-center gap-4 pt-4">
@@ -86,87 +88,160 @@
             <span>Probar la Demo Interactiva</span>
             <span>⚡</span>
           </a>
-          <a href="#lead-section" class="px-8 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold rounded-2xl text-sm transition-all flex items-center gap-2">
-            <span>Solicitar Piloto Corporativo</span>
+          <a href="#piloto" class="px-8 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold rounded-2xl text-sm transition-all flex items-center gap-2">
+            <span>Probar con mis Documentos</span>
           </a>
         </div>
       </section>
 
-      <!-- Bento Grid: Casos de Uso Universales -->
+      <!-- Hero Image Workflow -->
+      <section class="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl bg-slate-900">
+        <img 
+          src="/images/executive_workflow.jpg" 
+          alt="Ejecutiva procesando documentos con Inteligencia Artificial" 
+          class="w-full h-80 sm:h-[460px] object-cover object-center"
+        />
+        <div class="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-slate-800">
+          <div>
+            <div class="text-xs font-extrabold text-white flex items-center gap-2">
+              <span>Grounding Verificado en Tiempo Real</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+            </div>
+            <div class="text-[11px] text-slate-400">Cada respuesta cita la página y el párrafo exacto del PDF original.</div>
+          </div>
+          <div class="flex items-center gap-4 text-xs font-mono text-cyan-300">
+            <span>Latencia: ~240 ms</span>
+            <span>•</span>
+            <span>100% Confidencial</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Problema Real -> Solución Concreta -->
       <section class="space-y-6">
-        <div class="text-center space-y-1">
-          <h2 class="text-2xl sm:text-3xl font-black text-white">¿Por qué esta herramienta sorprende a cualquiera?</h2>
-          <p class="text-xs text-slate-400">Capacidades reales probadas con documentos complejos de cualquier formato</p>
+        <div class="text-center space-y-2">
+          <h2 class="text-2xl sm:text-3xl font-black text-white">¿Qué problemas resuelve en el día a día?</h2>
+          <p class="text-xs text-slate-400">Diseñado para simplificar el trabajo administrativo, financiero y operativo.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <!-- Card 1 -->
-          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-3 shadow-xl">
+          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-4 shadow-xl">
             <div class="flex items-center justify-between">
               <span class="text-2xl">🧾</span>
               <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800">Facturación & Pagos</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Facturas de Luz, Agua y Servicios</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Sube facturas de servicios públicos o extractos bancarios. Pregunta por montos totales, consumos en kWh, cargos fijos y fechas de vencimiento sin abrir el visor.
-            </p>
+            <h3 class="text-base font-bold text-white">Facturas de Servicios, Luz y Proveedores</h3>
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-xl bg-red-950/20 border border-red-900/40 text-red-200">
+                <strong>Antes:</strong> Abrir 50 PDFs para buscar cuánto se pagó, qué cargo fijo cobraron y cuándo vence.
+              </div>
+              <div class="p-2.5 rounded-xl bg-emerald-950/20 border border-emerald-900/40 text-emerald-200">
+                <strong>Con Procesa AI:</strong> Preguntas en lenguaje natural y extrae montos, consumos en kWh y fechas de corte.
+              </div>
+            </div>
             <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
-              💡 <em>"¿Cuánto se pagó de energía en enero y cuál fue el valor del cargo por consumo?"</em>
+              💡 <em>"¿Cuál fue el total facturado en energía en enero y cuál fue el cargo fijo?"</em>
             </div>
           </div>
 
           <!-- Card 2 -->
-          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-3 shadow-xl">
+          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-4 shadow-xl">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">📊</span>
-              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-800">Operaciones & RAG</span>
+              <span class="text-2xl">⚖️</span>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800">Legal & Auditoría</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Informes de Cierre y Metodologías</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Cruza datos cualitativos de metodologías Lean, SMED y TPM con indicadores duros de impacto (OEE, reducción de mermas y tiempos de ciclo).
-            </p>
+            <h3 class="text-base font-bold text-white">Contratos, Pólizas y Acuerdos</h3>
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-xl bg-red-950/20 border border-red-900/40 text-red-200">
+                <strong>Antes:</strong> Leer contratos de 80 páginas buscando penalidades o cláusulas de rescisión.
+              </div>
+              <div class="p-2.5 rounded-xl bg-emerald-950/20 border border-emerald-900/40 text-emerald-200">
+                <strong>Con Procesa AI:</strong> Localiza el párrafo legal exacto y lo resalta en el PDF con número de página.
+              </div>
+            </div>
             <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
-              💡 <em>"¿Qué metodologías aplicaron en Plásticos del Pacífico y cuánto mejoró el OEE?"</em>
+              💡 <em>"¿Cuáles son las cláusulas de penalización por retraso en la entrega?"</em>
             </div>
           </div>
 
           <!-- Card 3 -->
-          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-3 shadow-xl">
+          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-4 shadow-xl">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">⚖️</span>
-              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800">Legal & Contratos</span>
+              <span class="text-2xl">📊</span>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-800">Operaciones & Proyectos</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Contratos, Pólizas y Acuerdos</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Encuentra cláusulas de penalización, plazos de rescisión y compromisos de confidencialidad en segundos con subrayado de evidencia en el PDF original.
-            </p>
+            <h3 class="text-base font-bold text-white">Informes de Cierre, KPIs y Metodologías</h3>
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-xl bg-red-950/20 border border-red-900/40 text-red-200">
+                <strong>Antes:</strong> Perder el conocimiento de proyectos anteriores y repetir los mismos errores.
+              </div>
+              <div class="p-2.5 rounded-xl bg-emerald-950/20 border border-emerald-900/40 text-emerald-200">
+                <strong>Con Procesa AI:</strong> Cruza metodologías (Lean/SMED/TPM) con base de datos relacional y ahorros.
+              </div>
+            </div>
             <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
-              💡 <em>"¿Cuáles son las cláusulas de penalidad ante incumplimientos de entrega?"</em>
+              💡 <em>"¿Qué lecciones aprendimos sobre resistencia al cambio en mandos medios?"</em>
             </div>
           </div>
 
           <!-- Card 4 -->
-          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-3 shadow-xl">
+          <div class="p-6 rounded-3xl glass-panel-dark hover:border-cyan-500/40 transition duration-300 space-y-4 shadow-xl">
             <div class="flex items-center justify-between">
               <span class="text-2xl">🛡️</span>
-              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-800">Anti-Alucinación</span>
+              <span class="text-[10px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-800">Cero Alucinación</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Cero Alucinaciones Garantizado</h3>
-            <p class="text-xs text-slate-300 leading-relaxed">
-              Si un dato no existe en los documentos cargados, el Agente no inventa respuestas. Declara con certeza técnica que no hay información disponible.
-            </p>
+            <h3 class="text-base font-bold text-white">Verificación Forense y Honestidad Estricta</h3>
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-xl bg-red-950/20 border border-red-900/40 text-red-200">
+                <strong>Antes:</strong> Herramientas como ChatGPT inventan datos cuando no saben la respuesta.
+              </div>
+              <div class="p-2.5 rounded-xl bg-emerald-950/20 border border-emerald-900/40 text-emerald-200">
+                <strong>Con Procesa AI:</strong> Si el dato no está en el documento, declara que no existe. Cero alucinaciones.
+              </div>
+            </div>
             <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-xs font-mono text-cyan-300">
-              💡 <em>"¿Qué proyectos tenemos en minería o petróleo?" → "No se dispone de información"</em>
+              💡 <em>"¿Qué proyectos tenemos en minería?" → "No se dispone de información"</em>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Lead Capture Section -->
-      <section id="lead-section" class="max-w-2xl mx-auto p-8 rounded-3xl bg-slate-900/90 border border-cyan-500/40 shadow-2xl space-y-6">
+      <!-- FAQ -->
+      <section class="max-w-4xl mx-auto space-y-6">
+        <div class="text-center space-y-2">
+          <h2 class="text-2xl sm:text-3xl font-black text-white">Preguntas Frecuentes</h2>
+          <p class="text-xs text-slate-400">Todo lo que necesitas saber sobre el funcionamiento del Agente</p>
+        </div>
+
+        <div class="space-y-3 text-xs">
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1.5">
+            <div class="font-bold text-white text-sm">¿Qué tipo de documentos PDF puede procesar esta herramienta?</div>
+            <p class="text-slate-300 leading-relaxed">Cualquier archivo PDF con texto digital: facturas de luz, agua, gas, extractos bancarios, contratos comerciales, pólizas, informes técnicos de consultoría, balances contables y manuales operativos.</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1.5">
+            <div class="font-bold text-white text-sm">¿Cómo garantizan que la IA no invente datos (alucinaciones)?</div>
+            <p class="text-slate-300 leading-relaxed">El sistema utiliza una arquitectura estricta de Grounding y RAG Híbrido. Cada respuesta cita el código de fuente, página y párrafo. Si una información no existe, el agente declara honestamente que no dispone de datos.</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1.5">
+            <div class="font-bold text-white text-sm">¿Puede hacer sumas, promedios y cruzar datos matemáticos?</div>
+            <p class="text-slate-300 leading-relaxed">Sí. Cuenta con un motor relacional SQLite integrado mediante Function Calling. Puede calcular duraciones promedio, rankings de costos y filtros estructurados con precisión de base de datos.</p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-1.5">
+            <div class="font-bold text-white text-sm">¿Mis documentos y datos están protegidos?</div>
+            <p class="text-slate-300 leading-relaxed">Absolutamente. El motor de extracción y la base de datos se ejecutan en un entorno seguro y aislado. Los documentos no se utilizan para re-entrenar modelos públicos.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Lead Capture Form -->
+      <section id="piloto" class="max-w-2xl mx-auto p-8 rounded-3xl bg-slate-900 border border-cyan-500/40 shadow-2xl space-y-6">
         <div class="text-center space-y-2">
           <span class="text-3xl">🚀</span>
-          <h3 class="text-2xl font-black text-white">Solicita un Piloto con tus Propios Documentos</h3>
+          <h3 class="text-2xl font-black text-white">Pruébalo con los Documentos de tu Organización</h3>
           <p class="text-xs text-slate-400">Completa el formulario y te configuraremos un espacio de prueba exclusivo.</p>
         </div>
 
@@ -193,15 +268,15 @@
           <div>
             <label class="block text-slate-300 font-semibold mb-1">Tipo de Documentos a Procesar</label>
             <select class="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-cyan-400">
-              <option>Facturas, Servicios Públicos y Contabilidad</option>
-              <option>Informes Técnicos y de Consultoría</option>
-              <option>Contratos y Documentos Legales</option>
+              <option>Facturas de Servicios (Luz/Agua), Pagos y Finanzas</option>
+              <option>Informes Técnicos, de Proyectos y Operaciones</option>
+              <option>Contratos, Pólizas y Cláusulas Legales</option>
               <option>Balances y Auditorías Financieras</option>
             </select>
           </div>
 
           <button type="submit" class="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold rounded-2xl text-sm transition shadow-lg shadow-cyan-600/30 cursor-pointer">
-            Solicitar Acceso a la Plataforma
+            Solicitar Espacio de Demostración
           </button>
         </form>
       </section>
