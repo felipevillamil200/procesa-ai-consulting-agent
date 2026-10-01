@@ -27,6 +27,7 @@ class AgentResponse(BaseModel):
     tools_used: List[ToolExecutionLog] = Field(default_factory=list)
     sources: List[str] = Field(default_factory=list)
     found_info: bool = True
+    evidence_chunks: List[Dict[str, Any]] = Field(default_factory=list)
 
 
 # Definición oficial de herramientas en formato OpenAI Function Calling JSON Schema
@@ -115,11 +116,12 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
 4. **Claridad:** Sé conciso, profesional y usa viñetas o tablas cuando facilite la lectura.
 """.strip()
 
-    def execute_tool(self, tool_name: str, arguments: Dict[str, Any]) -> tuple[str, ToolExecutionLog]:
-        """Ejecuta de forma segura una herramienta y genera su registro de trazabilidad."""
+    def execute_tool(self, tool_name: str, arguments: Dict[str, Any]) -> tuple[str, ToolExecutionLog, Any]:
+        """Ejecuta de forma segura una herramienta y genera su registro de trazabilidad y datos crudos."""
         start_time = time.time()
         result_text = ""
         summary = ""
+        raw_payload = None
 
         if tool_name == "query_project_database":
             sql_query = arguments.get("sql_query", "")
@@ -128,6 +130,7 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
 
             if res["success"]:
                 rows = res["rows"]
+                raw_payload = rows
                 result_text = json.dumps(rows, ensure_ascii=False, indent=2)
                 summary = f"SQL exitoso: {len(rows)} fila(s) retornada(s)."
             else:
@@ -140,13 +143,14 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                 result_summary=summary,
                 execution_time_ms=round(exec_time, 2)
             )
-            return result_text, log
+            return result_text, log, raw_payload
 
         elif tool_name == "search_project_documents":
             query = arguments.get("query", "")
             project_id = arguments.get("project_id", None)
             results = self.search_engine.search(query, project_id=project_id, top_k=3)
             exec_time = (time.time() - start_time) * 1000
+            raw_payload = results
 
             if results:
                 chunks_text = []
@@ -164,7 +168,7 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                 result_summary=summary,
                 execution_time_ms=round(exec_time, 2)
             )
-            return result_text, log
+            return result_text, log, raw_payload
 
         else:
             exec_time = (time.time() - start_time) * 1000
@@ -174,7 +178,7 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                 result_summary=f"Herramienta desconocida: {tool_name}",
                 execution_time_ms=round(exec_time, 2)
             )
-            return f"Error: Herramienta '{tool_name}' no soportada.", log
+            return f"Error: Herramienta '{tool_name}' no soportada.", log, None
 
     def ask(
         self,
@@ -187,19 +191,27 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
         """
         tools_log: List[ToolExecutionLog] = []
         sources: set[str] = set()
+        evidence_chunks: List[Dict[str, Any]] = []
+
+        # Obtener configuración activa en tiempo de ejecución
+        import os
+        active_gemini_key = os.getenv("GEMINI_API_KEY", GEMINI_API_KEY)
+        active_openai_key = os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
+        active_provider = os.getenv("LLM_PROVIDER", LLM_PROVIDER)
+        active_model = os.getenv("LLM_MODEL", LLM_MODEL)
 
         # Si tenemos API Key de Gemini o OpenAI, ejecutamos Function Calling nativo
-        has_api_key = bool(GEMINI_API_KEY or OPENAI_API_KEY)
+        has_api_key = bool(active_gemini_key or active_openai_key)
         if has_api_key:
             try:
                 from openai import OpenAI
-                if GEMINI_API_KEY and LLM_PROVIDER == "gemini":
+                if active_gemini_key and active_provider == "gemini":
                     client = OpenAI(
-                        api_key=GEMINI_API_KEY,
+                        api_key=active_gemini_key,
                         base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
                     )
                 else:
-                    client = OpenAI(api_key=OPENAI_API_KEY)
+                    client = OpenAI(api_key=active_openai_key)
 
                 messages = [{"role": "system", "content": self.system_prompt}]
                 if chat_history:
@@ -208,7 +220,7 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
 
                 # Primer paso: el LLM decide si invocar herramientas
                 response = client.chat.completions.create(
-                    model=LLM_MODEL,
+                    model=active_model,
                     messages=messages,
                     tools=AGENT_TOOLS_SCHEMA,
                     tool_choice="auto",
@@ -226,8 +238,13 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                         func_name = tool_call.function.name
                         func_args = json.loads(tool_call.function.arguments)
 
-                        tool_result, log = self.execute_tool(func_name, func_args)
+                        tool_result, log, raw_payload = self.execute_tool(func_name, func_args)
                         tools_log.append(log)
+
+                        if func_name == "search_project_documents" and isinstance(raw_payload, list):
+                            for chk in raw_payload:
+                                if chk not in evidence_chunks:
+                                    evidence_chunks.append(chk)
 
                         # Detectar fuentes citadas en argumentos o resultados
                         for code in ["PC-2025-014", "PC-2025-027", "PC-2025-033", "PC-2026-006"]:
@@ -242,7 +259,7 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
 
                     # Segundo paso: el LLM sintetiza la respuesta final con los datos obtenidos
                     final_response = client.chat.completions.create(
-                        model=LLM_MODEL,
+                        model=active_model,
                         messages=messages,
                         temperature=0.1
                     )
@@ -257,11 +274,19 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                         "no se cuenta con información"
                     ])
 
+                    # Si evidence_chunks está vacío pero se identificaron fuentes (ej. por SQL), buscar fragmentos relevantes
+                    if not evidence_chunks and sources:
+                        for s_code in sources:
+                            doc_preview = self.search_engine.get_document_preview(s_code)
+                            if doc_preview and doc_preview.get("chunks"):
+                                evidence_chunks.extend(doc_preview["chunks"][:2])
+
                     return AgentResponse(
                         answer=answer,
                         tools_used=tools_log,
                         sources=sorted(list(sources)),
-                        found_info=has_info
+                        found_info=has_info,
+                        evidence_chunks=evidence_chunks
                     )
                 else:
                     # El LLM respondió directamente sin herramientas
@@ -276,7 +301,8 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                         answer=raw_answer,
                         tools_used=[],
                         sources=[],
-                        found_info=has_info
+                        found_info=has_info,
+                        evidence_chunks=[]
                     )
 
             except Exception as e:
@@ -308,6 +334,7 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
 
         sql_data = None
         rag_data = None
+        evidence_chunks = []
 
         # 1. Ejecutar SQL si aplica
         if is_sql_query or not is_rag_query:
@@ -326,7 +353,7 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
             if "duración" in q_lower or "duracion" in q_lower or "largo" in q_lower or "mayor" in q_lower:
                 sql += " ORDER BY duracion_semanas DESC"
 
-            res_text, log = self.execute_tool("query_project_database", {"sql_query": sql})
+            res_text, log, raw_payload = self.execute_tool("query_project_database", {"sql_query": sql})
             tools_log.append(log)
             sql_data = json.loads(res_text) if not res_text.startswith("Error") else []
 
@@ -342,9 +369,11 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
             elif "canasta" in q_lower or "supermercado" in q_lower or "retail" in q_lower or "pc-2026-006" in q_lower:
                 target_pid = "PC-2026-006"
 
-            res_text, log = self.execute_tool("search_project_documents", {"query": question, "project_id": target_pid})
+            res_text, log, raw_payload = self.execute_tool("search_project_documents", {"query": question, "project_id": target_pid})
             tools_log.append(log)
             rag_data = res_text
+            if isinstance(raw_payload, list):
+                evidence_chunks.extend(raw_payload)
 
         # 3. Síntesis y Anti-Alucinación
         # Caso: Consulta sobre sectores o datos inexistentes (Minería, Petróleo, etc.)
@@ -353,7 +382,8 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                 answer="No se dispone de información sobre ese aspecto en los informes de cierre de proyectos disponibles.",
                 tools_used=tools_log,
                 sources=[],
-                found_info=False
+                found_info=False,
+                evidence_chunks=[]
             )
 
         # Síntesis con datos obtenidos
@@ -380,6 +410,13 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
             fuentes_str = ", ".join(sorted(list(sources)))
             final_text += f"\n\n**Fuentes Consultadas:** {fuentes_str}"
 
+        # Si evidence_chunks está vacío pero se identificaron fuentes (ej. por SQL), buscar fragmentos relevantes
+        if not evidence_chunks and sources:
+            for s_code in sources:
+                doc_preview = self.search_engine.get_document_preview(s_code)
+                if doc_preview and doc_preview.get("chunks"):
+                    evidence_chunks.extend(doc_preview["chunks"][:2])
+
         # Normalizar caracteres especiales para maxima compatibilidad
         replacements = {"\u2264": "<=", "\u2265": ">=", "\u2013": "-", "\u2014": "-"}
         for k, v in replacements.items():
@@ -389,7 +426,8 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
             answer=final_text,
             tools_used=tools_log,
             sources=sorted(list(sources)),
-            found_info=True
+            found_info=True,
+            evidence_chunks=evidence_chunks
         )
 
 

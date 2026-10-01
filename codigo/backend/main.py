@@ -18,6 +18,7 @@ for p in [str(PROJECT_ROOT), str(BACKEND_DIR)]:
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Optional
 
@@ -102,7 +103,7 @@ def update_config(req: ConfigUpdateRequest):
 def chat_with_agent(req: ChatRequest):
     """
     Envía una pregunta al Agente de IA.
-    Ejecuta el ciclo de razonamiento (SQL + RAG) y retorna respuesta con citas y trazabilidad.
+    Ejecuta el ciclo de razonamiento (SQL + RAG) y retorna respuesta con citas, trazabilidad y fragmentos de evidencia.
     """
     try:
         response = agent.ask(req.question, chat_history=req.history)
@@ -111,10 +112,70 @@ def chat_with_agent(req: ChatRequest):
             "answer": response.answer,
             "tools_used": [t.model_dump() for t in response.tools_used],
             "sources": response.sources,
-            "found_info": response.found_info
+            "found_info": response.found_info,
+            "evidence_chunks": response.evidence_chunks
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/proyectos/{codigo_proyecto}/preview")
+def get_project_document_preview(codigo_proyecto: str):
+    """
+    Retorna el visor completo del informe PDF (páginas extraídas, texto original y fragmentos RAG)
+    para la verificación de citas en pantalla dividida.
+    """
+    preview = agent.search_engine.get_document_preview(codigo_proyecto)
+    if not preview:
+        # Intentar obtener ficha técnica estructurada como respaldo
+        ficha_path = FICHAS_DIR / f"{codigo_proyecto}.json"
+        if ficha_path.exists():
+            with open(ficha_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+            return {
+                "success": True,
+                "codigo_proyecto": codigo_proyecto,
+                "cliente": data.get("cliente", ""),
+                "filename": f"{codigo_proyecto}.pdf",
+                "total_pages": 1,
+                "pages": [{"page_number": 1, "text": json.dumps(data, ensure_ascii=False, indent=2)}],
+                "chunks": []
+            }
+        raise HTTPException(status_code=404, detail=f"Documento no encontrado para el proyecto {codigo_proyecto}")
+    return {"success": True, **preview}
+
+
+@app.get("/api/pdf/{codigo_proyecto}")
+def get_project_pdf_file(codigo_proyecto: str):
+    """
+    Sirve directamente el archivo PDF físico original para renderizado embebido en el Visor de Evidencia.
+    """
+    from codigo.backend.config import RAW_REPORTS_DIR
+    code_clean = codigo_proyecto.strip().upper()
+    pdf_files = list(RAW_REPORTS_DIR.glob("*.pdf"))
+
+    target_pdf = None
+    for pdf in pdf_files:
+        if code_clean in pdf.name.upper():
+            target_pdf = pdf
+            break
+
+    if not target_pdf and pdf_files:
+        for pdf in pdf_files:
+            c, _ = agent.search_engine._extract_project_metadata(pdf.name)
+            if c.upper() == code_clean:
+                target_pdf = pdf
+                break
+
+    if not target_pdf or not target_pdf.exists():
+        raise HTTPException(status_code=404, detail=f"Archivo PDF para {codigo_proyecto} no encontrado.")
+
+    return FileResponse(
+        path=str(target_pdf),
+        media_type="application/pdf",
+        filename=target_pdf.name,
+        headers={"Content-Disposition": f"inline; filename={target_pdf.name}"}
+    )
 
 
 @app.get("/api/proyectos")

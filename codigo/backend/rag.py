@@ -222,6 +222,54 @@ class DocumentSearchEngine:
         top_results = [chunk.to_dict() for _, chunk in scored_results[:top_k]]
         return top_results
 
+    def get_document_preview(self, codigo_proyecto: str) -> Optional[Dict[str, Any]]:
+        """Extrae el contenido página por página y fragmentos indexados de un informe PDF."""
+        code_clean = codigo_proyecto.strip().upper()
+        pdf_files = list(self.reports_dir.glob("*.pdf"))
+        target_pdf = None
+
+        for pdf in pdf_files:
+            if code_clean in pdf.name.upper():
+                target_pdf = pdf
+                break
+
+        if not target_pdf and pdf_files:
+            # Intentar búsqueda aproximada
+            for pdf in pdf_files:
+                c, _ = self._extract_project_metadata(pdf.name)
+                if c.upper() == code_clean:
+                    target_pdf = pdf
+                    break
+
+        if not target_pdf or not target_pdf.exists():
+            return None
+
+        codigo, cliente = self._extract_project_metadata(target_pdf.name)
+        pages = []
+
+        try:
+            reader = pypdf.PdfReader(str(target_pdf))
+            for p_idx, page in enumerate(reader.pages):
+                raw_text = page.extract_text() or ""
+                pages.append({
+                    "page_number": p_idx + 1,
+                    "text": self._sanitize_text(raw_text)
+                })
+        except Exception as e:
+            print(f"[ERROR] Leyendo PDF {target_pdf.name}: {e}")
+
+        # Obtener los chunks de este proyecto
+        project_chunks = [c.to_dict() for c in self.chunks if c.codigo_proyecto.upper() == code_clean]
+
+        return {
+            "codigo_proyecto": codigo,
+            "cliente": cliente,
+            "filename": target_pdf.name,
+            "total_pages": len(pages),
+            "pages": pages,
+            "chunks": project_chunks
+        }
+
 
 # Instancia global reutilizable
 _search_engine_instance: Optional[DocumentSearchEngine] = None
