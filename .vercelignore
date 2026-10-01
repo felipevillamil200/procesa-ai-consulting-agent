@@ -1,0 +1,15 @@
+.git
+.agents
+CHATGPT QA
+bitacora
+notas-agente
+tests
+extracted
+*.zip
+.pytest_cache
+__pycache__
+*.pyc
+.env*
+!.env.example
+node_modules
+codigo/frontend/node_modules

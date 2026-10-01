@@ -14,10 +14,4 @@ python-multipart>=0.0.9
 # Servidor API Backend
 fastapi>=0.110.0
 uvicorn>=0.28.0
-
-# Interfaces de Usuario
 rich>=13.0.0
-streamlit>=1.35.0
-
-# Testing y Calidad de Código
-pytest>=8.0.0

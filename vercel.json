@@ -1,6 +1,13 @@
 {
-  "buildCommand": "cd codigo/frontend && npm install && npm run build",
+  "version": 2,
+  "buildCommand": "npm --prefix codigo/frontend install && npm --prefix codigo/frontend run build",
   "outputDirectory": "codigo/frontend/dist",
+  "functions": {
+    "api/index.py": {
+      "runtime": "python3.11",
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",

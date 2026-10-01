@@ -43,3 +43,6 @@ CHATGPT QA/sandbox*/
 CHATGPT QA/frontend-build*/
 CHATGPT QA/historico*/
 CHATGPT QA/revision_pdf_actual/
+
+.vercel
+.env*
