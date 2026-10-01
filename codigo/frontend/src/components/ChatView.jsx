@@ -229,7 +229,7 @@ export default function ChatView({
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         
         {/* Messages Scroll Area */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6">
+        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-6 space-y-6">
           
           {messages.map((msg, index) => {
             if (msg.role === 'user') {
@@ -267,8 +267,8 @@ export default function ChatView({
               <div key={index} className="flex gap-3.5 max-w-4xl animate-slide-up">
                 {/* Avatar with subtle glow */}
                 <div className="relative shrink-0">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-md shadow-cyan-500/20">
-                    <Bot className="w-4 h-4 text-white" />
+                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 overflow-hidden">
+                    <img src="/images/procesa_ai_agent_avatar.jpg" alt="IA" className="w-full h-full object-cover rounded-[10px]" />
                   </div>
                 </div>
                 
@@ -384,8 +384,8 @@ export default function ChatView({
           {/* Loading Bubble with Pulse */}
           {isLoading && (
             <div className="flex gap-3.5 max-w-4xl animate-fade-in">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shrink-0 shadow-md">
-                <Bot className="w-4 h-4 text-white" />
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex items-center justify-center text-white shrink-0 shadow-md overflow-hidden">
+                <img src="/images/procesa_ai_agent_avatar.jpg" alt="IA" className="w-full h-full object-cover rounded-[10px]" />
               </div>
               <div className="chat-bubble-ai p-4 px-5 rounded-2xl rounded-tl-sm text-xs flex items-center gap-3 text-slate-600 border border-cyan-200 bg-white/90 shadow-elevated">
                 <Loader2 className="w-4 h-4 text-cyan-600 animate-spin" />

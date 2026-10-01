@@ -120,9 +120,9 @@ export default function LandingView({ onNavigateToChat }) {
         {/* Background Image with Gradient Overlay & Vignette */}
         <div className="absolute inset-0 z-0">
           <img 
-            src="/images/executive_workflow.jpg" 
-            alt="Fondo Oficina Ejecutiva IA" 
-            className="w-full h-full object-cover object-center filter blur-[1px] scale-105 opacity-25"
+            src="/images/procesa_glass_doc_nodes.jpg" 
+            alt="PROCESA 3D Document Intelligence" 
+            className="w-full h-full object-cover object-center filter blur-[0.5px] scale-105 opacity-35"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/80" />
           <div className="absolute inset-0 bg-radial-ambient opacity-80" />
@@ -189,13 +189,13 @@ export default function LandingView({ onNavigateToChat }) {
               {/* Scanning Laser Beam Animation */}
               <div className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_#22d3ee] animate-pulse" />
 
-              {/* Window Header */}
+              {/* Window Header with 3D Logo */}
               <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-                  <span className="font-mono text-[10px] text-slate-400 ml-1">AI_DOC_PROCESSOR.v2</span>
+                  <div className="w-5 h-5 rounded-md overflow-hidden border border-cyan-500/40 shrink-0">
+                    <img src="/images/procesa_brand_logo.jpg" alt="Logo" className="w-full h-full object-cover" />
+                  </div>
+                  <span className="font-mono text-[10px] text-slate-300 font-bold ml-1">PROCESA_AI_CORE.v2</span>
                 </div>
                 <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />

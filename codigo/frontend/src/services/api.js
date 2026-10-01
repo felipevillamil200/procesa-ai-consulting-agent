@@ -63,16 +63,17 @@ export const api = {
   },
 
   /**
-   * Actualiza la API Key de Gemini o el modelo activo
+   * Actualiza la API Key de Gemini o el modelo activo y temperatura
    */
-  async updateConfig(apiKey, model, provider) {
+  async updateConfig(apiKey, model, provider, temperature) {
     const res = await fetch(`${API_BASE}/api/config`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         api_key: apiKey || undefined,
         model,
-        provider: provider || (model.startsWith('gemini') ? 'gemini' : 'openai')
+        provider: provider || (model && model.startsWith('gemini') ? 'gemini' : 'openai'),
+        temperature: temperature !== undefined ? Number(temperature) : undefined
       })
     });
     return res.json();

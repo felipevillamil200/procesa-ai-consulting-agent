@@ -1,62 +1,92 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guía Ejecutiva del Asistente de Proyectos • Procesa Consultores</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
-  <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <meta name="theme-color" content="#E6EDF6">
+  <title>Guía Técnica & Arquitectura • PROCESA Intelligence</title>
+  <link rel="icon" type="image/jpeg" href="/images/procesa_brand_logo.jpg" />
+  <link rel="apple-touch-icon" href="/images/procesa_brand_logo.jpg" />
+  
+  <!-- Inter & JetBrains Mono Fonts (Exact Nival Standard) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
             mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#f0f9ff',
-              100: '#e0f2fe',
-              500: '#0ea5e9',
-              600: '#0284c7',
-              700: '#0369a1',
-              900: '#0c4a6e',
-            }
+            ink: '#020C21',
+            'ink-soft': '#0F182F',
+            muted: '#59627E',
+            muted2: '#4D5B77',
+            frame: '#E6EDF6',
+            cta: '#0F1B31',
+            'cta-knob': '#384B64',
+            accent: '#0284c7',
           }
         }
       }
     }
   </script>
+
   <style>
-    .bg-dot-grid-dark {
-      background-image: radial-gradient(rgba(56, 189, 248, 0.12) 1px, transparent 1px);
-      background-size: 24px 24px;
+    :root {
+      --ink: #020C21;
+      --ink-soft: #0F182F;
+      --muted: #59627E;
+      --muted2: #4D5B77;
+      --frame: #E6EDF6;
+      --cta: #0F1B31;
+      --accent: #0284c7;
     }
-    .bg-radial-ambient {
-      background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.12) 0%, transparent 70%);
+
+    body {
+      background-color: var(--frame);
+      color: var(--ink);
+      font-family: Inter, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
     }
-    .glass-panel-dark {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(51, 65, 85, 0.7);
+
+    /* Nival Studio Glass Cards */
+    .nival-glass {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(40px) saturate(120%);
+      -webkit-backdrop-filter: blur(40px) saturate(120%);
+      border: 1px solid rgba(255, 255, 255, 0.90);
+      box-shadow: 0 0 0 1.2px rgba(120, 145, 180, 0.18), 0 8px 30px rgba(28, 52, 92, 0.05);
     }
-    .glass-card-dark {
-      background: linear-gradient(145deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.7) 100%);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(51, 65, 85, 0.7);
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+
+    .nival-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.60) 100%);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 0 1px rgba(120, 145, 180, 0.12), 0 10px 24px -6px rgba(28, 52, 92, 0.04);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .glass-card-dark:hover {
+    .nival-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(56, 189, 248, 0.4);
-      box-shadow: 0 12px 30px -10px rgba(6, 182, 212, 0.2);
+      box-shadow: 0 0 0 1.2px rgba(2, 132, 199, 0.35), 0 16px 36px -8px rgba(2, 132, 199, 0.12);
     }
+
+    .nival-pill {
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      box-shadow: 0 0 0 1.3px rgba(120, 145, 180, 0.2), 0 4px 14px rgba(28, 52, 92, 0.06);
+    }
+
     .btn-tactile {
       transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -65,299 +95,363 @@
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500 selection:text-slate-950 bg-dot-grid-dark bg-radial-ambient min-h-screen">
 
-  <!-- Header Sticky con Glassmorphism -->
-  <header class="sticky top-0 z-50 glass-panel-dark border-b border-slate-800/80">
-    <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="relative group">
-          <div class="absolute -inset-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl blur opacity-60 group-hover:opacity-100 transition duration-300"></div>
-          <div class="relative w-10 h-10 rounded-xl bg-slate-900 border border-slate-700 flex items-center justify-center text-white shadow-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-cyan-400">
-              <path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"/>
-              <path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"/>
-              <path d="M12 5v13"/>
-              <path d="M12 8h4"/>
-              <path d="M12 11h3"/>
-              <path d="M12 14h4"/>
-            </svg>
-          </div>
-        </div>
-        <div>
-          <div class="flex items-center gap-1.5">
-            <h1 class="font-extrabold text-base leading-tight tracking-tight text-white">
-              PROCESA
-            </h1>
-            <span class="px-1.5 py-0.2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[9px] font-mono font-bold rounded">
-              v2.0
-            </span>
-          </div>
-          <p class="text-[11px] text-slate-400 font-medium tracking-tight">
-            Consultores • Agente IA
-          </p>
-        </div>
-      </div>
+<body class="min-h-screen relative overflow-x-hidden selection:bg-sky-200 selection:text-ink">
+
+  <!-- Ambient Light Reflection -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-gradient-to-b from-sky-200/40 via-blue-100/20 to-transparent pointer-events-none z-0"></div>
+
+  <!-- Header Floating Bar Identical to Nival -->
+  <header class="sticky top-5 z-50 max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between">
       
-      <div class="flex items-center gap-3">
-        <a href="./" class="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-xs font-bold text-white shadow-sm shadow-cyan-500/20 transition flex items-center gap-2 cursor-pointer btn-tactile">
-          <span>← Volver al Sistema</span>
+      <!-- Brand Logo con Isotipo 3D -->
+      <a href="/nival.html" class="flex items-center gap-2.5 group text-decoration-none">
+        <span class="w-10 h-10 rounded-full overflow-hidden block shrink-0 shadow-[0_2px_8px_rgba(14,165,233,0.25),inset_0_0_0_1.2px_rgba(255,255,255,0.85)] group-hover:scale-105 transition-transform duration-200">
+          <img src="/images/procesa_brand_logo.jpg" alt="PROCESA Logo" class="w-full h-full object-cover" />
+        </span>
+        <b class="text-xl font-medium tracking-tight text-ink">PROCESA</b>
+      </a>
+
+      <!-- Center Nav Pill (Inicio, Guía & Solución) -->
+      <nav class="nival-pill px-6 py-3 flex items-center gap-5">
+        <a href="/inicio.html" class="flex items-center gap-2 text-muted hover:text-ink font-medium text-sm transition-colors group">
+          <svg viewBox="0 0 20 21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" class="w-4 h-4 text-muted group-hover:text-ink">
+            <path d="M2 8.4 10 2l8 6.4V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+          </svg>
+          <span class="tracking-tight">Inicio</span>
         </a>
-      </div>
+
+        <div class="w-[1.5px] h-5 bg-[#CED5E0]"></div>
+
+        <a href="/guia.html" class="flex items-center gap-2 text-sky-700 font-bold text-sm group">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-sky-600">
+            <circle cx="10" cy="10" r="7.5"/>
+            <path d="M7.8 7.8a2.4 2.4 0 0 1 4.2 1.6c0 1.4-2 1.9-2 3.2"/>
+            <circle cx="10" cy="15" r="0.5" fill="currentColor"/>
+          </svg>
+          <span class="tracking-tight">Guía</span>
+        </a>
+
+        <div class="w-[1.5px] h-5 bg-[#CED5E0]"></div>
+
+        <a href="/solucion.html" class="flex items-center gap-2 text-muted hover:text-ink font-medium text-sm transition-colors group">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" class="w-4 h-4 text-muted group-hover:text-ink">
+            <rect x="1.5" y="1.5" width="6.8" height="6.8" rx="1.8"/>
+            <rect x="11.7" y="1.5" width="6.8" height="6.8" rx="1.8"/>
+            <rect x="1.5" y="11.7" width="6.8" height="6.8" rx="1.8"/>
+            <rect x="11.7" y="11.7" width="6.8" height="6.8" rx="1.8"/>
+          </svg>
+          <span class="tracking-tight">Solución</span>
+        </a>
+      </nav>
+
+      <!-- Primary CTA Button («Abrir Aplicación») -->
+      <a href="/" class="h-12 pl-6 pr-2 rounded-full bg-[#0F1B31] text-white flex items-center gap-4 shadow-[0_10px_24px_rgba(11,26,50,0.18)] hover:bg-[#182a4a] transition-all btn-tactile">
+        <span class="text-sm font-normal tracking-tight">Abrir Aplicación</span>
+        <span class="w-8 h-8 rounded-full bg-[#384B64] flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 18 18" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
+            <path d="m6.6 3.6 6 5.4-6 5.4"/>
+          </svg>
+        </span>
+      </a>
+
     </div>
   </header>
 
-  <!-- Hero Content -->
-  <main class="max-w-5xl mx-auto px-6 py-12 space-y-12">
+  <!-- Main Guide Content Container -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 py-12 space-y-12 relative z-10">
     
-    <section class="text-center space-y-4 max-w-3xl mx-auto pt-4">
-      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-950/80 border border-cyan-800/80 text-cyan-300 text-xs font-semibold shadow-xs">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
-        </span>
-        <span>Guía Ejecutiva del Sistema & Buenas Prácticas</span>
+    <!-- Hero Header Banner with 3D Core Presentation -->
+    <section class="nival-glass rounded-[36px] p-8 sm:p-12 relative overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-5">
+          <p class="text-xs font-semibold tracking-wider uppercase text-muted font-mono flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+            Arquitectura de Precisión • Cero Alucinación
+          </p>
+          
+          <h1 class="text-3xl sm:text-5xl font-light tracking-tight text-ink leading-[1.1]">
+            ¿Cómo funciona, qué esperar y por qué sus límites?
+          </h1>
+          
+          <p class="text-muted leading-relaxed text-sm sm:text-base">
+            Referencia técnica y conceptual para directores, consultores y evaluadores sobre el funcionamiento del <strong class="text-ink font-semibold">Agente Inteligente de Documentos & Facturas</strong> con arquitectura híbrida SQLite y RAG Forense.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-2.5 pt-2">
+            <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-mono text-ink shadow-2xs">
+              ⚡ SQLite Relacional
+            </span>
+            <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-mono text-ink shadow-2xs">
+              📄 RAG en PDFs Originales
+            </span>
+            <span class="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-mono text-ink shadow-2xs">
+              🛡️ Cero Alucinación
+            </span>
+          </div>
+        </div>
+
+        <!-- 3D Document Vortex Showcase -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-[320px] aspect-square rounded-3xl overflow-hidden border border-white shadow-xl shadow-sky-900/10 group">
+            <img src="/images/procesa_glass_doc_nodes.jpg" alt="Vórtice 3D PROCESA" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#020C21]/60 via-transparent to-transparent"></div>
+            <div class="absolute bottom-3 left-3 right-3 p-3 rounded-2xl bg-white/90 backdrop-blur border border-white/80 shadow-md flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <img src="/images/procesa_brand_logo.jpg" class="w-6 h-6 rounded-full object-cover" />
+                <span class="font-semibold text-ink text-xs">Grounding Activo</span>
+              </div>
+              <span class="text-[10px] font-mono text-sky-700 font-bold px-2 py-0.5 rounded-full bg-sky-50 border border-sky-200">
+                100% Precisión
+              </span>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <h2 class="font-extrabold text-3xl sm:text-5xl text-white tracking-tight leading-tight">
-        ¿Cómo funciona, qué esperar y por qué sus límites?
-      </h2>
-      <p class="text-slate-400 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-        Una referencia técnica y conceptual clara para consultores, directores y evaluadores sobre las capacidades, precisión y arquitectura del Asistente Inteligente de Proyectos.
-      </p>
     </section>
 
-    <!-- SECCIÓN 1: EL PROBLEMA Y LA VISIÓN -->
-    <section class="glass-panel-dark rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
-      <div class="flex items-center gap-3.5 border-b border-slate-800/80 pb-4">
-        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-extrabold text-base shadow-xs">
+    <!-- SECCIÓN 1: EL PROBLEMA REAL -->
+    <section class="nival-card rounded-[32px] p-8 sm:p-10 space-y-6">
+      <div class="flex items-center gap-4 border-b border-slate-200/80 pb-5">
+        <div class="w-10 h-10 rounded-2xl bg-[#0F1B31] text-white flex items-center justify-center font-semibold text-base shadow-sm">
           1
         </div>
         <div>
-          <h3 class="font-extrabold text-lg text-white tracking-tight">¿Para qué sirve esta herramienta? (El problema real)</h3>
-          <p class="text-xs text-slate-400">Eliminar horas de búsqueda manual en carpetas estáticas de informes cerrados.</p>
+          <h2 class="font-medium text-xl text-ink tracking-tight">¿Para qué sirve esta herramienta? (El problema real)</h2>
+          <p class="text-xs text-muted">Eliminar horas de búsqueda manual en carpetas estáticas de informes cerrados o facturas.</p>
         </div>
       </div>
 
-      <p class="text-slate-300 text-sm leading-relaxed">
-        Cada vez que la consultora finaliza un proyecto de optimización de procesos (sea en Banca, Manufactura, Salud o Retail), se elabora un <strong>informe de cierre de 20 a 50 páginas</strong> con métricas de impacto, metodologías aplicadas y lecciones aprendidas. Sin embargo, en el día a día:
+      <p class="text-muted leading-relaxed text-sm">
+        Cada vez que la consultora finaliza un proyecto de optimización de procesos (sea en Banca, Manufactura, Salud o Retail), se elabora un <strong class="text-ink font-semibold">informe de cierre de 20 a 50 páginas</strong> con métricas de impacto, metodologías aplicadas y lecciones aprendidas. Sin embargo, en el día a día:
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-        <div class="glass-card-dark p-5 rounded-2xl space-y-2 border-red-900/40 bg-red-950/10">
-          <div class="text-red-400 font-bold text-xs flex items-center gap-2">
-            <span class="w-5 h-5 rounded-full bg-red-900/40 flex items-center justify-center text-[11px] font-bold">✕</span>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
+        <div class="p-6 rounded-2xl bg-red-50/60 border border-red-200/80 space-y-3">
+          <div class="text-red-700 font-bold text-xs flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-red-200 text-red-800 flex items-center justify-center text-[11px]">✕</span>
             El Problema Tradicional
           </div>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Nadie tiene tiempo de abrir y leer 15 informes en PDF para armar una nueva propuesta o saber si ya resolvimos un problema similar. La experiencia se queda atrapada en carpetas o se pierde cuando los consultores cambian de equipo.
+          <ul class="text-xs text-slate-700 space-y-2 list-disc list-inside leading-relaxed">
+            <li>Nadie vuelve a abrir informes de 40 páginas guardados en carpetas.</li>
+            <li>Consultores novatos repiten errores pasados por falta de transferencia.</li>
+            <li>Calcular ahorros históricos requiere semanas de trabajo manual en Excel.</li>
+            <li>Facturas con cobros indebidos pasan desapercibidas.</li>
+          </ul>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-200/80 space-y-3">
+          <div class="text-emerald-700 font-bold text-xs flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-emerald-200 text-emerald-800 flex items-center justify-center text-[11px]">✓</span>
+            La Solución con PROCESA
+          </div>
+          <ul class="text-xs text-slate-700 space-y-2 list-disc list-inside leading-relaxed">
+            <li>Consultas instantáneas en lenguaje natural con citas de página exactas.</li>
+            <li>Cálculo matemático exacto mediante base de datos relacional SQLite.</li>
+            <li>Detección forense de lecciones aprendidas y causas raíz de desviaciones.</li>
+            <li>Auditoría automatizada de cargos fijos, consumos y fechas de vencimiento.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: ARQUITECTURA HÍBRIDA -->
+    <section class="nival-card rounded-[32px] p-8 sm:p-10 space-y-6">
+      <div class="flex items-center gap-4 border-b border-slate-200/80 pb-5">
+        <div class="w-10 h-10 rounded-2xl bg-[#0F1B31] text-white flex items-center justify-center font-semibold text-base shadow-sm">
+          2
+        </div>
+        <div>
+          <h2 class="font-medium text-xl text-ink tracking-tight">Arquitectura Híbrida: SQLite + RAG Forense</h2>
+          <p class="text-xs text-muted">Por qué los LLMs estándar fallan y cómo PROCESA resuelve el cálculo exacto.</p>
+        </div>
+      </div>
+
+      <p class="text-muted leading-relaxed text-sm">
+        Un modelo de lenguaje puro suele inventar o cometer errores al sumar montos o comparar duraciones. PROCESA utiliza una <strong class="text-ink font-semibold">arquitectura dual coordinada por Function Calling</strong>:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="p-6 rounded-2xl bg-white/90 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-sky-700 font-bold text-xs flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-sky-600"></span> Capa Relacional (SQLite)
+            </span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">Cálculo Puro</span>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Estructura tablas relacionales (<code class="text-sky-800 font-bold">proyectos</code>, <code class="text-sky-800 font-bold">kpis_impacto</code>, <code class="text-sky-800 font-bold">fichas_tecnicas</code>). Responde con 100% de precisión matemática preguntas de rankings, sumatorias, promedios y filtros combinados.
           </p>
         </div>
 
-        <div class="glass-card-dark p-5 rounded-2xl space-y-2 border-emerald-900/40 bg-emerald-950/10">
-          <div class="text-emerald-400 font-bold text-xs flex items-center gap-2">
-            <span class="w-5 h-5 rounded-full bg-emerald-900/40 flex items-center justify-center text-[11px] font-bold">✓</span>
-            La Solución con este Asistente
+        <div class="p-6 rounded-2xl bg-white/90 border border-slate-200 shadow-sm space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-indigo-700 font-bold text-xs flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-600"></span> Capa Forense RAG (PDFs)
+            </span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Texto Profundo</span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Le preguntas en español natural (<em>"¿Qué herramientas usamos en manufactura para reducir tiempos?"</em>) y en <strong>2 segundos</strong> te entrega la respuesta exacta, con cifras matemáticas auditables y citando el documento original.
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Indexación semántica por fragmentos (chunks) con solapamiento. Recupera párrafos cualitativos: motivos de desvío, resistencia al cambio, metodologías SMED/Kanban y contexto legal exacto.
           </p>
         </div>
       </div>
     </section>
 
-    <!-- SECCIÓN 2: QUÉ PUEDES ESPERAR -->
-    <section class="glass-panel-dark rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
-      <div class="flex items-center gap-3.5 border-b border-slate-800/80 pb-4">
-        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-extrabold text-base shadow-xs">
-          2
+    <!-- SECCIÓN 3: CONTROL ANTI-ALUCINACIÓN -->
+    <section class="nival-card rounded-[32px] p-8 sm:p-10 space-y-6">
+      <div class="flex items-center gap-4 border-b border-slate-200/80 pb-5">
+        <div class="w-10 h-10 rounded-2xl bg-[#0F1B31] text-white flex items-center justify-center font-semibold text-base shadow-sm">
+          3
         </div>
         <div>
-          <h3 class="font-extrabold text-lg text-white tracking-tight">¿Qué puedes esperar de esta herramienta? (Los 4 Pilares)</h3>
-          <p class="text-xs text-slate-400">Garantías de calidad y confiabilidad para toma de decisiones ejecutivas.</p>
+          <h2 class="font-medium text-xl text-ink tracking-tight">Política Estricta de Cero Alucinación</h2>
+          <p class="text-xs text-muted">La regla de oro: si la evidencia no existe en el documento, se declara explícitamente.</p>
+        </div>
+      </div>
+
+      <div class="p-6 rounded-2xl bg-amber-50/80 border border-amber-200 space-y-3">
+        <div class="text-amber-900 font-bold text-xs flex items-center gap-2">
+          <span>🛡️</span> Grounding Obligatorio
+        </div>
+        <p class="text-xs text-amber-950 leading-relaxed">
+          Si un usuario pregunta: <em>"¿Qué proyectos de minería o petróleo tenemos?"</em>, y los 4 informes indexados pertenecen a Banca, Manufactura, Salud y Retail, el sistema <strong>NO inventará clientes ni experiencias</strong>. Responderá con total honestidad: <em>"No se dispone de información sobre minería o petróleo en los documentos cargados"</em>.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 4: LOS 4 PROYECTOS OFICIALES -->
+    <section class="nival-card rounded-[32px] p-8 sm:p-10 space-y-6">
+      <div class="flex items-center gap-4 border-b border-slate-200/80 pb-5">
+        <div class="w-10 h-10 rounded-2xl bg-[#0F1B31] text-white flex items-center justify-center font-semibold text-base shadow-sm">
+          4
+        </div>
+        <div>
+          <h2 class="font-medium text-xl text-ink tracking-tight">Proyectos Oficiales Indexados en Memoria</h2>
+          <p class="text-xs text-muted">Base de conocimiento inicial cargada en la prueba técnica.</p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div class="glass-card-dark p-5 rounded-2xl space-y-2">
-          <div class="text-cyan-400 font-bold text-sm flex items-center gap-2">
-            📊 1. Cifras Matemáticas Exactas
+        
+        <div class="p-5 rounded-2xl bg-white/90 border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">PC-2025-014</span>
+            <span class="text-xs font-medium text-slate-500">Sector Financiero</span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            La IA no "calcula a ojo". Si preguntas por el promedio de semanas o el porcentaje de variación en un KPI (ej. OEE del 54.2% al 71.8%), los cálculos se realizan sobre SQLite para garantizar 0% de error numérico.
-          </p>
+          <h3 class="font-semibold text-sm text-ink">Cooperativa Horizonte Andino</h3>
+          <p class="text-xs text-muted">Optimización de Originación de Créditos Comerciales. Reducción de tiempos de aprobación y digitalización de carpetas.</p>
         </div>
 
-        <div class="glass-card-dark p-5 rounded-2xl space-y-2">
-          <div class="text-emerald-400 font-bold text-sm flex items-center gap-2">
-            🛡️ 2. Cero Alucinaciones (Honestidad)
+        <div class="p-5 rounded-2xl bg-white/90 border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">PC-2025-027</span>
+            <span class="text-xs font-medium text-slate-500">Sector Manufactura</span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Si preguntas por proyectos en industrias inexistentes en el archivo (como Minería o Petróleo), el sistema tiene prohibido inventar: responderá honestamente que no dispone de información en los informes disponibles.
-          </p>
+          <h3 class="font-semibold text-sm text-ink">Plásticos del Pacífico</h3>
+          <p class="text-xs text-muted">Implementación Lean Manufacturing y SMED en línea de extrusión. Aumento sustancial de OEE y reducción de mermas.</p>
         </div>
 
-        <div class="glass-card-dark p-5 rounded-2xl space-y-2">
-          <div class="text-blue-400 font-bold text-sm flex items-center gap-2">
-            📄 3. Citas de Fuente Obligatorias
+        <div class="p-5 rounded-2xl bg-white/90 border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">PC-2025-033</span>
+            <span class="text-xs font-medium text-slate-500">Sector Salud</span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Toda afirmación incluye el código del proyecto (ej. <span class="bg-slate-800 text-cyan-300 px-1.5 py-0.5 rounded font-mono text-[11px] font-bold">PC-2025-014</span>) y el cliente, permitiendo cotejar en el Visor de Evidencia en PDF.
-          </p>
+          <h3 class="font-semibold text-sm text-ink">Clínica Santa Lucía</h3>
+          <p class="text-xs text-muted">Rediseño del Flujo de Atención en Urgencias y Triage. Disminución de tiempos de espera y optimización de camas.</p>
         </div>
 
-        <div class="glass-card-dark p-5 rounded-2xl space-y-2">
-          <div class="text-purple-400 font-bold text-sm flex items-center gap-2">
-            💡 4. Memoria de Lecciones y Riesgos
+        <div class="p-5 rounded-2xl bg-white/90 border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">PC-2026-006</span>
+            <span class="text-xs font-medium text-slate-500">Sector Retail</span>
           </div>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            No solo almacena números: preserva los problemas de cultura organizacional, resistencia al cambio y factores de riesgo que enfrentó cada equipo para no repetir errores en el futuro.
-          </p>
+          <h3 class="font-semibold text-sm text-ink">Supermercados La Canasta</h3>
+          <p class="text-xs text-muted">Transformación Logística de Última Milla y Almacenes Centrales. Trazabilidad de inventario y reducción de quiebres de stock.</p>
         </div>
+
       </div>
     </section>
 
-    <!-- SECCIÓN 3: CÓMO FUNCIONA POR DENTRO -->
-    <section class="glass-panel-dark rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
-      <div class="flex items-center gap-3.5 border-b border-slate-800/80 pb-4">
-        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-extrabold text-base shadow-xs">
-          3
-        </div>
-        <div>
-          <h3 class="font-extrabold text-lg text-white tracking-tight">¿Cómo trabaja por dentro? (Explicado con una analogía)</h3>
-          <p class="text-xs text-slate-400">Dos especialistas trabajando juntos bajo la coordinación de un asistente.</p>
-        </div>
-      </div>
-
-      <div class="glass-card-dark p-6 rounded-2xl space-y-4 border-cyan-500/30">
-        <p class="text-xs text-slate-300 leading-relaxed">
-          Cuando escribes una pregunta en el chat, el sistema no le pasa todo el trabajo a un modelo ciego. En su lugar, utiliza <strong>dos motores especializados</strong>:
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-700/80 space-y-1.5">
-            <div class="font-bold text-xs text-cyan-400 flex items-center gap-2">
-              💾 1. El Archivador Matemático (SQLite)
-            </div>
-            <p class="text-[11px] text-slate-300 leading-relaxed">
-              Maneja datos estructurados: duraciones, fechas, sectores, clientes y tablas numéricas de KPIs (Antes vs. Después). Responde a preguntas como: <em>"¿Cuál fue el proyecto más largo?"</em> o <em>"¿Cuántos proyectos tenemos en Salud?"</em>.
-            </p>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-700/80 space-y-1.5">
-            <div class="font-bold text-xs text-purple-400 flex items-center gap-2">
-              🔍 2. El Lector Cualitativo (Motor RAG)
-            </div>
-            <p class="text-[11px] text-slate-300 leading-relaxed">
-              Lee párrafos completos de texto libre: metodologías Lean, problemas de adopción, factores de riesgo y recomendaciones humanas. Responde a: <em>"¿Cómo gestionaron la resistencia al cambio en el personal?"</em>.
-            </p>
-          </div>
-        </div>
-
-        <div class="p-3.5 bg-cyan-950/70 border border-cyan-800/60 rounded-xl text-cyan-200 text-xs flex items-center gap-2">
-          <span class="text-base">🤖</span>
-          <span><strong>El Orquestador:</strong> Analiza tu consulta, decide autónomamente qué herramienta invocar (Function Calling), cruza las evidencias y redacta una respuesta trazable con fuentes.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECCIÓN 4: POR QUÉ LOS LÍMITES -->
-    <section class="glass-panel-dark rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
-      <div class="flex items-center gap-3.5 border-b border-slate-800/80 pb-4">
-        <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/30 flex items-center justify-center font-extrabold text-base shadow-xs">
-          4
-        </div>
-        <div>
-          <h3 class="font-extrabold text-lg text-white tracking-tight">¿Por qué existen límites de 10 MB y 30 páginas por informe?</h3>
-          <p class="text-xs text-amber-400/90 font-medium">La razón técnica explicada para cualquier usuario de negocio.</p>
-        </div>
-      </div>
-
-      <div class="space-y-4">
-        <p class="text-xs text-slate-300 leading-relaxed">
-          Para que la Inteligencia Artificial mantenga una <strong>precisión del 100%</strong> y nunca distorsione un KPI o una fecha, los informes subidos deben cumplir con límites razonables:
-        </p>
-
-        <div class="space-y-3">
-          <div class="glass-card-dark p-4 rounded-2xl space-y-1.5">
-            <h4 class="font-bold text-xs text-white flex items-center gap-2">
-              <span class="w-5 h-5 rounded-full bg-cyan-900 text-cyan-300 flex items-center justify-center text-[10px] font-bold">1</span>
-              La "Ventana de Atención" de la IA (Límite de Contexto)
-            </h4>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              La IA lee el informe completo en una sola pasada para extraer tablas de indicadores, objetivos y lecciones. Si se sube un documento de 200 páginas, la IA puede sufrir <em>"saturación de contexto"</em>, lo que podría provocar que pase por alto cifras diminutas o confunda una línea base con un resultado final.
-            </p>
-          </div>
-
-          <div class="glass-card-dark p-4 rounded-2xl space-y-1.5">
-            <h4 class="font-bold text-xs text-white flex items-center gap-2">
-              <span class="w-5 h-5 rounded-full bg-cyan-900 text-cyan-300 flex items-center justify-center text-[10px] font-bold">2</span>
-              Velocidad de Respuesta Inmediata (2 a 4 segundos)
-            </h4>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              Un informe de 10 a 30 páginas se procesa, valida con Pydantic, se guarda en SQLite y se indexa en el motor de búsqueda en apenas <strong>3 segundos</strong>. Documentos masivos generarían tiempos de espera incómodos para el usuario.
-            </p>
-          </div>
-
-          <div class="glass-card-dark p-4 rounded-2xl space-y-1.5">
-            <h4 class="font-bold text-xs text-white flex items-center gap-2">
-              <span class="w-5 h-5 rounded-full bg-cyan-900 text-cyan-300 flex items-center justify-center text-[10px] font-bold">3</span>
-              Informes Ejecutivos vs. Repositorios de Archivo Muerto
-            </h4>
-            <p class="text-xs text-slate-400 leading-relaxed">
-              El propósito de esta herramienta es la <strong>Gestión del Conocimiento de Consultoría</strong>. Se esperan Informes Oficiales de Cierre de Proyecto. No está diseñada para almacenar anexos de facturación, listas de compras o planos arquitectónicos pesados.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SECCIÓN 5: PREGUNTAS SUGERIDAS -->
-    <section class="glass-panel-dark rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
-      <div class="flex items-center gap-3.5 border-b border-slate-800/80 pb-4">
-        <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-extrabold text-base shadow-xs">
+    <!-- SECCIÓN 5: COMPARATIVA TÉCNICA -->
+    <section class="nival-card rounded-[32px] p-8 sm:p-10 space-y-6">
+      <div class="flex items-center gap-4 border-b border-slate-200/80 pb-5">
+        <div class="w-10 h-10 rounded-2xl bg-[#0F1B31] text-white flex items-center justify-center font-semibold text-base shadow-sm">
           5
         </div>
         <div>
-          <h3 class="font-extrabold text-lg text-white tracking-tight">Preguntas recomendadas para poner a prueba el sistema</h3>
-          <p class="text-xs text-slate-400">Pega estas preguntas directamente en el chat para ver la combinación de SQL y RAG en acción.</p>
+          <h2 class="font-medium text-xl text-ink tracking-tight">Comparativa: Chatbots Genéricos vs PROCESA Intelligence</h2>
+          <p class="text-xs text-muted">Por qué un chat convencional no cumple con los requisitos de auditoría.</p>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-        <div class="glass-card-dark p-4 rounded-2xl space-y-1.5">
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-800/50 font-mono">Consulta Cuantitativa (SQL)</span>
-          <p class="font-semibold text-xs text-white">"¿Cuál fue el proyecto con mayor duración en semanas y cuánto duró?"</p>
-          <p class="text-[11px] text-slate-400">El agente ejecuta una consulta SQL SELECT MAX(duracion_semanas) y responde con precisión matemática.</p>
-        </div>
-
-        <div class="glass-card-dark p-4 rounded-2xl space-y-1.5">
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-800/50 font-mono">Consulta Cualitativa (RAG)</span>
-          <p class="font-semibold text-xs text-white">"¿Qué metodologías y herramientas se aplicaron en la fábrica de plásticos?"</p>
-          <p class="text-[11px] text-slate-400">Busca en el informe PC-2025-027 y detalla Lean Manufacturing, SMED, 5S y mantenimiento preventivo.</p>
-        </div>
-
-        <div class="glass-card-dark p-4 rounded-2xl space-y-1.5">
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-800/50 font-mono">Comparativa de KPIs</span>
-          <p class="font-semibold text-xs text-white">"¿Cuál fue la mejora en el OEE de Plásticos del Pacífico antes y después?"</p>
-          <p class="text-[11px] text-slate-400">Presenta la línea base inicial (54.2%), el resultado final (71.8%) y la variación positiva (+17.6 pp).</p>
-        </div>
-
-        <div class="glass-card-dark p-4 rounded-2xl space-y-1.5">
-          <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-950 text-red-300 border border-red-800/50 font-mono">Prueba Anti-Alucinación</span>
-          <p class="font-semibold text-xs text-white">"¿Qué proyectos tenemos en Minería o Extracción Petrolera?"</p>
-          <p class="text-[11px] text-slate-400">Comprueba que el agente rechaza inventar datos y responde con total transparencia.</p>
-        </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead>
+            <tr class="border-b border-slate-300 text-muted font-mono">
+              <th class="py-3.5 px-4 font-semibold">Criterio de Evaluación</th>
+              <th class="py-3.5 px-4 text-red-600 font-semibold">Chatbots Genéricos</th>
+              <th class="py-3.5 px-4 text-sky-800 font-bold bg-sky-50/80 rounded-t-xl">PROCESA Intelligence</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr>
+              <td class="py-3.5 px-4 font-medium text-ink">Cálculo de sumas y promedios</td>
+              <td class="py-3.5 px-4 text-red-600">Errores frecuentes por alucinación tokenizada</td>
+              <td class="py-3.5 px-4 text-sky-900 font-semibold bg-sky-50/80">100% exacto mediante SQL Relacional</td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-medium text-ink">Trazabilidad de fuentes</td>
+              <td class="py-3.5 px-4 text-red-600">Citas aproximadas o inexistentes</td>
+              <td class="py-3.5 px-4 text-sky-900 font-semibold bg-sky-50/80">Página, párrafo y fragmento original</td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-medium text-ink">Privacidad y Gobernanza</td>
+              <td class="py-3.5 px-4 text-red-600">Riesgo de fuga en re-entrenamiento público</td>
+              <td class="py-3.5 px-4 text-sky-900 font-semibold bg-sky-50/80">Aislamiento local SQLite & API Privada</td>
+            </tr>
+            <tr>
+              <td class="py-3.5 px-4 font-medium text-ink">Comportamiento ante datos ausentes</td>
+              <td class="py-3.5 px-4 text-red-600">Inventa respuestas plausibles</td>
+              <td class="py-3.5 px-4 text-sky-900 font-semibold bg-sky-50/80">Declara honestamente "Sin información"</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
-    <!-- Footer Call to Action -->
-    <footer class="text-center pt-6 pb-12 space-y-4">
-      <a href="./" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold text-xs shadow-xl shadow-cyan-500/20 transition transform hover:-translate-y-0.5 cursor-pointer btn-tactile">
-        <span>← Volver a la Aplicación de Consulta</span>
-      </a>
-      <p class="text-xs text-slate-500 font-mono">Procesa Consultores • Sistema de Inteligencia Artificial Confiable</p>
-    </footer>
+    <!-- CALL TO ACTION INFERIOR -->
+    <section class="nival-glass rounded-[36px] p-10 text-center space-y-6">
+      <div class="w-16 h-16 rounded-full overflow-hidden mx-auto shadow-lg shadow-sky-900/10 border-2 border-white">
+        <img src="/images/procesa_ai_agent_avatar.jpg" alt="Avatar IA" class="w-full h-full object-cover" />
+      </div>
+      
+      <div class="space-y-2">
+        <h3 class="text-2xl sm:text-3xl font-light text-ink tracking-tight">¿Listo para probar el Asistente en Vivo?</h3>
+        <p class="text-sm text-muted max-w-lg mx-auto">
+          Accede al Chat Inteligente para interactuar con la base de conocimiento y auditar informes con respaldo documental.
+        </p>
+      </div>
+
+      <div class="flex justify-center gap-4 pt-2">
+        <a href="/" class="h-12 px-8 rounded-full bg-[#0F1B31] text-white flex items-center gap-3 text-sm font-medium shadow-[0_10px_24px_rgba(11,26,50,0.18)] hover:bg-[#182a4a] transition-all btn-tactile">
+          <span>Abrir Asistente Inteligente</span>
+          <svg viewBox="0 0 18 18" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
+            <path d="m6.6 3.6 6 5.4-6 5.4"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
   </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-300/80 py-8 text-center text-xs text-muted">
+    <p>© 2026 PROCESA Consultores • Todos los derechos reservados. Arquitectura RAG & Forense Documental.</p>
+  </footer>
 
 </body>
 </html>

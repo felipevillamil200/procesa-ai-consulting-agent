@@ -45,6 +45,7 @@ class ProyectoFicha(BaseModel):
         description="Fecha de finalización y entrega del informe"
     )
     duracion_semanas: int = Field(
+        ge=0,
         description="Duración total del proyecto expresada en número de semanas completas"
     )
     gerente_proyecto: str = Field(

@@ -15,10 +15,10 @@ from codigo.backend.models import ProyectoFicha
 class DatabaseManager:
     """Administrador de la base de datos relacional SQLite para Procesa Consultores."""
 
-    def __init__(self, db_path: Path = DATABASE_PATH):
+    def __init__(self, db_path: Path = DATABASE_PATH, auto_seed: bool = True):
         self.db_path = db_path
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        self.init_db()
+        self.init_db(auto_seed=auto_seed)
 
     def get_connection(self) -> sqlite3.Connection:
         """Obtiene una conexión a SQLite con filas formateadas como diccionarios."""
@@ -26,7 +26,7 @@ class DatabaseManager:
         conn.row_factory = sqlite3.Row
         return conn
 
-    def init_db(self) -> None:
+    def init_db(self, auto_seed: bool = True) -> None:
         """Inicializa las tablas relacionales de la base de datos."""
         conn = self.get_connection()
         try:
@@ -53,8 +53,21 @@ class DatabaseManager:
                 );
             """)
             conn.commit()
+
+            # Auto-poblar los 4 proyectos oficiales si la base de datos por defecto está vacía
+            if auto_seed and str(self.db_path) == str(DATABASE_PATH):
+                cursor.execute("SELECT COUNT(*) AS n FROM proyectos")
+                row = cursor.fetchone()
+                if row and row["n"] == 0:
+                    conn.close()
+                    from codigo.backend.extractor import process_all_reports
+                    process_all_reports(use_llm=False, db_manager=self)
+                    return
         finally:
-            conn.close()
+            try:
+                conn.close()
+            except Exception:
+                pass
 
     def upsert_proyecto(self, ficha: ProyectoFicha) -> None:
         """Inserta o actualiza una ficha estructurada de proyecto."""
@@ -111,23 +124,44 @@ class DatabaseManager:
         Ejecuta una consulta SQL segura de solo lectura sobre la base de datos.
         Aplica guardrails de seguridad y retorna los resultados como lista de dicts.
         """
+        import re
         clean_query = sql_query.strip()
+        if not clean_query:
+            return {"success": False, "error": "Consulta SQL vacía.", "rows": []}
 
-        # Guardrail de seguridad: Solo permitir sentencias SELECT o WITH
-        forbidden_keywords = ["INSERT", "UPDATE", "DELETE", "DROP", "ALTER", "CREATE", "TRUNCATE", "REPLACE"]
-        first_word = clean_query.split()[0].upper() if clean_query.split() else ""
-
-        if first_word not in ["SELECT", "WITH"] or any(kw in clean_query.upper().split() for kw in forbidden_keywords):
+        # Guardrail 1: Prohibir múltiples sentencias separadas por punto y coma
+        statements = [s.strip() for s in clean_query.split(";") if s.strip()]
+        if len(statements) > 1:
             return {
                 "success": False,
-                "error": "Operación no permitida. La herramienta SQL solo permite consultas de lectura (SELECT).",
+                "error": "Operación no permitida: no se permiten múltiples sentencias SQL en una sola petición.",
+                "rows": []
+            }
+
+        # Guardrail 2: La consulta debe comenzar exclusivamente con SELECT o WITH
+        first_word = clean_query.split()[0].upper() if clean_query.split() else ""
+        if first_word not in ["SELECT", "WITH"]:
+            return {
+                "success": False,
+                "error": "Operación no permitida. La herramienta SQL solo permite consultas de lectura (SELECT / WITH).",
+                "rows": []
+            }
+
+        # Guardrail 3: Bloquear cualquier palabra clave peligrosa o mutacional (ignorando literales de texto)
+        query_without_strings = re.sub(r"'(''|[^'])*'", "''", clean_query)
+        forbidden_pattern = r"\b(INSERT|UPDATE|DELETE|DROP|ALTER|CREATE|TRUNCATE|REPLACE|PRAGMA|ATTACH|DETACH|VACUUM|GRANT|REVOKE|EXEC|EXECUTE|LOAD_EXTENSION)\b"
+        if re.search(forbidden_pattern, query_without_strings, re.IGNORECASE):
+            return {
+                "success": False,
+                "error": "Operación no permitida: la consulta contiene palabras clave de mutación o modificación de esquema.",
                 "rows": []
             }
 
         conn = self.get_connection()
         try:
             cursor = conn.cursor()
-            cursor.execute(clean_query)
+            query_to_execute = statements[0] if statements else clean_query
+            cursor.execute(query_to_execute)
             rows = [dict(row) for row in cursor.fetchall()]
             return {
                 "success": True,

@@ -1,0 +1,52 @@
+[
+  {
+    "file": "codigo\\backend\\agent.py",
+    "sha256": "596eef76842efe29bf717b42943de572c6d7f20d3b586df2494bc741f3c12b42",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\app.py",
+    "sha256": "b8fadcc4679b67477cec4cb60e943892f839500fdc822cc1a7e83226dcc25d43",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\cli.py",
+    "sha256": "6c51b1df5b85d44b3788cbf5c51be09a23dba4d54ca834c6ad258f60c011629c",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\config.py",
+    "sha256": "c08c22809a0402538aaf00e04a61bb1a03534832269cb572251896aabac1001b",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\database.py",
+    "sha256": "a7ed2f10c352dbba6314035d6a9ee47394ee60bd99593251062a491d605063e5",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\extractor.py",
+    "sha256": "9058f38d050a6ed3fe800cb9f62aa533b70eefaea5fc0a1330c08ca4075abc3d",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\main.py",
+    "sha256": "ca549749a748966e6653c4f1954faa5c842ce1911d5141d503a3d848af5464ec",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\models.py",
+    "sha256": "d2a9b105ed56b13521d95f4f3313e1d5a8870e677fc003a782f7206affecbc4f",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\rag.py",
+    "sha256": "5090e5b93d5f24919b7bd1586e6441a87b52652d2e9c275030492f3f1bc2d9df",
+    "matches_snapshot": true
+  },
+  {
+    "file": "codigo\\backend\\__init__.py",
+    "sha256": "3d24df65a2ea0ce77afd86b053cba96404b34649d4f2aceb88282e874550b908",
+    "matches_snapshot": true
+  }
+]

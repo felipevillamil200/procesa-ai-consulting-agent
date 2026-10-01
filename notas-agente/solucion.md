@@ -1,115 +1,145 @@
-# Solución Técnica: Agente de Consulta de Proyectos (Procesa Consultores)
+# Solución Técnica Oficial: Agente de Consulta de Proyectos (Procesa Consultores)
 
 ---
 
-## 1. ⚠️ Aclaración Inicial: ¿Por qué NO usar n8n como solución principal?
+## 1. 🎯 Resumen Ejecutivo y Enfoque del Problema
 
-Aunque herramientas No-Code/Low-Code como **n8n** o **Power Automate** permiten armar flujos rápidos, **NO son viables como solución central** para esta prueba técnica por las siguientes razones:
+El objetivo del proyecto es construir un **Asistente Inteligente de IA Consultora** para **Procesa Consultores**, capaz de responder con máxima fidelidad fáctica, cero alucinaciones y trazabilidad total sobre los informes de cierre de proyectos históricos.
 
-1. **Requisito Obligatorio de Lenguaje:** El enunciado oficial exige explícitamente: *"Construir un agente en Python que responda preguntas sobre los cuatro proyectos"*.
-2. **Evaluación de Código y Git (20% de la nota):** La rúbrica evalúa la calidad de la arquitectura de software, tipado, modularidad y un historial de commits en Git.
-3. **Prueba de "Cambio en Vivo" en la entrevista (15% de la nota):** En la sesión de 45 minutos se pedirá modificar la lógica del agente en tiempo real frente a los evaluadores. Un backend en Python permite hacer ajustes en segundos con total control.
-4. **Rol de n8n:** El documento solo menciona n8n como un *punto adicional/opcional* para automatizar la ingesta de archivos nuevos, no para el agente en sí.
-
-> **Conclusión:** La solución estándar y definitiva se construirá **100% en Python** con arquitectura modular.
+### Decisiones Clave de Arquitectura:
+1. **Solución 100% en Código Nativo (Python + React):** Se priorizó una arquitectura desacoplada y mantenible (FastAPI en Backend + React/Vite/Tailwind en Frontend + CLI en Rich) en lugar de herramientas No-Code cerradas, garantizando control total del flujo de Function Calling, seguridad y soporte para cambios en vivo durante entrevistas técnicas.
+2. **Arquitectura Híbrida (SQL Relacional + RAG Semántico):** Separación explícita de responsabilidades:
+   - **SQL Relacional (SQLite):** Consultas cuantitativas, agregaciones, promedios, conteos, ordenamientos y filtros por sector/fechas.
+   - **RAG Semántico (Retrieval-Augmented Generation):** Búsqueda de contexto cualitativo, lecciones aprendidas, metodologías, causas de problemas y factores humanos.
+3. **Grounding Verificado y Anti-Alucinación:** Abstención determinista (`found_info=False`) si una consulta carece de evidencia empírica en los documentos o si la base relacional retorna 0 filas.
 
 ---
 
-## 2. 🏗️ Arquitectura de la Solución (100% Python)
-
-El sistema se compone de 3 capas claramente desacopladas:
+## 2. 🏗️ Arquitectura Integral del Sistema
 
 ```mermaid
 flowchart TD
-    subgraph Ingesta ["1. Ingesta y Extracción Estructurada"]
-        PDFs["📄 4 Informes de Cierre (PDF)"] --> Extractor["Extractor Python (pypdf + Pydantic)"]
-        Extractor -->|"Structured Output (JSON)"| DB[("💾 Base de Datos Relacional (SQLite)")]
-        Extractor -->|"Indexación de Fragmentos"| RAGIndex["🔍 Índice de Texto / Chunks"]
+    subgraph Ingestion ["1. Capa de Ingesta y Extracción Estructurada"]
+        PDFs["📄 Informes de Cierre Oficiales (PDF)"] --> Extractor["Extractor Multimodal (pypdf + Pydantic v2)"]
+        Extractor -->|"Fichas Estructuradas (JSON)"| SQLite[("💾 Base Relacional (SQLite: proyectos.db)")]
+        Extractor -->|"Chunking <= 600 chars"| RAGEngine["🔍 Motor RAG Léxico/Semántico"]
     end
 
-    subgraph Agente ["2. Núcleo del Agente de IA"]
-        User["👤 Consultor (Pregunta en Lenguaje Natural)"] --> LLMAgent["🤖 Agente Orquestador (Function Calling)"]
+    subgraph CoreAgent ["2. Núcleo del Agente Inteligente (Backend FastAPI)"]
+        UserQuery["👤 Pregunta del Consultor"] --> Router["Orquestador de Intención / Function Calling"]
         
-        LLMAgent <-->|"Consultas cuantitativas / filtros / agrupaciones"| ToolSQL["📊 Tool SQL: query_database()"]
-        LLMAgent <-->|"Búsqueda cualitativa / detalles narrativos"| ToolRAG["🔍 Tool RAG: search_documents()"]
+        Router <-->|"Consultas cuantitativas / filtros / agregaciones"| ToolSQL["📊 query_project_database(sql_query)"]
+        Router <-->|"Búsqueda cualitativa / metodologías / lecciones"| ToolRAG["📑 search_project_documents(query, project_id)"]
         
-        ToolSQL <--> DB
-        ToolRAG <--> RAGIndex
+        ToolSQL <--> SQLite
+        ToolRAG <--> RAGEngine
         
-        LLMAgent --> ResponseEngine["Motor de Respuesta (Citas + Trazabilidad + Anti-Alucinación)"]
+        Router --> Guardrails["🛡️ Guardrails: Anti-Alucinación + Sanitización + Citas"]
+        Guardrails --> ResponseAPI["Payload Estructurado: answer + tools_used + sources + evidence_chunks"]
     end
 
-    subgraph Interfaces ["3. Capas de Usuario"]
-        ResponseEngine --> CLI["💻 Consola Interactiva CLI (Rich)"]
-        ResponseEngine --> WebApp["🌐 Aplicación Web (Streamlit)"]
+    subgraph Interfaces ["3. Capa de Presentación e Interfaces"]
+        ResponseAPI --> WebApp["🌐 Web App React + Vite + Tailwind (Split-View PDF Inspector)"]
+        ResponseAPI --> CLIApp["💻 Consola Interactiva Terminal (Rich)"]
+        ResponseAPI --> ExecPages["🚀 Páginas Ejecutivas (Hero 3D, Guía Técnica, Simulador ROI)"]
     end
 ```
 
 ---
 
-## 3. 📋 Esquema de la Ficha de Proyecto (Pydantic / SQLite)
+## 3. 📋 Esquema Relacional y Validación de Datos (Pydantic v2)
 
-Cada informe se procesará y almacenará en una tabla relacional con campos estandarizados:
+Cada proyecto se valida mediante modelos estructurados en [`models.py`](file:///d:/Program%20Files/Felipe/Downloads/Talen%20GV/codigo/backend/models.py) y se persiste en SQLite:
 
-| Campo | Tipo | Descripción y Justificación |
-| :--- | :--- | :--- |
-| `codigo_proyecto` | `VARCHAR(20)` (PK) | Código único (ej. `PC-2025-014`). |
-| `cliente` | `VARCHAR(150)` | Nombre de la empresa cliente. |
-| `sector` | `VARCHAR(100)` | Industria (Servicios financieros, Manufactura, Salud, Retail). |
-| `ubicacion` | `VARCHAR(150)` | Ciudad / Región donde se ejecutó el proyecto. |
-| `fecha_inicio` / `fecha_fin` | `DATE` / `VARCHAR` | Fechas de inicio y cierre. |
-| `duracion_semanas` | `INTEGER` | Duración para cálculos analíticos (promedios, máximos). |
-| `gerente_proyecto` | `VARCHAR(150)` | Responsable del equipo consultor. |
-| `objetivo_general` | `TEXT` | Meta principal del proyecto. |
-| `metodologias` | `TEXT` (JSON) | Metodologías aplicadas (Lean Healthcare, SMED, 5S, etc.). |
-| `kpis_impacto` | `TEXT` (JSON) | Métricas numéricas clave con valor Inicial vs. Final. |
-| `beneficios_economicos` | `TEXT` | Ahorros o retorno financiero obtenido. |
-| `lecciones_aprendidas` | `TEXT` | Factores clave, dificultades y recomendaciones. |
-
----
-
-## 4. 🛠️ Herramientas del Agente (Tools)
-
-El agente contará con dos herramientas bien tipadas para que el LLM decida autónomamente cuál ejecutar:
-
-1. **`query_project_database(sql_query: str) -> str`**
-   * Ejecuta consultas `SELECT` sobre SQLite.
-   * Ideal para preguntas tipo: *"¿Cuántos proyectos hicimos en 2025?", "¿Cuál es el proyecto de mayor duración?", "¿En qué sectores tenemos experiencia?"*.
-   * Incluye validación de seguridad (solo lectura).
-
-2. **`search_project_documents(query: str, project_id: Optional[str]) -> str`**
-   * Búsqueda en el texto completo de los informes divididos por secciones.
-   * Ideal para preguntas tipo: *"¿Qué problemas de liderazgo hubo en la clínica?", "¿Cómo se capacitó al personal de planta?", "¿Qué lecciones aprendidas aplican a compras?"*.
+| Campo | Tipo | Restricción / Validación | Descripción |
+| :--- | :--- | :--- | :--- |
+| `codigo_proyecto` | `VARCHAR(20)` | Primary Key | Código único oficial (ej. `PC-2025-014`). |
+| `cliente` | `VARCHAR(150)` | Not Null | Nombre legal de la empresa cliente. |
+| `sector` | `VARCHAR(100)` | Not Null | Industria (Servicios financieros, Manufactura, Salud, Retail). |
+| `ubicacion` | `VARCHAR(150)` | Not Null | Ubicación geográfica o red de agencias. |
+| `fecha_inicio` | `VARCHAR(10)` | ISO 8601 (`YYYY-MM-DD`) | Fecha de inicio del proyecto. |
+| `fecha_fin` | `VARCHAR(10)` | ISO 8601 (`YYYY-MM-DD`) | Fecha de cierre del proyecto. |
+| `duracion_semanas` | `INTEGER` | `ge=0` (Mayor o igual a 0) | Duración para cálculos analíticos y promedios. |
+| `gerente_proyecto` | `VARCHAR(150)` | Not Null | Gerente responsable de Procesa Consultores. |
+| `objetivo_general` | `TEXT` | Not Null | Propósito principal y alcance de la consultoría. |
+| `metodologias_herramientas` | `JSON TEXT` | Lista de strings | Herramientas (Lean, SMED, TPM, VSM, etc.). |
+| `kpis_impacto` | `JSON TEXT` | Lista de objetos KPI | Pares numéricos (Línea Base Inicial vs. Resultado Final). |
+| `beneficios_economicos` | `TEXT` | Not Null | Ahorro cuantificado o declaración de no monetización. |
+| `lecciones_aprendidas` | `JSON TEXT` | Lista de strings | Aprendizajes críticos y factores de cambio. |
+| `factores_riesgo` | `JSON TEXT` | Lista de strings | Riesgos operativos y mitigaciones. |
 
 ---
 
-## 5. 🎯 Confiabilidad, Citas y Trazabilidad
+## 4. 🛠️ Herramientas del Agente (Function Calling)
 
-* **Anti-Alucinación:** Si un dato no figura en la base de datos ni en los informes, el agente responderá explícitamente: *"No se dispone de información sobre ese aspecto en los informes de cierre disponibles"*.
-* **Citas Obligatorias:** Toda respuesta incluirá la referencia exacta al proyecto de origen (ej. `[Fuente: PC-2025-027 - Plásticos del Pacífico S.A.]`).
-* **Trazabilidad:** La interfaz mostrará en pantalla qué herramienta invocó el agente, qué parámetros envió y qué resultado obtuvo antes de formular la respuesta final.
+El agente expone dos herramientas con JSON Schema estricto compatibles con OpenAI y Google Gemini:
 
----
+### 1. `query_project_database(sql_query: str)`
+* **Propósito:** Ejecución de consultas `SELECT` sobre SQLite para responder preguntas cuantitativas, comparativas o de agregación.
+* **Seguridad:** Motor de validación que bloquea mutaciones (`DROP`, `DELETE`, `UPDATE`, `INSERT`, `ALTER`, `ATTACH`, `PRAGMA`), bloquea múltiples sentencias separadas por punto y coma, y permite de forma segura literales con comillas simples (ej. `SELECT 'UPDATE' AS estado`).
 
-## 6. 💻 Interfaces
-
-1. **CLI (Terminal con Rich):** Consola elegante con paneles de colores, historial y trazabilidad visible.
-2. **Web (Streamlit):** Chat interactivo + visualizador de fichas y visor de la base de datos.
-
----
-
-## 7. 🧪 Pruebas Automatizadas (Pytest)
-
-Suite de tests para verificar automáticamente:
-* Parseo de los 4 PDFs y validación de esquemas con Pydantic.
-* Ejecución correcta de consultas SQL.
-* Recuperación de fragmentos relevantes con RAG.
-* Respuestas correctas del agente ante preguntas de prueba.
+### 2. `search_project_documents(query: str, project_id: Optional[str] = None)`
+* **Propósito:** Búsqueda sobre el corpus textual de los informes de cierre.
+* **Chunking Semántico:** Fragmentación con límite estricto de $\le 600$ caracteres por chunk, preservando número de página y proyecto de procedencia.
+* **Filtro por Proyecto:** Permite restringir la búsqueda a un informe específico cuando la intención del usuario lo requiere.
 
 ---
 
-## 8. 💰 Estimación de Costos (50 Consultores / Día)
+## 5. 🛡️ Guardrails, Citas y Trazabilidad de Extremo a Extremo
 
-* **Supuesto:** 50 consultores × 10 consultas al día = 500 consultas/día (~11,000 consultas/mes).
-* **Consumo promedio por consulta:** ~800 tokens entrada / ~300 tokens salida.
-* **Costo mensual estimado (OpenAI `gpt-4o-mini`):** **Entre $3.00 y $5.00 USD al mes**, demostrando alta viabilidad financiera.
+1. **Abstención Fáctica (Anti-Alucinación):**
+   - Si la consulta refiere a sectores no cubiertos (ej. *minería, petróleo, agricultura, telecomunicaciones*) o códigos inexistentes, el sistema responde explícitamente que no se dispone de información en los informes disponibles y marca `found_info=False`.
+   - Si la herramienta SQL retorna 0 filas o el LLM no invoca herramientas, no se sintetizan datos ficticios.
+2. **Trazabilidad Completa:** Cada respuesta incluye:
+   - `tools_used`: Nombre de herramienta, argumentos enviados, resumen del resultado y tiempo de ejecución en milisegundos (`ms`).
+   - `sources`: Códigos de proyectos citados.
+   - `evidence_chunks`: Fragmentos textuales exactos con número de página y texto fuente.
+3. **Inspector de Evidencia en Frontend:** Panel en pantalla dividida (Split-View) que permite alternar entre el texto del chunk RAG, la ficha técnica del proyecto y el visor PDF embebido.
+
+---
+
+## 6. 🌐 Interfaces de Usuario Implementadas
+
+1. **Aplicación Web React + Vite + Tailwind CSS:**
+   - Chat inteligente con sugerencias adaptativas y citas interactivas.
+   - Explorador relacional SQLite con consola interactiva y operaciones CRUD (subida de PDFs nuevos, borrado y restauración).
+   - Panel de Fichas Estructuradas con visualización de KPIs antes/después.
+   - Modal de configuración dinámica de IA (API Keys, selector de modelos Gemini/OpenAI y slider de temperatura).
+2. **Páginas Ejecutivas de Apoyo:**
+   - `/inicio.html` / `/nival.html`: Presentación Hero 3D de la plataforma.
+   - `/guia.html`: Guía técnica y de arquitectura del sistema.
+   - `/solucion.html`: Demostración interactiva y simulador de ROI para consultoría.
+3. **Consola CLI Interactiva (Rich):**
+   - Interfaz por terminal con tablas estilizadas, paneles de trazabilidad y diálogo continuo.
+
+---
+
+## 7. 🧪 Estrategia de Pruebas y Calidad de Software (Testing)
+
+El sistema cuenta con una suite completa de pruebas automatizadas con **Pytest** para garantizar robustez, mantenibilidad y fidelidad fáctica:
+
+1. **Pruebas de Ingesta y Validación de Datos (`test_extractor_and_database.py`):**
+   - Comprobación de existencia de las fichas JSON y base SQLite.
+   - Validación del modelo Pydantic (`ProyectoFicha`) rechazando duraciones negativas o esquemas inválidos.
+   - Verificación de guardrails de seguridad en SQLite (bloqueo de sentencias `DROP`, `DELETE`, `UPDATE`, mutaciones y multi-statements).
+2. **Pruebas de Búsqueda RAG (`test_rag.py`):**
+   - Indexación correcta de fragmentos con longitud $\le 600$ caracteres.
+   - Recuperación de términos clave (ej. *SMED, OEE, resistencia al cambio, mandos medios*).
+   - Filtrado estricto por `project_id` sin contaminación entre proyectos.
+3. **Pruebas del Agente y Anti-Alucinación (`test_agent.py`):**
+   - Enrutamiento inteligente a SQL ante preguntas analíticas y a RAG ante consultas narrativas.
+   - Trazabilidad y registro de `tools_used`.
+   - Abstención verificada ante dominios o sectores no soportados (*minería, petróleo, agricultura, telecomunicaciones*).
+4. **Fidelidad Documental del Corpus Oficial:**
+   - Fechas de inicio/fin y duraciones en semanas (21, 23, 21, 25; promedio de 22.5 semanas).
+   - Asignación correcta de gerentes de proyecto (Ing. Daniela Cevallos e Ing. Martín Aguirre).
+   - Coincidencia exacta de los 22 pares de indicadores de impacto (Línea Base vs. Resultado Final).
+
+---
+
+## 8. 💰 Desglose Económico y Costo por Consulta en Producción
+
+* **Modelo Base:** `gpt-4o-mini` / `gemini-flash-latest`.
+* **Volumen Estimado:** 50 consultores × 10 consultas/día = 500 consultas/día ($\approx$ 11,000 consultas/mes).
+* **Consumo Medio por Consulta:** 850 tokens de entrada (Prompt + Esquema + Historial) / 250 tokens de salida.
+* **Costo Mensual Estimado:** **$1.15 a $3.50 USD al mes**, demostrando una solución altamente rentable y escalable para la firma.

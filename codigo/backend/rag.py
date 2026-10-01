@@ -92,32 +92,54 @@ class DocumentSearchEngine:
         return text
 
     def _chunk_text(self, text: str, max_chars: int = 600, overlap: int = 100) -> List[str]:
-        """Divide el texto en fragmentos coherentes basados en párrafos y saltos de línea."""
-        text = self._sanitize_text(text)
+        """Divide el texto en fragmentos coherentes garantizando un tamaño máximo <= max_chars."""
+        text = self._sanitize_text(text).strip()
+        if not text:
+            return []
+
+        def slice_large_string(s: str) -> List[str]:
+            parts = []
+            step = max(1, max_chars - overlap)
+            for i in range(0, len(s), step):
+                part = s[i : i + max_chars].strip()
+                if part:
+                    parts.append(part)
+                if i + max_chars >= len(s):
+                    break
+            return parts
+
         paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
-        chunks: List[str] = []
+        raw_chunks: List[str] = []
         current_chunk = ""
 
         for para in paragraphs:
-            if len(current_chunk) + len(para) <= max_chars:
+            if len(para) > max_chars:
+                if current_chunk:
+                    raw_chunks.append(current_chunk)
+                    current_chunk = ""
+                raw_chunks.extend(slice_large_string(para))
+            elif len(current_chunk) + len(para) + (1 if current_chunk else 0) <= max_chars:
                 current_chunk = f"{current_chunk}\n{para}".strip()
             else:
                 if current_chunk:
-                    chunks.append(current_chunk)
+                    raw_chunks.append(current_chunk)
                 current_chunk = para
 
         if current_chunk:
-            chunks.append(current_chunk)
+            raw_chunks.append(current_chunk)
 
-        # Si no hubo párrafos grandes, dividir por longitud con solapamiento
-        if not chunks and text.strip():
-            start = 0
-            while start < len(text):
-                end = start + max_chars
-                chunks.append(text[start:end].strip())
-                start += max_chars - overlap
+        if not raw_chunks and text:
+            raw_chunks = slice_large_string(text)
 
-        return chunks
+        # Garantizar que ningún chunk exceda max_chars
+        final_chunks: List[str] = []
+        for c in raw_chunks:
+            if len(c) > max_chars:
+                final_chunks.extend(slice_large_string(c))
+            else:
+                final_chunks.append(c)
+
+        return [c for c in final_chunks if c]
 
     def _build_index(self) -> None:
         """Lee todos los informes PDF y construye la colección de chunks con metadatos."""
@@ -198,7 +220,7 @@ class DocumentSearchEngine:
             pid_clean = project_id.strip().upper()
             candidate_chunks = [c for c in self.chunks if pid_clean in c.codigo_proyecto.upper()]
             if not candidate_chunks:
-                candidate_chunks = self.chunks  # Fallback si el filtro no coincide
+                return []
 
         # Calcular longitud promedio
         all_doc_tokens = [self._tokenize(c.contenido) for c in candidate_chunks]

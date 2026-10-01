@@ -1,0 +1,11 @@
+{
+  "entorno": "Navegador Codex, build actual, FastAPI aislado 127.0.0.1:8766/app/",
+  "verificaciones": [
+    "El sidebar presenta cuatro proyectos oficiales con nombres correctos.",
+    "Enviar promedio de duración muestra 22.5 semanas, cálculo (21+23+21+25)/4, cuatro fuentes y una herramienta SQL.",
+    "La cita PC-2025-027 abre el inspector con texto del PDF: 23 semanas, Ing. Martín Aguirre y OEE 58% a 71%.",
+    "El inspector ofrece texto, PDF Original y Ficha Técnica; Abrir PDF apunta a /api/pdf/PC-2025-027.",
+    "Los links Inicio, Guía y Solución siguen apuntando a raíz; los requests actuales confirman 404."
+  ],
+  "limites": "Revisión visual funcional acotada. No es matriz exhaustiva móvil, WCAG o cross-browser. Grounding Verificado en UI no constituye certificación del contenido."
+}

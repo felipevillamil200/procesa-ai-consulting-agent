@@ -58,36 +58,64 @@
   border-color: rgba(56, 189, 248, 0.5);
 }
 
-/* Custom Scrollbars */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 9999px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+/* ════════════════════════════════════════════════════════════════════════
+   HIGH-END VISIBLE CUSTOM SCROLLBARS (Apple & Linear Pro Standard)
+   ════════════════════════════════════════════════════════════════════════ */
+/* Global default scrollbar behavior */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(56, 189, 248, 0.45) rgba(15, 23, 42, 0.6);
 }
 
-/* Dark Custom Scrollbars */
+/* Light Custom Scrollbars (Chat Stream, Evidence Viewer & Light Panels) */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #0284c7 rgba(241, 245, 249, 0.9);
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(226, 232, 240, 0.6);
+  border-radius: 9999px;
+  margin: 2px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 4px rgba(2, 132, 199, 0.25);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+}
+
+/* Dark Custom Scrollbars (Sidebar, Code & Dark Bento Sections) */
+.custom-scrollbar-dark {
+  scrollbar-width: thin;
+  scrollbar-color: #0284c7 rgba(15, 23, 42, 0.85);
+}
 .custom-scrollbar-dark::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 .custom-scrollbar-dark::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(15, 23, 42, 0.75);
+  border-radius: 9999px;
+  margin: 2px;
+  border: 1px solid rgba(51, 65, 85, 0.4);
 }
 .custom-scrollbar-dark::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: linear-gradient(180deg, #38bdf8 0%, #0284c7 100%);
   border-radius: 9999px;
+  border: 1px solid rgba(15, 23, 42, 0.9);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
 }
 .custom-scrollbar-dark::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: linear-gradient(180deg, #7dd3fc 0%, #0ea5e9 100%);
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.8);
 }
 
 /* Chat bubble aesthetics */
@@ -187,4 +215,74 @@
 .btn-tactile:active {
   transform: scale(0.96);
 }
+
+/* ════════════════════════════════════════════════════════════════════════
+   INTERFAZ (UI/UX) THEME & BEHAVIOR MODES (100% FUNCTIONAL)
+   ════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Monochrome / Black & White Mode */
+.monochrome-mode {
+  filter: grayscale(100%) contrast(1.08);
+  transition: filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.monochrome-mode .custom-scrollbar-dark::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #cbd5e1 0%, #64748b 100%) !important;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.2) !important;
+}
+
+.monochrome-mode .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #94a3b8 0%, #475569 100%) !important;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* 2. Compact Density Mode */
+.compact-mode aside {
+  width: 17rem !important;
+}
+
+.compact-mode .chat-bubble-ai {
+  padding: 0.75rem 1rem !important;
+  font-size: 0.8rem !important;
+  border-radius: 0.875rem !important;
+}
+
+.compact-mode .glass-panel {
+  padding: 0.875rem 1.25rem !important;
+  border-radius: 1rem !important;
+}
+
+.compact-mode .glass-card {
+  padding: 1rem !important;
+  border-radius: 1rem !important;
+}
+
+.compact-mode .ai-prose p {
+  margin-bottom: 0.4rem !important;
+}
+
+.compact-mode .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.875rem !important;
+}
+
+/* 3. Hide Scrollbars Mode (Disables visible scrollbars completely) */
+.hide-scrollbars * {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.hide-scrollbars *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* 4. Disable Animations Mode (Instant rendering with zero motion) */
+.no-animations,
+.no-animations * {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
 

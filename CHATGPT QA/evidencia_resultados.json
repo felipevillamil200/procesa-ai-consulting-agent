@@ -1,0 +1,2582 @@
+{
+  "suite_estado_actual": {
+    "exit_code": 0,
+    "seconds": 3.995,
+    "tail": "============================= test session starts =============================\nplatform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- C:\\Users\\Felipe\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe\ncachedir: .pytest_cache\nrootdir: D:\\Program Files\\Felipe\\Downloads\\Talen GV\\CHATGPT QA\\sandbox_20261001_135439_027057\nconfigfile: pytest.ini\ntestpaths: tests\nplugins: anyio-4.15.1\ncollecting ... collected 11 items\n\ntests/test_agent.py::TestConsultorAgent::test_anti_hallucination_unsupported_domain PASSED [  9%]\ntests/test_agent.py::TestConsultorAgent::test_rag_routing_qualitative_query PASSED [ 18%]\ntests/test_agent.py::TestConsultorAgent::test_sql_routing_quantitative_query PASSED [ 27%]\ntests/test_agent.py::TestConsultorAgent::test_traceability_logging PASSED [ 36%]\ntests/test_extractor_and_database.py::TestExtractorAndDatabase::test_fichas_json_files_exist PASSED [ 45%]\ntests/test_extractor_and_database.py::TestExtractorAndDatabase::test_proyecto_ficha_model PASSED [ 54%]\ntests/test_extractor_and_database.py::TestExtractorAndDatabase::test_sqlite_read_and_guardrails PASSED [ 63%]\ntests/test_rag.py::TestRAGEngine::test_chunks_indexed PASSED             [ 72%]\ntests/test_rag.py::TestRAGEngine::test_search_oee_and_smed PASSED        [ 81%]\ntests/test_rag.py::TestRAGEngine::test_search_resistance_to_change PASSED [ 90%]\ntests/test_rag.py::TestRAGEngine::test_search_with_project_filter PASSED [100%]\n\n- generated xml file: D:\\Program Files\\Felipe\\Downloads\\Talen GV\\CHATGPT QA\\suite_estado_actual.xml -\n============================= 11 passed in 1.80s ==============================\n"
+  },
+  "sandbox_path": "D:\\Program Files\\Felipe\\Downloads\\Talen GV\\CHATGPT QA\\sandbox_20261001_135439_027057",
+  "estado_actual": {
+    "rows": 4,
+    "pdfs": 4,
+    "fichas": 4,
+    "chunks": 59
+  },
+  "suite_corpus_aislado": {
+    "exit_code": 0,
+    "seconds": 3.357,
+    "tail": "============================= test session starts =============================\nplatform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- C:\\Users\\Felipe\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe\ncachedir: .pytest_cache\nrootdir: D:\\Program Files\\Felipe\\Downloads\\Talen GV\\CHATGPT QA\\sandbox_20261001_135439_027057\nconfigfile: pytest.ini\ntestpaths: tests\nplugins: anyio-4.15.1\ncollecting ... collected 11 items\n\ntests/test_agent.py::TestConsultorAgent::test_anti_hallucination_unsupported_domain PASSED [  9%]\ntests/test_agent.py::TestConsultorAgent::test_rag_routing_qualitative_query PASSED [ 18%]\ntests/test_agent.py::TestConsultorAgent::test_sql_routing_quantitative_query PASSED [ 27%]\ntests/test_agent.py::TestConsultorAgent::test_traceability_logging PASSED [ 36%]\ntests/test_extractor_and_database.py::TestExtractorAndDatabase::test_fichas_json_files_exist PASSED [ 45%]\ntests/test_extractor_and_database.py::TestExtractorAndDatabase::test_proyecto_ficha_model PASSED [ 54%]\ntests/test_extractor_and_database.py::TestExtractorAndDatabase::test_sqlite_read_and_guardrails PASSED [ 63%]\ntests/test_rag.py::TestRAGEngine::test_chunks_indexed PASSED             [ 72%]\ntests/test_rag.py::TestRAGEngine::test_search_oee_and_smed PASSED        [ 81%]\ntests/test_rag.py::TestRAGEngine::test_search_resistance_to_change PASSED [ 90%]\ntests/test_rag.py::TestRAGEngine::test_search_with_project_filter PASSED [100%]\n\n- generated xml file: D:\\Program Files\\Felipe\\Downloads\\Talen GV\\CHATGPT QA\\suite_corpus_aislado.xml -\n============================= 11 passed in 1.59s ==============================\n"
+  },
+  "fichas_generadas": [
+    {
+      "codigo_proyecto": "PC-2025-014",
+      "cliente": "Cooperativa de Ahorro y Crédito Horizonte Andino Ltda.",
+      "sector": "Servicios financieros – cooperativas de ahorro y crédito",
+      "ubicacion": "Sierra centro (22 agencias)",
+      "fecha_inicio": "2025-02-03",
+      "fecha_fin": "2025-06-27",
+      "duracion_semanas": 21,
+      "gerente_proyecto": "Ing. Daniela Cevallos",
+      "equipo_consultor": [
+        "1 gerente",
+        "2 consultores senior",
+        "1 analista de datos"
+      ],
+      "objetivo_general": "Optimización del proceso de aprobación de créditos de consumo y microcrédito reduciendo tiempos de respuesta y reprocesos.",
+      "metodologias_herramientas": [
+        "Lean",
+        "Mapeo de Flujo de Valor (VSM)",
+        "Checklist digital de documentación",
+        "Consulta automática al buró de crédito",
+        "Matriz de aprobación por niveles de riesgo",
+        "Tablero diario de solicitudes"
+      ],
+      "kpis_impacto": [
+        {
+          "indicador": "Tiempo promedio de aprobación",
+          "linea_base_antes": "12 días hábiles",
+          "resultado_despues": "5 días hábiles",
+          "variacion_porcentual": "-58%"
+        },
+        {
+          "indicador": "Solicitudes con reproceso",
+          "linea_base_antes": "34%",
+          "resultado_despues": "12%",
+          "variacion_porcentual": "-22 pp"
+        },
+        {
+          "indicador": "Productividad de analistas",
+          "linea_base_antes": "85 solicitudes/analista/mes",
+          "resultado_despues": "124 solicitudes/analista/mes",
+          "variacion_porcentual": "+46%"
+        },
+        {
+          "indicador": "Satisfacción de socios",
+          "linea_base_antes": "3,2 / 5,0",
+          "resultado_despues": "4,1 / 5,0",
+          "variacion_porcentual": "+0,9"
+        },
+        {
+          "indicador": "Tasa de abandono de solicitudes",
+          "linea_base_antes": "18%",
+          "resultado_despues": "11%",
+          "variacion_porcentual": "-7 pp"
+        }
+      ],
+      "beneficios_economicos": "El informe no cuantifica ahorros económicos directos en USD; reporta un aumento de 9% en el monto colocado en consumo y microcrédito entre el primer y segundo trimestre de 2025 (influido también por campaña comercial paralela).",
+      "principales_hitos": [
+        "Diagnóstico con mapeo de flujo de valor (VSM) del estado actual",
+        "Diseño del estado futuro y matriz de aprobación",
+        "Piloto en 4 agencias durante 5 semanas",
+        "Despliegue escalonado a la red de 22 agencias y estabilización"
+      ],
+      "lecciones_aprendidas": [
+        "La resistencia al cambio se concentró en los mandos medios. Los jefes de agencia percibían la aprobación descentralizada como una pérdida de control. Incorporarlos como dueños del tablero diario, y no solo como receptores del cambio, fue determinante para el despliegue.",
+        "El piloto debe incluir agencias difíciles. Las primeras dos agencias piloto eran las de mejor desempeño y los resultados iniciales sobreestimaron el impacto. Se agregaron dos agencias rurales para validar el diseño.",
+        "La calidad de los datos del core bancario condiciona la medición. Fue necesario depurar fechas de estado de las solicitudes antes de poder construir la línea base."
+      ],
+      "factores_riesgo": [
+        "Resistencia de mandos medios ante la descentralización de aprobaciones",
+        "Calidad y consistencia de datos históricos en el core bancario"
+      ]
+    },
+    {
+      "codigo_proyecto": "PC-2025-027",
+      "cliente": "Plásticos del Pacífico S.A.",
+      "sector": "Manufactura – plásticos y envases",
+      "ubicacion": "Planta industrial de Durán, provincia del Guayas",
+      "fecha_inicio": "2025-07-07",
+      "fecha_fin": "2025-12-12",
+      "duracion_semanas": 23,
+      "gerente_proyecto": "Ing. Martín Aguirre",
+      "equipo_consultor": [
+        "1 gerente",
+        "1 consultor senior en TPM",
+        "2 consultores",
+        "1 analista de datos"
+      ],
+      "objetivo_general": "Mejora de la Efectividad Global de los Equipos (OEE) en la planta de Durán (Línea 1 de inyección).",
+      "metodologias_herramientas": [
+        "Mantenimiento Productivo Total (TPM)",
+        "SMED (Single-Minute Exchange of Die)",
+        "Mantenimiento Autónomo y Preventivo",
+        "Gestión Diaria de Paradas (registro en tablet)",
+        "Mejoras en alimentación de material (tolvas con sensores)"
+      ],
+      "kpis_impacto": [
+        {
+          "indicador": "OEE Global Línea 1 (Inyección)",
+          "linea_base_antes": "58%",
+          "resultado_despues": "71%",
+          "variacion_porcentual": "+13 pp"
+        },
+        {
+          "indicador": "Tiempo promedio de cambio de formato",
+          "linea_base_antes": "95 min",
+          "resultado_despues": "38 min",
+          "variacion_porcentual": "-60%"
+        },
+        {
+          "indicador": "Paradas no programadas",
+          "linea_base_antes": "64 h/mes",
+          "resultado_despues": "31 h/mes",
+          "variacion_porcentual": "-52%"
+        },
+        {
+          "indicador": "Tasa de desperdicio (scrap)",
+          "linea_base_antes": "6,0%",
+          "resultado_despues": "5,0%",
+          "variacion_porcentual": "-1 pp"
+        },
+        {
+          "indicador": "Disponibilidad",
+          "linea_base_antes": "72%",
+          "resultado_despues": "82%",
+          "variacion_porcentual": "+10 pp"
+        },
+        {
+          "indicador": "Rendimiento",
+          "linea_base_antes": "86%",
+          "resultado_despues": "91%",
+          "variacion_porcentual": "+5 pp"
+        },
+        {
+          "indicador": "Calidad",
+          "linea_base_antes": "94%",
+          "resultado_despues": "95%",
+          "variacion_porcentual": "+1 pp"
+        }
+      ],
+      "beneficios_economicos": "El informe no declara montos monetarios en USD; la mejora en OEE generó una capacidad adicional estimada de 1,9 millones de tapas al mes para cubrir nuevos contratos sin inversión en maquinaria.",
+      "principales_hitos": [
+        "Fase 1: Diagnóstico y línea base OEE (Semanas 1-4)",
+        "Fase 2: Diseño de estándares SMED y mantenimiento autónomo (Semanas 5-8)",
+        "Fase 3: Implementación talleres SMED y tablets en planta (Semanas 9-19)",
+        "Fase 4: Estabilización y transferencia autónoma al equipo de planta (Semanas 20-23)"
+      ],
+      "lecciones_aprendidas": [
+        "La resistencia al cambio se concentró en los mandos medios. Los supervisores de turno veían el registro detallado de paradas como un mecanismo de control sobre su desempeño. La situación cambió cuando se les dio la responsabilidad de conducir la reunión diaria y de proponer las acciones, en lugar de solo reportar.",
+        "Sin datos confiables no hay mejora sostenible. El registro manual subestimaba las paradas en cerca de un 40%. Invertir las primeras semanas en medir bien evitó atacar causas equivocadas.",
+        "SMED genera resultados rápidos y visibles. Empezar por los cambios de formato permitió mostrar resultados en el primer mes de implementación y ganar credibilidad en planta."
+      ],
+      "factores_riesgo": [
+        "Desgaste mecánico de inyectoras antiguas",
+        "Subregistro inicial de microparadas en registros manuales"
+      ]
+    },
+    {
+      "codigo_proyecto": "PC-2025-033",
+      "cliente": "Clínica Santa Lucía del Valle",
+      "sector": "Salud – clínicas y hospitales privados",
+      "ubicacion": "Valle de los Chillos, Quito",
+      "fecha_inicio": "2025-10-06",
+      "fecha_fin": "2026-02-27",
+      "duracion_semanas": 21,
+      "gerente_proyecto": "Ing. Martín Aguirre",
+      "equipo_consultor": [
+        "1 gerente",
+        "1 consultora senior en procesos de salud",
+        "1 consultor",
+        "1 analista de datos"
+      ],
+      "objetivo_general": "Reducción de tiempos de admisión y espera en consulta externa.",
+      "metodologias_herramientas": [
+        "Lean Healthcare",
+        "Análisis de colas",
+        "Agenda diferenciada por especialidad",
+        "Pre-admisión digital",
+        "Reorganización de ventanillas",
+        "Recordatorios y confirmación automática de citas"
+      ],
+      "kpis_impacto": [
+        {
+          "indicador": "Tiempo total de espera del paciente",
+          "linea_base_antes": "52 min",
+          "resultado_despues": "39,5 min",
+          "variacion_porcentual": "-24%"
+        },
+        {
+          "indicador": "Tiempo de admisión en ventanilla",
+          "linea_base_antes": "14 min",
+          "resultado_despues": "6 min",
+          "variacion_porcentual": "-57%"
+        },
+        {
+          "indicador": "Pacientes con pre-admisión digital",
+          "linea_base_antes": "0%",
+          "resultado_despues": "41%",
+          "variacion_porcentual": "+41 pp"
+        },
+        {
+          "indicador": "Ausentismo de citas",
+          "linea_base_antes": "22%",
+          "resultado_despues": "15%",
+          "variacion_porcentual": "-7 pp"
+        },
+        {
+          "indicador": "Satisfacción del paciente (NPS)",
+          "linea_base_antes": "18",
+          "resultado_despues": "37",
+          "variacion_porcentual": "+19 puntos"
+        }
+      ],
+      "beneficios_economicos": "El informe no incluye estimaciones de ahorro o facturación en USD; se focaliza en indicadores de tiempo de espera, ausentismo (15%) y duplicación del NPS de pacientes.",
+      "principales_hitos": [
+        "Diagnóstico con seguimiento presencial de 420 pacientes (Semanas 1-5)",
+        "Diseño y piloto de agenda y pre-admisión en 3 especialidades (Semanas 6-12)",
+        "Despliegue integral a todas las especialidades y medición final (Semanas 13-21)"
+      ],
+      "lecciones_aprendidas": [
+        "Involucrar a los médicos desde el diagnóstico. El rediseño de la agenda generó inicialmente rechazo de algunos especialistas. Presentarles los tiempos reales de sus propias consultas, medidos en el diagnóstico, facilitó el acuerdo sobre los nuevos bloques.",
+        "La medición manual de tiempos tiene límites. El seguimiento presencial de pacientes es costoso y difícil de repetir. Se recomendó al cliente registrar automáticamente las marcas de tiempo de llegada, admisión e ingreso a consulta para dar seguimiento continuo.",
+        "La adopción digital requiere acompañamiento. La pre-admisión creció de forma sostenida solo después de ubicar personal de apoyo en la entrada durante las primeras semanas para guiar a los pacientes."
+      ],
+      "factores_riesgo": [
+        "Resistencia inicial del cuerpo médico al cambio de bloques de agendamiento",
+        "Variabilidad en la demanda de traumatología y dermatología"
+      ]
+    },
+    {
+      "codigo_proyecto": "PC-2026-006",
+      "cliente": "Supermercados La Canasta Cía. Ltda.",
+      "sector": "Retail – supermercados",
+      "ubicacion": "Pichincha, Imbabura y Cotopaxi (14 tiendas)",
+      "fecha_inicio": "2026-03-02",
+      "fecha_fin": "2026-08-21",
+      "duracion_semanas": 25,
+      "gerente_proyecto": "Ing. Daniela Cevallos",
+      "equipo_consultor": [
+        "1 gerente",
+        "1 consultor senior en cadena de suministro",
+        "1 consultor",
+        "1 analista de datos"
+      ],
+      "objetivo_general": "Optimización del proceso de reposición de inventario en tiendas.",
+      "metodologias_herramientas": [
+        "Gestión de Cadena de Suministro",
+        "Clasificación ABC de productos",
+        "Punto de pedido y stock de seguridad (52 semanas historial)",
+        "Planificación semanal de demanda",
+        "Conteos cíclicos semanales",
+        "Especificación funcional EDI para proveedores"
+      ],
+      "kpis_impacto": [
+        {
+          "indicador": "Quiebre de stock, categoría A",
+          "linea_base_antes": "9,5%",
+          "resultado_despues": "4,8%",
+          "variacion_porcentual": "-49.5% (-4.7 pp)"
+        },
+        {
+          "indicador": "Días de inventario en tienda",
+          "linea_base_antes": "38 días",
+          "resultado_despues": "31 días",
+          "variacion_porcentual": "-18.4% (-7 días)"
+        },
+        {
+          "indicador": "Integración de órdenes con proveedores",
+          "linea_base_antes": "0 de 3",
+          "resultado_despues": "0 de 3",
+          "variacion_porcentual": "0 (No cumplido / Trasladado a Fase 2)"
+        },
+        {
+          "indicador": "Merma de perecibles",
+          "linea_base_antes": "4,1%",
+          "resultado_despues": "3,4%",
+          "variacion_porcentual": "-0,7 pp"
+        },
+        {
+          "indicador": "Precisión de inventario en sistema",
+          "linea_base_antes": "78%",
+          "resultado_despues": "93%",
+          "variacion_porcentual": "+15 pp"
+        }
+      ],
+      "beneficios_economicos": "El informe no cuantifica montos monetarios de ahorro en USD; destaca la reducción del quiebre de stock al 4,8% y mejora de rotación de inventarios.",
+      "principales_hitos": [
+        "Auditoría y clasificación ABC con piloto en 3 locales (Abril-Mayo 2026)",
+        "Cálculo de puntos de pedido y despliegue a los 14 locales",
+        "Pruebas de intercambio electrónico EDI con proveedores (reprogramado a Fase 2)"
+      ],
+      "lecciones_aprendidas": [
+        "Los datos maestros son el cimiento. Cerca del 15% de los códigos tenía unidades de medida o factores de empaque incorrectos, lo que distorsionaba los cálculos de reposición. Su depuración tomó tres semanas no previstas en el plan.",
+        "Las dependencias de terceros deben gestionarse desde el inicio. La integración con proveedores dependía de la versión del ERP y de la capacidad técnica de los propios proveedores; ambos riesgos debieron identificarse y validarse en el diagnóstico.",
+        "El administrador de tienda es clave. Los locales cuyos administradores participaron en el diseño de los parámetros adoptaron el modelo más rápido y con menos ajustes manuales."
+      ],
+      "factores_riesgo": [
+        "Incompatibilidad temporal del ERP del cliente para integración EDI con proveedores",
+        "Inconsistencias en datos maestros de unidades de empaque"
+      ]
+    }
+  ],
+  "corpus": [
+    {
+      "file": "Informe_Cierre_PC-2025-014_Cooperativa_Horizonte_Andino.pdf",
+      "pages": 3,
+      "sha256": "b84a2ca48244080c0fdcbb230c455eb95fd213e6d3cfb39b010a9b2e321833ad"
+    },
+    {
+      "file": "Informe_Cierre_PC-2025-027_Plasticos_del_Pacifico.pdf",
+      "pages": 4,
+      "sha256": "7ab0985717fef2ae5d7f59dab029f4411be75b6305bbc55063dd9a4423ac8309"
+    },
+    {
+      "file": "Informe_Cierre_PC-2025-033_Clinica_Santa_Lucia.pdf",
+      "pages": 3,
+      "sha256": "253a8b672a3d37ce915bc5fdcbe3217232efc2c83e7389aa20af23e548002430"
+    },
+    {
+      "file": "Informe_Cierre_PC-2026-006_Supermercados_La_Canasta.pdf",
+      "pages": 3,
+      "sha256": "ff21376be517966440241b4f134ac74d0aa79aafea70e107ade700256784fa71"
+    },
+    {
+      "file": "Prueba_Tecnica_Consultor_IA.pdf",
+      "pages": 3,
+      "sha256": "aa838d5cdcbbd64728b151e2a539a77867050cd7ab0012c7f802cae41149ed22"
+    }
+  ],
+  "index": {
+    "chunks": 59,
+    "codes": [
+      "PC-2025-014",
+      "PC-2025-027",
+      "PC-2025-033",
+      "PC-2026-006"
+    ],
+    "max_chars": 600
+  },
+  "preguntas": [
+    {
+      "question": "¿Qué proyectos se ejecutaron en el año 2025 y cuál duró más?",
+      "answer": "En el año 2025 se ejecutaron **3 proyectos**:\n\n• **PC-2025-027 - Plásticos del Pacífico S.A.** (Manufactura - plásticos y envases): Duración de 23 semanas. Gerente: Ing. Martín Aguirre.\n• **PC-2025-014 - Cooperativa de Ahorro y Crédito Horizonte Andino Ltda.** (Servicios financieros - cooperativas de ahorro y crédito): Duración de 21 semanas. Gerente: Ing. Daniela Cevallos.\n• **PC-2025-033 - Clínica Santa Lucía del Valle** (Salud - clínicas y hospitales privados): Duración de 21 semanas. Gerente: Ing. Martín Aguirre.\n\nEl proyecto de mayor duración en 2025 fue **PC-2025-027 (Plásticos del Pacífico S.A.)** con **23 semanas**.\n\n**Fuentes Consultadas:** PC-2025-014, PC-2025-027, PC-2025-033",
+      "tools_used": [
+        {
+          "tool_name": "query_project_database",
+          "arguments": {
+            "sql_query": "SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto, kpis_impacto FROM proyectos WHERE fecha_inicio LIKE '2025%' ORDER BY duracion_semanas DESC"
+          },
+          "result_summary": "SQL exitoso: 3 fila(s) retornada(s).",
+          "execution_time_ms": 1.0
+        }
+      ],
+      "sources": [
+        "PC-2025-014",
+        "PC-2025-027",
+        "PC-2025-033"
+      ],
+      "found_info": true,
+      "evidence_chunks": [
+        {
+          "chunk_id": "PC-2025-033_P1_C1",
+          "codigo_proyecto": "PC-2025-033",
+          "cliente": "Clínica Santa Lucía del Valle",
+          "pagina": 1,
+          "contenido": "PROCESA CONSULTORES  |  PC-2025-033 · Clínica Santa Lucía del Valle  ·  Documento de uso interno  ·  Página 1 \nINFORME DE CIERRE DE PROYECTO \nReducción de tiempos de admisión y espera en consulta \nexterna \nClínica Santa Lucía del Valle \nDato Detalle \nCódigo de proyecto PC-2025-033 \nCliente Clínica Santa Lucía del Valle, clínica privada de especialidades con 38 consultorios y \n60 camas \nSector Salud - clínicas y hospitales privados \nUbicación Valle de los Chillos, Quito \nPeriodo de ejecución 6 de octubre de 2025 al 27 de febrero de 2026 (21 semanas) \nGerente de proyecto Ing. Martín Aguirre \nEqu",
+          "fuente": "[Fuente: PC-2025-033 - Clínica Santa Lucía del Valle, Pág. 1]"
+        },
+        {
+          "chunk_id": "PC-2025-033_P1_C2",
+          "codigo_proyecto": "PC-2025-033",
+          "cliente": "Clínica Santa Lucía del Valle",
+          "pagina": 1,
+          "contenido": "octubre de 2025 al 27 de febrero de 2026 (21 semanas) \nGerente de proyecto Ing. Martín Aguirre \nEquipo consultor 1 gerente, 1 consultora senior en procesos de salud, 1 consultor, 1 analista de \ndatos \nContraparte del cliente Dirección Médica y Jefatura de Admisiones \nEstado Cerrado - aceptado por el cliente el 6 de marzo de 2026 \n1. Resumen ejecutivo \nLa Clínica Santa Lucía del Valle recibía un número creciente de quejas por tiempos de espera en consulta \nexterna, que se habían convertido en el principal motivo de insatisfacción en sus encuestas. El proyecto \nintervino el recorrido completo d",
+          "fuente": "[Fuente: PC-2025-033 - Clínica Santa Lucía del Valle, Pág. 1]"
+        },
+        {
+          "chunk_id": "PC-2025-014_P1_C1",
+          "codigo_proyecto": "PC-2025-014",
+          "cliente": "Cooperativa Horizonte Andino",
+          "pagina": 1,
+          "contenido": "PROCESA CONSULTORES\n| PC-2025-014 · Cooperativa Horizonte Andino  ·  Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nOptimización del proceso de aprobación de\ncréditos de consumo y microcrédito\nCooperativa de Ahorro y Crédito Horizonte Andino Ltda.\nCódigo de proyecto\nPC-2025-014\nCliente\nCooperativa de Ahorro y Crédito Horizonte Andino Ltda. (segmento 1,\n22 agencias en Sierra centro)\nSector\nServicios financieros - cooperativas de ahorro y crédito\nPeriodo de ejecución\n3 de febrero de 2025 al 27 de junio de 2025 (21 semanas)\nGerente de proyecto\nIng. Daniela Cevallos\nEquipo consult",
+          "fuente": "[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 1]"
+        },
+        {
+          "chunk_id": "PC-2025-014_P1_C2",
+          "codigo_proyecto": "PC-2025-014",
+          "cliente": "Cooperativa Horizonte Andino",
+          "pagina": 1,
+          "contenido": "de 2025 al 27 de junio de 2025 (21 semanas)\nGerente de proyecto\nIng. Daniela Cevallos\nEquipo consultor\n1 gerente, 2 consultores senior, 1 analista de datos\nContraparte del cliente\nGerencia de Negocios y Jefatura de Operaciones de Crédito\nEstado\nCerrado - aceptado por el cliente el 4 de julio de 2025\n1. Resumen ejecutivo\nHorizonte Andino enfrentaba tiempos de aprobación de crédito muy superiores a los de su competencia\ndirecta, lo que se traducía en pérdida de socios hacia bancos y fintechs con respuesta en 48 horas. El\nproyecto rediseñó el flujo completo de originación, desde la recepción de l",
+          "fuente": "[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 1]"
+        },
+        {
+          "chunk_id": "PC-2025-027_P1_C1",
+          "codigo_proyecto": "PC-2025-027",
+          "cliente": "Plásticos del Pacífico S.A.",
+          "pagina": 1,
+          "contenido": "PROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico  ·  Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nMejora de la Efectividad Global de los\nEquipos (OEE) en la planta de Durán\nPlásticos del Pacífico S.A.\nCódigo de proyecto\nPC-2025-027\nCliente\nPlásticos del Pacífico S.A., fabricante de envases y tapas plásticas\npara la industria de alimentos y bebidas\nSector\nManufactura - plásticos y envases\nUbicación\nPlanta industrial de Durán, provincia del Guayas\nPeriodo de ejecución\n7 de julio de 2025 al 12 de diciembre de 2025 (23 semanas)\nGerente de proyecto\nIng. Martín Aguirre\nE",
+          "fuente": "[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 1]"
+        },
+        {
+          "chunk_id": "PC-2025-027_P1_C2",
+          "codigo_proyecto": "PC-2025-027",
+          "cliente": "Plásticos del Pacífico S.A.",
+          "pagina": 1,
+          "contenido": "7 de julio de 2025 al 12 de diciembre de 2025 (23 semanas)\nGerente de proyecto\nIng. Martín Aguirre\nEquipo consultor\n1 gerente, 1 consultor senior en TPM, 2 consultores, 1 analista de\ndatos\nContraparte del cliente\nGerencia de Planta y Jefatura de Mantenimiento\nEstado\nCerrado - aceptado por el cliente el 19 de diciembre de 2025\n1. Resumen ejecutivo\nPlásticos del Pacífico necesitaba aumentar su capacidad productiva para atender contratos nuevos con\ndos embotelladoras sin invertir en una máquina adicional. El proyecto se enfocó en recuperar\ncapacidad oculta en la Línea 1 de inyección, que concentr",
+          "fuente": "[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 1]"
+        }
+      ],
+      "total_ms": 390.82
+    },
+    {
+      "question": "¿Qué lecciones aprendidas tuvimos sobre mandos medios y resistencia al cambio?",
+      "answer": "\n**Lecciones y Metodologías Documentadas:**\n[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 3]:\nio (scrap)\n6,0%\nsin meta\n5,0%\n-1 pp\nSe cumplieron los cuatro objetivos del proyecto. El sistema de gestión diaria de paradas quedó\noperando de forma autónoma por el equipo de planta desde la semana 21, sin participación de los\nconsultores en las reuniones diarias.\n8. Lecciones aprendidas\n La resistencia al cambio se concentró en los mandos medios. Los supervisores de turno veían\nel registro detallado de paradas como un mecanismo de control sobre su desempeño. La situación\ncambió cuando se les dio la responsabilidad de conducir la reunión diaria y de proponer las\nacciones, en lugar de solo rep\n\n---\n\n[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 3]:\nPROCESA CONSULTORES\n| PC-2025-014 · Cooperativa Horizonte Andino  ·  Documento de uso interno\nPágina 3\n La resistencia al cambio se concentró en los mandos medios. Los jefes de agencia percibían la\naprobación descentralizada como una pérdida de control. Incorporarlos como dueños del tablero\ndiario, y no solo como receptores del cambio, fue determinante para el despliegue.\n El piloto debe incluir agencias difíciles. Las primeras dos agencias piloto eran las de mejor\ndesempeño y los resultados iniciales sobreestimaron el impacto. Se agregaron dos agencias rurales\npara validar el diseño.\n La c\n\n---\n\n[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 2]:\nSí\nTasa de abandono de\nsolicitudes\n% del total\n18%\n<= 10%\n11%\n-7 pp\nNo\npp: puntos porcentuales. Fuente: sistema de originación del cliente y encuesta a 640 socios.\nAdicionalmente, el cliente reportó un aumento de 9% en el monto colocado en consumo y microcrédito\nentre el primer y segundo trimestre de 2025. Este resultado no se incluye como indicador del proyecto\nporque también responde a una campaña comercial que se ejecutó en paralelo.\n6. Lecciones aprendidas\n\n**Fuentes Consultadas:** PC-2025-014, PC-2025-027",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "¿Qué lecciones aprendidas tuvimos sobre mandos medios y resistencia al cambio?",
+            "project_id": null
+          },
+          "result_summary": "RAG exitoso: 3 fragmento(s) encontrado(s).",
+          "execution_time_ms": 6.2
+        }
+      ],
+      "sources": [
+        "PC-2025-014",
+        "PC-2025-027"
+      ],
+      "found_info": true,
+      "evidence_chunks": [
+        {
+          "chunk_id": "PC-2025-027_P3_C5",
+          "codigo_proyecto": "PC-2025-027",
+          "cliente": "Plásticos del Pacífico S.A.",
+          "pagina": 3,
+          "contenido": "io (scrap)\n6,0%\nsin meta\n5,0%\n-1 pp\nSe cumplieron los cuatro objetivos del proyecto. El sistema de gestión diaria de paradas quedó\noperando de forma autónoma por el equipo de planta desde la semana 21, sin participación de los\nconsultores en las reuniones diarias.\n8. Lecciones aprendidas\n La resistencia al cambio se concentró en los mandos medios. Los supervisores de turno veían\nel registro detallado de paradas como un mecanismo de control sobre su desempeño. La situación\ncambió cuando se les dio la responsabilidad de conducir la reunión diaria y de proponer las\nacciones, en lugar de solo rep",
+          "fuente": "[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 3]"
+        },
+        {
+          "chunk_id": "PC-2025-014_P3_C1",
+          "codigo_proyecto": "PC-2025-014",
+          "cliente": "Cooperativa Horizonte Andino",
+          "pagina": 3,
+          "contenido": "PROCESA CONSULTORES\n| PC-2025-014 · Cooperativa Horizonte Andino  ·  Documento de uso interno\nPágina 3\n La resistencia al cambio se concentró en los mandos medios. Los jefes de agencia percibían la\naprobación descentralizada como una pérdida de control. Incorporarlos como dueños del tablero\ndiario, y no solo como receptores del cambio, fue determinante para el despliegue.\n El piloto debe incluir agencias difíciles. Las primeras dos agencias piloto eran las de mejor\ndesempeño y los resultados iniciales sobreestimaron el impacto. Se agregaron dos agencias rurales\npara validar el diseño.\n La c",
+          "fuente": "[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 3]"
+        },
+        {
+          "chunk_id": "PC-2025-014_P2_C5",
+          "codigo_proyecto": "PC-2025-014",
+          "cliente": "Cooperativa Horizonte Andino",
+          "pagina": 2,
+          "contenido": "Sí\nTasa de abandono de\nsolicitudes\n% del total\n18%\n<= 10%\n11%\n-7 pp\nNo\npp: puntos porcentuales. Fuente: sistema de originación del cliente y encuesta a 640 socios.\nAdicionalmente, el cliente reportó un aumento de 9% en el monto colocado en consumo y microcrédito\nentre el primer y segundo trimestre de 2025. Este resultado no se incluye como indicador del proyecto\nporque también responde a una campaña comercial que se ejecutó en paralelo.\n6. Lecciones aprendidas",
+          "fuente": "[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 2]"
+        }
+      ],
+      "total_ms": 5.7
+    },
+    {
+      "question": "¿Qué proyectos tenemos en minería o petróleo?",
+      "answer": "No se dispone de información sobre ese aspecto o sector en los informes de cierre de proyectos analizados.",
+      "tools_used": [],
+      "sources": [],
+      "found_info": false,
+      "evidence_chunks": [],
+      "total_ms": 0.07
+    },
+    {
+      "question": "¿Qué proyectos tenemos en agricultura?",
+      "answer": "No se dispone de información sobre ese aspecto o sector en los informes de cierre de proyectos analizados.",
+      "tools_used": [],
+      "sources": [],
+      "found_info": false,
+      "evidence_chunks": [],
+      "total_ms": 0.03
+    },
+    {
+      "question": "¿Cuál es el promedio de duración en semanas?",
+      "answer": "El promedio de duración de los 4 proyectos de consultoría es de **22.5 semanas** (cálculo: (21 + 23 + 21 + 25) / 4 = 22.5 semanas segun PDFs).\n\nDesglose por proyecto: PC-2025-014 (21 sem), PC-2025-027 (23 sem), PC-2025-033 (21 sem), PC-2026-006 (25 sem).\n\n**Fuentes Consultadas:** PC-2025-014, PC-2025-027, PC-2025-033, PC-2026-006",
+      "tools_used": [
+        {
+          "tool_name": "query_project_database",
+          "arguments": {
+            "sql_query": "SELECT codigo_proyecto, cliente, duracion_semanas FROM proyectos WHERE duracion_semanas > 0 ORDER BY codigo_proyecto ASC"
+          },
+          "result_summary": "SQL exitoso: 4 fila(s) retornada(s).",
+          "execution_time_ms": 1.0
+        }
+      ],
+      "sources": [
+        "PC-2025-014",
+        "PC-2025-027",
+        "PC-2025-033",
+        "PC-2026-006"
+      ],
+      "found_info": true,
+      "evidence_chunks": [],
+      "total_ms": 1.28
+    },
+    {
+      "question": "¿Cuánto dinero se ahorró en retail?",
+      "answer": "En el informe oficial de cierre del proyecto de retail (PC-2026-006 - Supermercados La Canasta Cía. Ltda.), no se declara ni cuantifica un monto monetario específico de ahorro en dinero (USD). El informe declara que los resultados se enfocan en mejoras operativas: quiebre de stock en categoría A reducido de 9.5% a 4.8%, días de inventario en bodega de tienda de 38 a 31 días y reducción de merma de perecibles de 4.1% a 3.4%.\n\n**Fuente Consultada:** [Fuente: PC-2026-006 - Supermercados La Canasta Cía. Ltda.]",
+      "tools_used": [
+        {
+          "tool_name": "query_project_database",
+          "arguments": {
+            "sql_query": "SELECT codigo_proyecto, cliente, sector, beneficios_economicos FROM proyectos WHERE codigo_proyecto = 'PC-2026-006'"
+          },
+          "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+          "execution_time_ms": 1.0
+        }
+      ],
+      "sources": [
+        "PC-2026-006"
+      ],
+      "found_info": false,
+      "evidence_chunks": [],
+      "total_ms": 1.12
+    },
+    {
+      "question": "¿Cuál es el proyecto PC-2025-014?",
+      "answer": "El proyecto **PC-2025-014** corresponde al cliente **Cooperativa de Ahorro y Crédito Horizonte Andino Ltda.**, del sector **Servicios financieros – cooperativas de ahorro y crédito**, ubicado en **Sierra centro (22 agencias)**.\n\n• **Periodo:** 2025-02-03 al 2025-06-27 (21 semanas)\n• **Líder de Proyecto:** Ing. Daniela Cevallos\n• **Objetivo:** Optimización del proceso de aprobación de créditos de consumo y microcrédito reduciendo tiempos de respuesta y reprocesos.\n\n**Fuente Consultada:** [Fuente: PC-2025-014 - Cooperativa de Ahorro y Crédito Horizonte Andino Ltda.]",
+      "tools_used": [
+        {
+          "tool_name": "query_project_database",
+          "arguments": {
+            "sql_query": "SELECT * FROM proyectos WHERE codigo_proyecto = 'PC-2025-014'"
+          },
+          "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+          "execution_time_ms": 1.05
+        }
+      ],
+      "sources": [
+        "PC-2025-014"
+      ],
+      "found_info": true,
+      "evidence_chunks": [],
+      "total_ms": 1.25
+    }
+  ],
+  "regression_metrics": {
+    "passed": 27,
+    "failed": 0,
+    "total": 27
+  },
+  "campos_comparados": [
+    {
+      "project": "PC-2025-014",
+      "field": "fecha_inicio",
+      "expected": "2025-02-03",
+      "actual": "2025-02-03",
+      "passed": true
+    },
+    {
+      "project": "PC-2025-014",
+      "field": "fecha_fin",
+      "expected": "2025-06-27",
+      "actual": "2025-06-27",
+      "passed": true
+    },
+    {
+      "project": "PC-2025-014",
+      "field": "duracion_semanas",
+      "expected": 21,
+      "actual": 21,
+      "passed": true
+    },
+    {
+      "project": "PC-2025-014",
+      "field": "gerente_proyecto",
+      "expected": "Ing. Daniela Cevallos",
+      "actual": "Ing. Daniela Cevallos",
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "field": "fecha_inicio",
+      "expected": "2025-07-07",
+      "actual": "2025-07-07",
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "field": "fecha_fin",
+      "expected": "2025-12-12",
+      "actual": "2025-12-12",
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "field": "duracion_semanas",
+      "expected": 23,
+      "actual": 23,
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "field": "gerente_proyecto",
+      "expected": "Ing. Martín Aguirre",
+      "actual": "Ing. Martín Aguirre",
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "field": "fecha_inicio",
+      "expected": "2025-10-06",
+      "actual": "2025-10-06",
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "field": "fecha_fin",
+      "expected": "2026-02-27",
+      "actual": "2026-02-27",
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "field": "duracion_semanas",
+      "expected": 21,
+      "actual": 21,
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "field": "gerente_proyecto",
+      "expected": "Ing. Martín Aguirre",
+      "actual": "Ing. Martín Aguirre",
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "field": "fecha_inicio",
+      "expected": "2026-03-02",
+      "actual": "2026-03-02",
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "field": "fecha_fin",
+      "expected": "2026-08-21",
+      "actual": "2026-08-21",
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "field": "duracion_semanas",
+      "expected": 25,
+      "actual": 25,
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "field": "gerente_proyecto",
+      "expected": "Ing. Daniela Cevallos",
+      "actual": "Ing. Daniela Cevallos",
+      "passed": true
+    }
+  ],
+  "kpis_comparados": [
+    {
+      "project": "PC-2025-014",
+      "indicator": "Tiempo promedio de aprobación",
+      "expected": [
+        "12 días hábiles",
+        "5 días hábiles"
+      ],
+      "actual": [
+        "12 días hábiles",
+        "5 días hábiles"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-014",
+      "indicator": "Solicitudes con reproceso",
+      "expected": [
+        "34%",
+        "12%"
+      ],
+      "actual": [
+        "34%",
+        "12%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-014",
+      "indicator": "Productividad de analistas",
+      "expected": [
+        "85 solicitudes/analista/mes",
+        "124 solicitudes/analista/mes"
+      ],
+      "actual": [
+        "85 solicitudes/analista/mes",
+        "124 solicitudes/analista/mes"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-014",
+      "indicator": "Satisfacción de socios",
+      "expected": [
+        "3,2 / 5,0",
+        "4,1 / 5,0"
+      ],
+      "actual": [
+        "3,2 / 5,0",
+        "4,1 / 5,0"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-014",
+      "indicator": "Tasa de abandono de solicitudes",
+      "expected": [
+        "18%",
+        "11%"
+      ],
+      "actual": [
+        "18%",
+        "11%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "indicator": "OEE Global Línea 1 (Inyección)",
+      "expected": [
+        "58%",
+        "71%"
+      ],
+      "actual": [
+        "58%",
+        "71%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "indicator": "Tiempo promedio de cambio de formato",
+      "expected": [
+        "95 min",
+        "38 min"
+      ],
+      "actual": [
+        "95 min",
+        "38 min"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "indicator": "Paradas no programadas",
+      "expected": [
+        "64 h/mes",
+        "31 h/mes"
+      ],
+      "actual": [
+        "64 h/mes",
+        "31 h/mes"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "indicator": "Tasa de desperdicio (scrap)",
+      "expected": [
+        "6,0%",
+        "5,0%"
+      ],
+      "actual": [
+        "6,0%",
+        "5,0%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "indicator": "Disponibilidad",
+      "expected": [
+        "72%",
+        "82%"
+      ],
+      "actual": [
+        "72%",
+        "82%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "indicator": "Rendimiento",
+      "expected": [
+        "86%",
+        "91%"
+      ],
+      "actual": [
+        "86%",
+        "91%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-027",
+      "indicator": "Calidad",
+      "expected": [
+        "94%",
+        "95%"
+      ],
+      "actual": [
+        "94%",
+        "95%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "indicator": "Tiempo total de espera del paciente",
+      "expected": [
+        "52 min",
+        "39,5 min"
+      ],
+      "actual": [
+        "52 min",
+        "39,5 min"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "indicator": "Tiempo de admisión en ventanilla",
+      "expected": [
+        "14 min",
+        "6 min"
+      ],
+      "actual": [
+        "14 min",
+        "6 min"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "indicator": "Pacientes con pre-admisión digital",
+      "expected": [
+        "0%",
+        "41%"
+      ],
+      "actual": [
+        "0%",
+        "41%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "indicator": "Ausentismo de citas",
+      "expected": [
+        "22%",
+        "15%"
+      ],
+      "actual": [
+        "22%",
+        "15%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2025-033",
+      "indicator": "Satisfacción del paciente (NPS)",
+      "expected": [
+        "18",
+        "37"
+      ],
+      "actual": [
+        "18",
+        "37"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "indicator": "Quiebre de stock, categoría A",
+      "expected": [
+        "9,5%",
+        "4,8%"
+      ],
+      "actual": [
+        "9,5%",
+        "4,8%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "indicator": "Días de inventario en tienda",
+      "expected": [
+        "38 días",
+        "31 días"
+      ],
+      "actual": [
+        "38 días",
+        "31 días"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "indicator": "Integración de órdenes con proveedores",
+      "expected": [
+        "0 de 3",
+        "0 de 3"
+      ],
+      "actual": [
+        "0 de 3",
+        "0 de 3"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "indicator": "Merma de perecibles",
+      "expected": [
+        "4,1%",
+        "3,4%"
+      ],
+      "actual": [
+        "4,1%",
+        "3,4%"
+      ],
+      "passed": true
+    },
+    {
+      "project": "PC-2026-006",
+      "indicator": "Precisión de inventario en sistema",
+      "expected": [
+        "78%",
+        "93%"
+      ],
+      "actual": [
+        "78%",
+        "93%"
+      ],
+      "passed": true
+    }
+  ],
+  "cold_start": {
+    "rows": 4,
+    "pdfs": 4,
+    "fichas": 4,
+    "chunks": 59,
+    "max_chars": 600
+  },
+  "routes": [
+    {
+      "url": "/app/",
+      "status": 200
+    },
+    {
+      "url": "/app/inicio.html",
+      "status": 200
+    },
+    {
+      "url": "/app/nival.html",
+      "status": 200
+    },
+    {
+      "url": "/app/guia.html",
+      "status": 200
+    },
+    {
+      "url": "/app/solucion.html",
+      "status": 200
+    },
+    {
+      "url": "/inicio.html",
+      "status": 200
+    },
+    {
+      "url": "/guia.html",
+      "status": 200
+    },
+    {
+      "url": "/solucion.html",
+      "status": 200
+    },
+    {
+      "url": "/images/procesa_brand_logo.jpg",
+      "status": 200
+    }
+  ],
+  "extra_metrics": {
+    "passed": 68,
+    "failed": 0,
+    "total": 68
+  },
+  "metrics_95_originales": {
+    "passed": 95,
+    "failed": 0,
+    "total": 95
+  },
+  "html_render": {
+    "case": "chat_raw_html_event_attribute",
+    "escaped": false,
+    "result": "<img src=x onerror=\"window.qaMarker=1\">",
+    "browser_execution_tested": false
+  },
+  "final_metrics": {
+    "passed": 11,
+    "failed": 9,
+    "total": 20
+  },
+  "final_checks": [
+    {
+      "name": "LLM_SQL_constante_no_es_evidencia",
+      "expected": "No aceptar ahorro 999 millones ausente de la evidencia",
+      "actual": {
+        "answer": "PC-2025-014 ahorró 999 millones de USD.",
+        "tools_used": [
+          {
+            "tool_name": "query_project_database",
+            "arguments": {
+              "sql_query": "SELECT 1 AS n"
+            },
+            "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+            "execution_time_ms": 1.03
+          }
+        ],
+        "sources": [],
+        "found_info": true,
+        "evidence_chunks": []
+      },
+      "passed": false
+    },
+    {
+      "name": "LLM_SQL_real_no_valida_cifra",
+      "expected": "No aceptar ahorro 999 millones ausente de la evidencia",
+      "actual": {
+        "answer": "PC-2025-014 ahorró 999 millones de USD.",
+        "tools_used": [
+          {
+            "tool_name": "query_project_database",
+            "arguments": {
+              "sql_query": "SELECT codigo_proyecto,cliente FROM proyectos WHERE codigo_proyecto='PC-2025-014'"
+            },
+            "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+            "execution_time_ms": 0.55
+          }
+        ],
+        "sources": [
+          "PC-2025-014"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "PC-2025-014_P1_C1",
+            "codigo_proyecto": "PC-2025-014",
+            "cliente": "Cooperativa Horizonte Andino",
+            "pagina": 1,
+            "contenido": "PROCESA CONSULTORES\n| PC-2025-014 · Cooperativa Horizonte Andino  ·  Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nOptimización del proceso de aprobación de\ncréditos de consumo y microcrédito\nCooperativa de Ahorro y Crédito Horizonte Andino Ltda.\nCódigo de proyecto\nPC-2025-014\nCliente\nCooperativa de Ahorro y Crédito Horizonte Andino Ltda. (segmento 1,\n22 agencias en Sierra centro)\nSector\nServicios financieros - cooperativas de ahorro y crédito\nPeriodo de ejecución\n3 de febrero de 2025 al 27 de junio de 2025 (21 semanas)\nGerente de proyecto\nIng. Daniela Cevallos\nEquipo consult",
+            "fuente": "[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 1]"
+          },
+          {
+            "chunk_id": "PC-2025-014_P1_C2",
+            "codigo_proyecto": "PC-2025-014",
+            "cliente": "Cooperativa Horizonte Andino",
+            "pagina": 1,
+            "contenido": "de 2025 al 27 de junio de 2025 (21 semanas)\nGerente de proyecto\nIng. Daniela Cevallos\nEquipo consultor\n1 gerente, 2 consultores senior, 1 analista de datos\nContraparte del cliente\nGerencia de Negocios y Jefatura de Operaciones de Crédito\nEstado\nCerrado - aceptado por el cliente el 4 de julio de 2025\n1. Resumen ejecutivo\nHorizonte Andino enfrentaba tiempos de aprobación de crédito muy superiores a los de su competencia\ndirecta, lo que se traducía en pérdida de socios hacia bancos y fintechs con respuesta en 48 horas. El\nproyecto rediseñó el flujo completo de originación, desde la recepción de l",
+            "fuente": "[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 1]"
+          }
+        ]
+      },
+      "passed": false
+    },
+    {
+      "name": "PDF_nuevo_campo_cliente",
+      "expected": "Omega",
+      "actual": "Omega",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_sector",
+      "expected": "Tecnologia",
+      "actual": "Tecnologia",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_fecha_inicio",
+      "expected": "2026-01-01",
+      "actual": "2026-01-01",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_fecha_fin",
+      "expected": "2026-01-29",
+      "actual": "2026-01-29",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_duracion_semanas",
+      "expected": 4,
+      "actual": 4,
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_gerente_proyecto",
+      "expected": "Ana Perez",
+      "actual": "Ana Perez",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_KPI_preservado",
+      "expected": "Resultado textual 10 a 5 minutos persistido como KPI",
+      "actual": [],
+      "passed": false
+    },
+    {
+      "name": "PDF_nuevo_JSON_SQL_identicos",
+      "expected": "JSON y SQLite contienen mismos valores",
+      "actual": {
+        "json_exists": true
+      },
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_etiquetas_y_acentos",
+      "expected": "Fechas y gerente presentes preservados",
+      "actual": {
+        "codigo_proyecto": "PC-2026-098",
+        "cliente": "documento",
+        "sector": "General",
+        "ubicacion": "No especificada",
+        "fecha_inicio": "",
+        "fecha_fin": "",
+        "duracion_semanas": 4,
+        "gerente_proyecto": "",
+        "equipo_consultor": [],
+        "objetivo_general": "reducir espera",
+        "metodologias_herramientas": [],
+        "kpis_impacto": [],
+        "beneficios_economicos": "No especificados",
+        "principales_hitos": [],
+        "lecciones_aprendidas": [],
+        "factores_riesgo": []
+      },
+      "passed": false
+    },
+    {
+      "name": "PDF_codigo_en_contenido_RAG",
+      "expected": "Código del contenido visible en DB y recuperable en RAG",
+      "actual": {
+        "status": 200,
+        "proyecto": {
+          "codigo_proyecto": "PC-2026-097",
+          "cliente": "Sigma",
+          "sector": "Tecnologia",
+          "ubicacion": "No especificada",
+          "fecha_inicio": "2026-01-01",
+          "fecha_fin": "2026-01-29",
+          "duracion_semanas": 4,
+          "gerente_proyecto": "Ana Perez",
+          "equipo_consultor": [],
+          "objetivo_general": "reducir tiempo de respuesta",
+          "metodologias_herramientas": [],
+          "kpis_impacto": [],
+          "beneficios_economicos": "No especificados",
+          "principales_hitos": [],
+          "lecciones_aprendidas": [],
+          "factores_riesgo": []
+        },
+        "hits": []
+      },
+      "passed": false
+    },
+    {
+      "name": "SQL_literal_punto_coma_SELECT 'uno;dos' AS texto",
+      "expected": "SELECT válido permitido",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida: no se permiten múltiples sentencias SQL en una sola petición.",
+        "rows": []
+      },
+      "passed": false
+    },
+    {
+      "name": "SQL_literal_punto_coma_SELECT 'DELETE;UPDATE' AS texto",
+      "expected": "SELECT válido permitido",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida: no se permiten múltiples sentencias SQL en una sola petición.",
+        "rows": []
+      },
+      "passed": false
+    },
+    {
+      "name": "images_path_traversal",
+      "expected": "403/404, no servir fuera de images",
+      "actual": {
+        "url": "/images/..%2Fqa_marcador.txt",
+        "status": 200,
+        "marker_returned": true
+      },
+      "passed": false
+    },
+    {
+      "name": "temperatura_limite_-0.01",
+      "expected": 422,
+      "actual": 422,
+      "passed": true
+    },
+    {
+      "name": "temperatura_limite_1.01",
+      "expected": 422,
+      "actual": 422,
+      "passed": true
+    },
+    {
+      "name": "temperatura_limite_0.0",
+      "expected": 200,
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "temperatura_limite_1.0",
+      "expected": 200,
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "HTML_chat_sanitizado",
+      "expected": "Escapar/remover HTML y atributos ejecutables antes de dangerouslySetInnerHTML",
+      "actual": {
+        "case": "chat_raw_html_event_attribute",
+        "escaped": false,
+        "result": "<img src=x onerror=\"window.qaMarker=1\">",
+        "browser_execution_tested": false
+      },
+      "passed": false
+    }
+  ],
+  "source_unchanged": true,
+  "source_manifest": {
+    "codigo\\backend\\agent.py": "27e718e25f173aac42c5f4d97fbfcc207a038fbf5f572cde46d9e903668a4dba",
+    "codigo\\backend\\app.py": "b8fadcc4679b67477cec4cb60e943892f839500fdc822cc1a7e83226dcc25d43",
+    "codigo\\backend\\cli.py": "6c51b1df5b85d44b3788cbf5c51be09a23dba4d54ca834c6ad258f60c011629c",
+    "codigo\\backend\\config.py": "06654ddbe101d0c3882b1ef85af3b0306e84be6c0a07ec66eb590eda6048a599",
+    "codigo\\backend\\database.py": "7e7d1c0e36dc56bddf78a70aa9a1e5e95ef9b6668b08b504cb7a0d1952b7a9c7",
+    "codigo\\backend\\extractor.py": "917165f968bcc56d3b6b03315b8c28acd9a03ad4f91cb9aec7badabb2108a1c8",
+    "codigo\\backend\\main.py": "ac54a4aa6d988bb123cfe639eeaaed799b584d91afe52a99d7f540d88ce47bcf",
+    "codigo\\backend\\models.py": "d980355892747242d3c7d6132489d5a76d614150ef74dddac62af05d97c3cd06",
+    "codigo\\backend\\rag.py": "5a7ea944b05c6136ced007b42f1b836f4c245eb930780c835f5cf16055154363",
+    "codigo\\backend\\__init__.py": "3d24df65a2ea0ce77afd86b053cba96404b34649d4f2aceb88282e874550b908",
+    "tests\\test_agent.py": "64d719b9f1d08508b6a93da52569c1976cb2c019442b6a0a5c5e08a688a971b6",
+    "tests\\test_extractor_and_database.py": "ba63347838b8d8271a2d9cc9eb0d7781799a27018d3df7dba369b16ef2511c73",
+    "tests\\test_rag.py": "13872a9a3df4088de1cd2d2970cc7fea0a1d3ba02f9d44ef7fcee413a45fa096",
+    "data\\proyectos.db": "3b317003747a635214721ef1e6414bd4746d9119cdc3dfa0b1a59c10c5348de1",
+    "data\\fichas\\PC-2025-014.json": "ca433d92ac36bd66c6b7bd56b0f40bd5293ce75e28c9e002df0066fd0a790fde",
+    "data\\fichas\\PC-2025-027.json": "5d400382fd0bdc2d67e6174f8e135802b4e5231956094683e3425f7e27f6265b",
+    "data\\fichas\\PC-2025-033.json": "fb27f275a567af35fa58790d2a7428664aebea4aa6c841f5af01ec13eb2776d1",
+    "data\\fichas\\PC-2026-006.json": "d13c452c15e3a7aa56584b464f11c85977ed0417159550e877790f8a2dc62b6d",
+    "data\\raw_reports\\Informe_Cierre_PC-2025-014_Cooperativa_Horizonte_Andino.pdf": "b84a2ca48244080c0fdcbb230c455eb95fd213e6d3cfb39b010a9b2e321833ad",
+    "data\\raw_reports\\Informe_Cierre_PC-2025-027_Plasticos_del_Pacifico.pdf": "7ab0985717fef2ae5d7f59dab029f4411be75b6305bbc55063dd9a4423ac8309",
+    "data\\raw_reports\\Informe_Cierre_PC-2025-033_Clinica_Santa_Lucia.pdf": "253a8b672a3d37ce915bc5fdcbe3217232efc2c83e7389aa20af23e548002430",
+    "data\\raw_reports\\Informe_Cierre_PC-2026-006_Supermercados_La_Canasta.pdf": "ff21376be517966440241b4f134ac74d0aa79aafea70e107ade700256784fa71",
+    "codigo\\frontend\\src\\App.jsx": "52e21293ac96bfc793688508507e07b4782112c6c09ed8e4a35ea47a7dd375b9",
+    "codigo\\frontend\\src\\index.css": "e766b561ea3a6a3614fa85001bfce92248af326a563068963d8b481d6c8053ed",
+    "codigo\\frontend\\src\\main.jsx": "cac5ad762514c7db1355aaabe99b0495ebe4a31fcbc89c153b352dc882cc94ea",
+    "codigo\\frontend\\src\\components\\ArchitectureView.jsx": "deccc3ecd7e34c28d26e376e7de5cd6a48f2416749d416d3fd0eaa22a570ff4b",
+    "codigo\\frontend\\src\\components\\ChatView.jsx": "7dc9b6ba8ed4878616a19de98c27a32c47bc0bf3208f3e83073a94d386a241a3",
+    "codigo\\frontend\\src\\components\\ConfigModal.jsx": "75c42f1a59a4b667d9bc6d9e5963412c20296c35d89826686f399c6964f08824",
+    "codigo\\frontend\\src\\components\\ConfirmModal.jsx": "a9a1f15f8cc023e4199452e2520edbbcbde618b1548b1a1758bb05a20993e477",
+    "codigo\\frontend\\src\\components\\EvidenceInspector.jsx": "56a2345e2eb57b69704545c93d44c7fd5c75b6634d4b7cf37f443668c69cc9c6",
+    "codigo\\frontend\\src\\components\\FichasView.jsx": "9c518316f202a229a1dfe7d738b80abec38ba9af874fc721c29bd4ece6860623",
+    "codigo\\frontend\\src\\components\\Header.jsx": "a4cd59018c4c273265be8c805f45e72aea3b05d1636d00cec34487d766f8ffa4",
+    "codigo\\frontend\\src\\components\\LandingView.jsx": "3db37d5e594beeaf6b928ef69f7c076629e00a0512509e8af26f7e50c30426fb",
+    "codigo\\frontend\\src\\components\\Sidebar.jsx": "98da1ce6025a7c552f756d500895cf4ec118bfc94f1e1481c6f4d4ce4b9199ae",
+    "codigo\\frontend\\src\\components\\SqlExplorerView.jsx": "9e0872b277153eb772d0ccc623c3bac8b9d8c9e98175733779a0b89321f4018a",
+    "codigo\\frontend\\src\\components\\SystemGuideModal.jsx": "16a459ac9fea95e47a764aefe9a4c2b46469d62aec92ca19cd0b1fd2f5d5bc0e",
+    "codigo\\frontend\\src\\components\\UploadModal.jsx": "695450d92d01d2bf1a187a19c89f6ca98716730e0c354736c77aef0186671463",
+    "codigo\\frontend\\src\\services\\api.js": "595ce8c240c73427b2e2e1002a7f9791d77e024575c0a2cca4cb8388a150fbfb"
+  },
+  "timestamp_bogota": "2026-10-01T13:55:00.424352-05:00",
+  "checks": [
+    {
+      "name": "extraccion_grounded",
+      "expected": "Rechazar documento sin datos",
+      "actual": {
+        "cliente": "Documento sin datos",
+        "duracion": 0
+      },
+      "passed": true
+    },
+    {
+      "name": "nuevo_pdf_sin_inventar",
+      "expected": "No inventar fechas o duracion",
+      "actual": {
+        "fecha_inicio": "",
+        "duracion": 0
+      },
+      "passed": true
+    },
+    {
+      "name": "validacion_duracion_negativa",
+      "expected": "Rechazar duracion negativa",
+      "actual": false,
+      "passed": true
+    },
+    {
+      "name": "limite_chunk_600",
+      "expected": "Todos <=600",
+      "actual": [
+        600,
+        600,
+        600,
+        300
+      ],
+      "passed": true
+    },
+    {
+      "name": "filtro_proyecto_inexistente",
+      "expected": "Sin resultados",
+      "actual": [],
+      "passed": true
+    },
+    {
+      "name": "agricultura_abstencion",
+      "expected": "found_info=False",
+      "actual": false,
+      "passed": true
+    },
+    {
+      "name": "promedio_calculado",
+      "expected": "22.5 semanas segun PDFs (21+23+21+25)/4",
+      "actual": "El promedio de duración de los 4 proyectos de consultoría es de **22.5 semanas** (cálculo: (21 + 23 + 21 + 25) / 4 = 22.5 semanas segun PDFs).\n\nDesglose por proyecto: PC-2025-014 (21 sem), PC-2025-027 (23 sem), PC-2025-033 (21 sem), PC-2026-006 (25 sem).\n\n**Fuentes Consultadas:** PC-2025-014, PC-2025-027, PC-2025-033, PC-2026-006",
+      "passed": true
+    },
+    {
+      "name": "ahorro_retail",
+      "expected": "Declarar falta de montos economicos en informe",
+      "actual": "En el informe oficial de cierre del proyecto de retail (PC-2026-006 - Supermercados La Canasta Cía. Ltda.), no se declara ni cuantifica un monto monetario específico de ahorro en dinero (USD). El informe declara que los resultados se enfocan en mejoras operativas: quiebre de stock en categoría A reducido de 9.5% a 4.8%, días de inventario en bodega de tienda de 38 a 31 días y reducción de merma de perecibles de 4.1% a 3.4%.\n\n**Fuente Consultada:** [Fuente: PC-2026-006 - Supermercados La Canasta Cía. Ltda.]",
+      "passed": true
+    },
+    {
+      "name": "foco_codigo_sql",
+      "expected": "Solo PC-2025-014",
+      "actual": [
+        "PC-2025-014"
+      ],
+      "passed": true
+    },
+    {
+      "name": "SQL DROP TABLE proyectos",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida. La herramienta SQL solo permite consultas de lectura (SELECT / WITH).",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL DELETE FROM proyectos",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida. La herramienta SQL solo permite consultas de lectura (SELECT / WITH).",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL SELECT 1; DROP TABLE proyectos",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida: no se permiten múltiples sentencias SQL en una sola petición.",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL WITH a AS (SELECT 1) DELETE FROM proyectos",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida: la consulta contiene palabras clave de mutación o modificación de esquema.",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL PRAGMA writable_schema=1",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida. La herramienta SQL solo permite consultas de lectura (SELECT / WITH).",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL count",
+      "expected": "4 proyectos",
+      "actual": {
+        "success": true,
+        "row_count": 1,
+        "rows": [
+          {
+            "n": 4
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "LLM_sin_tools_grounding",
+      "expected": "Rechazar respuesta sin evidencia",
+      "actual": {
+        "answer": "No se dispone de información verificada en los informes de cierre disponibles.",
+        "tools_used": [],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      },
+      "passed": true
+    },
+    {
+      "name": "GET /health",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "GET /api/proyectos",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "GET /api/fichas",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "GET /api/proyectos/PC-2025-014/preview",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "GET /api/pdf/PC-2025-014",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "API SQL DROP",
+      "expected": "success=False",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida. La herramienta SQL solo permite consultas de lectura (SELECT / WITH).",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "temperatura_contrato",
+      "expected": "Persistir temperature=0.8",
+      "actual": {
+        "post": {
+          "success": true,
+          "message": "Configuración actualizada correctamente",
+          "temperature": 0.8
+        },
+        "config": {
+          "success": true,
+          "provider": "openai",
+          "model": "gpt-4o-mini",
+          "temperature": 0.8,
+          "has_api_key": false,
+          "masked_key": "No configurada"
+        }
+      },
+      "passed": true
+    },
+    {
+      "name": "delete_aislado",
+      "expected": "Desaparece DB PDF JSON",
+      "actual": {
+        "success": true,
+        "deleted": true,
+        "codigo_proyecto": "PC-2025-014",
+        "message": "Proyecto PC-2025-014 eliminado correctamente"
+      },
+      "passed": true
+    },
+    {
+      "name": "reset_exactamente_oficiales",
+      "expected": "4 proyectos oficiales",
+      "actual": {
+        "response": {
+          "success": true,
+          "count": 4,
+          "message": "Base de datos y RAG restaurados con los 4 proyectos oficiales"
+        },
+        "rows": 4
+      },
+      "passed": true
+    },
+    {
+      "name": "pdf_invalido_rechazado",
+      "expected": "400/422 sin archivo residual",
+      "actual": {
+        "status": 400,
+        "residual": false
+      },
+      "passed": true
+    },
+    {
+      "name": "upload_path_traversal",
+      "expected": "No escribir fuera de raw_reports",
+      "actual": {
+        "status": 200,
+        "escaped": false
+      },
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-014 fecha_inicio",
+      "expected": "2025-02-03",
+      "actual": "2025-02-03",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-014 fecha_fin",
+      "expected": "2025-06-27",
+      "actual": "2025-06-27",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-014 duracion_semanas",
+      "expected": 21,
+      "actual": 21,
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-014 gerente_proyecto",
+      "expected": "Ing. Daniela Cevallos",
+      "actual": "Ing. Daniela Cevallos",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-027 fecha_inicio",
+      "expected": "2025-07-07",
+      "actual": "2025-07-07",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-027 fecha_fin",
+      "expected": "2025-12-12",
+      "actual": "2025-12-12",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-027 duracion_semanas",
+      "expected": 23,
+      "actual": 23,
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-027 gerente_proyecto",
+      "expected": "Ing. Martín Aguirre",
+      "actual": "Ing. Martín Aguirre",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-033 fecha_inicio",
+      "expected": "2025-10-06",
+      "actual": "2025-10-06",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-033 fecha_fin",
+      "expected": "2026-02-27",
+      "actual": "2026-02-27",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-033 duracion_semanas",
+      "expected": 21,
+      "actual": 21,
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2025-033 gerente_proyecto",
+      "expected": "Ing. Martín Aguirre",
+      "actual": "Ing. Martín Aguirre",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2026-006 fecha_inicio",
+      "expected": "2026-03-02",
+      "actual": "2026-03-02",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2026-006 fecha_fin",
+      "expected": "2026-08-21",
+      "actual": "2026-08-21",
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2026-006 duracion_semanas",
+      "expected": 25,
+      "actual": 25,
+      "passed": true
+    },
+    {
+      "name": "PDF PC-2026-006 gerente_proyecto",
+      "expected": "Ing. Daniela Cevallos",
+      "actual": "Ing. Daniela Cevallos",
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-014 Tiempo promedio de aprobación",
+      "expected": [
+        "12 días hábiles",
+        "5 días hábiles"
+      ],
+      "actual": [
+        "12 días hábiles",
+        "5 días hábiles"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-014 Solicitudes con reproceso",
+      "expected": [
+        "34%",
+        "12%"
+      ],
+      "actual": [
+        "34%",
+        "12%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-014 Productividad de analistas",
+      "expected": [
+        "85 solicitudes/analista/mes",
+        "124 solicitudes/analista/mes"
+      ],
+      "actual": [
+        "85 solicitudes/analista/mes",
+        "124 solicitudes/analista/mes"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-014 Satisfacción de socios",
+      "expected": [
+        "3,2 / 5,0",
+        "4,1 / 5,0"
+      ],
+      "actual": [
+        "3,2 / 5,0",
+        "4,1 / 5,0"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-014 Tasa de abandono de solicitudes",
+      "expected": [
+        "18%",
+        "11%"
+      ],
+      "actual": [
+        "18%",
+        "11%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-027 OEE Global Línea 1 (Inyección)",
+      "expected": [
+        "58%",
+        "71%"
+      ],
+      "actual": [
+        "58%",
+        "71%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-027 Tiempo promedio de cambio de formato",
+      "expected": [
+        "95 min",
+        "38 min"
+      ],
+      "actual": [
+        "95 min",
+        "38 min"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-027 Paradas no programadas",
+      "expected": [
+        "64 h/mes",
+        "31 h/mes"
+      ],
+      "actual": [
+        "64 h/mes",
+        "31 h/mes"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-027 Tasa de desperdicio (scrap)",
+      "expected": [
+        "6,0%",
+        "5,0%"
+      ],
+      "actual": [
+        "6,0%",
+        "5,0%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-027 Disponibilidad",
+      "expected": [
+        "72%",
+        "82%"
+      ],
+      "actual": [
+        "72%",
+        "82%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-027 Rendimiento",
+      "expected": [
+        "86%",
+        "91%"
+      ],
+      "actual": [
+        "86%",
+        "91%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-027 Calidad",
+      "expected": [
+        "94%",
+        "95%"
+      ],
+      "actual": [
+        "94%",
+        "95%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-033 Tiempo total de espera del paciente",
+      "expected": [
+        "52 min",
+        "39,5 min"
+      ],
+      "actual": [
+        "52 min",
+        "39,5 min"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-033 Tiempo de admisión en ventanilla",
+      "expected": [
+        "14 min",
+        "6 min"
+      ],
+      "actual": [
+        "14 min",
+        "6 min"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-033 Pacientes con pre-admisión digital",
+      "expected": [
+        "0%",
+        "41%"
+      ],
+      "actual": [
+        "0%",
+        "41%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-033 Ausentismo de citas",
+      "expected": [
+        "22%",
+        "15%"
+      ],
+      "actual": [
+        "22%",
+        "15%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2025-033 Satisfacción del paciente (NPS)",
+      "expected": [
+        "18",
+        "37"
+      ],
+      "actual": [
+        "18",
+        "37"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2026-006 Quiebre de stock, categoría A",
+      "expected": [
+        "9,5%",
+        "4,8%"
+      ],
+      "actual": [
+        "9,5%",
+        "4,8%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2026-006 Días de inventario en tienda",
+      "expected": [
+        "38 días",
+        "31 días"
+      ],
+      "actual": [
+        "38 días",
+        "31 días"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2026-006 Integración de órdenes con proveedores",
+      "expected": [
+        "0 de 3",
+        "0 de 3"
+      ],
+      "actual": [
+        "0 de 3",
+        "0 de 3"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2026-006 Merma de perecibles",
+      "expected": [
+        "4,1%",
+        "3,4%"
+      ],
+      "actual": [
+        "4,1%",
+        "3,4%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "KPI PC-2026-006 Precisión de inventario en sistema",
+      "expected": [
+        "78%",
+        "93%"
+      ],
+      "actual": [
+        "78%",
+        "93%"
+      ],
+      "passed": true
+    },
+    {
+      "name": "arranque_sin_data",
+      "expected": "4 DB/4 PDFs/4 fichas, chunks <=600",
+      "actual": {
+        "rows": 4,
+        "pdfs": 4,
+        "fichas": 4,
+        "chunks": 59,
+        "max_chars": 600
+      },
+      "passed": true
+    },
+    {
+      "name": "LLM_cita_sin_evidencia_texto",
+      "expected": "No presentar afirmación sin tools ni fuentes",
+      "actual": {
+        "answer": "No se dispone de información verificada en los informes de cierre disponibles.",
+        "tools_used": [],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      },
+      "passed": true
+    },
+    {
+      "name": "LLM_tools_vacios_abstencion",
+      "expected": "No afirmar datos después de 0 filas",
+      "actual": {
+        "answer": "No se dispone de información sobre ese aspecto en los informes de cierre disponibles.",
+        "tools_used": [
+          {
+            "tool_name": "query_project_database",
+            "arguments": {
+              "sql_query": "SELECT * FROM proyectos WHERE codigo_proyecto='PC-2099-999'"
+            },
+            "result_summary": "SQL exitoso: 0 fila(s) retornada(s).",
+            "execution_time_ms": 1.61
+          }
+        ],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      },
+      "passed": true
+    },
+    {
+      "name": "temperatura_inferencia",
+      "expected": "Todas las llamadas usan temperatura guardada 0.8",
+      "actual": [
+        0.8,
+        0.8
+      ],
+      "passed": true
+    },
+    {
+      "name": "codigo_inexistente_abstencion",
+      "expected": "found_info=False y sin fuentes ajenas",
+      "actual": {
+        "answer": "No se dispone de información sobre el proyecto PC-2099-999 en los informes de cierre analizados.",
+        "tools_used": [
+          {
+            "tool_name": "query_project_database",
+            "arguments": {
+              "sql_query": "SELECT * FROM proyectos WHERE codigo_proyecto = 'PC-2099-999'"
+            },
+            "result_summary": "SQL exitoso: 0 fila(s) retornada(s).",
+            "execution_time_ms": 0.0
+          }
+        ],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      },
+      "passed": true
+    },
+    {
+      "name": "sector_nuevo_abstencion",
+      "expected": "found_info=False, telecomunicaciones no está en corpus",
+      "actual": {
+        "answer": "No se dispone de información sobre ese aspecto o sector en los informes de cierre de proyectos analizados.",
+        "tools_used": [],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      },
+      "passed": true
+    },
+    {
+      "name": "retail_cantidad_no_monetaria",
+      "expected": "Responder 31 días con found_info=True",
+      "actual": {
+        "answer": "En el proyecto de retail **PC-2026-006 (Supermercados La Canasta)**, los días de inventario en bodega de tienda se redujeron de **38 días** a **31 días** (reducción de 7 días, -18.4%).\n\n**Fuente Consultada:** [Fuente: PC-2026-006 - Supermercados La Canasta Cía. Ltda.]",
+        "tools_used": [
+          {
+            "tool_name": "query_project_database",
+            "arguments": {
+              "sql_query": "SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto, kpis_impacto FROM proyectos WHERE sector LIKE '%retail%'"
+            },
+            "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+            "execution_time_ms": 1.65
+          }
+        ],
+        "sources": [
+          "PC-2026-006"
+        ],
+        "found_info": true,
+        "evidence_chunks": []
+      },
+      "passed": true
+    },
+    {
+      "name": "foco_codigo_preserva_intencion",
+      "expected": "Responder lecciones sobre supervisores, no solo ficha",
+      "actual": {
+        "answer": "• **PC-2025-014 - Cooperativa de Ahorro y Crédito Horizonte Andino Ltda.** (Servicios financieros - cooperativas de ahorro y crédito): Duración de 21 semanas. Gerente: Ing. Daniela Cevallos.\n• **PC-2025-027 - Plásticos del Pacífico S.A.** (Manufactura - plásticos y envases): Duración de 23 semanas. Gerente: Ing. Martín Aguirre.\n• **PC-2025-033 - Clínica Santa Lucía del Valle** (Salud - clínicas y hospitales privados): Duración de 21 semanas. Gerente: Ing. Martín Aguirre.\n\n**Lecciones y Metodologías Documentadas:**\n[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 3]:\nio (scrap)\n6,0%\nsin meta\n5,0%\n-1 pp\nSe cumplieron los cuatro objetivos del proyecto. El sistema de gestión diaria de paradas quedó\noperando de forma autónoma por el equipo de planta desde la semana 21, sin participación de los\nconsultores en las reuniones diarias.\n8. Lecciones aprendidas\n La resistencia al cambio se concentró en los mandos medios. Los supervisores de turno veían\nel registro detallado de paradas como un mecanismo de control sobre su desempeño. La situación\ncambió cuando se les dio la responsabilidad de conducir la reunión diaria y de proponer las\nacciones, en lugar de solo rep\n\n---\n\n[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 1]:\nPROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico  ·  Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nMejora de la Efectividad Global de los\nEquipos (OEE) en la planta de Durán\nPlásticos del Pacífico S.A.\nCódigo de proyecto\nPC-2025-027\nCliente\nPlásticos del Pacífico S.A., fabricante de envases y tapas plásticas\npara la industria de alimentos y bebidas\nSector\nManufactura - plásticos y envases\nUbicación\nPlanta industrial de Durán, provincia del Guayas\nPeriodo de ejecución\n7 de julio de 2025 al 12 de diciembre de 2025 (23 semanas)\nGerente de proyecto\nIng. Martín Aguirre\nE\n\n---\n\n[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 2]:\nPROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico  ·  Documento de uso interno\nPágina 2\nEl diagnóstico inicial, realizado durante las primeras cuatro semanas, identificó que las pérdidas de la\nLínea 1 se concentraban en tres causas: cambios de formato largos y poco estandarizados, paradas no\nprogramadas por fallas mecánicas recurrentes y microparadas por atascos en la alimentación de\nmaterial. Además, el registro de paradas era manual, incompleto y se llenaba al final del turno, lo que\nimpedía conocer las causas reales.\n3. Objetivos\n Incrementar el OEE de la Línea 1 de inyección de 5\n\n**Fuentes Consultadas:** PC-2025-014, PC-2025-027, PC-2025-033",
+        "tools_used": [
+          {
+            "tool_name": "query_project_database",
+            "arguments": {
+              "sql_query": "SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto, kpis_impacto FROM proyectos WHERE fecha_inicio LIKE '2025%'"
+            },
+            "result_summary": "SQL exitoso: 3 fila(s) retornada(s).",
+            "execution_time_ms": 0.0
+          },
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "¿Qué lecciones aprendidas tuvo PC-2025-027 sobre mandos medios?",
+              "project_id": "PC-2025-027"
+            },
+            "result_summary": "RAG exitoso: 3 fragmento(s) encontrado(s).",
+            "execution_time_ms": 1.67
+          }
+        ],
+        "sources": [
+          "PC-2025-014",
+          "PC-2025-027",
+          "PC-2025-033"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "PC-2025-027_P3_C5",
+            "codigo_proyecto": "PC-2025-027",
+            "cliente": "Plásticos del Pacífico S.A.",
+            "pagina": 3,
+            "contenido": "io (scrap)\n6,0%\nsin meta\n5,0%\n-1 pp\nSe cumplieron los cuatro objetivos del proyecto. El sistema de gestión diaria de paradas quedó\noperando de forma autónoma por el equipo de planta desde la semana 21, sin participación de los\nconsultores en las reuniones diarias.\n8. Lecciones aprendidas\n La resistencia al cambio se concentró en los mandos medios. Los supervisores de turno veían\nel registro detallado de paradas como un mecanismo de control sobre su desempeño. La situación\ncambió cuando se les dio la responsabilidad de conducir la reunión diaria y de proponer las\nacciones, en lugar de solo rep",
+            "fuente": "[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 3]"
+          },
+          {
+            "chunk_id": "PC-2025-027_P1_C1",
+            "codigo_proyecto": "PC-2025-027",
+            "cliente": "Plásticos del Pacífico S.A.",
+            "pagina": 1,
+            "contenido": "PROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico  ·  Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nMejora de la Efectividad Global de los\nEquipos (OEE) en la planta de Durán\nPlásticos del Pacífico S.A.\nCódigo de proyecto\nPC-2025-027\nCliente\nPlásticos del Pacífico S.A., fabricante de envases y tapas plásticas\npara la industria de alimentos y bebidas\nSector\nManufactura - plásticos y envases\nUbicación\nPlanta industrial de Durán, provincia del Guayas\nPeriodo de ejecución\n7 de julio de 2025 al 12 de diciembre de 2025 (23 semanas)\nGerente de proyecto\nIng. Martín Aguirre\nE",
+            "fuente": "[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 1]"
+          },
+          {
+            "chunk_id": "PC-2025-027_P2_C1",
+            "codigo_proyecto": "PC-2025-027",
+            "cliente": "Plásticos del Pacífico S.A.",
+            "pagina": 2,
+            "contenido": "PROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico  ·  Documento de uso interno\nPágina 2\nEl diagnóstico inicial, realizado durante las primeras cuatro semanas, identificó que las pérdidas de la\nLínea 1 se concentraban en tres causas: cambios de formato largos y poco estandarizados, paradas no\nprogramadas por fallas mecánicas recurrentes y microparadas por atascos en la alimentación de\nmaterial. Además, el registro de paradas era manual, incompleto y se llenaba al final del turno, lo que\nimpedía conocer las causas reales.\n3. Objetivos\n Incrementar el OEE de la Línea 1 de inyección de 5",
+            "fuente": "[Fuente: PC-2025-027 - Plásticos del Pacífico S.A., Pág. 2]"
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "temperatura_rango",
+      "expected": "422 fuera de 0..1",
+      "actual": {
+        "detail": [
+          {
+            "type": "less_than_equal",
+            "loc": [
+              "body",
+              "temperature"
+            ],
+            "msg": "Input should be less than or equal to 1",
+            "input": 1.8,
+            "ctx": {
+              "le": 1.0
+            }
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "frontend_evidence_chunks",
+      "expected": "App preserva res.evidence_chunks",
+      "actual": true,
+      "passed": true
+    },
+    {
+      "name": "frontend_envia_temperatura",
+      "expected": "Slider transmitido al backend",
+      "actual": {
+        "call": [
+          "onSaveConfig(apiKey, model, selectedProvider, temperature);"
+        ],
+        "service_has_temperature": true
+      },
+      "passed": true
+    },
+    {
+      "name": "mencion_no_fabrica_ficha",
+      "expected": "No producir datos ausentes solo por código y palabra clave",
+      "actual": {
+        "codigo_proyecto": "PC-2025-014",
+        "cliente": "mencion",
+        "sector": "General",
+        "ubicacion": "No especificada",
+        "fecha_inicio": "",
+        "fecha_fin": "",
+        "duracion_semanas": 0,
+        "gerente_proyecto": "",
+        "equipo_consultor": [],
+        "objetivo_general": "Informe de consultoría.",
+        "metodologias_herramientas": [],
+        "kpis_impacto": [],
+        "beneficios_economicos": "No especificados",
+        "principales_hitos": [],
+        "lecciones_aprendidas": [],
+        "factores_riesgo": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL ampliado UPDATE proyectos SET cliente='x'",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida. La herramienta SQL solo permite consultas de lectura (SELECT / WITH).",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL ampliado SELECT 1; SELECT 2",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida: no se permiten múltiples sentencias SQL en una sola petición.",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL ampliado ATTACH DATABASE 'qa.db' AS other",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida. La herramienta SQL solo permite consultas de lectura (SELECT / WITH).",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL ampliado SELECT load_extension('not_installed')",
+      "expected": "Bloqueada",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida: la consulta contiene palabras clave de mutación o modificación de esquema.",
+        "rows": []
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL ampliado WITH x AS (SELECT 1) SELECT * FROM x",
+      "expected": "Permitida",
+      "actual": {
+        "success": true,
+        "row_count": 1,
+        "rows": [
+          {
+            "1": 1
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL ampliado SELECT 1 AS n;",
+      "expected": "Permitida",
+      "actual": {
+        "success": true,
+        "row_count": 1,
+        "rows": [
+          {
+            "n": 1
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "SQL_literal_no_mutacion",
+      "expected": "Permitir literal sin mutación",
+      "actual": {
+        "success": true,
+        "row_count": 1,
+        "rows": [
+          {
+            "palabra": "UPDATE"
+          }
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "upload_proyecto_nuevo_persistido",
+      "expected": "Proyecto nuevo extraído y visible en SQLite",
+      "actual": {
+        "status": 200,
+        "proyecto": {
+          "codigo_proyecto": "PC-2026-099",
+          "cliente": "Omega",
+          "sector": "Tecnologia",
+          "ubicacion": "No especificada",
+          "fecha_inicio": "2026-01-01",
+          "fecha_fin": "2026-01-29",
+          "duracion_semanas": 4,
+          "gerente_proyecto": "Ana Perez",
+          "equipo_consultor": [],
+          "objetivo_general": "reducir espera",
+          "metodologias_herramientas": [],
+          "kpis_impacto": [],
+          "beneficios_economicos": "No especificados",
+          "principales_hitos": [],
+          "lecciones_aprendidas": [],
+          "factores_riesgo": []
+        },
+        "codes": [
+          "PC-2025-014",
+          "PC-2025-027",
+          "PC-2025-033",
+          "PC-2026-006",
+          "PC-2026-099"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "name": "pdf_cabecera_sin_estructura",
+      "expected": "400 sin residuo",
+      "actual": {
+        "status": 400,
+        "exists": false
+      },
+      "passed": true
+    },
+    {
+      "name": "Ruta /app/",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "Ruta /app/inicio.html",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "Ruta /app/nival.html",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "Ruta /app/guia.html",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "Ruta /app/solucion.html",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "Ruta /inicio.html",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "Ruta /guia.html",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "Ruta /solucion.html",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "Ruta /images/procesa_brand_logo.jpg",
+      "expected": "200",
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "LLM_SQL_constante_no_es_evidencia",
+      "expected": "No aceptar ahorro 999 millones ausente de la evidencia",
+      "actual": {
+        "answer": "PC-2025-014 ahorró 999 millones de USD.",
+        "tools_used": [
+          {
+            "tool_name": "query_project_database",
+            "arguments": {
+              "sql_query": "SELECT 1 AS n"
+            },
+            "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+            "execution_time_ms": 1.03
+          }
+        ],
+        "sources": [],
+        "found_info": true,
+        "evidence_chunks": []
+      },
+      "passed": false
+    },
+    {
+      "name": "LLM_SQL_real_no_valida_cifra",
+      "expected": "No aceptar ahorro 999 millones ausente de la evidencia",
+      "actual": {
+        "answer": "PC-2025-014 ahorró 999 millones de USD.",
+        "tools_used": [
+          {
+            "tool_name": "query_project_database",
+            "arguments": {
+              "sql_query": "SELECT codigo_proyecto,cliente FROM proyectos WHERE codigo_proyecto='PC-2025-014'"
+            },
+            "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+            "execution_time_ms": 0.55
+          }
+        ],
+        "sources": [
+          "PC-2025-014"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "PC-2025-014_P1_C1",
+            "codigo_proyecto": "PC-2025-014",
+            "cliente": "Cooperativa Horizonte Andino",
+            "pagina": 1,
+            "contenido": "PROCESA CONSULTORES\n| PC-2025-014 · Cooperativa Horizonte Andino  ·  Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nOptimización del proceso de aprobación de\ncréditos de consumo y microcrédito\nCooperativa de Ahorro y Crédito Horizonte Andino Ltda.\nCódigo de proyecto\nPC-2025-014\nCliente\nCooperativa de Ahorro y Crédito Horizonte Andino Ltda. (segmento 1,\n22 agencias en Sierra centro)\nSector\nServicios financieros - cooperativas de ahorro y crédito\nPeriodo de ejecución\n3 de febrero de 2025 al 27 de junio de 2025 (21 semanas)\nGerente de proyecto\nIng. Daniela Cevallos\nEquipo consult",
+            "fuente": "[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 1]"
+          },
+          {
+            "chunk_id": "PC-2025-014_P1_C2",
+            "codigo_proyecto": "PC-2025-014",
+            "cliente": "Cooperativa Horizonte Andino",
+            "pagina": 1,
+            "contenido": "de 2025 al 27 de junio de 2025 (21 semanas)\nGerente de proyecto\nIng. Daniela Cevallos\nEquipo consultor\n1 gerente, 2 consultores senior, 1 analista de datos\nContraparte del cliente\nGerencia de Negocios y Jefatura de Operaciones de Crédito\nEstado\nCerrado - aceptado por el cliente el 4 de julio de 2025\n1. Resumen ejecutivo\nHorizonte Andino enfrentaba tiempos de aprobación de crédito muy superiores a los de su competencia\ndirecta, lo que se traducía en pérdida de socios hacia bancos y fintechs con respuesta en 48 horas. El\nproyecto rediseñó el flujo completo de originación, desde la recepción de l",
+            "fuente": "[Fuente: PC-2025-014 - Cooperativa Horizonte Andino, Pág. 1]"
+          }
+        ]
+      },
+      "passed": false
+    },
+    {
+      "name": "PDF_nuevo_campo_cliente",
+      "expected": "Omega",
+      "actual": "Omega",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_sector",
+      "expected": "Tecnologia",
+      "actual": "Tecnologia",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_fecha_inicio",
+      "expected": "2026-01-01",
+      "actual": "2026-01-01",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_fecha_fin",
+      "expected": "2026-01-29",
+      "actual": "2026-01-29",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_duracion_semanas",
+      "expected": 4,
+      "actual": 4,
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_campo_gerente_proyecto",
+      "expected": "Ana Perez",
+      "actual": "Ana Perez",
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_KPI_preservado",
+      "expected": "Resultado textual 10 a 5 minutos persistido como KPI",
+      "actual": [],
+      "passed": false
+    },
+    {
+      "name": "PDF_nuevo_JSON_SQL_identicos",
+      "expected": "JSON y SQLite contienen mismos valores",
+      "actual": {
+        "json_exists": true
+      },
+      "passed": true
+    },
+    {
+      "name": "PDF_nuevo_etiquetas_y_acentos",
+      "expected": "Fechas y gerente presentes preservados",
+      "actual": {
+        "codigo_proyecto": "PC-2026-098",
+        "cliente": "documento",
+        "sector": "General",
+        "ubicacion": "No especificada",
+        "fecha_inicio": "",
+        "fecha_fin": "",
+        "duracion_semanas": 4,
+        "gerente_proyecto": "",
+        "equipo_consultor": [],
+        "objetivo_general": "reducir espera",
+        "metodologias_herramientas": [],
+        "kpis_impacto": [],
+        "beneficios_economicos": "No especificados",
+        "principales_hitos": [],
+        "lecciones_aprendidas": [],
+        "factores_riesgo": []
+      },
+      "passed": false
+    },
+    {
+      "name": "PDF_codigo_en_contenido_RAG",
+      "expected": "Código del contenido visible en DB y recuperable en RAG",
+      "actual": {
+        "status": 200,
+        "proyecto": {
+          "codigo_proyecto": "PC-2026-097",
+          "cliente": "Sigma",
+          "sector": "Tecnologia",
+          "ubicacion": "No especificada",
+          "fecha_inicio": "2026-01-01",
+          "fecha_fin": "2026-01-29",
+          "duracion_semanas": 4,
+          "gerente_proyecto": "Ana Perez",
+          "equipo_consultor": [],
+          "objetivo_general": "reducir tiempo de respuesta",
+          "metodologias_herramientas": [],
+          "kpis_impacto": [],
+          "beneficios_economicos": "No especificados",
+          "principales_hitos": [],
+          "lecciones_aprendidas": [],
+          "factores_riesgo": []
+        },
+        "hits": []
+      },
+      "passed": false
+    },
+    {
+      "name": "SQL_literal_punto_coma_SELECT 'uno;dos' AS texto",
+      "expected": "SELECT válido permitido",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida: no se permiten múltiples sentencias SQL en una sola petición.",
+        "rows": []
+      },
+      "passed": false
+    },
+    {
+      "name": "SQL_literal_punto_coma_SELECT 'DELETE;UPDATE' AS texto",
+      "expected": "SELECT válido permitido",
+      "actual": {
+        "success": false,
+        "error": "Operación no permitida: no se permiten múltiples sentencias SQL en una sola petición.",
+        "rows": []
+      },
+      "passed": false
+    },
+    {
+      "name": "images_path_traversal",
+      "expected": "403/404, no servir fuera de images",
+      "actual": {
+        "url": "/images/..%2Fqa_marcador.txt",
+        "status": 200,
+        "marker_returned": true
+      },
+      "passed": false
+    },
+    {
+      "name": "temperatura_limite_-0.01",
+      "expected": 422,
+      "actual": 422,
+      "passed": true
+    },
+    {
+      "name": "temperatura_limite_1.01",
+      "expected": 422,
+      "actual": 422,
+      "passed": true
+    },
+    {
+      "name": "temperatura_limite_0.0",
+      "expected": 200,
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "temperatura_limite_1.0",
+      "expected": 200,
+      "actual": 200,
+      "passed": true
+    },
+    {
+      "name": "HTML_chat_sanitizado",
+      "expected": "Escapar/remover HTML y atributos ejecutables antes de dangerouslySetInnerHTML",
+      "actual": {
+        "case": "chat_raw_html_event_attribute",
+        "escaped": false,
+        "result": "<img src=x onerror=\"window.qaMarker=1\">",
+        "browser_execution_tested": false
+      },
+      "passed": false
+    }
+  ],
+  "metrics": {
+    "passed": 106,
+    "failed": 9,
+    "total": 115
+  },
+  "versions": {
+    "pydantic": "2.13.5",
+    "pytest": "9.1.1",
+    "fastapi": "0.142.2",
+    "openai": "3.22.1",
+    "pypdf": "6.10.0"
+  },
+  "cli_smoke": {
+    "exit_code": 1,
+    "command": "python -m codigo.backend.cli; entrada /salir",
+    "tail": ""
+  },
+  "build_final": {
+    "status": "PASS",
+    "timestamp_bogota": "2026-10-01T13:56:06.218786-05:00",
+    "command": "node node_modules/vite/bin/vite.js build --outDir ../../CHATGPT QA/frontend-build-final",
+    "details": "1602 módulos; build 10.40 s; JavaScript 370.41 kB (gzip 101.64); CSS 66.54 kB (gzip 11.06). Primera ejecución EPERM del sandbox; reintento permitido y exitoso.",
+    "outputs": {
+      "assets\\index-ClxflDSa.css": "0949f66148591bd0e44ba1791265247f8a9f380fe0b011457f04b78177fd4b56",
+      "assets\\index-D237TxEW.js": "fc37f530196db7c2080a2d01042c1073f020d95ffaf9250bdac6bffa42a2b1f9"
+    },
+    "delivered_index_sha256": "8199d56d85dd97f56af4b7aba89e83379ec574e9b32ea569aadb99967078d256",
+    "fresh_index_sha256": "f0aeb5de410dc284348cf0505da005247d1e25a607d8fc93ab0c7222f08af1f0"
+  },
+  "runtime_executable": "C:\\Users\\Felipe\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\python\\python.exe",
+  "final_source_review": {
+    "config_modal_hydrates_temperature": false,
+    "chroma_or_vector_search_implemented": false,
+    "sql_timeout_enforced": false,
+    "images_containment_enforced": false,
+    "live_llm_calls": 0,
+    "browser_xss_execution_tested": false,
+    "technical_demo_video_certified": false
+  }
+}

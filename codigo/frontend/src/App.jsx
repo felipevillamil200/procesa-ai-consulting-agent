@@ -20,10 +20,33 @@ const INITIAL_MESSAGE = {
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('chat');
+  const [activeTab, setActiveTab] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tabParam = params.get('tab');
+    if (tabParam && ['chat', 'fichas', 'sqlite', 'arquitectura', 'inicio'].includes(tabParam)) {
+      return tabParam;
+    }
+    const hash = window.location.hash.replace('#', '');
+    if (hash && ['chat', 'fichas', 'sqlite', 'arquitectura', 'inicio'].includes(hash)) {
+      return hash;
+    }
+    return 'chat'; // Default direct entry to Chat Inteligente
+  });
   const [projects, setProjects] = useState([]);
   const [fichas, setFichas] = useState([]);
   const [config, setConfig] = useState(null);
+  const [isMonochrome, setIsMonochrome] = useState(() => {
+    return localStorage.getItem('ui_monochrome') === 'true';
+  });
+  const [uiDensity, setUiDensity] = useState(() => {
+    return localStorage.getItem('ui_density') || 'comfortable';
+  });
+  const [uiScrollbarsVisible, setUiScrollbarsVisible] = useState(() => {
+    return localStorage.getItem('ui_scrollbars') !== 'false';
+  });
+  const [uiAnimations, setUiAnimations] = useState(() => {
+    return localStorage.getItem('ui_animations') !== 'false';
+  });
   
   // Chat state
   const [messages, setMessages] = useState([INITIAL_MESSAGE]);
@@ -91,7 +114,8 @@ export default function App() {
           content: res.answer,
           tools_used: res.tools_used || [],
           sources: res.sources || [],
-          found_info: res.found_info !== false
+          found_info: res.found_info !== false,
+          evidence_chunks: res.evidence_chunks || []
         };
         setMessages((prev) => [...prev, assistantMsg]);
       } else {
@@ -140,8 +164,8 @@ export default function App() {
   };
 
   // Save config
-  const handleSaveConfig = async (apiKey, model, provider) => {
-    const res = await api.updateConfig(apiKey, model, provider);
+  const handleSaveConfig = async (apiKey, model, provider, temperature) => {
+    const res = await api.updateConfig(apiKey, model, provider, temperature);
     if (res.success) {
       const updatedConfig = await api.getConfig();
       if (updatedConfig.success) setConfig(updatedConfig);
@@ -228,8 +252,16 @@ export default function App() {
     });
   };
 
+  const rootClasses = [
+    'h-screen flex overflow-hidden text-slate-800 transition-all duration-200',
+    isMonochrome ? 'monochrome-mode bg-slate-100' : 'bg-slate-50',
+    uiDensity === 'compact' ? 'compact-mode' : '',
+    !uiScrollbarsVisible ? 'hide-scrollbars' : '',
+    !uiAnimations ? 'no-animations' : ''
+  ].filter(Boolean).join(' ');
+
   return (
-    <div className="bg-slate-50 text-slate-800 h-screen flex overflow-hidden">
+    <div className={rootClasses}>
       {/* Sidebar */}
       <Sidebar
         projects={projects}
@@ -289,6 +321,14 @@ export default function App() {
         onClose={() => setIsConfigOpen(false)}
         config={config}
         onSaveConfig={handleSaveConfig}
+        isMonochrome={isMonochrome}
+        onToggleMonochrome={(val) => setIsMonochrome(val)}
+        uiDensity={uiDensity}
+        onToggleDensity={(val) => setUiDensity(val)}
+        uiScrollbarsVisible={uiScrollbarsVisible}
+        onToggleScrollbars={(val) => setUiScrollbarsVisible(val)}
+        uiAnimations={uiAnimations}
+        onToggleAnimations={(val) => setUiAnimations(val)}
       />
 
       <UploadModal

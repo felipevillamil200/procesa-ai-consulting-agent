@@ -1,0 +1,6 @@
+{
+  "case": "chat_raw_html_event_attribute",
+  "escaped": false,
+  "result": "<img src=x onerror=\"window.qaMarker=1\">",
+  "browser_execution_tested": false
+}

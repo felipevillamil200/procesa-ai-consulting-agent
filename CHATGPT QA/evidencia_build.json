@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "timestamp_bogota": "2026-10-01T13:56:06.218786-05:00",
+  "command": "node node_modules/vite/bin/vite.js build --outDir ../../CHATGPT QA/frontend-build-final",
+  "details": "1602 módulos; build 10.40 s; JavaScript 370.41 kB (gzip 101.64); CSS 66.54 kB (gzip 11.06). Primera ejecución EPERM del sandbox; reintento permitido y exitoso.",
+  "outputs": {
+    "assets\\index-ClxflDSa.css": "0949f66148591bd0e44ba1791265247f8a9f380fe0b011457f04b78177fd4b56",
+    "assets\\index-D237TxEW.js": "fc37f530196db7c2080a2d01042c1073f020d95ffaf9250bdac6bffa42a2b1f9"
+  },
+  "delivered_index_sha256": "8199d56d85dd97f56af4b7aba89e83379ec574e9b32ea569aadb99967078d256",
+  "fresh_index_sha256": "f0aeb5de410dc284348cf0505da005247d1e25a607d8fc93ab0c7222f08af1f0"
+}

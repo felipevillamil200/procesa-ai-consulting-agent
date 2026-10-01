@@ -318,7 +318,7 @@ export default function EvidenceInspector({
             </div>
 
             {/* A4 Paper Document Canvas Container */}
-            <div className="flex-1 overflow-y-auto custom-scrollbar flex justify-center p-1">
+            <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar flex justify-center p-1">
               {isLoading ? (
                 <div className="m-auto text-slate-500 text-xs p-6 text-center">
                   Cargando hoja de informe oficial...

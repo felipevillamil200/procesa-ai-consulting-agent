@@ -37,7 +37,7 @@ export default function FichasView({ fichas = [] }) {
     : fichas.filter(f => (f.sector || '').toLowerCase().includes(selectedSector.toLowerCase()));
 
   return (
-    <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-6 bg-dot-grid bg-radial-ambient">
+    <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-6 space-y-6 bg-dot-grid bg-radial-ambient">
       <div className="max-w-6xl mx-auto space-y-6">
         
         {/* Header Summary Banner */}

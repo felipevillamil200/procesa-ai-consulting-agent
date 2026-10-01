@@ -58,9 +58,10 @@ class SQLRequest(BaseModel):
 
 
 class ConfigUpdateRequest(BaseModel):
-    api_key: Optional[str] = Field(default=None, description="Clave de Google Gemini API")
+    api_key: Optional[str] = Field(default=None, description="Clave de Google Gemini o OpenAI API")
     model: Optional[str] = Field(default=None, description="Nombre del modelo LLM")
     provider: Optional[str] = Field(default=None, description="Proveedor LLM (gemini/openai)")
+    temperature: Optional[float] = Field(default=None, ge=0.0, le=1.0, description="Temperatura de muestreo (0.0 a 1.0)")
 
 
 @app.get("/health")
@@ -71,15 +72,16 @@ def health_check():
 
 @app.get("/api/config")
 def get_config():
-    """Retorna la configuración activa del LLM y estado de la API Key."""
+    """Retorna la configuración activa del LLM, temperatura y estado de la API Key."""
     import os
-    from codigo.backend.config import GEMINI_API_KEY, LLM_MODEL, LLM_PROVIDER
-    current_key = os.getenv("GEMINI_API_KEY", GEMINI_API_KEY)
+    from codigo.backend.config import GEMINI_API_KEY, OPENAI_API_KEY, LLM_MODEL, LLM_PROVIDER
+    current_key = os.getenv("GEMINI_API_KEY", GEMINI_API_KEY) or os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
     masked = f"{current_key[:6]}...{current_key[-4:]}" if len(current_key) > 10 else ("Configurada" if current_key else "No configurada")
     return {
         "success": True,
         "provider": os.getenv("LLM_PROVIDER", LLM_PROVIDER),
         "model": os.getenv("LLM_MODEL", LLM_MODEL),
+        "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1")),
         "has_api_key": bool(current_key),
         "masked_key": masked
     }
@@ -87,15 +89,18 @@ def get_config():
 
 @app.post("/api/config")
 def update_config(req: ConfigUpdateRequest):
-    """Actualiza en memoria la clave de API o modelo LLM."""
+    """Actualiza en memoria la clave de API, modelo LLM o temperatura con validación de rango."""
     import os
     if req.api_key and req.api_key.strip():
         os.environ["GEMINI_API_KEY"] = req.api_key.strip()
+        os.environ["OPENAI_API_KEY"] = req.api_key.strip()
     if req.model and req.model.strip():
         os.environ["LLM_MODEL"] = req.model.strip()
     if req.provider and req.provider.strip():
         os.environ["LLM_PROVIDER"] = req.provider.strip()
-    return {"success": True, "message": "Configuración actualizada correctamente"}
+    if req.temperature is not None:
+        os.environ["LLM_TEMPERATURE"] = str(req.temperature)
+    return {"success": True, "message": "Configuración actualizada correctamente", "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1"))}
 
 
 
@@ -182,7 +187,6 @@ def get_project_pdf_file(codigo_proyecto: str):
 def get_all_projects():
     """Obtiene la lista de todos los proyectos registrados en la base de datos SQLite."""
     proyectos = db_manager.get_all_proyectos()
-    # Parsear campos JSON almacenados
     formatted = []
     for p in proyectos:
         item = dict(p)
@@ -223,46 +227,94 @@ def delete_project(codigo_proyecto: str):
 
 @app.post("/api/proyectos/reset")
 def reset_projects():
-    """Restaura los 4 proyectos oficiales de prueba técnica regenerando fichas, SQLite y RAG."""
+    """Restaura exactamente los 4 proyectos oficiales de prueba técnica regenerando fichas, SQLite y RAG."""
     from codigo.backend.extractor import process_all_reports
-    # Restaurar PDFs originales desde extracted si hacen falta
     from codigo.backend.config import RAW_REPORTS_DIR
+    import shutil
+
+    # 1. Limpiar base de datos SQLite por completo
+    conn = db_manager.get_connection()
+    try:
+        conn.execute("DELETE FROM proyectos")
+        conn.commit()
+    finally:
+        conn.close()
+
+    # 2. Limpiar directorio de fichas JSON
+    for f in FICHAS_DIR.glob("*.json"):
+        try:
+            f.unlink()
+        except Exception:
+            pass
+
+    # 3. Limpiar directorio de raw reports
+    for p in RAW_REPORTS_DIR.glob("*.pdf"):
+        try:
+            p.unlink()
+        except Exception:
+            pass
+
+    # 4. Copiar los 4 PDFs oficiales desde extracted
     extracted_dir = PROJECT_ROOT / "extracted"
     if extracted_dir.exists():
-        import shutil
         for pdf in extracted_dir.glob("Informe_Cierre_*.pdf"):
             shutil.copy(pdf, RAW_REPORTS_DIR / pdf.name)
-            
+
+    # 5. Procesar y poblar exactamente los 4 oficiales
     fichas = process_all_reports(use_llm=False)
     agent.search_engine.reload_index()
     return {"success": True, "count": len(fichas), "message": "Base de datos y RAG restaurados con los 4 proyectos oficiales"}
 
 
 from fastapi import UploadFile, File
-import shutil
+import io
+import os
+import pypdf
 
 @app.post("/api/upload")
 async def upload_document(file: UploadFile = File(...)):
-    """Sube un nuevo informe PDF, ejecuta la extracción estructurada, lo persiste en SQLite y reindexa RAG."""
+    """
+    Sube un nuevo informe PDF con validación estricta de estructura y protección anti path-traversal.
+    """
     from codigo.backend.config import RAW_REPORTS_DIR
     from codigo.backend.extractor import process_single_pdf
-    
-    if not file.filename.lower().endswith(".pdf"):
-        raise HTTPException(status_code=400, detail="Solo se permiten archivos PDF.")
 
-    save_path = RAW_REPORTS_DIR / file.filename
-    with open(save_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    # Sanitizar nombre de archivo (eliminar cualquier ../ o ruta externa)
+    safe_filename = os.path.basename(file.filename)
+    if not safe_filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Solo se permiten archivos con extensión .pdf.")
+
+    # Leer contenido en memoria antes de guardar en disco
+    content = await file.read()
+    if len(content) < 50 or not content.startswith(b"%PDF"):
+        raise HTTPException(status_code=400, detail="El archivo proporcionado no es un documento PDF válido.")
+
+    # Validar que sea un PDF sintácticamente correcto con pypdf
+    try:
+        reader = pypdf.PdfReader(io.BytesIO(content))
+        if len(reader.pages) == 0:
+            raise HTTPException(status_code=400, detail="El archivo PDF no contiene páginas.")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Estructura de PDF corrupta o no legible: {str(e)}")
+
+    # Asegurar que el guardado se realiza estrictamente dentro de RAW_REPORTS_DIR
+    save_path = (RAW_REPORTS_DIR / safe_filename).resolve()
+    if not str(save_path).startswith(str(RAW_REPORTS_DIR.resolve())):
+        raise HTTPException(status_code=400, detail="Ruta de archivo no permitida.")
+
+    save_path.write_bytes(content)
 
     try:
         ficha = process_single_pdf(save_path, db_manager)
         agent.search_engine.reload_index()
         return {
             "success": True,
-            "message": f"Documento '{file.filename}' procesado e indexado con éxito.",
+            "message": f"Documento '{safe_filename}' procesado e indexado con éxito.",
             "proyecto": ficha.model_dump()
         }
     except Exception as e:
+        if save_path.exists():
+            save_path.unlink()
         raise HTTPException(status_code=500, detail=f"Error procesando PDF: {str(e)}")
 
 
@@ -290,6 +342,39 @@ target_static_dir = FRONTEND_DIST if FRONTEND_DIST.exists() else FRONTEND_DIR
 
 if target_static_dir.exists():
     app.mount("/app", StaticFiles(directory=str(target_static_dir), html=True), name="frontend")
+
+# Rutas directas para páginas HTML complementarias
+for html_page in ["inicio.html", "guia.html", "nival.html", "solucion.html"]:
+    def _create_handler(page_name: str):
+        def handler():
+            for candidate in [FRONTEND_DIST / page_name, FRONTEND_DIR / page_name, FRONTEND_DIR / "public" / page_name]:
+                if candidate.exists():
+                    return FileResponse(candidate, media_type="text/html")
+            raise HTTPException(status_code=404, detail="Página no encontrada")
+        return handler
+    app.add_api_route(f"/{html_page}", _create_handler(html_page), methods=["GET"])
+    app.add_api_route(f"/app/{html_page}", _create_handler(html_page), methods=["GET"])
+
+# Montar imágenes estáticas y route handler para /images/{image_name:path}
+@app.get("/images/{image_name:path}")
+def get_static_image(image_name: str):
+    for base in [
+        FRONTEND_DIR / "public" / "images",
+        FRONTEND_DIST / "images",
+        FRONTEND_DIR / "images",
+        BASE_DIR / "codigo" / "frontend" / "public" / "images",
+        BASE_DIR / "codigo" / "frontend" / "dist" / "images",
+        PROJECT_ROOT / "codigo" / "frontend" / "public" / "images"
+    ]:
+        target = base / image_name
+        if target.exists() and target.is_file():
+            return FileResponse(target)
+    raise HTTPException(status_code=404, detail="Imagen no encontrada")
+
+for img_dir in [FRONTEND_DIR / "public" / "images", FRONTEND_DIST / "images", FRONTEND_DIR / "images", BASE_DIR / "codigo" / "frontend" / "public" / "images"]:
+    if img_dir.exists():
+        app.mount("/images", StaticFiles(directory=str(img_dir)), name="images")
+        break
 
 
 if __name__ == "__main__":

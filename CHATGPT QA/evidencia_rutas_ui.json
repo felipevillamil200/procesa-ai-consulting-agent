@@ -1,0 +1,38 @@
+[
+  {
+    "url": "/app/",
+    "status": 200
+  },
+  {
+    "url": "/app/inicio.html",
+    "status": 200
+  },
+  {
+    "url": "/app/nival.html",
+    "status": 200
+  },
+  {
+    "url": "/app/guia.html",
+    "status": 200
+  },
+  {
+    "url": "/app/solucion.html",
+    "status": 200
+  },
+  {
+    "url": "/inicio.html",
+    "status": 200
+  },
+  {
+    "url": "/guia.html",
+    "status": 200
+  },
+  {
+    "url": "/solucion.html",
+    "status": 200
+  },
+  {
+    "url": "/images/procesa_brand_logo.jpg",
+    "status": 200
+  }
+]

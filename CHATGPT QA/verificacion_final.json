@@ -1,0 +1,31 @@
+{
+  "metrics": {
+    "passed": 106,
+    "failed": 9,
+    "total": 115
+  },
+  "score": 75,
+  "verdict": "NO APROBADO PARA CERTIFICACIÓN DEL 100%",
+  "pdf_pages": 17,
+  "pdf_text_integrity": true,
+  "pytest_junit": [
+    {
+      "name": "suite_estado_actual",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0
+    },
+    {
+      "name": "suite_corpus_aislado",
+      "tests": 11,
+      "failures": 0,
+      "errors": 0
+    }
+  ],
+  "source_manifest_reverified": true,
+  "source_unchanged": true,
+  "pdf_sha256": "28ccc343baa605e4fb0bb63366c29028354ec7b9fa40e67ab462e372a6aa5dca",
+  "markdown_sha256": "be85a0663173a4802e8e29c8a86824094a3c6815e5501cefc53c0de902ffff0c",
+  "json_sha256": "fcc602fdbdb7f495536d39a98318c1cfec04dd2d071b24c7093ba50a6a753ec6",
+  "visual_review_completed": true
+}

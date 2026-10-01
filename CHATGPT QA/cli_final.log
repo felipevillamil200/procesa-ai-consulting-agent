@@ -1,0 +1,7 @@
+
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "D:\Program Files\Felipe\Downloads\Talen GV\CHATGPT QA\sandbox_20261001_135439_027057\codigo\backend\cli.py", line 9, in <module>
+    from rich.console import Console
+ModuleNotFoundError: No module named 'rich'

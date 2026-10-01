@@ -37,3 +37,9 @@ node_modules/
 .DS_Store
 Thumbs.db
 
+# QA Artifacts y Sandboxes temporales
+CHATGPT QA/_deps/
+CHATGPT QA/sandbox*/
+CHATGPT QA/frontend-build*/
+CHATGPT QA/historico*/
+CHATGPT QA/revision_pdf_actual/

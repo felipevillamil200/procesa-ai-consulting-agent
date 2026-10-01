@@ -17,9 +17,24 @@ RAW_REPORTS_DIR = DATA_DIR / "raw_reports"
 FICHAS_DIR = DATA_DIR / "fichas"
 DATABASE_PATH = DATA_DIR / "proyectos.db"
 
-# Asegurar existencia de directorios clave
+# Asegurar existencia de directorios clave y auto-poblado desde extracted
 RAW_REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 FICHAS_DIR.mkdir(parents=True, exist_ok=True)
+
+def ensure_official_data():
+    """Garantiza que data/ contenga los 4 PDFs oficiales desde extracted."""
+    import shutil
+    extracted_dir = BASE_DIR / "extracted"
+    if extracted_dir.exists():
+        for pdf in extracted_dir.glob("Informe_Cierre_*.pdf"):
+            target = RAW_REPORTS_DIR / pdf.name
+            if not target.exists() or target.stat().st_size == 0:
+                try:
+                    shutil.copy(pdf, target)
+                except Exception:
+                    pass
+
+ensure_official_data()
 
 # Configuración de Proveedores LLM (Google Gemini / OpenAI)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
