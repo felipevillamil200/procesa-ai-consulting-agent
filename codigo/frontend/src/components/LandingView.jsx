@@ -114,84 +114,141 @@ export default function LandingView({ onNavigateToChat }) {
   return (
     <div className="flex-1 overflow-y-auto custom-scrollbar bg-slate-950 text-slate-100 p-4 sm:p-8 space-y-16">
       
-      {/* Unified Hero (2-Column Side-by-Side: Text & Visual Proof) */}
-      <section className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center pt-2 pb-4">
+      {/* Atmospheric Hero with Background Image & Live AI Workflow Simulation */}
+      <section className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl p-6 sm:p-10 lg:p-12">
         
-        {/* Left: Value Proposition & CTAs */}
-        <div className="lg:col-span-7 space-y-6 text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono font-bold shadow-lg shadow-cyan-950/40 animate-fade-in">
-            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>INTELIGENCIA ARTIFICIAL DOCUMENTAL & RELACIONAL</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-            De <span className="text-red-400 line-through decoration-red-500/70">4 horas leyendo PDFs</span> a <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">3 segundos de respuesta exacta</span>.
-          </h1>
-
-          <p className="text-sm sm:text-base text-slate-300 font-normal leading-relaxed">
-            Diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios (luz/agua), balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3.5 pt-2">
-            <button
-              onClick={onNavigateToChat}
-              className="px-7 py-3.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2.5 shadow-xl shadow-cyan-600/30 cursor-pointer btn-tactile hover:scale-105"
-            >
-              <Zap className="w-4 h-4" />
-              <span>Probar la Demo Interactiva</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-            
-            <a
-              href="#piloto"
-              className="px-7 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-bold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2 cursor-pointer btn-tactile"
-            >
-              <Users className="w-4 h-4 text-cyan-400" />
-              <span>Probar con mis Documentos</span>
-            </a>
-          </div>
-
-          {/* Micro-Trust Badges */}
-          <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
-            <div className="flex items-center gap-1.5 text-cyan-300">
-              <span className="w-2 h-2 rounded-full bg-cyan-400" />
-              <span>Latencia: ~240 ms</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-emerald-300">
-              <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span>Grounding Forense</span>
-            </div>
-            <div className="flex items-center gap-1.5 text-slate-300">
-              <span className="w-2 h-2 rounded-full bg-slate-400" />
-              <span>100% Confidencial</span>
-            </div>
-          </div>
+        {/* Background Image with Gradient Overlay & Vignette */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/images/executive_workflow.jpg" 
+            alt="Fondo Oficina Ejecutiva IA" 
+            className="w-full h-full object-cover object-center filter blur-[1px] scale-105 opacity-25"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/90 to-slate-950/80" />
+          <div className="absolute inset-0 bg-radial-ambient opacity-80" />
         </div>
 
-        {/* Right: Executive AI Workflow Visual Proof */}
-        <div className="lg:col-span-5">
-          <div className="relative rounded-3xl overflow-hidden border border-slate-800 shadow-2xl shadow-cyan-950/40 bg-slate-900 group">
-            <img 
-              src="/images/executive_workflow.jpg" 
-              alt="Ejecutiva procesando documentos con Inteligencia Artificial" 
-              className="w-full h-72 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-500"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none" />
-            
-            <div className="absolute bottom-3 left-3 right-3 p-3 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-slate-800 text-xs">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span className="font-bold text-white text-[11px]">AI VERIFIED • DATA INTEGRITY</span>
-                </div>
-                <span className="text-[10px] font-mono text-cyan-400 bg-cyan-950/80 px-2 py-0.5 rounded border border-cyan-800">
-                  RAG + SQL
-                </span>
+        {/* 2-Column Content (Left: Text & Value Prop / Right: Live AI Workflow Simulation Mockup) */}
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+          
+          {/* Left: Value Proposition & CTAs */}
+          <div className="lg:col-span-7 space-y-6 text-left">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-300 text-xs font-mono font-bold shadow-lg shadow-cyan-950/40 animate-fade-in">
+              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+              <span>INTELIGENCIA ARTIFICIAL DOCUMENTAL & RELACIONAL</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white leading-tight">
+              De <span className="text-red-400 line-through decoration-red-500/70">4 horas leyendo PDFs</span> a <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">3 segundos de respuesta exacta</span>.
+            </h1>
+
+            <p className="text-sm sm:text-base text-slate-300 font-normal leading-relaxed max-w-xl">
+              Diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios (luz/agua), balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+              <button
+                onClick={onNavigateToChat}
+                className="px-7 py-3.5 bg-gradient-to-r from-cyan-500 via-blue-600 to-cyan-500 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2.5 shadow-xl shadow-cyan-600/30 cursor-pointer btn-tactile hover:scale-105"
+              >
+                <Zap className="w-4 h-4" />
+                <span>Probar la Demo Interactiva</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              
+              <a
+                href="#piloto"
+                className="px-7 py-3.5 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 hover:border-slate-600 font-bold rounded-2xl text-sm transition-all duration-200 flex items-center gap-2 cursor-pointer btn-tactile"
+              >
+                <Users className="w-4 h-4 text-cyan-400" />
+                <span>Probar con mis Documentos</span>
+              </a>
+            </div>
+
+            {/* Micro-Trust Badges */}
+            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
+              <div className="flex items-center gap-1.5 text-cyan-300">
+                <span className="w-2 h-2 rounded-full bg-cyan-400" />
+                <span>Latencia: ~240 ms</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-emerald-300">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span>Grounding Forense</span>
+              </div>
+              <div className="flex items-center gap-1.5 text-slate-300">
+                <span className="w-2 h-2 rounded-full bg-slate-400" />
+                <span>100% Confidencial</span>
               </div>
             </div>
           </div>
-        </div>
 
+          {/* Right: Live AI Document Processing Video/Simulation Mockup */}
+          <div className="lg:col-span-5">
+            <div className="p-5 rounded-3xl bg-slate-950/90 border border-cyan-500/40 shadow-2xl backdrop-blur-xl space-y-3 relative overflow-hidden group">
+              
+              {/* Scanning Laser Beam Animation */}
+              <div className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent shadow-[0_0_15px_#22d3ee] animate-pulse" />
+
+              {/* Window Header */}
+              <div className="flex items-center justify-between pb-2 border-b border-slate-800 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
+                  <span className="font-mono text-[10px] text-slate-400 ml-1">AI_DOC_PROCESSOR.v2</span>
+                </div>
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  EN VIVO
+                </span>
+              </div>
+
+              {/* Document Drop Badge */}
+              <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2 truncate">
+                  <div className="w-7 h-7 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 text-xs">
+                    📄
+                  </div>
+                  <div className="truncate">
+                    <div className="font-bold text-white text-[11px] truncate">Factura_Energia_Enero_2026.pdf</div>
+                    <div className="text-[9px] text-slate-400 font-mono">1.4 MB • Arrastrado por Secretaría</div>
+                  </div>
+                </div>
+                <span className="text-[9px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-800 px-1.5 py-0.5 rounded font-bold">
+                  Procesado
+                </span>
+              </div>
+
+              {/* Real-time Extracted Data Rows */}
+              <div className="space-y-1.5 font-mono text-[11px]">
+                <div className="p-2 rounded-lg bg-cyan-950/30 border border-cyan-800/40 flex items-center justify-between text-cyan-200">
+                  <span>⚡ Total a Pagar:</span>
+                  <span className="font-bold text-white">$450,200 COP</span>
+                </div>
+                <div className="p-2 rounded-lg bg-cyan-950/30 border border-cyan-800/40 flex items-center justify-between text-cyan-200">
+                  <span>📊 Consumo Activo:</span>
+                  <span className="font-bold text-emerald-400">1,420 kWh</span>
+                </div>
+                <div className="p-2 rounded-lg bg-cyan-950/30 border border-cyan-800/40 flex items-center justify-between text-cyan-200">
+                  <span>📅 Fecha Vencimiento:</span>
+                  <span className="font-bold text-amber-300">15/02/2026</span>
+                </div>
+              </div>
+
+              {/* AI Verified Seal */}
+              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[10px]">
+                <span className="text-slate-400 flex items-center gap-1">
+                  <span className="text-emerald-400">✓</span> Evidencia: Pág. 1, Párrafo 3
+                </span>
+                <span className="font-mono text-cyan-300 font-bold bg-slate-900 px-2 py-0.5 rounded border border-slate-700">
+                  Cero Alucinaciones
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
       </section>
 
       {/* Lo que la herramienta realmente hace (Problema Real -> Solución Concreta) */}
