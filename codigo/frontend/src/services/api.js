@@ -2,8 +2,10 @@
  * Servicio API de comunicación con el Backend FastAPI de Procesa Consultores.
  */
 
-// Detectar base URL dinámicamente según el entorno o variable VITE_API_BASE
-const API_BASE = import.meta.env.VITE_API_BASE || (window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin);
+// Detectar base URL dinámicamente según el entorno, variable VITE_API_BASE o localStorage
+export const getApiBase = () => {
+  return localStorage.getItem('custom_backend_url') || import.meta.env.VITE_API_BASE || (window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin);
+};
 
 import { OFFICIAL_FICHAS, OFFICIAL_PROJECTS, executeClientSQL, smartClientChat } from './fallbackData';
 
@@ -13,7 +15,7 @@ export const api = {
    */
   async sendMessage(question, history = null) {
     try {
-      const res = await fetch(`${API_BASE}/api/chat`, {
+      const res = await fetch(`${getApiBase()}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question, history })
@@ -33,7 +35,7 @@ export const api = {
    */
   async getProjects() {
     try {
-      const res = await fetch(`${API_BASE}/api/proyectos`);
+      const res = await fetch(`${getApiBase()}/api/proyectos`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data && data.success && Array.isArray(data.proyectos) && data.proyectos.length > 0) {
@@ -54,7 +56,7 @@ export const api = {
    */
   async getFichas() {
     try {
-      const res = await fetch(`${API_BASE}/api/fichas`);
+      const res = await fetch(`${getApiBase()}/api/fichas`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data && data.success && Array.isArray(data.fichas) && data.fichas.length > 0) {
@@ -75,7 +77,7 @@ export const api = {
    */
   async getDocumentPreview(codigo) {
     try {
-      const res = await fetch(`${API_BASE}/api/proyectos/${codigo}/preview`);
+      const res = await fetch(`${getApiBase()}/api/proyectos/${codigo}/preview`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (err) {
@@ -112,7 +114,7 @@ export const api = {
    */
   async executeSQL(query) {
     try {
-      const res = await fetch(`${API_BASE}/api/sql`, {
+      const res = await fetch(`${getApiBase()}/api/sql`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ query })
@@ -129,7 +131,7 @@ export const api = {
    */
   async getConfig() {
     try {
-      const res = await fetch(`${API_BASE}/api/config`);
+      const res = await fetch(`${getApiBase()}/api/config`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return await res.json();
     } catch (err) {
@@ -150,7 +152,7 @@ export const api = {
    */
   async updateConfig(apiKey, model, provider, temperature) {
     try {
-      const res = await fetch(`${API_BASE}/api/config`, {
+      const res = await fetch(`${getApiBase()}/api/config`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -179,7 +181,7 @@ export const api = {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const res = await fetch(`${API_BASE}/api/upload`, {
+      const res = await fetch(`${getApiBase()}/api/upload`, {
         method: 'POST',
         body: formData
       });
@@ -199,7 +201,7 @@ export const api = {
    */
   async deleteProject(codigo) {
     try {
-      const res = await fetch(`${API_BASE}/api/proyectos/${codigo}`, {
+      const res = await fetch(`${getApiBase()}/api/proyectos/${codigo}`, {
         method: 'DELETE'
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -217,7 +219,7 @@ export const api = {
    */
   async resetProjects() {
     try {
-      const res = await fetch(`${API_BASE}/api/proyectos/reset`, {
+      const res = await fetch(`${getApiBase()}/api/proyectos/reset`, {
         method: 'POST'
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -231,4 +233,3 @@ export const api = {
     }
   }
 };
-
