@@ -1,5 +1,8 @@
-import React from 'react';
-import { Brain, FileText, FileCode2, Sparkles, ChevronRight, Zap, FolderOpen, ShieldCheck, Activity } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  Brain, FileText, FileCode2, Sparkles, ChevronRight, ChevronDown, 
+  Zap, FolderOpen, ShieldCheck, Activity 
+} from 'lucide-react';
 
 const PDF_NAMES = {
   'PC-2025-014': 'Informe_Cierre_PC-2025-014_Cooperativa_Horizonte_Andino.pdf',
@@ -100,6 +103,8 @@ const getDynamicPrompts = (projects) => {
 
 export default function Sidebar({ projects = [], onSelectPrompt, config }) {
   const dynamicPrompts = getDynamicPrompts(projects);
+  const [isDocsOpen, setIsDocsOpen] = useState(true);
+  const [isPromptsOpen, setIsPromptsOpen] = useState(true);
 
   return (
     <aside className="w-80 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white flex flex-col border-r border-slate-800/80 shrink-0 select-none shadow-2xl z-20">
@@ -145,101 +150,127 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto custom-scrollbar-dark p-4 space-y-6">
         
-        {/* Section: Source Documents */}
+        {/* Section: Source Documents (Collapsible Accordion) */}
         <div>
-          <div className="flex items-center justify-between mb-3 px-1">
-            <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setIsDocsOpen(prev => !prev)}
+            className="w-full flex items-center justify-between mb-3 px-1 py-1 rounded-lg text-left group/header hover:bg-slate-800/50 transition cursor-pointer"
+            title={isDocsOpen ? 'Plegar lista de documentos' : 'Desplegar lista de documentos'}
+          >
+            <div className="flex items-center gap-2">
               <FolderOpen className="w-3.5 h-3.5 text-cyan-400" />
-              DOCUMENTOS FUENTE ({projects.length})
-            </h2>
+              <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 group-hover/header:text-slate-200 transition">
+                DOCUMENTOS FUENTE ({projects.length})
+              </h2>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-500 group-hover/header:text-cyan-400 transition-transform duration-200 ${
+                isDocsOpen ? 'rotate-0' : '-rotate-90'
+              }`} />
+            </div>
+
             <span className="text-[9px] bg-slate-900/80 text-cyan-400 px-2 py-0.5 rounded font-mono border border-cyan-900/50">
               PDF / RAG
             </span>
-          </div>
+          </button>
 
-          <div className="space-y-2">
-            {projects.length === 0 ? (
-              <div className="p-4 bg-slate-900/50 border border-dashed border-slate-800 rounded-2xl text-xs text-slate-400 text-center space-y-1">
-                <p className="font-semibold text-slate-300">Base de datos vacía</p>
-                <p className="text-[10px] text-slate-500">Usa "Explorador SQLite" para restaurar o subir informes.</p>
-              </div>
-            ) : (
-              projects.map((p) => {
-                const tag = SECTOR_TAGS[p.codigo_proyecto] || { label: p.sector || 'Proyecto', color: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20' };
-                return (
-                  <div
-                    key={p.codigo_proyecto}
-                    onClick={() => onSelectPrompt(`¿Qué objetivos, metodologías y resultados se lograron en el proyecto ${p.codigo_proyecto}?`)}
-                    className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-cyan-500/50 hover:bg-slate-850 hover:shadow-lg hover:shadow-cyan-950/20 transition-all duration-200 group cursor-pointer active:scale-[0.98]"
-                  >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="font-mono text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
-                        <FileCode2 className="w-3.5 h-3.5 text-cyan-400" />
-                        {p.codigo_proyecto}
-                      </span>
-                      <span className={`text-[9px] px-2 py-0.5 rounded-full border font-semibold font-mono ${tag.color}`}>
-                        {tag.label}
-                      </span>
+          {isDocsOpen && (
+            <div className="space-y-2 animate-fade-in">
+              {projects.length === 0 ? (
+                <div className="p-4 bg-slate-900/50 border border-dashed border-slate-800 rounded-2xl text-xs text-slate-400 text-center space-y-1">
+                  <p className="font-semibold text-slate-300">Base de datos vacía</p>
+                  <p className="text-[10px] text-slate-500">Usa "Explorador SQLite" para restaurar o subir informes.</p>
+                </div>
+              ) : (
+                projects.map((p) => {
+                  const tag = SECTOR_TAGS[p.codigo_proyecto] || { label: p.sector || 'Proyecto', color: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/20' };
+                  return (
+                    <div
+                      key={p.codigo_proyecto}
+                      onClick={() => onSelectPrompt(`¿Qué objetivos, metodologías y resultados se lograron en el proyecto ${p.codigo_proyecto}?`)}
+                      className="p-3 rounded-2xl bg-slate-900/60 border border-slate-800/80 hover:border-cyan-500/50 hover:bg-slate-850 hover:shadow-lg hover:shadow-cyan-950/20 transition-all duration-200 group cursor-pointer active:scale-[0.98]"
+                    >
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className="font-mono text-[11px] font-bold text-cyan-400 flex items-center gap-1.5">
+                          <FileCode2 className="w-3.5 h-3.5 text-cyan-400" />
+                          {p.codigo_proyecto}
+                        </span>
+                        <span className={`text-[9px] px-2 py-0.5 rounded-full border font-semibold font-mono ${tag.color}`}>
+                          {tag.label}
+                        </span>
+                      </div>
+                      <div className="font-semibold text-xs text-slate-200 group-hover:text-white transition line-clamp-1">
+                        {p.cliente}
+                      </div>
+                      <div className="flex items-center justify-between text-[10px] text-slate-400 mt-2 font-mono">
+                        <span className="flex items-center gap-1 truncate max-w-[140px]">
+                          <FileText className="w-3 h-3 text-red-400 shrink-0" />
+                          <span className="truncate">{PDF_NAMES[p.codigo_proyecto] ? 'PDF Original' : 'Informe'}</span>
+                        </span>
+                        <span className="text-slate-500 bg-slate-800 px-1.5 py-0.2 rounded text-[9px]">
+                          {p.duracion_semanas || '-'} sem
+                        </span>
+                      </div>
                     </div>
-                    <div className="font-semibold text-xs text-slate-200 group-hover:text-white transition line-clamp-1">
-                      {p.cliente}
-                    </div>
-                    <div className="flex items-center justify-between text-[10px] text-slate-400 mt-2 font-mono">
-                      <span className="flex items-center gap-1 truncate max-w-[140px]">
-                        <FileText className="w-3 h-3 text-red-400 shrink-0" />
-                        <span className="truncate">{PDF_NAMES[p.codigo_proyecto] ? 'PDF Original' : 'Informe'}</span>
-                      </span>
-                      <span className="text-slate-500 bg-slate-800 px-1.5 py-0.2 rounded text-[9px]">
-                        {p.duracion_semanas || '-'} sem
-                      </span>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
+                  );
+                })
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Section: Quick Prompts Bento */}
+        {/* Section: Quick Prompts Bento (Collapsible Accordion) */}
         <div>
-          <div className="flex items-center justify-between mb-3 px-1">
-            <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setIsPromptsOpen(prev => !prev)}
+            className="w-full flex items-center justify-between mb-3 px-1 py-1 rounded-lg text-left group/header hover:bg-slate-800/50 transition cursor-pointer"
+            title={isPromptsOpen ? 'Plegar consultas sugeridas' : 'Desplegar consultas sugeridas'}
+          >
+            <div className="flex items-center gap-2">
               <Zap className="w-3.5 h-3.5 text-amber-400" />
-              CONSULTAS SUGERIDAS ({dynamicPrompts.length})
-            </h2>
+              <h2 className="text-[11px] font-bold uppercase tracking-wider text-slate-400 group-hover/header:text-slate-200 transition">
+                CONSULTAS SUGERIDAS ({dynamicPrompts.length})
+              </h2>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-500 group-hover/header:text-amber-400 transition-transform duration-200 ${
+                isPromptsOpen ? 'rotate-0' : '-rotate-90'
+              }`} />
+            </div>
+
             <span className="text-[9px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full font-mono border border-amber-500/30">
               Instantáneo
             </span>
-          </div>
+          </button>
 
-          <div className="space-y-2 text-xs">
-            {dynamicPrompts.map((item, idx) => (
-              <button
-                key={idx}
-                onClick={() => onSelectPrompt(item.query)}
-                className={`w-full text-left p-3 rounded-2xl bg-slate-900/50 hover:bg-slate-850 text-slate-300 hover:text-white transition-all duration-200 border ${
-                  item.isAntiHallucination
-                    ? 'border-red-950/80 hover:border-red-500/60 bg-red-950/10 text-red-200'
-                    : 'border-slate-800/80 hover:border-cyan-500/50 hover:shadow-md hover:shadow-cyan-950/20'
-                } flex items-center justify-between group active:scale-[0.98] cursor-pointer`}
-              >
-                <div className="flex items-center gap-2.5 truncate">
-                  <span className="text-base shrink-0">{item.icon}</span>
-                  <div className="truncate">
-                    <p className="truncate font-semibold text-xs leading-tight group-hover:text-cyan-200 transition">
-                      {item.label}
-                    </p>
-                    {item.badge && (
-                      <span className="text-[9px] font-mono text-slate-500 group-hover:text-slate-400">
-                        {item.badge}
-                      </span>
-                    )}
+          {isPromptsOpen && (
+            <div className="space-y-2 text-xs animate-fade-in">
+              {dynamicPrompts.map((item, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => onSelectPrompt(item.query)}
+                  className={`w-full text-left p-3 rounded-2xl bg-slate-900/50 hover:bg-slate-850 text-slate-300 hover:text-white transition-all duration-200 border ${
+                    item.isAntiHallucination
+                      ? 'border-red-950/80 hover:border-red-500/60 bg-red-950/10 text-red-200'
+                      : 'border-slate-800/80 hover:border-cyan-500/50 hover:shadow-md hover:shadow-cyan-950/20'
+                  } flex items-center justify-between group active:scale-[0.98] cursor-pointer`}
+                >
+                  <div className="flex items-center gap-2.5 truncate">
+                    <span className="text-base shrink-0">{item.icon}</span>
+                    <div className="truncate">
+                      <p className="truncate font-semibold text-xs leading-tight group-hover:text-cyan-200 transition">
+                        {item.label}
+                      </p>
+                      {item.badge && (
+                        <span className="text-[9px] font-mono text-slate-500 group-hover:text-slate-400">
+                          {item.badge}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 text-cyan-400 transition-all transform group-hover:translate-x-0.5 shrink-0" />
-              </button>
-            ))}
-          </div>
+                  <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 text-cyan-400 transition-all transform group-hover:translate-x-0.5 shrink-0" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
@@ -256,4 +287,3 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
     </aside>
   );
 }
-
