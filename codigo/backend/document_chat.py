@@ -1,27 +1,33 @@
-"""Consulta de documentos heterogéneos con citas verificadas por página y soporte LLM universal."""
+"""
+Módulo de Consulta Universal de Documentos PDF con Inteligencia Artificial.
+Conecta el motor RAG directamente con los proveedores LLM (OpenAI / Gemini)
+utilizando prompts desacoplados en Markdown.
+"""
+
+import json
 import os
 import re
 import time
+from typing import Dict, List, Optional
+
 from codigo.backend.documents import (
-    DocumentStore,
     DocumentCitation,
+    DocumentStore,
     GroundedAnswer,
     gemini_json,
-    openai_json,
     normalized,
+    openai_json,
     provider_error_reason,
 )
 from codigo.backend.prompts import load_prompt
 
-STOPWORDS = set('que cual cuales es el la los las un una de del en a y o por para como mi este esta esto documento documentos informe informes factura facturas contrato contratos contiene cual cuanto cuantos sobre foco resume resumir resumen dime dar detalle favor exclusivamente analiza'.split())
-
 
 class UnverifiedSummary(ValueError):
-    """Una síntesis amplia inválida puede sustituirse por extractos, nunca inventarse."""
+    """Excepción para síntesis que no pasen la verificación."""
 
 
-def number_tokens(text, *, answer=False):
-    """Extrae tokens numéricos normalizados para verificación."""
+def number_tokens(text: str, *, answer: bool = False) -> set:
+    """Extrae tokens numéricos normalizados de un texto."""
     from decimal import Decimal
     text = re.sub(r'\b(?:DOC-[A-Fa-f0-9]{16}|PC-\d{4}-\d{3})\b', '', text)
     if answer:
@@ -44,20 +50,27 @@ def number_tokens(text, *, answer=False):
     return numbers
 
 
-def answer_documents(agent, question, document_ids=None, history=None):
+def answer_documents(
+    agent,
+    question: str,
+    document_ids: Optional[List[str]] = None,
+    history: Optional[List[Dict[str, str]]] = None
+):
     """
-    Motor universal de respuesta sobre documentos PDF.
-    Aprovecha la capacidad natural de los LLMs modernos (OpenAI / Gemini) basándose en prompts y RAG.
+    Procesa una pregunta sobre documentos PDF mediante RAG y el modelo de IA seleccionado (OpenAI / Gemini).
     """
     from codigo.backend.agent import AgentResponse, ToolExecutionLog
+
     store = DocumentStore(agent.db_manager.db_path, agent.search_engine.reports_dir)
     available = {d['document_id']: d for d in store.list()}
+
+    # Identificar IDs de documentos objetivo
     ids = list(dict.fromkeys(document_ids or re.findall(r'\bDOC-[A-Fa-f0-9]{16}\b', question)))
     ids = [i.upper() for i in ids]
     if not ids:
         ids = list(available)
 
-    # Resolver fuentes por identidad exacta si están en el índice
+    # Resolver metadatos de documentos enfocados
     for code in ids:
         if code not in available:
             preview = agent.search_engine.get_document_preview(code)
@@ -65,7 +78,7 @@ def answer_documents(agent, question, document_ids=None, history=None):
                 available[code] = {
                     'document_id': code,
                     'title': preview.get('cliente', code),
-                    'document_type': 'informe',
+                    'document_type': 'documento',
                     'fields': [],
                     'pages': preview.get('pages', []),
                     'summary': '',
@@ -81,15 +94,14 @@ def answer_documents(agent, question, document_ids=None, history=None):
 
     if len(ids) > 20:
         return AgentResponse(
-            answer='Selecciona hasta 20 documentos para comparar en una consulta.',
+            answer='Selecciona hasta 20 documentos para comparar en una sola consulta.',
             found_info=False
         )
 
     clean_question = re.sub(r'^\[Foco en informe .*?\]:\s*', '', question, flags=re.I).strip()
     broad = any(term in normalized(clean_question) for term in ['que es esto', 'que es este', 'resume', 'resumen', 'que contiene', 'de que trata', 'compar', 'diferencias'])
-    tokens = set(re.findall(r'[a-z0-9]{3,}', normalized(clean_question))) - STOPWORDS
 
-    # Búsqueda de fragmentos RAG
+    # 1. Recuperación de fragmentos relevantes mediante RAG
     chunks = []
     start = time.perf_counter()
     for doc_id in ids:
@@ -110,36 +122,35 @@ def answer_documents(agent, question, document_ids=None, history=None):
         execution_time_ms=round((time.perf_counter() - start) * 1000, 2)
     )
 
-    default_message = 'No se dispone de información verificable para esa pregunta en los documentos seleccionados.'
+    default_msg = 'No se dispone de información verificable para esa pregunta en los documentos seleccionados.'
     if len(ids) == 1 and 'factura' in normalized(available[ids[0]].get('document_type', '')):
-        default_message += ' El archivo seleccionado es una factura. Puedes pedir un resumen o consultar el total, el emisor o los conceptos facturados.'
+        default_msg += ' El archivo seleccionado es una factura. Puedes pedir un resumen o consultar el total, el emisor o los conceptos facturados.'
 
-    abstain = lambda message=default_message: AgentResponse(answer=message, tools_used=[log], found_info=False)
+    abstain = lambda msg=default_msg: AgentResponse(answer=msg, tools_used=[log], found_info=False)
 
     if not chunks:
         return abstain()
 
-    # Contexto estructurado para el LLM
+    # Contexto entregado a la Inteligencia Artificial
     context = [{'document_id': c['codigo_proyecto'], 'page_number': c['pagina'], 'text': c['contenido']} for c in chunks]
 
+    # 2. Configuración del Proveedor de IA (OpenAI / Gemini)
     from codigo.backend import config
     provider = os.getenv('LLM_PROVIDER', config.LLM_PROVIDER)
     key = os.getenv('GEMINI_API_KEY', config.GEMINI_API_KEY) if provider == 'gemini' else os.getenv('OPENAI_API_KEY', config.OPENAI_API_KEY)
     warnings = []
 
-    # ── MODO CON INTELIGENCIA ARTIFICIAL (OPENAI / GEMINI) ───────────────────────
+    # 3. Ejecución con Inteligencia Artificial
     if key:
-        import json
         system_instruction = load_prompt('document_reader_system')
-        prompt = (
-            f"{system_instruction}\n\n"
-            + json.dumps({
-                'question': clean_question,
-                'history': (history or [])[-6:],
-                'documents': [{'document_id': i, 'title': available[i]['title'], 'document_type': available[i]['document_type']} for i in ids],
-                'context': context
-            }, ensure_ascii=False)
-        )
+        payload = {
+            'question': clean_question,
+            'history': (history or [])[-6:],
+            'documents': [{'document_id': i, 'title': available[i]['title'], 'document_type': available[i]['document_type']} for i in ids],
+            'context': context
+        }
+        prompt = f"{system_instruction}\n\n{json.dumps(payload, ensure_ascii=False)}"
+
         try:
             if provider == 'gemini':
                 result = gemini_json(prompt, GroundedAnswer)
@@ -149,10 +160,10 @@ def answer_documents(agent, question, document_ids=None, history=None):
             if not result or not result.found_info or not result.answer.strip() or not result.citations:
                 return abstain()
 
+            # Validación de citas
             verified = []
             for citation in result.citations:
                 text = normalized(citation.quote)
-                # Validar existencia de página en el documento
                 target_pages = [p for p in available.get(citation.document_id, {}).get('pages', []) if p['page_number'] == citation.page_number]
                 if not target_pages:
                     if broad:
@@ -180,7 +191,7 @@ def answer_documents(agent, question, document_ids=None, history=None):
                     return abstain('La respuesta de IA no pudo verificarse contra el contenido recuperado. Reformula la consulta.')
                 verified.append(citation)
 
-            # Rechazar números inventados
+            # Control de cifras no respaldadas
             unsupported = number_tokens(result.answer, answer=True) - number_tokens(' '.join(c.quote for c in verified))
             if unsupported and broad:
                 cited_ids = {c.document_id for c in verified}
@@ -211,11 +222,12 @@ def answer_documents(agent, question, document_ids=None, history=None):
         except Exception as exc:
             warnings.append(provider_error_reason(exc) + ' La IA no está disponible; se muestran extractos literales del documento.')
 
-    # ── MODO EXTRACTIVO SIN API KEY (FALLBACK OFFLINE) ───────────────────────────
+    # 4. Fallback extractivo cuando no hay clave de API configurada
+    words = set(re.findall(r'[a-z0-9]{3,}', normalized(clean_question)))
     evidence = []
     for doc_id in ids:
         d = available[doc_id]
-        selected = [f for f in d.get('fields', []) if tokens & set(re.findall(r'[a-z0-9]{3,}', normalized(f['name'])))]
+        selected = [f for f in d.get('fields', []) if words & set(re.findall(r'[a-z0-9]{3,}', normalized(f['name'])))]
         if broad:
             selected = []
             for c in chunks:
@@ -223,11 +235,8 @@ def answer_documents(agent, question, document_ids=None, history=None):
                     selected.append({'quote': c['contenido'], 'page_number': c['pagina']})
         if not selected and not broad:
             for c in chunks:
-                if c['codigo_proyecto'] != doc_id:
-                    continue
-                for line in c['contenido'].splitlines():
-                    if tokens & set(re.findall(r'[a-z0-9]{3,}', normalized(line))):
-                        selected.append({'quote': line, 'page_number': c['pagina']})
+                if c['codigo_proyecto'] == doc_id and words & set(re.findall(r'[a-z0-9]{3,}', normalized(c['contenido']))):
+                    selected.append({'quote': c['contenido'], 'page_number': c['pagina']})
         if selected:
             evidence.append((doc_id, d, selected[:8]))
 
