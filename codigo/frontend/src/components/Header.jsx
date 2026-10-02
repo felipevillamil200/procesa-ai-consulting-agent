@@ -274,15 +274,14 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
 
             {/* Nosotros - Sobre Procesa */}
-            <button
-              type="button"
-              onClick={() => setIsAboutUsOpen(true)}
+            <a
+              href="/nosotros.html"
               className="px-2.5 sm:px-3 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
               title="Sobre Procesa Consultores y Bienvenida"
             >
               <IconUsers className="w-3.5 h-3.5 text-[#202940]" />
               <span className="hidden md:inline">Nosotros</span>
-            </button>
+            </a>
 
             <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
 
