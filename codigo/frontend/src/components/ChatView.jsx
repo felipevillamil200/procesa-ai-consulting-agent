@@ -318,11 +318,13 @@ export default function ChatView({
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-extrabold tracking-tight text-slate-900">Agente Consultor</span>
                       <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-800 border border-cyan-200/80 font-mono font-bold">
-                        {config?.provider === 'openai' 
-                          ? (config?.model ? `ChatGPT (${config.model}) + SQL/RAG` : 'ChatGPT + SQL/RAG')
-                          : (config?.provider === 'gemini' 
-                            ? (config?.model ? `Gemini (${config.model}) + SQL/RAG` : 'Gemini + SQL/RAG')
-                            : 'Proveedor IA + SQL/RAG')}
+                        {(() => {
+                          const p = config?.provider || localStorage.getItem('custom_provider') || 'openai';
+                          const m = config?.model || localStorage.getItem('custom_model') || (p === 'openai' ? 'gpt-4o-mini' : 'gemini-flash-latest');
+                          if (p === 'openai') return `ChatGPT (${m}) + SQL/RAG`;
+                          if (p === 'gemini') return `Gemini (${m}) + SQL/RAG`;
+                          return `IA (${m}) + SQL/RAG`;
+                        })()}
                       </span>
                     </div>
                     {isWarning && (

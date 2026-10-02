@@ -75,10 +75,13 @@ export default function ConfigModal({
   const [modalTab, setModalTab] = useState('ai');
 
   // AI Core State
-  const [selectedProvider, setSelectedProvider] = useState('gemini');
-  const [apiKey, setApiKey] = useState('');
-  const [model, setModel] = useState(config?.model || 'gemini-flash-latest');
-  const [temperature, setTemperature] = useState(config?.temperature ?? 0.1);
+  const [selectedProvider, setSelectedProvider] = useState(() => localStorage.getItem('custom_provider') || 'openai');
+  const [apiKey, setApiKey] = useState(() => {
+    const p = localStorage.getItem('custom_provider') || 'openai';
+    return (p === 'openai' ? localStorage.getItem('openai_api_key') : localStorage.getItem('gemini_api_key')) || '';
+  });
+  const [model, setModel] = useState(() => localStorage.getItem('custom_model') || (localStorage.getItem('custom_provider') === 'gemini' ? 'gemini-flash-latest' : 'gpt-4o-mini'));
+  const [temperature, setTemperature] = useState(() => Number(localStorage.getItem('custom_temperature') || 0.1));
   const [showKey, setShowKey] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null);
@@ -106,14 +109,21 @@ export default function ConfigModal({
   }, [uiAnimations]);
 
   useEffect(() => {
-    if (config?.model) {
-      setModel(config.model);
+    if (isOpen) {
+      const prov = localStorage.getItem('custom_provider') || config?.provider || 'openai';
+      setSelectedProvider(prov);
+      const savedKey = (prov === 'openai' ? localStorage.getItem('openai_api_key') : localStorage.getItem('gemini_api_key')) || '';
+      if (savedKey) setApiKey(savedKey);
+      const savedModel = localStorage.getItem('custom_model') || config?.model || (prov === 'openai' ? 'gpt-4o-mini' : 'gemini-flash-latest');
+      setModel(savedModel);
+      const savedTemp = localStorage.getItem('custom_temperature');
+      if (savedTemp !== null) {
+        setTemperature(Number(savedTemp));
+      } else if (config?.temperature !== undefined) {
+        setTemperature(config.temperature);
+      }
     }
-    if (config?.provider) {
-      setSelectedProvider(config.provider);
-    }
-    if (config?.temperature !== undefined) setTemperature(config.temperature);
-  }, [config]);
+  }, [isOpen, config]);
 
   if (!isOpen) return null;
 
@@ -345,6 +355,8 @@ export default function ConfigModal({
                         onClick={() => {
                           if (isEnabled) {
                             setSelectedProvider(prov.id);
+                            const savedKey = (prov.id === 'openai' ? localStorage.getItem('openai_api_key') : localStorage.getItem('gemini_api_key')) || '';
+                            setApiKey(savedKey);
                             if (prov.id === 'openai') {
                               if (!model || model.startsWith('gemini')) setModel('gpt-4o-mini');
                             } else if (prov.id === 'gemini') {
