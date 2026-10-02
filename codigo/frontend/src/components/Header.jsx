@@ -309,17 +309,14 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             <IconCollapseToggle isCollapsed={isActionsCollapsed} className="w-4 h-4" />
           </button>
 
-          {/* Botón Admin */}
-          <button
-            type="button"
-            onClick={onOpenConfig}
-            className="px-2.5 sm:px-3 py-1.5 text-xs text-slate-700 hover:text-cyan-800 hover:bg-cyan-50/80 rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold border border-slate-200/70 bg-white/80 shadow-2xs cursor-pointer btn-tactile shrink-0"
-            title="Panel de Administración y Configuración IA"
-            aria-label="Abrir panel Admin"
+          {/* Badge Admin (Informativo / Decorativo) */}
+          <div
+            className="px-2.5 sm:px-3 py-1.5 text-xs text-slate-700 bg-white/80 rounded-full border border-slate-200/70 shadow-2xs flex items-center gap-1.5 font-semibold shrink-0 select-none cursor-default"
+            title="Usuario Administrador"
           >
             <IconAdmin className="w-3.5 h-3.5 text-cyan-600" />
             <span className="hidden sm:inline">Admin</span>
-          </button>
+          </div>
         </div>
       </header>
 

@@ -272,15 +272,15 @@ export default function ChatView({
           </div>
 
           <div className="flex items-center gap-2">
-            {messages.length > 1 && onClearChat && (
+            {onClearChat && (
               <button
                 type="button"
                 onClick={onClearChat}
-                className="px-2.5 sm:px-3 py-1 text-xs text-slate-500 hover:text-red-600 hover:bg-red-50/90 rounded-full transition-all flex items-center gap-1.5 font-semibold border border-slate-200/80 bg-white/90 shadow-2xs cursor-pointer btn-tactile"
-                title="Limpiar mensajes y reiniciar la conversación"
+                className="px-2.5 sm:px-3 py-1 text-xs text-slate-600 hover:text-red-600 hover:bg-red-50/90 rounded-full transition-all flex items-center gap-1.5 font-semibold border border-slate-200/80 bg-white/90 shadow-2xs cursor-pointer btn-tactile"
+                title="Borrar mensajes y reiniciar la conversación"
               >
                 <Trash2 className="w-3.5 h-3.5 text-slate-400 hover:text-red-500" />
-                <span>Limpiar</span>
+                <span>Borrar chat</span>
               </button>
             )}
           </div>
