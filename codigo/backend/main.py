@@ -492,16 +492,26 @@ if target_static_dir.exists():
         app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
 
 # Rutas directas para páginas HTML complementarias
-for html_page in ["inicio.html", "guia.html", "nival.html", "solucion.html"]:
+HTML_PAGES = ["inicio.html", "nosotros.html", "guia.html", "nival.html", "solucion.html", "landing.html"]
+for html_page in HTML_PAGES:
     def _create_handler(page_name: str):
         def handler():
-            for candidate in [FRONTEND_DIST / page_name, FRONTEND_DIR / page_name, FRONTEND_DIR / "public" / page_name]:
+            for candidate in [
+                FRONTEND_DIST / page_name,
+                FRONTEND_DIR / page_name,
+                FRONTEND_DIR / "public" / page_name,
+                BASE_DIR / "codigo" / "frontend" / "public" / page_name,
+                PROJECT_ROOT / "codigo" / "frontend" / "public" / page_name
+            ]:
                 if candidate.exists():
                     return FileResponse(candidate, media_type="text/html")
             raise HTTPException(status_code=404, detail="Página no encontrada")
         return handler
     app.add_api_route(f"/{html_page}", _create_handler(html_page), methods=["GET"])
     app.add_api_route(f"/app/{html_page}", _create_handler(html_page), methods=["GET"])
+    base_name = html_page.replace(".html", "")
+    app.add_api_route(f"/{base_name}", _create_handler(html_page), methods=["GET"])
+    app.add_api_route(f"/app/{base_name}", _create_handler(html_page), methods=["GET"])
 
 # Montar imágenes estáticas y route handler para /images/{image_name:path}
 @app.get("/images/{image_name:path}")
