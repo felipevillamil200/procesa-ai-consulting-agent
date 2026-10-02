@@ -29,22 +29,7 @@ try:
 except Exception:
     pass
 
-def ensure_official_data():
-    """Garantiza que data/ contenga los 4 PDFs oficiales desde extracted."""
-    import shutil
-    if os.getenv('PROCESA_SEED_OFFICIAL','1') != '1':
-        return
-    extracted_dir = BASE_DIR / "extracted"
-    if extracted_dir.exists():
-        for pdf in extracted_dir.glob("Informe_Cierre_*.pdf"):
-            target = RAW_REPORTS_DIR / pdf.name
-            if not target.exists() or target.stat().st_size == 0:
-                try:
-                    shutil.copy(pdf, target)
-                except Exception:
-                    pass
 
-ensure_official_data()
 
 # Configuración de Proveedores LLM (Google Gemini / OpenAI)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")

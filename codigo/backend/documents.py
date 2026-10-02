@@ -299,19 +299,5 @@ class DocumentStore:
         return True
 
     def migrate(self):
-        """Registrar PDFs anteriores sin tocar fichas válidas de proyectos ni llamar a proveedores."""
-        with self.connection() as conn:
-            try:
-                projects = {r[0] for r in conn.execute('SELECT codigo_proyecto FROM proyectos')}
-            except sqlite3.OperationalError:
-                projects = set()
-        for path in self.reports_dir.glob('*.pdf'):
-            if self.by_filename(path.name):
-                continue
-            code = re.search(r'PC-\d{4}-\d{3}',path.name,re.I)
-            if code and code[0].upper() in projects:
-                continue
-            try:
-                self.ingest(path.read_bytes(),path.name,use_ai=False,existing_name=path.name)
-            except ValueError:
-                continue
+        """No auto-ingestar archivos legados."""
+        pass
