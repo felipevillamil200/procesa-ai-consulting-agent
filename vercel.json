@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "npm --prefix codigo/frontend install && npm --prefix codigo/frontend run build",
-  "outputDirectory": "codigo/frontend/dist",
+  "buildCommand": "if [ -d \"codigo/frontend\" ]; then npm --prefix codigo/frontend run build; else npm run build; fi",
+  "outputDirectory": "dist",
   "functions": {
     "api/index.py": {
       "runtime": "python3.11",
