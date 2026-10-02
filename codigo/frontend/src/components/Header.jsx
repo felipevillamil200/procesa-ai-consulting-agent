@@ -113,15 +113,6 @@ function IconMenu({ className = "w-5 h-5" }) {
   );
 }
 
-// 10. Collapse / Expand Arrow Toggle Icon
-function IconCollapseToggle({ isCollapsed, className = "w-4 h-4" }) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={`${className} transition-transform duration-300 ${isCollapsed ? 'rotate-180' : 'rotate-0'}`} aria-hidden="true">
-      {/* Default: points right > to collapse rightwards; Rotated 180: points left < to expand */}
-      <path d="M7.5 4.5l5.5 5.5-5.5 5.5" />
-    </svg>
-  );
-}
 
 const TABS = [
   { id: 'chat', label: 'Chat Inteligente', shortLabel: 'Chat', icon: IconChat, badge: 'IA' },
@@ -134,7 +125,6 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
   const [showInitialHint, setShowInitialHint] = useState(true);
-  const [isActionsCollapsed, setIsActionsCollapsed] = useState(false);
   const navRef = useRef(null);
 
   // El indicador fantasma solo aparece UNA SOLA VEZ cuando se recarga la página
@@ -176,10 +166,10 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
 
   return (
     <>
-      <header className="h-14 sm:h-16 bg-white/80 backdrop-blur-xl border-b border-slate-200/70 px-2 sm:px-6 flex items-center justify-between shrink-0 shadow-[0_2px_12px_rgba(28,52,92,0.03)] z-30 select-none gap-2">
+      <header className="h-14 sm:h-16 bg-white/80 backdrop-blur-xl border-b border-slate-200/70 px-2 sm:px-6 flex items-center justify-between shrink-0 shadow-[0_2px_12px_rgba(28,52,92,0.03)] z-30 select-none gap-2 sm:gap-4">
         
-        {/* Left Section: Mobile Hamburger Toggle + Navigation Tabs + Action Links (Inicio, Nosotros, Guía, Solución) */}
-        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 transition-all duration-300 ease-out overflow-x-auto no-scrollbar py-0.5">
+        {/* Left Section: Mobile Hamburger Toggle + Navigation Tabs */}
+        <div className="flex items-center gap-1.5 min-w-0 flex-1 overflow-x-auto no-scrollbar py-0.5">
           {/* Mobile Hamburger Drawer Button */}
           {onToggleMobileSidebar && (
             <button
@@ -194,7 +184,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
           )}
 
           {/* Navigation Tabs Container */}
-          <div className="relative flex items-center shrink-0">
+          <div className="relative flex items-center min-w-0">
             {/* Navigation Tabs Styled in Nival Pill Aesthetics */}
             <nav 
               ref={navRef}
@@ -247,13 +237,13 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
               </div>
             )}
           </div>
+        </div>
 
-          {/* Action Pills Container (Inicio, Nosotros, Guía, Solución & Config) - Ubicado Hacia la Izquierda */}
-          <div className={`flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl transition-all duration-300 ease-out shrink-0 overflow-hidden ${
-            isActionsCollapsed 
-              ? 'max-w-0 opacity-0 p-0 m-0 border-0 pointer-events-none' 
-              : 'max-w-[440px] opacity-100'
-          }`}>
+        {/* Right Section: Action Pills Completamente Visibles (Inicio, Nosotros, Guía, Solución, Config) + Admin */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+          
+          {/* Action Pills Container (Permanentemente Visible en Versión Web) */}
+          <div className="flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl shrink-0">
             
             {/* Inicio Hero 3D */}
             <a
@@ -262,7 +252,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
               title="Ir a la página de Inicio Hero 3D"
             >
               <IconHome className="w-3.5 h-3.5 text-[#202940]" />
-              <span className="hidden md:inline">Inicio</span>
+              <span className="hidden sm:inline">Inicio</span>
             </a>
 
             <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
@@ -274,7 +264,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
               title="Sobre Procesa Consultores y Bienvenida"
             >
               <IconUsers className="w-3.5 h-3.5 text-[#202940]" />
-              <span className="hidden md:inline">Nosotros</span>
+              <span className="hidden sm:inline">Nosotros</span>
             </a>
 
             <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
@@ -286,7 +276,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
               title="Ver la Guía Técnica & Arquitectura"
             >
               <IconGuide className="w-3.5 h-3.5 text-[#202940]" />
-              <span className="hidden md:inline">Guía</span>
+              <span className="hidden sm:inline">Guía</span>
             </a>
 
             <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
@@ -298,7 +288,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
               title="Ver la Solución & Simulador"
             >
               <IconGrid className="w-3.5 h-3.5 text-[#202940]" />
-              <span className="hidden md:inline">Solución</span>
+              <span className="hidden sm:inline">Solución</span>
             </a>
 
             <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
@@ -314,24 +304,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             </button>
           </div>
 
-          {/* Toggle Button: Ocultar / Mostrar Accesos */}
-          <button
-            type="button"
-            onClick={() => setIsActionsCollapsed(prev => !prev)}
-            className={`p-1.5 sm:p-2 rounded-full border transition-all duration-200 flex items-center justify-center cursor-pointer btn-tactile shrink-0 ${
-              isActionsCollapsed
-                ? 'bg-[#0F1B31] text-cyan-300 border-[#0F1B31] shadow-md shadow-[#0F1B31]/20'
-                : 'bg-white/85 text-[#202940] hover:text-black border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_2px_8px_rgba(28,52,92,0.04)] hover:bg-slate-100/80'
-            }`}
-            title={isActionsCollapsed ? "Mostrar accesos directos (Inicio, Nosotros, Guía, Config)" : "Ocultar accesos directos"}
-            aria-label={isActionsCollapsed ? "Mostrar accesos" : "Ocultar accesos"}
-          >
-            <IconCollapseToggle isCollapsed={isActionsCollapsed} className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Right Section: Badge Admin (Informativo / Decorativo a la derecha) */}
-        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0 ml-auto">
+          {/* Badge Admin (Informativo / Decorativo) */}
           <div
             className="px-2.5 sm:px-3 py-1.5 text-xs text-slate-700 bg-white/80 rounded-full border border-slate-200/70 shadow-2xs flex items-center gap-1.5 font-semibold shrink-0 select-none cursor-default"
             title="Usuario Administrador"
