@@ -1,9 +1,22 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import SystemGuideModal from './SystemGuideModal';
+import AboutUsModal from './AboutUsModal';
 
 // ════════════════════════════════════════════════════════════════════════
 // BESPOKE SVG ICONS (Exact Geometric Style from Nival.html / MotionSites)
 // ════════════════════════════════════════════════════════════════════════
+
+// 0. Nosotros / Team / Company Icon
+function IconUsers({ className = "w-4 h-4" }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M13.5 16.5v-1a2.8 2.8 0 0 0-2.8-2.8H6.3A2.8 2.8 0 0 0 3.5 15.5v1" />
+      <circle cx="8.5" cy="7.2" r="2.8" />
+      <path d="M13.8 10.2a2.4 2.4 0 0 0 0-4.6" />
+      <path d="M16.5 16.5v-1a2.8 2.8 0 0 0-1.8-2.6" />
+    </svg>
+  );
+}
 
 // 1. Home Pentagon House Icon (Identical to Nival.html n-home)
 function IconHome({ className = "w-4 h-4" }) {
@@ -119,6 +132,7 @@ const TABS = [
 
 export default function Header({ activeTab, onTabChange, onOpenConfig, onClearChat, onToggleMobileSidebar }) {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
   const [showInitialHint, setShowInitialHint] = useState(true);
   const [isActionsCollapsed, setIsActionsCollapsed] = useState(false);
   const navRef = useRef(null);
@@ -250,7 +264,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             {/* Inicio Hero 3D */}
             <a
               href="/inicio.html"
-              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
+              className="px-2.5 sm:px-3 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
               title="Ir a la página de Inicio Hero 3D"
             >
               <IconHome className="w-3.5 h-3.5 text-[#202940]" />
@@ -259,10 +273,23 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
 
             <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
 
+            {/* Nosotros - Sobre Procesa */}
+            <button
+              type="button"
+              onClick={() => setIsAboutUsOpen(true)}
+              className="px-2.5 sm:px-3 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
+              title="Sobre Procesa Consultores y Bienvenida"
+            >
+              <IconUsers className="w-3.5 h-3.5 text-[#202940]" />
+              <span className="hidden md:inline">Nosotros</span>
+            </button>
+
+            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
+
             {/* Guía Técnica */}
             <a
               href="/guia.html"
-              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
+              className="px-2.5 sm:px-3 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
               title="Ver la Guía Técnica & Arquitectura"
             >
               <IconGuide className="w-3.5 h-3.5 text-[#202940]" />
@@ -274,7 +301,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             {/* Solución & Demostración */}
             <a
               href="/solucion.html"
-              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
+              className="px-2.5 sm:px-3 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
               title="Ver la Solución & Simulador"
             >
               <IconGrid className="w-3.5 h-3.5 text-[#202940]" />
@@ -303,7 +330,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
                 ? 'bg-[#0F1B31] text-cyan-300 border-[#0F1B31] shadow-md shadow-[#0F1B31]/20'
                 : 'bg-white/85 text-[#202940] hover:text-black border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_2px_8px_rgba(28,52,92,0.04)] hover:bg-slate-100/80'
             }`}
-            title={isActionsCollapsed ? "Mostrar accesos directos (Inicio, Guía, Config)" : "Ocultar accesos para dar máximo espacio a las pestañas"}
+            title={isActionsCollapsed ? "Mostrar accesos directos (Inicio, Nosotros, Guía, Config)" : "Ocultar accesos para dar máximo espacio a las pestañas"}
             aria-label={isActionsCollapsed ? "Mostrar accesos" : "Ocultar accesos"}
           >
             <IconCollapseToggle isCollapsed={isActionsCollapsed} className="w-4 h-4" />
@@ -324,6 +351,12 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
       <SystemGuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
+      />
+
+      {/* Modal Sobre Nosotros • Procesa Consultores */}
+      <AboutUsModal
+        isOpen={isAboutUsOpen}
+        onClose={() => setIsAboutUsOpen(false)}
       />
     </>
   );
