@@ -13,7 +13,7 @@ import { api } from './services/api';
 
 const INITIAL_MESSAGE = {
   role: 'assistant',
-  content: `¡Hola! Soy tu asistente técnico de Inteligencia Artificial. Puedo analizar cualquier documento PDF (informes, contratos, facturas, certificados) combinando consultas a la **Base de Datos Relacional (SQLite)** y búsqueda profunda en los **PDFs originales (RAG)**.\n\nPrueba haciendo una pregunta abajo o subiendo un archivo PDF.`,
+  content: `¡Hola! Soy tu asistente de Inteligencia Artificial para análisis documental.\n\nPuedo analizar cualquier documento PDF (informes, contratos, facturas, certificados) combinando:\n\n• 🗄️ **Base de Datos Relacional (SQLite):** Me permite consultar tablas, totales, métricas y filtros organizados de tu información al instante.\n• 🔍 **Búsqueda Profunda (RAG):** Me permite leer y extraer el texto exacto de tus archivos PDF para responderte citando la página y el fragmento real.\n\nPrueba haciendo una pregunta abajo o subiendo un archivo PDF.`,
   tools_used: [],
   sources: [],
   found_info: true
