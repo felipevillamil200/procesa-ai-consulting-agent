@@ -15,10 +15,10 @@ from codigo.backend.models import ProyectoFicha
 class DatabaseManager:
     """Administrador de la base de datos relacional SQLite para Procesa Consultores."""
 
-    def __init__(self, db_path: Path = DATABASE_PATH, auto_seed: bool = True):
+    def __init__(self, db_path: Path = DATABASE_PATH, auto_seed: bool = False):
         self.db_path = db_path
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
-        self.init_db(auto_seed=auto_seed)
+        self.init_db(auto_seed=False)
 
     def get_connection(self) -> sqlite3.Connection:
         """Obtiene una conexión a SQLite con filas formateadas como diccionarios."""
@@ -26,7 +26,7 @@ class DatabaseManager:
         conn.row_factory = sqlite3.Row
         return conn
 
-    def init_db(self, auto_seed: bool = True) -> None:
+    def init_db(self, auto_seed: bool = False) -> None:
         """Inicializa las tablas relacionales de la base de datos."""
         conn = self.get_connection()
         try:
@@ -53,16 +53,6 @@ class DatabaseManager:
                 );
             """)
             conn.commit()
-
-            # Auto-poblar los 4 proyectos oficiales si la base de datos por defecto está vacía
-            if auto_seed and str(self.db_path) == str(DATABASE_PATH):
-                cursor.execute("SELECT COUNT(*) AS n FROM proyectos")
-                row = cursor.fetchone()
-                if row and row["n"] == 0:
-                    conn.close()
-                    from codigo.backend.extractor import process_all_reports
-                    process_all_reports(use_llm=False, db_manager=self)
-                    return
         finally:
             try:
                 conn.close()

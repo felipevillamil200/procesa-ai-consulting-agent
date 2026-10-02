@@ -98,19 +98,11 @@ export default function SqlExplorerView({
               <Upload className="w-3.5 h-3.5" />
               <span>Subir PDF</span>
             </button>
-            <button
-              onClick={onResetProjects}
-              className="flex-1 sm:flex-none px-3.5 py-2.5 bg-white hover:bg-slate-100 text-slate-700 font-semibold rounded-xl text-xs border border-slate-200 shadow-2xs transition flex items-center justify-center gap-2 cursor-pointer btn-tactile min-h-[42px]"
-              title="Restaura los 4 proyectos oficiales de la prueba técnica"
-            >
-              <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
-              <span>Restaurar Originales</span>
-            </button>
             {onClearProjects && (
               <button
                 onClick={onClearProjects}
-                className="flex-1 sm:flex-none px-3 py-2.5 bg-red-50 hover:bg-red-100 text-red-700 font-semibold rounded-xl text-xs border border-red-200/80 shadow-2xs transition flex items-center justify-center gap-1.5 cursor-pointer btn-tactile min-h-[42px]"
-                title="Vacía por completo la base de datos (0 documentos) para pruebas personalizadas"
+                className="flex-1 sm:flex-none px-3.5 py-2.5 bg-red-50 hover:bg-red-100 text-red-700 font-semibold rounded-xl text-xs border border-red-200/80 shadow-2xs transition flex items-center justify-center gap-1.5 cursor-pointer btn-tactile min-h-[42px]"
+                title="Vacía por completo la base de datos (0 documentos) para empezar desde cero"
               >
                 <Trash2 className="w-3.5 h-3.5 text-red-500" />
                 <span>Vaciar Todo</span>
@@ -137,8 +129,8 @@ export default function SqlExplorerView({
           <div className="md:hidden space-y-3">
             {projects.length === 0 ? (
               <div className="p-8 text-center text-slate-400 space-y-2 bg-white rounded-2xl border border-slate-200">
-                <div className="text-sm font-semibold text-slate-600">No hay proyectos registrados en SQLite.</div>
-                <div className="text-xs text-slate-400">Haz clic en "Restaurar Originales" o "Subir PDF".</div>
+                <div className="text-sm font-semibold text-slate-600">No hay proyectos ni documentos registrados en SQLite.</div>
+                <div className="text-xs text-slate-400">Haz clic en "Subir PDF" para cargar un documento y comenzar.</div>
               </div>
             ) : (
               projects.map((p) => {
@@ -224,8 +216,8 @@ export default function SqlExplorerView({
                   {projects.length === 0 ? (
                     <tr>
                       <td colSpan={6} className="p-8 text-center text-slate-400 space-y-2">
-                        <div className="text-sm font-semibold text-slate-600">No hay proyectos registrados en SQLite.</div>
-                        <div className="text-xs text-slate-400">Haz clic arriba en "Restaurar Originales" o "Subir PDF".</div>
+                        <div className="text-sm font-semibold text-slate-600">No hay proyectos ni documentos registrados en SQLite.</div>
+                        <div className="text-xs text-slate-400">Haz clic arriba en "Subir PDF" para cargar un documento y comenzar.</div>
                       </td>
                     </tr>
                   ) : (
