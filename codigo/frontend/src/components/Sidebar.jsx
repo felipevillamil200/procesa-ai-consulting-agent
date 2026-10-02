@@ -222,8 +222,8 @@ export default function Sidebar({ projects = [], onSelectPrompt, config, isMobil
             <div className="space-y-2 max-h-56 sm:max-h-60 overflow-y-auto custom-scrollbar-dark pr-1.5 animate-fade-in">
               {projects.length === 0 ? (
                 <div className="p-4 bg-slate-900/50 border border-dashed border-slate-800 rounded-2xl text-xs text-slate-400 text-center space-y-1">
-                  <p className="font-semibold text-slate-300">Base de datos vacía</p>
-                  <p className="text-[10px] text-slate-500">Usa "Explorador SQLite" para restaurar o subir informes.</p>
+                  <p className="font-semibold text-slate-300">Sin documentos activos</p>
+                  <p className="text-[10px] text-slate-500">Haz clic en "Subir PDF" para cargar tus documentos.</p>
                 </div>
               ) : (
                 projects.map((p) => {
