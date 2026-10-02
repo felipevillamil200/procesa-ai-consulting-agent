@@ -178,8 +178,8 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
     <>
       <header className="h-14 sm:h-16 bg-white/80 backdrop-blur-xl border-b border-slate-200/70 px-2 sm:px-6 flex items-center justify-between shrink-0 shadow-[0_2px_12px_rgba(28,52,92,0.03)] z-30 select-none gap-2">
         
-        {/* Left Section: Mobile Hamburger Toggle + Navigation Tabs (takes flex-1 to expand dynamically) */}
-        <div className="flex items-center gap-1.5 min-w-0 flex-1 transition-all duration-300 ease-out">
+        {/* Left Section: Mobile Hamburger Toggle + Navigation Tabs + Action Links (Inicio, Nosotros, Guía, Solución) */}
+        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0 flex-1 transition-all duration-300 ease-out overflow-x-auto no-scrollbar py-0.5">
           {/* Mobile Hamburger Drawer Button */}
           {onToggleMobileSidebar && (
             <button
@@ -193,13 +193,12 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             </button>
           )}
 
-          {/* Navigation Tabs Container with Interactive Scroll (grows to fill all available width) */}
-          <div className="relative flex items-center min-w-0 flex-1 transition-all duration-300 ease-out">
-            
+          {/* Navigation Tabs Container */}
+          <div className="relative flex items-center shrink-0">
             {/* Navigation Tabs Styled in Nival Pill Aesthetics */}
             <nav 
               ref={navRef}
-              className="flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl overflow-x-auto no-scrollbar touch-pan-x min-w-0 max-w-full scroll-smooth w-full"
+              className="flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl shrink-0"
             >
               {TABS.map((tab, idx) => {
                 const Icon = tab.icon;
@@ -247,18 +246,13 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
                 </span>
               </div>
             )}
-
           </div>
-        </div>
 
-        {/* Right Section: Action Pills + Toggle Collapse/Expand Button */}
-        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
-          
-          {/* Collapsible Action Pills Container (Inicio, Guía, Solución & Config) */}
-          <div className={`flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl transition-all duration-300 ease-out overflow-hidden ${
+          {/* Action Pills Container (Inicio, Nosotros, Guía, Solución & Config) - Ubicado Hacia la Izquierda */}
+          <div className={`flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl transition-all duration-300 ease-out shrink-0 overflow-hidden ${
             isActionsCollapsed 
               ? 'max-w-0 opacity-0 p-0 m-0 border-0 pointer-events-none' 
-              : 'max-w-[420px] opacity-100'
+              : 'max-w-[440px] opacity-100'
           }`}>
             
             {/* Inicio Hero 3D */}
@@ -320,7 +314,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             </button>
           </div>
 
-          {/* Toggle Button: Ocultar / Mostrar Accesos para dar Máximo Espacio a las Pestañas */}
+          {/* Toggle Button: Ocultar / Mostrar Accesos */}
           <button
             type="button"
             onClick={() => setIsActionsCollapsed(prev => !prev)}
@@ -329,13 +323,15 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
                 ? 'bg-[#0F1B31] text-cyan-300 border-[#0F1B31] shadow-md shadow-[#0F1B31]/20'
                 : 'bg-white/85 text-[#202940] hover:text-black border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_2px_8px_rgba(28,52,92,0.04)] hover:bg-slate-100/80'
             }`}
-            title={isActionsCollapsed ? "Mostrar accesos directos (Inicio, Nosotros, Guía, Config)" : "Ocultar accesos para dar máximo espacio a las pestañas"}
+            title={isActionsCollapsed ? "Mostrar accesos directos (Inicio, Nosotros, Guía, Config)" : "Ocultar accesos directos"}
             aria-label={isActionsCollapsed ? "Mostrar accesos" : "Ocultar accesos"}
           >
             <IconCollapseToggle isCollapsed={isActionsCollapsed} className="w-4 h-4" />
           </button>
+        </div>
 
-          {/* Badge Admin (Informativo / Decorativo) */}
+        {/* Right Section: Badge Admin (Informativo / Decorativo a la derecha) */}
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0 ml-auto">
           <div
             className="px-2.5 sm:px-3 py-1.5 text-xs text-slate-700 bg-white/80 rounded-full border border-slate-200/70 shadow-2xs flex items-center gap-1.5 font-semibold shrink-0 select-none cursor-default"
             title="Usuario Administrador"
