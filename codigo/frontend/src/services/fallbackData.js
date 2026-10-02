@@ -309,11 +309,14 @@ export const OFFICIAL_FICHAS = [
 
 export const OFFICIAL_PROJECTS = OFFICIAL_FICHAS.map(f => ({
   codigo: f.codigo_proyecto,
+  codigo_proyecto: f.codigo_proyecto,
   cliente: f.cliente,
   sector: f.sector,
   duracion_semanas: f.duracion_semanas,
   gerente: f.gerente_proyecto,
+  gerente_proyecto: f.gerente_proyecto,
   archivo: `Informe_Cierre_${f.codigo_proyecto}_${f.cliente.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`,
+  archivo_pdf: `Informe_Cierre_${f.codigo_proyecto}_${f.cliente.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`,
   objetivo: f.objetivo_general
 }));
 
