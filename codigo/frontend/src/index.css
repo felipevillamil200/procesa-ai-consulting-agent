@@ -139,7 +139,14 @@
   max-width: 100%;
 }
 
-.ai-prose p, .ai-prose div, .ai-prose span, .ai-prose code, .ai-prose pre {
+.ai-prose p, .ai-prose div, .ai-prose span, .ai-prose code, .ai-prose pre, .ai-prose mark, .ai-prose a, .ai-prose strong {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.perplexity-citation-btn, .perplexity-inline-code {
+  max-width: 100%;
+  white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
 }
