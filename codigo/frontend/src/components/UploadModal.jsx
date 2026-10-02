@@ -175,7 +175,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess, onOpenCo
                 className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-200/90 hover:bg-amber-300 text-amber-950 font-bold text-xs transition cursor-pointer shadow-2xs"
               >
                 <Settings size={14} />
-                <span>Abrir Configuración y Cambiar Proveedor (OpenAI / Gemini)</span>
+                <span>Abrir Configuración y Cambiar Proveedor IA</span>
               </button>
             )}
           </div>
@@ -224,7 +224,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess, onOpenCo
                     className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium text-xs transition-all cursor-pointer shadow-xs active:scale-98"
                   >
                     <Settings size={14} />
-                    <span>⚙️ Abrir Configuración y Cambiar Proveedor (OpenAI / Gemini)</span>
+                    <span>Abrir Configuración y Cambiar Proveedor IA</span>
                   </button>
                 )}
               </div>
