@@ -209,7 +209,7 @@ export default function EvidenceInspector({
     ? docPreview.filename
     : (PDF_NAMES[projectCode] || `${projectCode}.pdf`);
 
-  const pdfUrl = `${API_BASE}/api/pdf/${projectCode}`;
+  const pdfUrl = `/documents/${PDF_NAMES[projectCode] || `${projectCode}.pdf`}`;
   const displayChunks = evidenceChunks.length > 0 ? evidenceChunks : (docPreview?.chunks || fallbackPreview?.chunks || []);
   const totalPages = rawPages.length || docPreview?.total_pages || docPreview?.total_paginas || 3;
 
@@ -420,12 +420,53 @@ export default function EvidenceInspector({
 
         {/* TAB 2: PDF EMBEDDED IFRAME */}
         {activeTab === 'pdf_embed' && (
-          <div className="flex-1 w-full h-full bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative">
-            <iframe
-              src={`${pdfUrl}#toolbar=1&navpanes=0&page=${selectedPage}`}
-              title="PDF Original"
-              className="w-full h-full border-none"
-            />
+          <div className="flex-1 w-full h-full bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm relative flex flex-col min-h-[480px]">
+            <div className="bg-slate-100 px-3.5 py-2 border-b border-slate-200 flex items-center justify-between text-xs text-slate-700 shrink-0">
+              <span className="flex items-center gap-1.5 font-mono text-[11px] truncate font-semibold text-slate-800">
+                <FileText className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                <span className="truncate">{pdfFilename}</span>
+              </span>
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 rounded-lg text-xs font-bold transition shrink-0 shadow-2xs cursor-pointer"
+                title="Abrir el documento original en pestaña completa"
+              >
+                <span>Pantalla Completa</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+
+            <div className="flex-1 relative w-full h-full bg-slate-50">
+              <object
+                data={`${pdfUrl}#toolbar=1&navpanes=0&page=${selectedPage}`}
+                type="application/pdf"
+                className="w-full h-full min-h-[500px] border-none"
+              >
+                {/* Fallback for devices/browsers without native inline PDF embed */}
+                <div className="p-8 text-center flex flex-col items-center justify-center h-full space-y-3 bg-white">
+                  <div className="w-14 h-14 rounded-2xl bg-red-50 border border-red-200 flex items-center justify-center text-red-600">
+                    <FileText className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-slate-900 text-sm">{pdfFilename}</h4>
+                    <p className="text-xs text-slate-500 mt-1 max-w-sm">
+                      Tu dispositivo o navegador no admite visualización embebida directa. Puedes abrir o descargar el documento oficial original aquí:
+                    </p>
+                  </div>
+                  <a
+                    href={pdfUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-4 py-2 bg-gradient-to-r from-red-600 to-rose-600 text-white font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm cursor-pointer"
+                  >
+                    <span>Ver PDF Oficial Completo</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+              </object>
+            </div>
           </div>
         )}
 
