@@ -117,5 +117,6 @@ export const api = {
     }
   },
   deleteProject(code) { return request(`/api/proyectos/${encodeURIComponent(code)}`, {method:'DELETE'}); },
-  resetProjects() { return post('/api/proyectos/reset', {}); }
+  resetProjects() { return post('/api/proyectos/reset', {}); },
+  clearProjects() { return post('/api/proyectos/clear', {}); }
 };

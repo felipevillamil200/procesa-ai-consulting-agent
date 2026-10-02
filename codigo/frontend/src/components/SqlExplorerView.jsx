@@ -25,6 +25,7 @@ export default function SqlExplorerView({
   projects = [],
   onOpenUpload,
   onResetProjects,
+  onClearProjects,
   onDeleteProject,
   onAskChat,
   onExecuteSql
@@ -105,6 +106,16 @@ export default function SqlExplorerView({
               <RotateCcw className="w-3.5 h-3.5 text-slate-500" />
               <span>Restaurar Originales</span>
             </button>
+            {onClearProjects && (
+              <button
+                onClick={onClearProjects}
+                className="flex-1 sm:flex-none px-3 py-2.5 bg-red-50 hover:bg-red-100 text-red-700 font-semibold rounded-xl text-xs border border-red-200/80 shadow-2xs transition flex items-center justify-center gap-1.5 cursor-pointer btn-tactile min-h-[42px]"
+                title="Vacía por completo la base de datos (0 documentos) para pruebas personalizadas"
+              >
+                <Trash2 className="w-3.5 h-3.5 text-red-500" />
+                <span>Vaciar Todo</span>
+              </button>
+            )}
           </div>
         </div>
 

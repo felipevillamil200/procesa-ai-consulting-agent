@@ -272,6 +272,41 @@ export default function App() {
     });
   };
 
+  // Clear all projects trigger
+  const handleClearProjects = () => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Vaciar Base de Datos',
+      message: '¿Estás seguro de que deseas eliminar TODOS los documentos y proyectos de SQLite y RAG? La base de datos quedará vacía (0 documentos) para que cargues tus archivos personalizados.',
+      confirmText: 'Sí, Vaciar Todo',
+      cancelText: 'Cancelar',
+      type: 'danger',
+      isLoading: false,
+      onConfirm: async () => {
+        setConfirmModal((prev) => ({ ...prev, isLoading: true }));
+        try {
+          const res = await api.clearProjects();
+          if (res.success) {
+            await loadInitialData();
+            setConfirmModal({ isOpen: false });
+          } else {
+            setConfirmModal((prev) => ({
+              ...prev,
+              isLoading: false,
+              message: `Error al vaciar: ${res.detail || 'No se pudo completar la operación'}`
+            }));
+          }
+        } catch (err) {
+          setConfirmModal((prev) => ({
+            ...prev,
+            isLoading: false,
+            message: `Error de conexión: ${err.message}`
+          }));
+        }
+      }
+    });
+  };
+
   const rootClasses = [
     'h-screen max-h-[100dvh] w-full flex overflow-hidden text-slate-800 transition-all duration-200 relative',
     isMonochrome ? 'monochrome-mode bg-slate-100' : 'bg-slate-50',
@@ -325,6 +360,7 @@ export default function App() {
             projects={projects}
             onOpenUpload={() => setIsUploadOpen(true)}
             onResetProjects={handleResetProjects}
+            onClearProjects={handleClearProjects}
             onDeleteProject={handleDeleteProject}
             onAskChat={(q) => handleSelectPrompt(q)}
             onExecuteSql={(q) => api.executeSQL(q)}

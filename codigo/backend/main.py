@@ -360,6 +360,35 @@ def reset_projects():
     return {"success": True, "count": len(fichas), "message": "Base de datos y RAG restaurados con los 4 proyectos oficiales"}
 
 
+@app.post("/api/proyectos/clear")
+@app.post("/proyectos/clear")
+def clear_all_projects():
+    """Limpia todos los proyectos y documentos de la base de datos SQLite y del motor RAG."""
+    conn = db_manager.get_connection()
+    try:
+        conn.execute("DELETE FROM proyectos")
+        conn.execute("DELETE FROM documentos")
+        conn.commit()
+    finally:
+        conn.close()
+
+    for f in FICHAS_DIR.glob("*.json"):
+        try:
+            f.unlink()
+        except Exception:
+            pass
+
+    from codigo.backend.config import RAW_REPORTS_DIR
+    for p in RAW_REPORTS_DIR.glob("*.pdf"):
+        try:
+            p.unlink()
+        except Exception:
+            pass
+
+    agent.search_engine.reload_index()
+    return {"success": True, "count": 0, "message": "Base de datos y RAG vaciados por completo"}
+
+
 from fastapi import UploadFile, File
 import io
 import os
