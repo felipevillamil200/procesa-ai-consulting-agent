@@ -182,6 +182,14 @@ export default function App() {
     return res;
   };
 
+  // Delete API key
+  const handleDeleteApiKey = async () => {
+    const res = await api.deleteApiKey();
+    const updatedConfig = await api.getConfig();
+    setConfig(updatedConfig);
+    return res;
+  };
+
   // Upload PDF success
   const handleUploadSuccess = async (file) => {
     const res = await api.uploadPDF(file);
@@ -333,6 +341,7 @@ export default function App() {
         onClose={() => setIsConfigOpen(false)}
         config={config}
         onSaveConfig={handleSaveConfig}
+        onDeleteApiKey={handleDeleteApiKey}
         isMonochrome={isMonochrome}
         onToggleMonochrome={(val) => setIsMonochrome(val)}
         uiDensity={uiDensity}

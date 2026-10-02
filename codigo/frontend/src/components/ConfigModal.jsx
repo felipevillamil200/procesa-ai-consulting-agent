@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Sliders, X, Eye, EyeOff, Save, CheckCircle2, AlertCircle, 
   Lock, Sparkles, Cpu, ShieldCheck, Terminal, RotateCcw, Info,
-  Layout, Monitor, Palette, SlidersHorizontal, Zap
+  Layout, Monitor, Palette, SlidersHorizontal, Zap, Trash2
 } from 'lucide-react';
 
 const PROVIDERS = [
@@ -58,6 +58,7 @@ export default function ConfigModal({
   onClose, 
   config, 
   onSaveConfig,
+  onDeleteApiKey,
   isMonochrome,
   onToggleMonochrome,
   uiDensity = 'comfortable',
@@ -188,6 +189,28 @@ export default function ConfigModal({
       }
     } catch (err) {
       setSaveStatus({ type: 'error', message: err.message });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeleteKey = async () => {
+    setIsSaving(true);
+    setSaveStatus(null);
+    try {
+      setApiKey('');
+      if (onDeleteApiKey) {
+        await onDeleteApiKey();
+      }
+      setSaveStatus({
+        type: 'info',
+        message: '✓ Clave API eliminada con éxito. El sistema ahora opera en Modo Local / Offline.'
+      });
+    } catch (err) {
+      setSaveStatus({
+        type: 'error',
+        message: `Error al eliminar la clave: ${err.message}`
+      });
     } finally {
       setIsSaving(false);
     }
@@ -403,10 +426,16 @@ export default function ConfigModal({
                 </div>
 
                 {/* API Key Input */}
-                <div className="space-y-1.5">
-                  <div className="flex items-center justify-between">
-                    <label className="font-semibold text-slate-800">
-                      Google Gemini API Key
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between flex-wrap gap-1">
+                    <label className="font-semibold text-slate-800 flex items-center gap-2">
+                      <span>Google Gemini API Key</span>
+                      {config?.has_api_key && (
+                        <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-300 rounded-md text-[10px] font-mono font-bold flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                          Configurada: {config.masked_key}
+                        </span>
+                      )}
                     </label>
                     <a
                       href="https://aistudio.google.com/app/apikey"
@@ -422,7 +451,7 @@ export default function ConfigModal({
                       type={showKey ? 'text' : 'password'}
                       value={apiKey}
                       onChange={(e) => setApiKey(e.target.value)}
-                      placeholder="Ingresa tu clave AIzaSy... (o déjalo vacío para usar la de .env)"
+                      placeholder={config?.has_api_key ? "Clave configurada (escribe una nueva para reemplazarla)" : "Ingresa tu clave AIzaSy... (o déjalo vacío para usar la de .env)"}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-mono text-xs focus:ring-2 focus:ring-cyan-500 focus:outline-none transition pr-10 shadow-sm"
                     />
                     <button
@@ -434,9 +463,27 @@ export default function ConfigModal({
                       {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
-                  <p className="text-[11px] text-slate-400">
-                    La clave se inyecta en caliente en la variable de entorno `GEMINI_API_KEY` de Python.
-                  </p>
+                  
+                  {/* Action Bar for API Key */}
+                  <div className="flex items-center justify-between flex-wrap gap-2 pt-1">
+                    <p className="text-[11px] text-slate-500 max-w-sm">
+                      {config?.has_api_key 
+                        ? 'Puedes reemplazar la clave arriba o eliminarla para trabajar 100% en modo local.' 
+                        : 'La clave se inyecta en caliente en la variable de entorno `GEMINI_API_KEY` de Python.'}
+                    </p>
+                    {config?.has_api_key && (
+                      <button
+                        type="button"
+                        onClick={handleDeleteKey}
+                        disabled={isSaving}
+                        className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-xl text-[11px] font-bold flex items-center gap-1.5 transition cursor-pointer shadow-2xs hover:shadow-xs active:scale-95"
+                        title="Eliminar clave API y cambiar al motor local"
+                      >
+                        <Trash2 className="w-3.5 h-3.5 text-rose-600" />
+                        <span>Eliminar Clave API</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 {/* Anti-Hallucination Temperature Slider */}

@@ -81,7 +81,17 @@ def get_config():
     """Retorna la configuración activa del LLM, temperatura y estado de la API Key."""
     import os
     from codigo.backend.config import GEMINI_API_KEY, OPENAI_API_KEY, LLM_MODEL, LLM_PROVIDER
-    current_key = os.getenv("GEMINI_API_KEY", GEMINI_API_KEY) or os.getenv("OPENAI_API_KEY", OPENAI_API_KEY)
+    gem_env = os.environ.get("GEMINI_API_KEY")
+    oai_env = os.environ.get("OPENAI_API_KEY")
+    
+    current_key = ""
+    if gem_env is not None:
+        current_key = gem_env.strip()
+    elif oai_env is not None:
+        current_key = oai_env.strip()
+    else:
+        current_key = (GEMINI_API_KEY or OPENAI_API_KEY or "").strip()
+
     masked = f"{current_key[:6]}...{current_key[-4:]}" if len(current_key) > 10 else ("Configurada" if current_key else "No configurada")
     return {
         "success": True,
@@ -89,6 +99,8 @@ def get_config():
         "model": os.getenv("LLM_MODEL", LLM_MODEL),
         "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1")),
         "has_api_key": bool(current_key),
+        "gemini_api_key_set": bool(current_key),
+        "openai_api_key_set": False,
         "masked_key": masked
     }
 
@@ -97,9 +109,14 @@ def get_config():
 def update_config(req: ConfigUpdateRequest):
     """Actualiza en memoria la clave de API, modelo LLM o temperatura con validación de rango."""
     import os
-    if req.api_key and req.api_key.strip():
-        os.environ["GEMINI_API_KEY"] = req.api_key.strip()
-        os.environ["OPENAI_API_KEY"] = req.api_key.strip()
+    if req.api_key is not None:
+        clean_key = req.api_key.strip()
+        if clean_key == "__DELETE__" or clean_key == "":
+            os.environ["GEMINI_API_KEY"] = ""
+            os.environ["OPENAI_API_KEY"] = ""
+        else:
+            os.environ["GEMINI_API_KEY"] = clean_key
+            os.environ["OPENAI_API_KEY"] = clean_key
     if req.model and req.model.strip():
         os.environ["LLM_MODEL"] = req.model.strip()
     if req.provider and req.provider.strip():
@@ -107,6 +124,16 @@ def update_config(req: ConfigUpdateRequest):
     if req.temperature is not None:
         os.environ["LLM_TEMPERATURE"] = str(req.temperature)
     return {"success": True, "message": "Configuración actualizada correctamente", "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1"))}
+
+
+@app.delete("/api/config/key")
+@app.delete("/api/config")
+def delete_api_key():
+    """Elimina la clave de API activa en memoria para volver al modo local/offline."""
+    import os
+    os.environ["GEMINI_API_KEY"] = ""
+    os.environ["OPENAI_API_KEY"] = ""
+    return {"success": True, "message": "Clave de API eliminada correctamente. Modo local activado.", "has_api_key": False}
 
 
 

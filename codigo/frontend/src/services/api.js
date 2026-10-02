@@ -214,6 +214,27 @@ export const api = {
   },
 
   /**
+   * Elimina la clave de API activa
+   */
+  async deleteApiKey() {
+    localStorage.removeItem('gemini_api_key');
+    localStorage.removeItem('openai_api_key');
+    try {
+      const res = await fetch(`${getApiBase()}/api/config/key`, {
+        method: 'DELETE'
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } catch (err) {
+      return {
+        success: true,
+        has_api_key: false,
+        message: "Clave de API eliminada. Modo Local activo."
+      };
+    }
+  },
+
+  /**
    * Sube un archivo PDF
    */
   async uploadPDF(file) {
