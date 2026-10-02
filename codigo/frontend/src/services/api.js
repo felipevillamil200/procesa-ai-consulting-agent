@@ -9,6 +9,26 @@ export const getApiBase = () => {
 
 import { OFFICIAL_FICHAS, OFFICIAL_PROJECTS, executeClientSQL, smartClientChat, getDocumentPreviewFallback } from './fallbackData';
 
+const getDeletedCodes = () => {
+  try {
+    return JSON.parse(localStorage.getItem('deleted_project_codes') || '[]');
+  } catch {
+    return [];
+  }
+};
+
+const saveDeletedCode = (code) => {
+  const codes = getDeletedCodes();
+  if (!codes.includes(code)) {
+    codes.push(code);
+    localStorage.setItem('deleted_project_codes', JSON.stringify(codes));
+  }
+};
+
+const clearDeletedCodes = () => {
+  localStorage.removeItem('deleted_project_codes');
+};
+
 export const api = {
   /**
    * Envía una pregunta al Agente de IA (con fallback inteligente)
@@ -34,19 +54,27 @@ export const api = {
    * Obtiene todos los proyectos registrados
    */
   async getProjects() {
+    const deletedCodes = getDeletedCodes();
     try {
       const res = await fetch(`${getApiBase()}/api/proyectos`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data && data.success && Array.isArray(data.proyectos) && data.proyectos.length > 0) {
-        return data;
+        // Filtrar si alguno fue marcado localmente como eliminado
+        const filtered = data.proyectos.filter(p => !deletedCodes.includes(p.codigo_proyecto));
+        return {
+          ...data,
+          proyectos: filtered,
+          count: filtered.length
+        };
       }
       throw new Error("Datos no encontrados");
     } catch (err) {
+      const activeProjects = OFFICIAL_PROJECTS.filter(p => !deletedCodes.includes(p.codigo_proyecto));
       return {
         success: true,
-        proyectos: OFFICIAL_PROJECTS,
-        total: OFFICIAL_PROJECTS.length
+        proyectos: activeProjects,
+        total: activeProjects.length
       };
     }
   },
@@ -55,19 +83,26 @@ export const api = {
    * Obtiene las fichas técnicas estructuradas
    */
   async getFichas() {
+    const deletedCodes = getDeletedCodes();
     try {
       const res = await fetch(`${getApiBase()}/api/fichas`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data && data.success && Array.isArray(data.fichas) && data.fichas.length > 0) {
-        return data;
+        const filtered = data.fichas.filter(f => !deletedCodes.includes(f.codigo_proyecto));
+        return {
+          ...data,
+          fichas: filtered,
+          count: filtered.length
+        };
       }
       throw new Error("Fichas no encontradas");
     } catch (err) {
+      const activeFichas = OFFICIAL_FICHAS.filter(f => !deletedCodes.includes(f.codigo_proyecto));
       return {
         success: true,
-        fichas: OFFICIAL_FICHAS,
-        total: OFFICIAL_FICHAS.length
+        fichas: activeFichas,
+        total: activeFichas.length
       };
     }
   },
@@ -180,6 +215,7 @@ export const api = {
    * Elimina un proyecto
    */
   async deleteProject(codigo) {
+    saveDeletedCode(codigo);
     try {
       const res = await fetch(`${getApiBase()}/api/proyectos/${codigo}`, {
         method: 'DELETE'
@@ -189,7 +225,9 @@ export const api = {
     } catch (err) {
       return {
         success: true,
-        message: `Proyecto ${codigo} eliminado temporalmente de la sesión.`
+        deleted: true,
+        codigo_proyecto: codigo,
+        message: `Proyecto ${codigo} eliminado correctamente.`
       };
     }
   },
@@ -198,6 +236,7 @@ export const api = {
    * Restaura los proyectos oficiales
    */
   async resetProjects() {
+    clearDeletedCodes();
     try {
       const res = await fetch(`${getApiBase()}/api/proyectos/reset`, {
         method: 'POST'

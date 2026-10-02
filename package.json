@@ -1,0 +1,15 @@
+{
+  "name": "procesa-consultores-agent",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Agente de IA y Frontend para Procesa Consultores",
+  "scripts": {
+    "dev": "npm --prefix codigo/frontend run dev",
+    "build": "npm --prefix codigo/frontend run build",
+    "preview": "npm --prefix codigo/frontend run preview",
+    "install:all": "npm --prefix codigo/frontend install"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
