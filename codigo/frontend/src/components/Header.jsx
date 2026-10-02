@@ -79,11 +79,12 @@ function IconSettings({ className = "w-4 h-4" }) {
   );
 }
 
-// 8. Trash / Clean Minimalist Bin
-function IconTrash({ className = "w-4 h-4" }) {
+// 8. Admin / Shield Settings Badge
+function IconAdmin({ className = "w-4 h-4" }) {
   return (
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
-      <path d="M3.5 5.5h13M8 5.5V3.8a1.3 1.3 0 0 1 1.3-1.3h1.4a1.3 1.3 0 0 1 1.3 1.3v1.7m2.8 0v10.4a2 2 0 0 1-2 2h-5.6a2 2 0 0 1-2-2V5.5" />
+      <path d="M10 2.5 3.5 5.5v5c0 4.5 3.5 7 6.5 7.5 3-.5 6.5-3 6.5-7.5v-5L10 2.5z" />
+      <path d="M7.5 10.2 9.2 12l3.6-3.8" />
     </svg>
   );
 }
@@ -308,14 +309,16 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             <IconCollapseToggle isCollapsed={isActionsCollapsed} className="w-4 h-4" />
           </button>
 
-          {/* Limpiar Chat */}
+          {/* Botón Admin */}
           <button
-            onClick={onClearChat}
-            className="px-2.5 sm:px-3 py-1.5 text-xs text-slate-500 hover:text-red-600 hover:bg-red-50/80 rounded-full transition-all duration-150 flex items-center gap-1 font-medium border border-slate-200/70 bg-white/70 shadow-2xs cursor-pointer btn-tactile shrink-0"
-            title="Limpiar mensajes del chat"
+            type="button"
+            onClick={onOpenConfig}
+            className="px-2.5 sm:px-3 py-1.5 text-xs text-slate-700 hover:text-cyan-800 hover:bg-cyan-50/80 rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold border border-slate-200/70 bg-white/80 shadow-2xs cursor-pointer btn-tactile shrink-0"
+            title="Panel de Administración y Configuración IA"
+            aria-label="Abrir panel Admin"
           >
-            <IconTrash className="w-3.5 h-3.5 text-slate-400 hover:text-red-500" />
-            <span className="hidden md:inline">Limpiar</span>
+            <IconAdmin className="w-3.5 h-3.5 text-cyan-600" />
+            <span className="hidden sm:inline">Admin</span>
           </button>
         </div>
       </header>

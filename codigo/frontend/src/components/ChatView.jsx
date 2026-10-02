@@ -3,7 +3,7 @@ import {
   Send, Bot, User, Wrench, ShieldAlert, CheckCircle, Loader2, 
   ShieldCheck, ChevronRight, ExternalLink, Sparkles, FileText,
   Plus, ToggleLeft, ToggleRight, X, Layers, Check, Database,
-  ArrowUpRight, CornerDownLeft, Search, FileCode2
+  ArrowUpRight, CornerDownLeft, Search, FileCode2, Trash2
 } from 'lucide-react';
 import { marked } from 'marked';
 import { sanitizeHtml } from '../services/safeHtml';
@@ -48,7 +48,8 @@ export default function ChatView({
   onClearPendingPrompt,
   fichas = [],
   onUploadPDF,
-  config
+  config,
+  onClearChat
 }) {
   const [input, setInput] = useState('');
   const [uploadNotice, setUploadNotice] = useState('');
@@ -262,6 +263,29 @@ export default function ChatView({
       {/* Left / Center Chat Stream */}
       <div className="flex-1 flex flex-col h-full overflow-hidden min-w-0">
         
+        {/* Chat Top Subheader & Status Bar */}
+        <div className="px-3.5 sm:px-6 py-2 bg-white/70 backdrop-blur-md border-b border-slate-200/70 flex items-center justify-between shrink-0 shadow-2xs z-10">
+          <div className="flex items-center gap-2 text-xs">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-xs ring-2 ring-emerald-500/20" />
+            <span className="font-bold text-slate-800">Chat Inteligente IA</span>
+            <span className="text-[11px] text-slate-400 hidden sm:inline">● Consultas RAG & Base de Datos SQLite</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            {messages.length > 1 && onClearChat && (
+              <button
+                type="button"
+                onClick={onClearChat}
+                className="px-2.5 sm:px-3 py-1 text-xs text-slate-500 hover:text-red-600 hover:bg-red-50/90 rounded-full transition-all flex items-center gap-1.5 font-semibold border border-slate-200/80 bg-white/90 shadow-2xs cursor-pointer btn-tactile"
+                title="Limpiar mensajes y reiniciar la conversación"
+              >
+                <Trash2 className="w-3.5 h-3.5 text-slate-400 hover:text-red-500" />
+                <span>Limpiar</span>
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Messages Scroll Area */}
         <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-3 sm:p-6 space-y-3.5 sm:space-y-6">
           
@@ -666,6 +690,24 @@ export default function ChatView({
                           ))}
                         </div>
                       </div>
+
+                      {/* Item 4: Limpiar Chat */}
+                      {onClearChat && (
+                        <div className="pt-2 border-t border-slate-100">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              onClearChat();
+                              setShowOptionsMenu(false);
+                            }}
+                            className="w-full py-1.5 px-2 rounded-lg text-xs flex items-center justify-center gap-1.5 text-slate-600 hover:text-red-600 hover:bg-red-50/80 font-semibold border border-slate-200 transition cursor-pointer btn-tactile"
+                            title="Limpiar mensajes y reiniciar la conversación"
+                          >
+                            <Trash2 className="w-3.5 h-3.5 text-slate-400 hover:text-red-500" />
+                            <span>Limpiar mensajes del chat</span>
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

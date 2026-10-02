@@ -166,13 +166,7 @@ export default function App() {
 
   // Clear chat
   const handleClearChat = () => {
-    setMessages([{
-      role: 'assistant',
-      content: `**Chat Reiniciado.** ¿Qué otra pregunta deseas consultar sobre los informes históricos?`,
-      tools_used: [],
-      sources: [],
-      found_info: true
-    }]);
+    setMessages([INITIAL_MESSAGE]);
   };
 
   // Save config
@@ -348,6 +342,7 @@ export default function App() {
             fichas={fichas}
             onUploadPDF={handleUploadSuccess}
             config={config}
+            onClearChat={handleClearChat}
           />
         )}
 
