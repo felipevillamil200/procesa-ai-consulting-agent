@@ -145,19 +145,31 @@ export const api = {
    * Obtiene la configuración
    */
   async getConfig() {
+    const localGeminiKey = localStorage.getItem('gemini_api_key');
+    const localOpenAIKey = localStorage.getItem('openai_api_key');
+    const hasLocalKey = Boolean(localGeminiKey || localOpenAIKey);
+
     try {
       const res = await fetch(`${getApiBase()}/api/config`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
+      const data = await res.json();
+      if (hasLocalKey && !data.has_api_key) {
+        data.has_api_key = true;
+        data.gemini_api_key_set = Boolean(localGeminiKey);
+        data.openai_api_key_set = Boolean(localOpenAIKey);
+      }
+      return data;
     } catch (err) {
       return {
         success: true,
-        gemini_api_key_set: true,
-        openai_api_key_set: false,
-        active_provider: "gemini",
-        active_model: "gemini-flash-latest",
-        temperature: 0.2,
-        embedding_model: "text-embedding-3-small"
+        has_api_key: hasLocalKey,
+        gemini_api_key_set: Boolean(localGeminiKey),
+        openai_api_key_set: Boolean(localOpenAIKey),
+        active_provider: localStorage.getItem('custom_provider') || "gemini",
+        active_model: localStorage.getItem('custom_model') || "gemini-flash-latest",
+        temperature: Number(localStorage.getItem('custom_temperature') || 0.2),
+        embedding_model: "text-embedding-3-small",
+        masked_key: hasLocalKey ? "Configurada (Local)" : "No configurada"
       };
     }
   },
@@ -166,6 +178,17 @@ export const api = {
    * Actualiza la configuración
    */
   async updateConfig(apiKey, model, provider, temperature) {
+    if (apiKey && apiKey.trim()) {
+      if (provider === 'openai') {
+        localStorage.setItem('openai_api_key', apiKey.trim());
+      } else {
+        localStorage.setItem('gemini_api_key', apiKey.trim());
+      }
+    }
+    if (model) localStorage.setItem('custom_model', model);
+    if (provider) localStorage.setItem('custom_provider', provider);
+    if (temperature !== undefined) localStorage.setItem('custom_temperature', String(temperature));
+
     try {
       const res = await fetch(`${getApiBase()}/api/config`, {
         method: 'POST',
@@ -182,7 +205,8 @@ export const api = {
     } catch (err) {
       return {
         success: true,
-        message: "Configuración actualizada en sesión local",
+        has_api_key: Boolean(apiKey && apiKey.trim()),
+        message: "Configuración actualizada correctamente en sesión local",
         provider: provider || "gemini",
         model: model || "gemini-flash-latest"
       };

@@ -238,8 +238,12 @@ export default function ConfigModal({
           >
             <Cpu className={`w-4 h-4 ${modalTab === 'ai' ? 'text-cyan-600' : 'text-slate-400'}`} />
             <span>1. Estado de la IA</span>
-            <span className="px-1.5 py-0.2 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded text-[9px] font-mono font-bold">
-              Motor Activo
+            <span className={`px-1.5 py-0.2 rounded text-[9px] font-mono font-bold border ${
+              config?.has_api_key 
+                ? 'bg-emerald-100 text-emerald-800 border-emerald-300' 
+                : 'bg-amber-100 text-amber-800 border-amber-300'
+            }`}>
+              {config?.has_api_key ? 'API Conectada' : 'Sin Clave API'}
             </span>
           </button>
 

@@ -164,18 +164,27 @@ export default function Sidebar({ projects = [], onSelectPrompt, config, isMobil
         </div>
 
       {/* Live Status Badge Bar */}
-      <div className="px-5 py-2.5 bg-slate-900/90 border-b border-slate-800/60 flex items-center justify-between text-xs">
-        <span className="flex items-center gap-2 text-slate-300 font-medium text-[11px]">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-          </span>
-          <span>Google Gemini & SQLite</span>
-        </span>
-        <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono text-[10px] font-bold tracking-wide">
-          {config?.has_api_key ? '● CONECTADO' : '● LOCAL/DEV'}
-        </span>
-      </div>
+      {(() => {
+        const isKeyActive = Boolean(config?.has_api_key || config?.gemini_api_key_set || config?.openai_api_key_set);
+        return (
+          <div className="px-5 py-2.5 bg-slate-900/90 border-b border-slate-800/60 flex items-center justify-between text-xs">
+            <span className="flex items-center gap-2 text-slate-300 font-medium text-[11px]">
+              <span className="relative flex h-2 w-2">
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${isKeyActive ? 'bg-emerald-400' : 'bg-amber-400'} opacity-75`}></span>
+                <span className={`relative inline-flex rounded-full h-2 w-2 ${isKeyActive ? 'bg-emerald-500' : 'bg-amber-500'}`}></span>
+              </span>
+              <span>{isKeyActive ? (config?.provider === 'openai' ? 'OpenAI & SQLite' : 'Google Gemini & SQLite') : 'Motor Local & SQLite'}</span>
+            </span>
+            <span className={`px-2 py-0.5 rounded-full font-mono text-[10px] font-bold tracking-wide border ${
+              isKeyActive 
+                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
+                : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
+            }`}>
+              {isKeyActive ? '● CONECTADO' : '● SIN CLAVE API'}
+            </span>
+          </div>
+        );
+      })()}
 
       {/* Scrollable Content with Visible Smooth Scrollbar */}
       <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar-dark p-3.5 space-y-4">
