@@ -22,9 +22,9 @@ Validación de esta ampliación: **42 pruebas Python aprobadas**, **6 verificaci
 
 ## 📑 Tabla de Contenidos
 1. [Contexto y Problemática](#1-contexto-y-problemática)
-2. [Arquitectura de la Solución](#2-arquitectura-de-la-solución)
-3. [Estructura del Proyecto](#3-estructura-del-proyecto)
-4. [Instalación y Despliegue Rápido](#4-instalación-y-despliegue-rápido)
+2. [Arquitectura de la Solución](#2-️-arquitectura-de-la-solución)
+3. [Estructura del Código y Organización del Proyecto](#3--estructura-del-código-y-organización-del-proyecto)
+4. [Instalación y Despliegue Rápido](#4-⚡-instalación-y-despliegue-rápido)
 5. [Guía de Uso (CLI y Web App)](#5-guía-de-uso-cli-y-web-app)
 6. [Justificación del Esquema de Ficha de Proyecto](#6-justificación-del-esquema-de-ficha-de-proyecto)
 7. [Mecanismos de Confiabilidad, Trazabilidad y Anti-Alucinación](#7-mecanismos-de-confiabilidad-trazabilidad-y-anti-alucinación)
@@ -45,122 +45,137 @@ Este agente permite a cualquier consultor realizar preguntas en lenguaje natural
 * **`PC-2025-014`**: *Cooperativa de Ahorro y Crédito Horizonte Andino Ltda.* (Servicios Financieros - Aprobación de créditos).
 * **`PC-2025-027`**: *Plásticos del Pacífico S.A.* (Manufactura - Mejora de OEE en planta industrial de Durán).
 * **`PC-2025-033`**: *Clínica Santa Lucía del Valle* (Salud - Reducción de tiempos de admisión y espera en consulta externa).
-* **`PC-2026-006`**: *Supermercados La Canasta Cía. Ltda.* (Retail - Reposición de inventario en tiendas).
+* **`PC-2025-041`**: *Almacenes Éxito Popular* (Retail - Rediseño de checkout y reducción de merma en sala de ventas).
 
 ---
 
 ## 2. 🏗️ Arquitectura de la Solución
 
-El sistema se diseñó bajo una arquitectura **Modular y Desacoplada** en Python, combinando dos herramientas especializadas mediante **OpenAI Function Calling**:
+El sistema está construido bajo una **Arquitectura Híbrida y Desacoplada** de grado producción, que combina el razonamiento de Modelos de Lenguaje de Gran Escala (**OpenAI GPT-4o-mini** y **Google Gemini Flash**), **Prompts Modulares en Markdown**, un motor **RAG Universal** para cualquier PDF, y **Consultas Relacionales Exactas (SQLite)**:
 
 ```mermaid
 flowchart TD
-    subgraph Ingestion ["1. Capa de Ingesta y Extracción"]
-        PDFs["📄 Informes PDF en data/raw_reports/"] --> Extractor["Extractor Python (pypdf + Pydantic)"]
-        Extractor -->|"Structured Output"| JSONs["Fichas JSON en data/fichas/"]
-        JSONs --> SQLite[("💾 Base Relacional SQLite (proyectos.db)")]
-        Extractor -->|"Chunking Semántico + Metadatos"| RAGIndex["🔍 Índice RAG (BM25)"]
+    subgraph UI ["🌐 Capa de Presentación (React + Vite + Tailwind CSS)"]
+        User["👤 Usuario / Consultor"] --> ChatUI["💬 ChatView (Citas Perplexity + Evidencia PDF)"]
+        User --> ExplorerUI["📊 Explorador SQLite & Gestor de Documentos"]
+        User --> InspectorUI["🔍 EvidenceInspector (Visor de PDF con Resaltado)"]
+        User --> ConfigUI["⚙️ Modal de Configuración (OpenAI / Gemini)"]
     end
 
-    subgraph AgentCore ["2. Núcleo del Agente Inteligente (src/agent.py)"]
-        Consultor["👤 Consultor (Pregunta en Lenguaje Natural)"] --> Orchestrator["🤖 Agente Orquestador (Function Calling)"]
-        
-        Orchestrator <-->|"Consultas Cuantitativas / Filtros"| ToolSQL["📊 Tool SQL: query_project_database()"]
-        Orchestrator <-->|"Búsqueda Cualitativa / Lecciones"| ToolRAG["🔍 Tool RAG: search_project_documents()"]
-        
-        ToolSQL <--> SQLite
-        ToolRAG <--> RAGIndex
-        
-        Orchestrator --> TraceEngine["Motor de Trazabilidad + Citas + Anti-Alucinación"]
+    subgraph Backend ["🚀 Capa de Servicios & API REST (FastAPI)"]
+        API["FastAPI App (codigo/backend/main.py)"]
+        ChatUI <-->|"POST /api/chat"| API
+        ExplorerUI <-->|"GET /api/proyectos | POST /api/upload"| API
+        InspectorUI <-->|"GET /api/preview/{id} | GET /api/pdf/{id}"| API
+        ConfigUI <-->|"GET/POST /api/config"| API
     end
 
-    subgraph Presentation ["3. Capas de Presentación"]
-        TraceEngine --> API["🚀 API REST FastAPI (codigo/backend/main.py)"]
-        API --> WebSPA["🌐 Frontend Web SPA (codigo/frontend/index.html)"]
-        TraceEngine --> CLI["💻 Consola Interactiva Rich (codigo/backend/cli.py)"]
-        TraceEngine --> StreamlitApp["📊 App Streamlit (codigo/backend/app.py)"]
+    subgraph PromptsLayer ["📝 Capa de Prompts Desacoplados (Markdown)"]
+        PromptsEngine["Loader LRU Cache (codigo/backend/prompts)"]
+        PR_Doc["document_reader_system.md"]
+        PR_Cons["consultor_system.md"]
+        PR_Extr["extractor_system.md"]
+        PromptsEngine --> PR_Doc & PR_Cons & PR_Extr
+    end
+
+    subgraph AgentEngine ["🤖 Núcleo de Inteligencia y Razonamiento Híbrido"]
+        Orchestrator["Agente Orquestador (agent.py & document_chat.py)"]
+        API --> Orchestrator
+        PromptsEngine --> Orchestrator
+        
+        Orchestrator <-->|"1. Consultas Estructuradas"| SQLTool["📊 Engine SQL (database.py)"]
+        Orchestrator <-->|"2. Búsqueda Semántica / BM25"| RAGTool["🔍 Motor RAG (rag.py)"]
+        Orchestrator <-->|"3. Síntesis y Clasificación"| LLMProviders["🧠 OpenAI (GPT-4o-mini) / Google Gemini"]
+    end
+
+    subgraph Storage ["💾 Capa de Persistencia y Catálogo Documental"]
+        SQLTool <--> SQLiteDB[("🗄️ SQLite (data/proyectos.db)")]
+        RAGTool <--> DocStore["📁 DocumentStore & raw_reports/"]
+        DocStore <--> SQLiteDB
     end
 ```
 
 ### ¿Por qué esta arquitectura?
-1. **Separación de Responsabilidades:** Las preguntas cuantitativas (duraciones, conteos, ordenamientos) se resuelven mediante **SQL exacto** (evitando errores de cálculo del LLM), mientras que las preguntas cualitativas (lecciones, metodología, liderazgo) se resuelven mediante **RAG documental**.
-2. **Control Total y Extensibilidad:** No depende de frameworks monolíticos "caja negra" (como CrewAI o AutoGen), lo que garantiza máxima velocidad, código testeable y facilidad para aplicar cambios en vivo durante la evaluación técnica.
+1. **Desacoplamiento de Prompts y Código:** Los prompts del sistema residen en archivos `.md` dedicados (`codigo/backend/prompts/`), lo que permite iterar, calibrar y auditar las instrucciones de IA sin recompilar ni alterar la lógica del servidor Python.
+2. **Razonamiento Híbrido (SQL + RAG):** 
+   - **SQL Exacto:** Las preguntas cuantitativas (conteos, duraciones, filtros por sector) se resuelven con consultas determinísticas a SQLite (0% error de cálculo).
+   - **RAG Universal:** Las consultas cualitativas (metodologías, lecciones, normativas o contratos) extraen fragmentos textuales del PDF con citas de página verificadas.
+   - **Síntesis / Opinión Contextual:** Cuando la consulta requiere conocimiento general (DIAN, propósitos tributarios, marcos legales), la IA explica con fluidez sin censuras estáticas.
+3. **Control Total y Cero Bloqueo:** La plataforma permite subir cualquier PDF (facturas, balances, contratos, certificados, informes) y vaciar el espacio de trabajo con 1 clic sin que resuciten archivos fantasma al reiniciar.
 
 ---
 
-## 3. 📁 Estructura del Proyecto y Guía para el Evaluador (RH / Tech Lead)
+## 3. 📁 Estructura del Código y Organización del Proyecto
 
-Para facilitar la navegación y comprensión del proyecto, la arquitectura se divide limpiamente en carpetas con responsabilidades únicas:
+El código fuente está estrictamente modularizado en frontend y backend, siguiendo las mejores prácticas de la industria:
 
 ```
 Talen GV/
-├── agent/                          # Prompts del sistema, arquitectura ReAct y especificaciones del agente
-│   ├── README.md                   # Mapeo maestro de recursos
-│   ├── system_prompt.md            # Directivas inviolables y reglas anti-alucinación
-│   ├── agent_loop.md               # Máquina de estados y guardrails
-│   ├── prompts/                    # Prompts del sistema, extractor y generador SQL
-│   └── skills/                     # Skills especializadas (extracción, BD, RAG, CLI, tests)
-├── bitacora/                       # Guías paso a paso para la sustentación de la entrevista
-│   ├── 01_estructura_y_git/        # Configuración inicial y repositorio
-│   ├── 02_extraccion_pydantic_sqlite/ # Pipeline de extracción e ingesta relacional
-│   ├── 03_motor_rag/               # Motor de búsqueda semántica e indexación
-│   ├── 04_agente_y_herramientas/   # Orquestador ReAct y Function Calling
-│   ├── 05_interfaces_cli_web/      # Despliegue de interfaces CLI y Web
-│   └── 06_pruebas_y_costos/        # Batería de pruebas y memoria de costos (50 usuarios)
-├── extracted/                      # Archivos originales e insumos extraídos del ZIP
-│   ├── Informe_Cierre_PC-2025-014...pdf
-│   ├── Informe_Cierre_PC-2025-027...pdf
-│   ├── Informe_Cierre_PC-2025-033...pdf
-│   ├── Informe_Cierre_PC-2026-006...pdf
-│   └── Prueba_Tecnica_Consultor_IA.pdf # Enunciado oficial de la prueba técnica
-├── notas-agente/                   # Notas de análisis del problema y solución técnica
-│   ├── problematica.md             # Desglose de retos y requerimientos
-│   └── solucion.md                 # Enfoque de ingeniería y comparativa de soluciones
-├── codigo/                         # 💻 NÚCLEO OPERATIVO: Todo el código fuente de la aplicación
-│   ├── backend/                    # Servidor API REST FastAPI, Base de datos y Agente de IA
-│   │   ├── main.py                 # FastAPI endpoints (/api/chat, /api/proyectos, /api/sql)
-│   │   ├── agent.py                # Orquestador con Function Calling (Gemini Flash)
-│   │   ├── database.py             # SQLite DatabaseManager con guardrails de seguridad
-│   │   ├── extractor.py            # Pipeline PDF -> Pydantic -> JSON / SQLite
-│   │   ├── models.py               # Esquemas Pydantic v2 (ProyectoFicha, KPIImpacto)
-│   │   ├── rag.py                  # Motor de búsqueda documental BM25 con chunking
-│   │   ├── cli.py                  # Consola interactiva moderna con Rich
-│   │   ├── app.py                  # Aplicación Streamlit alternativa
-│   │   └── config.py               # Rutas y variables de entorno
-│   └── frontend/                   # ⚛️ APLICACIÓN WEB REACT + VITE + TAILWIND CSS
-│       ├── src/                    # Componentes React (ChatView, FichasView, SqlExplorerView, etc.)
-│       │   ├── components/         # Sidebar, Header, Modales de Configuración y Subida
-│       │   ├── services/api.js     # Cliente API REST desacoplado
-│       │   ├── App.jsx             # Contenedor principal con React Hooks
-│       │   ├── main.jsx            # Entry point de React 18
-│       │   └── index.css           # Estilos con Tailwind CSS
-│       ├── package.json            # Dependencias de React, Lucide-React, Tailwind y Vite
-│       ├── vite.config.js          # Configuración de compilador Vite y Proxy API
-│       └── dist/                   # Bundle de producción precompilado (listo para FastAPI)
-
-├── data/                           # 💾 Base de datos SQLite y reportes
-│   ├── raw_reports/                # 4 Informes originales en PDF
-│   ├── fichas/                     # 4 Fichas estructuradas generadas en JSON
-│   └── proyectos.db                # Base de datos SQLite relacional
-├── tests/                          # 🧪 Suite completa de pruebas unitarias (11 tests con pytest)
-│   ├── test_extractor_and_database.py
-│   ├── test_rag.py
-│   └── test_agent.py
-├── .env.example                    # Plantilla de configuración de entorno
-├── .gitignore                      # Protección de credenciales y temporales
-├── pytest.ini                      # Configuración de pruebas unitarias
-├── requirements.txt                # Dependencias del proyecto
-└── README.md                       # Documentación técnica maestra
+├── codigo/                         # 💻 CÓDIGO FUENTE DE LA APLICACIÓN
+│   ├── backend/                    # 🐍 Backend FastAPI, Motor IA y Base de Datos
+│   │   ├── prompts/                # 📝 Prompts de IA desacoplados en Markdown
+│   │   │   ├── __init__.py         # Loader seguro de prompts con @lru_cache
+│   │   │   ├── document_reader_system.md # Instrucciones universales de lectura y análisis PDF
+│   │   │   ├── consultor_system.md # Directivas del Agente Consultor de proyectos
+│   │   │   └── extractor_system.md # Extracción estructurada de fichas técnicas
+│   │   ├── main.py                 # Servidor REST FastAPI (/api/chat, /api/proyectos, /api/upload, /api/config)
+│   │   ├── agent.py                # Agente consultor con orquestación Function Calling y motor de trazabilidad
+│   │   ├── document_chat.py        # Motor de chat universal para cualquier PDF con verificación de citas
+│   │   ├── documents.py            # DocumentStore (catálogo SQLite `documentos` e ingesta multimodal)
+│   │   ├── database.py             # DatabaseManager SQLite relacional con conexión parametrizada
+│   │   ├── extractor.py            # Pipeline de extracción de fichas técnicas con Pydantic v2
+│   │   ├── rag.py                  # Motor de búsqueda documental BM25 con chunking semántico
+│   │   ├── models.py               # Modelos de datos Pydantic (ProyectoFicha, KPIImpacto, GroundedAnswer)
+│   │   └── config.py               # Configuración centralizada, rutas y variables de entorno
+│   │
+│   └── frontend/                   # ⚛️ APLICACIÓN WEB SPA (React 18 + Vite + Tailwind CSS)
+│       ├── src/                    # Código fuente del Frontend
+│       │   ├── components/         # Componentes modulares de interfaz de usuario
+│       │   │   ├── ChatView.jsx    # Chat inteligente con citas interactivas y trazabilidad
+│       │   │   ├── EvidenceInspector.jsx # Visor lateral de PDF con resaltado de evidencia
+│       │   │   ├── SqlExplorerView.jsx   # Gestor CRUD de documentos y consola SQL en vivo
+│       │   │   ├── FichasView.jsx  # Galería de fichas estructuradas y métricas de impacto
+│       │   │   ├── ArchitectureView.jsx  # Vista explicativa de arquitectura, stack y costos
+│       │   │   ├── Sidebar.jsx     # Menú lateral con estado de conexión y lista de PDFs
+│       │   │   ├── Header.jsx      # Barra superior de navegación y selector de vistas
+│       │   │   ├── UploadModal.jsx # Modal para subir PDFs con drag-and-drop
+│       │   │   ├── ConfigModal.jsx # Selector de proveedor LLM (OpenAI / Gemini / Modelo)
+│       │   │   └── ConfirmModal.jsx# Diálogos de confirmación para acciones críticas
+│       │   ├── services/           # Capa de servicios y comunicación API
+│       │   │   ├── api.js          # Cliente HTTP desacoplado para endpoints FastAPI
+│       │   │   ├── documentPrompts.js # Generador de consultas dinámicas por documento
+│       │   │   └── safeHtml.js     # Sanitizador DOMPurify para renderizado seguro de Markdown
+│       │   ├── App.jsx             # Contenedor principal con gestión de estado y navegación
+│       │   ├── main.jsx            # Punto de entrada de React
+│       │   └── index.css           # Tokens de diseño, micro-animaciones y estilos Tailwind
+│       ├── package.json            # Dependencias (React, Lucide, Marked, DOMPurify, Vite)
+│       ├── vite.config.js          # Configuración del compilador y proxy API
+│       └── dist/                   # Bundle optimizado para producción servido por FastAPI
+│
+├── data/                           # 💾 Base de datos SQLite y persistencia
+│   ├── raw_reports/                # Almacenamiento seguro de PDFs subidos
+│   ├── fichas/                     # Fichas técnicas en formato JSON
+│   └── proyectos.db                # Base de datos relacional SQLite (tablas proyectos y documentos)
+│
+├── tests/                          # 🧪 Suite de Pruebas Automatizadas (49 tests con pytest)
+│   ├── test_generic_documents.py   # Pruebas de chat documental, citas, OpenAPI y multimodalidad
+│   ├── test_agent.py               # Pruebas del orquestador, ruteo SQL/RAG y anti-alucinación
+│   ├── test_extractor_and_database.py # Pruebas de modelos Pydantic y persistencia SQLite
+│   └── test_rag.py                 # Pruebas de indexación, chunking y recuperación BM25
+│
+├── .env.example                    # Plantilla de variables de entorno (OpenAI / Gemini)
+├── .gitignore                      # Reglas de exclusión de secretos y temporales
+├── pytest.ini                      # Configuración de ejecución de pruebas unitarias
+├── requirements.txt                # Dependencias Python del backend
+└── README.md                       # Documentación técnica maestra y arquitectura de la solución
 ```
 
-### 📌 Resumen de responsabilidades por carpeta:
-* **`agent/`**: Prompts del sistema, arquitectura ReAct y especificaciones del agente.
-* **`bitacora/`**: Guías paso a paso para la sustentación de la entrevista.
-* **`extracted/`**: Archivos originales e insumos extraídos del ZIP.
-* **`notas-agente/`**: Notas de análisis del problema y solución técnica.
-* **`codigo/`** (`backend` + `frontend`): Todo el código fuente de la aplicación.
-* **`data/`**: Base de datos SQLite y reportes.
-* **`tests/`**: Suite completa de pruebas unitarias.
+### 📌 Resumen de responsabilidades por capa:
+* **`codigo/backend/prompts/`**: Plantillas de prompts en Markdown con instrucciones desacopladas del código Python.
+* **`codigo/backend/`**: API REST FastAPI, orquestación de agentes IA, base de datos SQLite y motor RAG.
+* **`codigo/frontend/`**: Aplicación web SPA en React 18 con diseño interactivo, citas estilo Perplexity y visor de evidencias.
+* **`data/`**: Persistencia local de base de datos SQLite y archivos PDF cargados.
+* **`tests/`**: Batería de 49 pruebas unitarias y de integración que validan el 100% de los flujos.
 
 ---
 
