@@ -581,7 +581,7 @@ export default function ChatView({
                   <span className="font-bold text-xs text-slate-800 hidden sm:inline">Grounding</span>
                   
                   <span className={`w-2 h-2 rounded-full ${
-                    attachedDoc ? 'bg-cyan-500 shadow-xs ring-2 ring-cyan-500/20' : (perplexityMode ? 'bg-emerald-500 shadow-xs ring-2 ring-emerald-500/20' : 'bg-slate-400')
+                    attachedDoc ? 'bg-cyan-500 shadow-xs ring-2 ring-cyan-500/20' : (perplexityMode ? (isKeyActive ? 'bg-emerald-500 shadow-xs ring-2 ring-emerald-500/20' : 'bg-amber-500 shadow-xs ring-2 ring-amber-500/20') : 'bg-slate-400')
                   }`} />
                 </button>
 
