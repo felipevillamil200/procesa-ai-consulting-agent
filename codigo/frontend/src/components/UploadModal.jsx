@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { X, UploadCloud, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { X, UploadCloud, Loader2, CheckCircle2, AlertCircle, AlertTriangle, Settings } from 'lucide-react';
 
-export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
+export default function UploadModal({ isOpen, onClose, onUploadSuccess, onOpenConfig }) {
   const [files, setFiles] = useState([]);
   const [busy, setBusy] = useState(false);
   const [results, setResults] = useState([]);
   const [completed, setCompleted] = useState(false);
+  const [providerWarning, setProviderWarning] = useState(false);
 
   // Reset state when opening or closing
   useEffect(() => {
@@ -14,6 +15,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
       setResults([]);
       setBusy(false);
       setCompleted(false);
+      setProviderWarning(false);
     }
   }, [isOpen]);
 
@@ -23,15 +25,18 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
     setFiles(Array.from(list));
     setResults([]);
     setCompleted(false);
+    setProviderWarning(false);
   };
 
   const upload = async () => {
     if (busy || !files.length) return;
     setBusy(true);
     setResults([]);
+    setProviderWarning(false);
     
     const currentResults = [];
     let hasErrors = false;
+    let hasWarnings = false;
 
     for (const file of files) {
       try {
@@ -48,11 +53,16 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
         }
 
         const clienteName = (result.documento || result.proyecto)?.cliente || 'Documento procesado';
+        const docWarnings = result.warnings || [];
+        if (docWarnings.length > 0) {
+          hasWarnings = true;
+        }
+
         currentResults.push({
           name: file.name,
           ok: true,
           message: `Documento disponible: ${clienteName}`,
-          warnings: result.warnings || []
+          warnings: docWarnings
         });
       } catch (error) {
         hasErrors = true;
@@ -67,8 +77,12 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
     setResults(currentResults);
     setBusy(false);
 
-    // Si todos los documentos se subieron con éxito, mostrar mensaje y cerrar automáticamente
-    if (!hasErrors && currentResults.length > 0) {
+    if (hasWarnings) {
+      setProviderWarning(true);
+    }
+
+    // Auto-cerrar ÚNICAMENTE si no hubo errores NI advertencias de proveedor
+    if (!hasErrors && !hasWarnings && currentResults.length > 0) {
       setCompleted(true);
       setFiles([]); // Vaciar selección para evitar re-envíos
       setTimeout(() => {
@@ -133,7 +147,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
           <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-3 text-emerald-900">
             <CheckCircle2 className="text-emerald-600 shrink-0" size={24} />
             <div>
-              <p className="font-semibold text-sm">¡Documentos procesados e indexados con éxito!</p>
+              <p className="font-semibold text-sm">¡Documentos procesados e indexados con éxito al 100%!</p>
               <p className="text-xs text-emerald-700 mt-0.5">Cerrando ventana automáticamente...</p>
             </div>
           </div>
@@ -142,6 +156,30 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
         <p className="text-xs text-slate-500">
           Hasta 15 MB y 200 páginas por archivo. La Inteligencia Artificial permite lectura visual de PDFs escaneados cuando está configurada.
         </p>
+
+        {/* Banner de Advertencia si el proveedor de IA tuvo error de cuota/saturación */}
+        {providerWarning && (
+          <div className="p-4 rounded-xl bg-amber-50 border border-amber-300 text-amber-950 text-xs space-y-2 animate-in fade-in">
+            <div className="flex items-center gap-2 font-bold text-amber-900">
+              <AlertTriangle size={17} className="text-amber-600 shrink-0" />
+              <span>Aviso del Proveedor de Inteligencia Artificial</span>
+            </div>
+            <p className="leading-relaxed">
+              El proveedor de IA configurado no pudo completar la extracción visual o clasificación avanzada (por saturación, cuota o error 503/429). 
+              <strong> El sistema guardó el texto digital del archivo</strong>, pero te recomendamos cambiar de proveedor para un análisis completo.
+            </p>
+            {onOpenConfig && (
+              <button
+                type="button"
+                onClick={onOpenConfig}
+                className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-200/90 hover:bg-amber-300 text-amber-950 font-bold text-xs transition cursor-pointer shadow-2xs"
+              >
+                <Settings size={14} />
+                <span>Abrir Configuración y Cambiar Proveedor (OpenAI / Gemini)</span>
+              </button>
+            )}
+          </div>
+        )}
 
         {/* Lista de Archivos Seleccionados */}
         {files.length > 0 && !completed && (
@@ -173,7 +211,7 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess }) {
                 <strong className="block truncate">{r.name}</strong>
                 <p className="mt-0.5">{r.message}</p>
                 {r.warnings?.map((w, j) => (
-                  <p key={j} className="text-amber-800 mt-1 font-medium">
+                  <p key={j} className="text-amber-800 mt-1 font-semibold">
                     ⚠️ {w}
                   </p>
                 ))}

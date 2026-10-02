@@ -361,6 +361,10 @@ export default function App() {
         isOpen={isUploadOpen}
         onClose={() => setIsUploadOpen(false)}
         onUploadSuccess={handleUploadSuccess}
+        onOpenConfig={() => {
+          setIsUploadOpen(false);
+          setIsConfigOpen(true);
+        }}
       />
 
       <ConfirmModal
