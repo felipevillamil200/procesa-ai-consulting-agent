@@ -81,15 +81,17 @@ def answer_documents(agent, question, document_ids=None, history=None):
     warnings=[]
     if key:
         import json
-        prompt=('Eres un asistente experto y comprensivo capaz de analizar y responder sobre cualquier tipo de documento PDF '
-            '(certificados, informes, contratos, facturas, comprobantes, balances, manuales, etc.). '
-            'Responde en español de forma clara, natural, precisa y profesional basándote estrictamente en el contexto recuperado. '
-            'Si el usuario pregunta por un dato o campo específico y dicho dato NO figura en el documento, indícalo de manera cortés y exacta '
-            '(por ejemplo: "El documento no especifica los meses laborados, pero sí incluye los ingresos brutos y retenciones...") '
-            'manteniendo found_info=true e incluyendo como cita el encabezado o datos principales del documento. '
-            'No inventes importes, fechas ni condiciones que no existan en el texto. Si la pregunta no tiene ninguna relación con el documento, found_info=false. '
-            'Proporciona citas breves y representativas del texto de origen con document_id y page_number.\n'
-            +json.dumps({'question':clean_question,'history':(history or [])[-6:],'documents':[{'document_id':i,'title':available[i]['title'],'document_type':available[i]['document_type']} for i in ids],'context':context},ensure_ascii=False))
+        from codigo.backend.prompts import load_prompt
+        system_instruction = load_prompt('document_reader_system')
+        prompt = (
+            f"{system_instruction}\n\n"
+            + json.dumps({
+                'question': clean_question,
+                'history': (history or [])[-6:],
+                'documents': [{'document_id': i, 'title': available[i]['title'], 'document_type': available[i]['document_type']} for i in ids],
+                'context': context
+            }, ensure_ascii=False)
+        )
         try:
             if provider=='gemini':
                 result=gemini_json(prompt,GroundedAnswer)

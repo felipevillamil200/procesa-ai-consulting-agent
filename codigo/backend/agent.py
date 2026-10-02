@@ -92,27 +92,12 @@ class ConsultorAgent:
         self.system_prompt = self._build_system_prompt()
 
     def _build_system_prompt(self) -> str:
-        """Construye el system prompt con el esquema de la base de datos y directivas de control."""
+        """Construye el system prompt con el esquema de la base de datos y directivas de control desde Markdown."""
+        from codigo.backend.prompts import load_prompt
         schema = self.db_manager.get_schema_description()
-        catalog = json.dumps([{'codigo':p['codigo_proyecto'],'titulo':p['cliente'],'sector':p['sector']} for p in self.db_manager.get_all_proyectos()],ensure_ascii=False)
-        return f"""
-Eres el Agente Consultor Experto de **Procesa Consultores**, una firma de optimización de procesos.
-Tu misión es responder preguntas sobre proyectos y documentos disponibles. Catálogo actual de fichas:
-{catalog}
-
-ESQUEMA DE BASE DE DATOS SQL DISPONIBLE:
-{schema}
-
-REGLAS INVIOLABLES DE COMPORTAMIENTO:
-1. **Anti-Alucinación Estricta:** Responde ÚNICAMENTE basándote en la información obtenida a través de las herramientas. Si el dato solicitado no existe en los informes ni en la base de datos, indica de forma clara y textual:
-   "No se dispone de información sobre ese aspecto en los informes de cierre de proyectos disponibles."
-2. **Cita Obligatoria de Fuentes:** Cada respuesta DEBE incluir al final o entre corchetes el código y nombre del proyecto que la respalda (ej. `[Fuente: PC-2025-014 - Cooperativa Horizonte Andino]`).
-3. **Uso Óptimo de Herramientas:**
-   - Usa `query_project_database` para preguntas cuantitativas, agregaciones, listas de proyectos, sectores, duraciones o clientes.
-   - Usa `search_project_documents` para detalles narrativos, metodologías y lecciones aprendidas cualitativas.
-   - Puedes usar ambas herramientas si la pregunta requiere cruzar datos estructurados con narrativa.
-4. **Claridad:** Sé conciso, profesional y usa viñetas o tablas cuando facilite la lectura.
-""".strip()
+        catalog = json.dumps([{'codigo': p['codigo_proyecto'], 'titulo': p['cliente'], 'sector': p['sector']} for p in self.db_manager.get_all_proyectos()], ensure_ascii=False)
+        template = load_prompt("consultor_system")
+        return template.format(catalog=catalog, schema=schema).strip()
 
     def execute_tool(self, tool_name: str, arguments: Dict[str, Any]) -> tuple[str, ToolExecutionLog, Any]:
         """Ejecuta de forma segura una herramienta y genera su registro de trazabilidad y datos crudos."""

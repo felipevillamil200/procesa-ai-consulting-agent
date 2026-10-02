@@ -38,12 +38,10 @@ def extract_raw_text_from_pdf(pdf_path: Path) -> Dict[str, Any]:
 def extract_ficha_with_llm(full_text: str) -> ProyectoFicha:
     """Extrae la ficha estructurada usando OpenAI Structured Outputs con Pydantic."""
     from openai import OpenAI
+    from codigo.backend.prompts import load_prompt
     client = OpenAI(api_key=OPENAI_API_KEY)
 
-    system_prompt = (
-        "Eres un analista senior de consultoría de procesos. Extrae la ficha técnica del informe "
-        "de cierre en formato JSON estructurado según el esquema especificado. Sé exacto con números y métricas."
-    )
+    system_prompt = load_prompt("extractor_system")
 
     completion = client.beta.chat.completions.parse(
         model=LLM_MODEL,
