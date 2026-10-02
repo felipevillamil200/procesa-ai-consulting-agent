@@ -99,6 +99,16 @@ function IconMenu({ className = "w-5 h-5" }) {
   );
 }
 
+// 10. Collapse / Expand Arrow Toggle Icon
+function IconCollapseToggle({ isCollapsed, className = "w-4 h-4" }) {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={`${className} transition-transform duration-300 ${isCollapsed ? 'rotate-180' : 'rotate-0'}`} aria-hidden="true">
+      {/* Default: points right > to collapse rightwards; Rotated 180: points left < to expand */}
+      <path d="M7.5 4.5l5.5 5.5-5.5 5.5" />
+    </svg>
+  );
+}
+
 const TABS = [
   { id: 'chat', label: 'Chat Inteligente', shortLabel: 'Chat', icon: IconChat, badge: 'IA' },
   { id: 'fichas', label: 'Fichas Estructuradas', shortLabel: 'Fichas', icon: IconGrid, badge: null },
@@ -109,6 +119,7 @@ const TABS = [
 export default function Header({ activeTab, onTabChange, onOpenConfig, onClearChat, onToggleMobileSidebar }) {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [showInitialHint, setShowInitialHint] = useState(true);
+  const [isActionsCollapsed, setIsActionsCollapsed] = useState(false);
   const navRef = useRef(null);
 
   // El indicador fantasma solo aparece UNA SOLA VEZ cuando se recarga la página
@@ -150,10 +161,10 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
 
   return (
     <>
-      <header className="h-14 sm:h-16 bg-white/80 backdrop-blur-xl border-b border-slate-200/70 px-2 sm:px-6 flex items-center justify-between shrink-0 shadow-[0_2px_12px_rgba(28,52,92,0.03)] z-30 select-none gap-1 sm:gap-4">
+      <header className="h-14 sm:h-16 bg-white/80 backdrop-blur-xl border-b border-slate-200/70 px-2 sm:px-6 flex items-center justify-between shrink-0 shadow-[0_2px_12px_rgba(28,52,92,0.03)] z-30 select-none gap-2">
         
-        {/* Left Section: Mobile Hamburger Toggle + Navigation Tabs */}
-        <div className="flex items-center gap-1.5 min-w-0 flex-1 sm:flex-none">
+        {/* Left Section: Mobile Hamburger Toggle + Navigation Tabs (takes flex-1 to expand dynamically) */}
+        <div className="flex items-center gap-1.5 min-w-0 flex-1 transition-all duration-300 ease-out">
           {/* Mobile Hamburger Drawer Button */}
           {onToggleMobileSidebar && (
             <button
@@ -167,13 +178,13 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             </button>
           )}
 
-          {/* Navigation Tabs Container with Interactive Scroll */}
-          <div className="relative flex items-center min-w-0 max-w-full">
+          {/* Navigation Tabs Container with Interactive Scroll (grows to fill all available width) */}
+          <div className="relative flex items-center min-w-0 flex-1 transition-all duration-300 ease-out">
             
             {/* Navigation Tabs Styled in Nival Pill Aesthetics */}
             <nav 
               ref={navRef}
-              className="flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl overflow-x-auto no-scrollbar touch-pan-x min-w-0 scroll-smooth"
+              className="flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl overflow-x-auto no-scrollbar touch-pan-x min-w-0 max-w-full scroll-smooth w-full"
             >
               {TABS.map((tab, idx) => {
                 const Icon = tab.icon;
@@ -225,52 +236,56 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
           </div>
         </div>
 
-        {/* Top Actions Floating Pill */}
-        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+        {/* Right Section: Action Pills + Toggle Collapse/Expand Button */}
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
           
-          {/* Action Pills Container (Inicio, Guía, Solución & Config) */}
-          <div className="flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl">
+          {/* Collapsible Action Pills Container (Inicio, Guía, Solución & Config) */}
+          <div className={`flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl transition-all duration-300 ease-out overflow-hidden ${
+            isActionsCollapsed 
+              ? 'max-w-0 opacity-0 p-0 m-0 border-0 pointer-events-none' 
+              : 'max-w-[420px] opacity-100'
+          }`}>
             
             {/* Inicio Hero 3D */}
             <a
               href="/inicio.html"
-              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
+              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
               title="Ir a la página de Inicio Hero 3D"
             >
               <IconHome className="w-3.5 h-3.5 text-[#202940]" />
               <span className="hidden md:inline">Inicio</span>
             </a>
 
-            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto" />
+            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
 
             {/* Guía Técnica */}
             <a
               href="/guia.html"
-              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
+              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
               title="Ver la Guía Técnica & Arquitectura"
             >
               <IconGuide className="w-3.5 h-3.5 text-[#202940]" />
               <span className="hidden md:inline">Guía</span>
             </a>
 
-            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto" />
+            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
 
             {/* Solución & Demostración */}
             <a
               href="/solucion.html"
-              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
+              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile shrink-0"
               title="Ver la Solución & Simulador"
             >
               <IconGrid className="w-3.5 h-3.5 text-[#202940]" />
               <span className="hidden md:inline">Solución</span>
             </a>
 
-            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto" />
+            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0" />
 
             {/* Configuración AI */}
             <button
               onClick={onOpenConfig}
-              className="px-2.5 sm:px-3 py-1.5 text-xs text-[#202940] hover:bg-slate-100/70 rounded-full transition-all duration-150 flex items-center gap-1 font-semibold cursor-pointer btn-tactile"
+              className="px-2.5 sm:px-3 py-1.5 text-xs text-[#202940] hover:bg-slate-100/70 rounded-full transition-all duration-150 flex items-center gap-1 font-semibold cursor-pointer btn-tactile shrink-0"
               title="Configurar Proveedor de IA, Modelo y Parámetros"
             >
               <IconSettings className="w-3.5 h-3.5 text-[#202940]" />
@@ -278,14 +293,29 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             </button>
           </div>
 
+          {/* Toggle Button: Ocultar / Mostrar Accesos para dar Máximo Espacio a las Pestañas */}
+          <button
+            type="button"
+            onClick={() => setIsActionsCollapsed(prev => !prev)}
+            className={`p-1.5 sm:p-2 rounded-full border transition-all duration-200 flex items-center justify-center cursor-pointer btn-tactile shrink-0 ${
+              isActionsCollapsed
+                ? 'bg-[#0F1B31] text-cyan-300 border-[#0F1B31] shadow-md shadow-[#0F1B31]/20'
+                : 'bg-white/85 text-[#202940] hover:text-black border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_2px_8px_rgba(28,52,92,0.04)] hover:bg-slate-100/80'
+            }`}
+            title={isActionsCollapsed ? "Mostrar accesos directos (Inicio, Guía, Config)" : "Ocultar accesos para dar máximo espacio a las pestañas"}
+            aria-label={isActionsCollapsed ? "Mostrar accesos" : "Ocultar accesos"}
+          >
+            <IconCollapseToggle isCollapsed={isActionsCollapsed} className="w-4 h-4" />
+          </button>
+
           {/* Limpiar Chat */}
           <button
             onClick={onClearChat}
-            className="px-3 py-1.5 text-xs text-slate-500 hover:text-red-600 hover:bg-red-50/80 rounded-full transition-all duration-150 flex items-center gap-1.5 font-medium border border-slate-200/70 bg-white/70 shadow-2xs cursor-pointer btn-tactile"
+            className="px-2.5 sm:px-3 py-1.5 text-xs text-slate-500 hover:text-red-600 hover:bg-red-50/80 rounded-full transition-all duration-150 flex items-center gap-1 font-medium border border-slate-200/70 bg-white/70 shadow-2xs cursor-pointer btn-tactile shrink-0"
             title="Limpiar mensajes del chat"
           >
             <IconTrash className="w-3.5 h-3.5 text-slate-400 hover:text-red-500" />
-            <span className="hidden sm:inline">Limpiar</span>
+            <span className="hidden md:inline">Limpiar</span>
           </button>
         </div>
       </header>
