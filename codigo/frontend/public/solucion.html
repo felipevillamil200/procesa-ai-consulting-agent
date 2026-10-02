@@ -115,28 +115,92 @@
     .btn-tactile:active {
       transform: scale(0.96);
     }
+
+    /* BURGER BUTTON (Exact Match to inicio.html) */
+    .burger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      padding: 0;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.90);
+      -webkit-backdrop-filter: blur(40px);
+      backdrop-filter: blur(40px);
+      box-shadow: 0 0 0 1.2px rgba(120, 145, 180, 0.2), 0 2px 10px rgba(28, 52, 92, 0.05);
+      transition: all 0.2s ease;
+    }
+    .burger:active {
+      transform: scale(0.95);
+    }
+    .burger i {
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: #202940;
+      transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1), opacity 0.3s;
+    }
+    .burger[aria-expanded="true"] i:first-child {
+      transform: translateY(3.5px) rotate(45deg);
+    }
+    .burger[aria-expanded="true"] i:last-child {
+      transform: translateY(-3.5px) rotate(-45deg);
+    }
+
+    .mobile-menu-box {
+      display: none;
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 0;
+      left: 0;
+      z-index: 50;
+      padding: 12px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      box-shadow: 0 0 0 1.3px rgba(120, 145, 180, 0.2), 0 16px 36px rgba(28, 52, 92, 0.12);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px) scale(0.98);
+      transform-origin: top right;
+      transition: opacity 0.25s cubic-bezier(0.2, 0.7, 0.3, 1), transform 0.25s cubic-bezier(0.2, 0.7, 0.3, 1), visibility 0.25s;
+    }
+    .mobile-menu-box[data-open] {
+      display: block;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
   </style>
 </head>
 
-<body class="min-h-screen relative overflow-x-hidden selection:bg-sky-200 selection:text-ink">
+<body class="min-h-screen relative overflow-x-hidden selection:bg-sky-200 selection:text-ink w-full max-w-full">
 
   <!-- Ambient Light Reflection -->
-  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-gradient-to-b from-sky-200/40 via-blue-100/20 to-transparent pointer-events-none z-0"></div>
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] max-w-full h-[600px] bg-gradient-to-b from-sky-200/40 via-blue-100/20 to-transparent pointer-events-none z-0"></div>
 
   <!-- Header Floating Bar Identical to Nival -->
-  <header class="sticky top-5 z-50 max-w-6xl mx-auto px-4 sm:px-6">
-    <div class="flex items-center justify-between">
+  <header class="sticky top-4 sm:top-5 z-50 max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between relative">
       
       <!-- Brand Logo con Isotipo 3D -->
-      <a href="/nival.html" class="flex items-center gap-2.5 group text-decoration-none">
+      <a href="/inicio.html" class="flex items-center gap-2.5 group text-decoration-none">
         <span class="w-10 h-10 rounded-full overflow-hidden block shrink-0 shadow-[0_2px_8px_rgba(14,165,233,0.25),inset_0_0_0_1.2px_rgba(255,255,255,0.85)] group-hover:scale-105 transition-transform duration-200">
           <img src="/images/procesa_brand_logo.jpg" alt="PROCESA Logo" class="w-full h-full object-cover" />
         </span>
         <b class="text-xl font-medium tracking-tight text-ink">PROCESA</b>
       </a>
 
-      <!-- Center Nav Pill (Inicio, Guía & Solución) -->
-      <nav class="nival-pill px-6 py-3 flex items-center gap-5">
+      <!-- Desktop Center Nav Pill (Inicio, Guía & Solución) -->
+      <nav class="hidden md:flex nival-pill px-6 py-3 items-center gap-5">
         <a href="/inicio.html" class="flex items-center gap-2 text-muted hover:text-ink font-medium text-sm transition-colors group">
           <svg viewBox="0 0 20 21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" class="w-4 h-4 text-muted group-hover:text-ink">
             <path d="M2 8.4 10 2l8 6.4V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
@@ -168,8 +232,8 @@
         </a>
       </nav>
 
-      <!-- Primary CTA Button («Abrir Aplicación») -->
-      <a href="/" class="h-12 pl-6 pr-2 rounded-full bg-[#0F1B31] text-white flex items-center gap-4 shadow-[0_10px_24px_rgba(11,26,50,0.18)] hover:bg-[#182a4a] transition-all btn-tactile">
+      <!-- Desktop Primary CTA Button («Abrir Aplicación») -->
+      <a href="/" class="hidden md:flex h-12 pl-6 pr-2 rounded-full bg-[#0F1B31] text-white items-center gap-4 shadow-[0_10px_24px_rgba(11,26,50,0.18)] hover:bg-[#182a4a] transition-all btn-tactile">
         <span class="text-sm font-normal tracking-tight">Abrir Aplicación</span>
         <span class="w-8 h-8 rounded-full bg-[#384B64] flex items-center justify-center shrink-0">
           <svg viewBox="0 0 18 18" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
@@ -177,6 +241,49 @@
           </svg>
         </span>
       </a>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="burger md:hidden" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-site-menu">
+        <i></i><i></i>
+      </button>
+
+      <!-- Mobile Menu Dropdown -->
+      <div class="mobile-menu-box md:hidden" id="mobile-site-menu">
+        <nav class="flex flex-col gap-1.5 p-1.5">
+          <a href="/inicio.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-ink font-medium text-sm hover:bg-slate-100 transition-colors">
+            <svg viewBox="0 0 20 21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" class="w-4 h-4 text-muted">
+              <path d="M2 8.4 10 2l8 6.4V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+            </svg>
+            <span>Inicio</span>
+          </a>
+          <a href="/guia.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-ink font-medium text-sm hover:bg-slate-100 transition-colors">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 text-muted">
+              <circle cx="10" cy="10" r="7.5"/>
+              <path d="M7.8 7.8a2.4 2.4 0 0 1 4.2 1.6c0 1.4-2 1.9-2 3.2"/>
+              <circle cx="10" cy="15" r="0.5" fill="currentColor"/>
+            </svg>
+            <span>Guía Técnica</span>
+          </a>
+          <a href="/solucion.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sky-700 bg-sky-50 font-bold text-sm transition-colors">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" class="w-4 h-4 text-sky-600">
+              <rect x="1.5" y="1.5" width="6.8" height="6.8" rx="1.8"/>
+              <rect x="11.7" y="1.5" width="6.8" height="6.8" rx="1.8"/>
+              <rect x="1.5" y="11.7" width="6.8" height="6.8" rx="1.8"/>
+              <rect x="11.7" y="11.7" width="6.8" height="6.8" rx="1.8"/>
+            </svg>
+            <span>Solución</span>
+          </a>
+          <div class="h-[1px] bg-slate-200/80 my-1"></div>
+          <a href="/" class="w-full h-11 pl-5 pr-1.5 rounded-full bg-[#0F1B31] text-white flex items-center justify-between shadow-[0_8px_20px_rgba(11,26,50,0.18)] active:scale-98 transition-all">
+            <span class="text-xs font-semibold tracking-tight">Abrir Aplicación</span>
+            <span class="w-7 h-7 rounded-full bg-[#384B64] flex items-center justify-center shrink-0">
+              <svg viewBox="0 0 18 18" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
+                <path d="m6.6 3.6 6 5.4-6 5.4"/>
+              </svg>
+            </span>
+          </a>
+        </nav>
+      </div>
 
     </div>
   </header>
@@ -580,6 +687,41 @@
         document.getElementById('toast-success').classList.add('hidden');
       }, 6000);
     }
+
+    // Mobile Hamburger Menu Toggle
+    (function(){
+      const burger = document.querySelector('.burger');
+      const menu = document.getElementById('mobile-site-menu');
+      if (!burger || !menu) return;
+
+      const toggle = (open) => {
+        const isExp = open !== undefined ? open : burger.getAttribute('aria-expanded') !== 'true';
+        burger.setAttribute('aria-expanded', isExp);
+        if (isExp) {
+          menu.setAttribute('data-open', '');
+        } else {
+          menu.removeAttribute('data-open');
+        }
+      };
+
+      burger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggle();
+      });
+
+      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggle(false)));
+
+      document.addEventListener('click', (e) => {
+        if (!burger.contains(e.target) && !menu.contains(e.target)) toggle(false);
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+          toggle(false);
+          burger.focus();
+        }
+      });
+    })();
   </script>
 
 </body>
