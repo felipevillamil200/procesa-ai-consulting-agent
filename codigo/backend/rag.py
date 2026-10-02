@@ -170,7 +170,7 @@ class DocumentSearchEngine:
                     page_chunks = self._chunk_text(page_text)
 
                     for chunk_idx, chunk_text in enumerate(page_chunks):
-                        if len(chunk_text.strip()) > 30:  # Ignorar fragmentos irrelevantes
+                        if chunk_text.strip():  # Un total o una condición breve también son evidencia.
                             chunk_id = f"{codigo}_P{page_num}_C{chunk_idx + 1}"
                             self.chunks.append(
                                 DocumentChunk(

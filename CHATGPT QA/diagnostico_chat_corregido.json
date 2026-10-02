@@ -1,0 +1,99 @@
+[
+  {
+    "question": "Que contiene este documento?",
+    "http": 200,
+    "elapsed_seconds": 5.9,
+    "response": {
+      "success": true,
+      "answer": "El documento es una factura de autorización que contiene información sobre una transacción específica. En la factura se menciona que se realizó el 02 de junio de 2026 y se detalla que el total de ítems es 1, específicamente una SIMCARD con un costo de 81,000.00. Además, se incluye un número de autorización de facturación y un rango de autorización del FVM entre 20,000,000 y 24,999,999. La información se encuentra en la página 1 del documento con ID DOC-D8CD838E68D33EF4.\n\n[Fuente: DOC-D8CD838E68D33EF4, Pág. 1] Total ítems: 1\nSIMCARD SIMCARD 1.0 81,000.00 81,000.00 SIMCARD\n[Fuente: DOC-D8CD838E68D33EF4, Pág. 1] 02/06/2026 10:03:09 02/06/2026 Contado 20d78f31-0e73-43bf-860c-\ne178c1d74c65\nIVAN FELIPE VILLAMIL MONTAÑO\n1192757129\nFELIPEVILLAMIL922@GMAIL.COM SIN DIRECCIÓNBOGOTÁ, D.C.[OBJECT OBJECT]\n \n02/06/2026 10:03 a. m.\nd649ef2cd61edd00697c3eb2797a8e8174c823006af79c76590a8c17a3b609c79f2a5a42d032e02634b949951b066cf2\n FVM 22380266AUTORIZACIÓN FACTURACIÓN No. 18764077308248 DEL 16 DE 08 DE 2024\nAUTORIZA DEL FVM 20000000 AL  FVM 24999999\nTotal ítems: 1\nSIMCARD SIMCARD 1.0 81,000.00 81,000.00 SIMCARD\nPágina 1  de 1SIMCARD\n081,000.00\n0.00\n81,000",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "Que contiene este documento?",
+            "document_ids": [
+              "DOC-D8CD838E68D33EF4"
+            ]
+          },
+          "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+          "execution_time_ms": 0.66
+        }
+      ],
+      "sources": [
+        "DOC-D8CD838E68D33EF4"
+      ],
+      "found_info": true,
+      "evidence_chunks": [
+        {
+          "chunk_id": "DOC-D8CD838E68D33EF4_P1_C1",
+          "codigo_proyecto": "DOC-D8CD838E68D33EF4",
+          "cliente": "Factura de Autorización",
+          "pagina": 1,
+          "contenido": "02/06/2026 10:03:09 02/06/2026 Contado 20d78f31-0e73-43bf-860c-\ne178c1d74c65\nIVAN FELIPE VILLAMIL MONTAÑO\n1192757129\nFELIPEVILLAMIL922@GMAIL.COM SIN DIRECCIÓNBOGOTÁ, D.C.[OBJECT OBJECT]\n \n02/06/2026 10:03 a. m.\nd649ef2cd61edd00697c3eb2797a8e8174c823006af79c76590a8c17a3b609c79f2a5a42d032e02634b949951b066cf2\n FVM 22380266AUTORIZACIÓN FACTURACIÓN No. 18764077308248 DEL 16 DE 08 DE 2024\nAUTORIZA DEL FVM 20000000 AL  FVM 24999999\nTotal ítems: 1\nSIMCARD SIMCARD 1.0 81,000.00 81,000.00 SIMCARD\nPágina 1  de 1SIMCARD\n081,000.00\n0.00\n81,000",
+          "fuente": "[Fuente: DOC-D8CD838E68D33EF4 - Factura de Autorización, Pág. 1]"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Cual es el total a pagar de esta factura?",
+    "http": 200,
+    "elapsed_seconds": 3.67,
+    "response": {
+      "success": true,
+      "answer": "El total a pagar de la factura es de 81,000.00. Esta cifra se encuentra en el documento con ID DOC-D8CD838E68D33EF4, en la página 1, donde se menciona: \"Total ítems: 1\nSIMCARD SIMCARD 1.0 81,000.00 81,000.00 SIMCARD\".\n\n[Fuente: DOC-D8CD838E68D33EF4, Pág. 1] Total ítems: 1\nSIMCARD SIMCARD 1.0 81,000.00 81,000.00 SIMCARD",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "Cual es el total a pagar de esta factura?",
+            "document_ids": [
+              "DOC-D8CD838E68D33EF4"
+            ]
+          },
+          "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+          "execution_time_ms": 0.33
+        }
+      ],
+      "sources": [
+        "DOC-D8CD838E68D33EF4"
+      ],
+      "found_info": true,
+      "evidence_chunks": [
+        {
+          "chunk_id": "DOC-D8CD838E68D33EF4_P1_C1",
+          "codigo_proyecto": "DOC-D8CD838E68D33EF4",
+          "cliente": "Factura de Autorización",
+          "pagina": 1,
+          "contenido": "02/06/2026 10:03:09 02/06/2026 Contado 20d78f31-0e73-43bf-860c-\ne178c1d74c65\nIVAN FELIPE VILLAMIL MONTAÑO\n1192757129\nFELIPEVILLAMIL922@GMAIL.COM SIN DIRECCIÓNBOGOTÁ, D.C.[OBJECT OBJECT]\n \n02/06/2026 10:03 a. m.\nd649ef2cd61edd00697c3eb2797a8e8174c823006af79c76590a8c17a3b609c79f2a5a42d032e02634b949951b066cf2\n FVM 22380266AUTORIZACIÓN FACTURACIÓN No. 18764077308248 DEL 16 DE 08 DE 2024\nAUTORIZA DEL FVM 20000000 AL  FVM 24999999\nTotal ítems: 1\nSIMCARD SIMCARD 1.0 81,000.00 81,000.00 SIMCARD\nPágina 1  de 1SIMCARD\n081,000.00\n0.00\n81,000",
+          "fuente": "[Fuente: DOC-D8CD838E68D33EF4 - Factura de Autorización, Pág. 1]"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Cuales fueron las lecciones aprendidas y resultados del proyecto DOC-D8CD838E68D33EF4?",
+    "http": 200,
+    "elapsed_seconds": 1.95,
+    "response": {
+      "success": true,
+      "answer": "No se dispone de información verificable para esa pregunta en los documentos seleccionados. El archivo seleccionado es una factura. Puedes pedir un resumen o consultar el total, el emisor o los conceptos facturados.",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "Cuales fueron las lecciones aprendidas y resultados del proyecto DOC-D8CD838E68D33EF4?",
+            "document_ids": [
+              "DOC-D8CD838E68D33EF4"
+            ]
+          },
+          "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+          "execution_time_ms": 0.11
+        }
+      ],
+      "sources": [],
+      "found_info": false,
+      "evidence_chunks": []
+    }
+  }
+]

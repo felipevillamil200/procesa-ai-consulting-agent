@@ -100,7 +100,7 @@ def get_config():
         "success": True,
         "provider": active_prov,
         "backend_available": True,
-        "storage_persistent": True,
+        "storage_persistent": not bool(os.getenv("RENDER")) or os.getenv("PROCESA_PERSISTENT_STORAGE") == "true",
         "model": os.getenv("LLM_MODEL", LLM_MODEL),
         "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1")),
         "has_api_key": bool(current_key),

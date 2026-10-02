@@ -83,7 +83,7 @@ export default function App() {
 
       if (projRes.success) setProjects(projRes.proyectos || []);
       if (fichasRes.success) setFichas(fichasRes.fichas || []);
-      if (configRes.success) setConfig(configRes);
+      setConfig(configRes);
     } catch (err) {
       console.error('Error cargando datos iniciales:', err);
       setConfig({backend_available:false,has_api_key:false});

@@ -2,9 +2,32 @@
 import os
 import re
 import time
-from codigo.backend.documents import DocumentStore, GroundedAnswer, gemini_json, openai_json, normalized, provider_error_reason
+from codigo.backend.documents import DocumentStore, DocumentCitation, GroundedAnswer, gemini_json, openai_json, normalized, provider_error_reason
 
 STOPWORDS = set('que cual cuales es el la los las un una de del en a y o por para como mi este esta esto documento documentos informe informes factura facturas contrato contratos contiene cual cuanto cuantos sobre foco resume resumir resumen dime dar detalle favor exclusivamente analiza'.split())
+
+class UnverifiedSummary(ValueError):
+    """Una síntesis amplia inválida puede sustituirse por extractos, nunca inventarse."""
+
+def number_tokens(text, *, answer=False):
+    from decimal import Decimal
+    text = re.sub(r'\b(?:DOC-[A-Fa-f0-9]{16}|PC-\d{4}-\d{3})\b', '', text)
+    if answer:
+        # Los índices de una lista son formato, no cifras del documento.
+        text = re.sub(r'(?m)^\s*(?:#{1,6}\s+)?(?:\*\*)?\d{1,3}[.)]\s+', '', text)
+    numbers = set()
+    for value in re.findall(r'(?<![a-zA-Z])\d+(?:[.,]\d+)*', text):
+        if ',' in value and '.' in value:
+            decimal = ',' if value.rfind(',') > value.rfind('.') else '.'
+            value = value.replace('.' if decimal == ',' else ',', '').replace(decimal, '.')
+        elif ',' in value or '.' in value:
+            parts = re.split(r'[.,]', value)
+            if all(len(part) == 3 for part in parts[1:]):
+                value = ''.join(parts)
+            else:
+                value = ''.join(parts[:-1]) + '.' + parts[-1]
+        numbers.add(str(Decimal(value).normalize()))
+    return numbers
 
 def answer_documents(agent, question, document_ids=None, history=None):
     from codigo.backend.agent import AgentResponse, ToolExecutionLog
@@ -44,7 +67,10 @@ def answer_documents(agent, question, document_ids=None, history=None):
         chunks.extend(hits)
     log=ToolExecutionLog(tool_name='search_project_documents',arguments={'query':clean_question,'document_ids':ids},
         result_summary=f'{len(chunks)} fragmentos; {len(ids)} documentos seleccionados.',execution_time_ms=round((time.perf_counter()-start)*1000,2))
-    abstain=lambda message='No se dispone de información verificable para esa pregunta en los documentos seleccionados.':AgentResponse(answer=message,tools_used=[log],found_info=False)
+    default_message='No se dispone de información verificable para esa pregunta en los documentos seleccionados.'
+    if len(ids)==1 and 'factura' in normalized(available[ids[0]]['document_type']):
+        default_message += ' El archivo seleccionado es una factura. Puedes pedir un resumen o consultar el total, el emisor o los conceptos facturados.'
+    abstain=lambda message=default_message:AgentResponse(answer=message,tools_used=[log],found_info=False)
     if not chunks:
         return abstain()
     # Citas del modelo solo pueden provenir del contexto entregado, no de páginas no recuperadas.
@@ -74,20 +100,37 @@ def answer_documents(agent, question, document_ids=None, history=None):
             for citation in result.citations:
                 text=normalized(citation.quote)
                 matches=[c for c in context if c['document_id']==citation.document_id and c['page_number']==citation.page_number and text and text in normalized(c['text'])]
+                # Una cita literal puede atravesar el límite de dos chunks de la misma página.
+                if not matches and any(c['document_id']==citation.document_id and c['page_number']==citation.page_number for c in context):
+                    matches=[p for p in available.get(citation.document_id,{}).get('pages',[]) if p['page_number']==citation.page_number and text and text in normalized(p['text'])]
                 if not matches:
+                    if broad:
+                        raise UnverifiedSummary()
                     return abstain('La respuesta de IA no pudo verificarse contra el contenido recuperado. Reformula la consulta.')
                 verified.append(citation)
             # Rechazar números que el sintetizador añade sin estar en sus propias citas.
-            from decimal import Decimal
-            def number_tokens(text):
-                text=re.sub(r'\b(?:DOC-[A-Fa-f0-9]{16}|PC-\d{4}-\d{3})\b','',text)
-                return {str(Decimal(n.replace(',','.')).normalize()) for n in re.findall(r'(?<![a-zA-Z])\d+(?:[.,]\d+)?',text)}
-            if not number_tokens(result.answer).issubset(number_tokens(' '.join(c.quote for c in verified))):
+            unsupported = number_tokens(result.answer,answer=True) - number_tokens(' '.join(c.quote for c in verified))
+            if unsupported and broad:
+                # Completar citas omitidas por el modelo usando únicamente fragmentos
+                # recuperados de las fuentes que él ya citó. No validar con datos externos.
+                cited_ids = {c.document_id for c in verified}
+                for fragment in context:
+                    if fragment['document_id'] in cited_ids and unsupported & number_tokens(fragment['text']):
+                        verified.append(DocumentCitation(document_id=fragment['document_id'],
+                            page_number=fragment['page_number'],quote=fragment['text']))
+                        unsupported -= number_tokens(fragment['text'])
+                    if not unsupported:
+                        break
+            if unsupported:
+                if broad:
+                    raise UnverifiedSummary()
                 return abstain('La respuesta de IA contiene cifras sin respaldo verificable en las citas.')
             codes=list(dict.fromkeys(c.document_id for c in verified))
             citations='\n'.join(f'[Fuente: {c.document_id}, Pág. {c.page_number}] {c.quote}' for c in verified)
             return AgentResponse(answer=result.answer+'\n\n'+citations,tools_used=[log],sources=codes,found_info=True,
                 evidence_chunks=[c for c in chunks if any(v.document_id==c['codigo_proyecto'] and v.page_number==c['pagina'] for v in verified)])
+        except UnverifiedSummary:
+            warnings.append('La síntesis de IA no pasó la verificación de evidencia. Se muestran extractos literales de los archivos seleccionados.')
         except Exception as exc:
             warnings.append(provider_error_reason(exc)+' La IA no está disponible; se muestran extractos literales del documento.')
     # Modo sin IA: respuesta extractiva, nunca una síntesis predefinida de cuatro proyectos.

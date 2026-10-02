@@ -1,0 +1,19 @@
+[
+  {
+    "model_result": {
+      "answer": "El documento es una \"Factura de Autorización\" que contiene información sobre una transacción específica. En la factura se menciona que fue emitida el 02/06/2026 y que se realizó un pago contado. El documento incluye los siguientes detalles: el nombre del cliente, Iván Felipe Villamil Montaño, su número de identificación, y un correo electrónico. Además, se indica que la autorización de facturación es la número 18764077308248, con un rango de autorización del FVM de 20,000,000 al 24,999,999. La factura detalla un ítem, que es una SIMCARD, con un costo total de 81,000.00. \n\nCita textual: \"AUTORIZACIÓN FACTURACIÓN No. 18764077308248 DEL 16 DE 08 DE 2024 AUTORIZA DEL FVM 20000000 AL FVM 24999999 Total ítems: 1 SIMCARD SIMCARD 1.0 81,000.00 81,000.00\" (document_id: DOC-D8CD838E68D33EF4, page_number: 1).",
+      "found_info": true,
+      "citations": [
+        {
+          "document_id": "DOC-D8CD838E68D33EF4",
+          "page_number": 1,
+          "quote": "AUTORIZACIÓN FACTURACIÓN No. 18764077308248 DEL 16 DE 08 DE 2024 AUTORIZA DEL FVM 20000000 AL FVM 24999999 Total ítems: 1 SIMCARD SIMCARD 1.0 81,000.00 81,000.00"
+        }
+      ]
+    },
+    "citation_matches": [
+      true
+    ],
+    "numeric_match": false
+  }
+]

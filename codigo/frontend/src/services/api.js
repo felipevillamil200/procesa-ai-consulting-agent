@@ -30,34 +30,37 @@ export const api = {
   getDocumentPreview(code) { return request(`/api/proyectos/${encodeURIComponent(code)}/preview`); },
   executeSQL(query) { return post('/api/sql', {query}); },
   async getConfig() {
-    const savedProv = localStorage.getItem('custom_provider') || 'openai';
+    const savedProv = localStorage.getItem('custom_provider');
     const savedKey = savedProv === 'openai' ? localStorage.getItem('openai_api_key') : localStorage.getItem('gemini_api_key');
-    const savedModel = localStorage.getItem('custom_model') || (savedProv === 'openai' ? 'gpt-4o-mini' : 'gemini-flash-latest');
-    const savedTemp = Number(localStorage.getItem('custom_temperature') || 0.1);
+    const savedModel = localStorage.getItem('custom_model');
+    const cachedTemp = localStorage.getItem('custom_temperature');
+    const savedTemp = cachedTemp === null ? null : Number(cachedTemp);
 
     try {
       const remote = await request('/api/config');
+      const activeProvider = savedProv || remote.provider || 'openai';
+      const activeKey = localStorage.getItem(activeProvider === 'openai' ? 'openai_api_key' : 'gemini_api_key');
       return {
         ...remote,
         success: true,
-        provider: savedProv || remote.provider || 'openai',
-        model: savedModel || remote.model || 'gpt-4o-mini',
+        provider: activeProvider,
+        model: savedModel || remote.model || (activeProvider === 'openai' ? 'gpt-4o-mini' : 'gemini-flash-latest'),
         temperature: savedTemp ?? remote.temperature ?? 0.1,
-        has_api_key: Boolean(savedKey || remote.has_api_key),
+        has_api_key: Boolean(activeKey || (activeProvider === remote.provider && remote.has_api_key)),
         openai_api_key_set: Boolean(localStorage.getItem('openai_api_key') || remote.openai_api_key_set),
         gemini_api_key_set: Boolean(localStorage.getItem('gemini_api_key') || remote.gemini_api_key_set),
-        masked_key: savedKey ? `${savedKey.slice(0, 6)}...${savedKey.slice(-4)}` : (remote.masked_key || (remote.has_api_key ? 'Configurada en .env' : 'No configurada'))
+        masked_key: activeKey ? `${activeKey.slice(0, 6)}...${activeKey.slice(-4)}` : (activeProvider === remote.provider ? remote.masked_key : 'No configurada')
       };
     } catch {
       return {
-        success: true,
-        backend_available: true,
+        success: false,
+        backend_available: false,
         has_api_key: Boolean(savedKey),
         openai_api_key_set: Boolean(localStorage.getItem('openai_api_key')),
         gemini_api_key_set: Boolean(localStorage.getItem('gemini_api_key')),
-        provider: savedProv,
-        model: savedModel,
-        temperature: savedTemp,
+        provider: savedProv || 'openai',
+        model: savedModel || (savedProv === 'gemini' ? 'gemini-flash-latest' : 'gpt-4o-mini'),
+        temperature: savedTemp ?? 0.1,
         masked_key: savedKey ? `${savedKey.slice(0, 6)}...${savedKey.slice(-4)}` : 'No configurada'
       };
     }
@@ -88,15 +91,8 @@ export const api = {
         temperature: activeTemp
       });
       return result;
-    } catch {
-      // Fallback si el backend no responde
-      return {
-        success: true,
-        message: 'Configuración guardada y aplicada en sesión.',
-        provider: activeProv,
-        model: activeModel,
-        temperature: activeTemp
-      };
+    } catch (error) {
+      throw new Error(`Configuración guardada localmente, pero no aplicada al servidor: ${error.message}`);
     }
   },
   async deleteApiKey() {
@@ -104,8 +100,8 @@ export const api = {
     localStorage.removeItem('openai_api_key');
     try {
       return await request('/api/config/key', {method:'DELETE'});
-    } catch {
-      return { success: true, message: 'Clave eliminada localmente.', has_api_key: false };
+    } catch (error) {
+      throw new Error(`Clave eliminada del navegador; no se pudo confirmar su eliminación en el servidor: ${error.message}`);
     }
   },
   async uploadPDF(file) {

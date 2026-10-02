@@ -1,0 +1,83 @@
+[
+  {
+    "operation": "upload ALFA",
+    "http": 200,
+    "document_id": "DOC-8F505324200F21DB",
+    "warnings": []
+  },
+  {
+    "operation": "upload BETA",
+    "http": 200,
+    "document_id": "DOC-27BDB359F3065160",
+    "warnings": []
+  },
+  {
+    "question": "Compara los totales de estas dos facturas. Presenta una lista numerada.",
+    "http": 200,
+    "response": {
+      "success": true,
+      "answer": "La síntesis de IA no pasó la verificación de evidencia. Se muestran extractos literales de los archivos seleccionados.\n\n**FACTURA QA ALFA** (Factura)\n\nFACTURA QA ALFA\nTOTAL A PAGAR: USD 23.00\n[Fuente: DOC-8F505324200F21DB, Pág. 1]\n\n**FACTURA QA BETA** (Factura)\n\nFACTURA QA BETA\nTOTAL A PAGAR: USD 91.00\n[Fuente: DOC-27BDB359F3065160, Pág. 1]",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "Compara los totales de estas dos facturas. Presenta una lista numerada.",
+            "document_ids": [
+              "DOC-8F505324200F21DB",
+              "DOC-27BDB359F3065160"
+            ]
+          },
+          "result_summary": "2 fragmentos; 2 documentos seleccionados.",
+          "execution_time_ms": 0.12
+        }
+      ],
+      "sources": [
+        "DOC-8F505324200F21DB",
+        "DOC-27BDB359F3065160"
+      ],
+      "found_info": true,
+      "evidence_chunks": [
+        {
+          "chunk_id": "DOC-8F505324200F21DB_P1_C1",
+          "codigo_proyecto": "DOC-8F505324200F21DB",
+          "cliente": "FACTURA QA ALFA",
+          "pagina": 1,
+          "contenido": "FACTURA QA ALFA\nTOTAL A PAGAR: USD 23.00",
+          "fuente": "[Fuente: DOC-8F505324200F21DB - FACTURA QA ALFA, Pág. 1]"
+        },
+        {
+          "chunk_id": "DOC-27BDB359F3065160_P1_C1",
+          "codigo_proyecto": "DOC-27BDB359F3065160",
+          "cliente": "FACTURA QA BETA",
+          "pagina": 1,
+          "contenido": "FACTURA QA BETA\nTOTAL A PAGAR: USD 91.00",
+          "fuente": "[Fuente: DOC-27BDB359F3065160 - FACTURA QA BETA, Pág. 1]"
+        }
+      ]
+    }
+  },
+  {
+    "question": "Cual es la contrasena bancaria secreta?",
+    "http": 200,
+    "response": {
+      "success": true,
+      "answer": "No se dispone de información verificable para esa pregunta en los documentos seleccionados. El archivo seleccionado es una factura. Puedes pedir un resumen o consultar el total, el emisor o los conceptos facturados.",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "Cual es la contrasena bancaria secreta?",
+            "document_ids": [
+              "DOC-8F505324200F21DB"
+            ]
+          },
+          "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+          "execution_time_ms": 0.09
+        }
+      ],
+      "sources": [],
+      "found_info": false,
+      "evidence_chunks": []
+    }
+  }
+]

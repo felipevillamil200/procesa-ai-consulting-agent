@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { documentQuestion } from '../services/documentPrompts';
 import { 
   Database, Play, Upload, RotateCcw, MessageSquare, Trash2, FileText, 
   CheckCircle2, AlertCircle, Terminal, Sparkles, Shield, Copy, Check
@@ -170,7 +171,7 @@ export default function SqlExplorerView({
                     {/* Actions: Consultar & Eliminar */}
                     <div className="pt-2 border-t border-slate-100 flex items-center gap-2">
                       <button
-                        onClick={() => onAskChat(`¿Cuáles fueron las lecciones aprendidas y resultados del proyecto ${code}?`)}
+                        onClick={() => onAskChat(documentQuestion(p))}
                         className="flex-1 py-2 bg-cyan-50 hover:bg-cyan-100 text-cyan-800 border border-cyan-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer btn-tactile min-h-[40px]"
                       >
                         <MessageSquare className="w-3.5 h-3.5" /> 
@@ -243,7 +244,7 @@ export default function SqlExplorerView({
                           </td>
                           <td className="p-3.5 text-right space-x-1.5 shrink-0">
                             <button
-                              onClick={() => onAskChat(`¿Cuáles fueron las lecciones aprendidas y resultados del proyecto ${code}?`)}
+                              onClick={() => onAskChat(documentQuestion(p))}
                               className="px-3 py-1 bg-cyan-50 hover:bg-cyan-100 text-cyan-800 border border-cyan-200 rounded-xl font-bold transition inline-flex items-center gap-1 cursor-pointer btn-tactile"
                             >
                               <MessageSquare className="w-3 h-3" /> 

@@ -276,3 +276,71 @@ def test_openai_refusal_is_not_success(monkeypatch):
 def test_config_does_not_report_gemini_key_as_openai_key(app,monkeypatch):
     monkeypatch.setenv('LLM_PROVIDER','openai');monkeypatch.setenv('GEMINI_API_KEY','qa-gemini-key');monkeypatch.setenv('OPENAI_API_KEY','')
     assert app.client.get('/api/config').json()['has_api_key'] is False
+
+def test_numbered_comparison_preserves_grounding(app,monkeypatch):
+    one=upload(app,pdf(['FACTURA UNO','TOTAL: USD 23.00']))
+    two=upload(app,pdf(['FACTURA DOS','TOTAL: USD 91.00']))
+    monkeypatch.setenv('GEMINI_API_KEY','qa-fake-key')
+    monkeypatch.setattr(document_chat,'gemini_json',lambda *args:GroundedAnswer(
+        answer='1. Primera factura: USD 23.00.\n2. Segunda factura: USD 91.00.',found_info=True,
+        citations=[{'document_id':one,'page_number':1,'quote':'TOTAL: USD 23.00'},
+                   {'document_id':two,'page_number':1,'quote':'TOTAL: USD 91.00'}]))
+    result=ask(app,'Compara los totales',one,two)
+    assert result['found_info'] and set(result['sources'])=={one,two}
+
+def test_amount_can_change_locale_but_not_value(app,monkeypatch):
+    ident=upload(app,pdf(['FACTURA SERVICIOS','TOTAL: USD 81,000.00']))
+    monkeypatch.setenv('GEMINI_API_KEY','qa-fake-key')
+    def answer(value):
+        return GroundedAnswer(answer=f'El total es USD {value}.',found_info=True,
+            citations=[{'document_id':ident,'page_number':1,'quote':'TOTAL: USD 81,000.00'}])
+    monkeypatch.setattr(document_chat,'gemini_json',lambda *args:answer('81.000,00'))
+    assert ask(app,'Cuál es el total',ident)['found_info']
+    monkeypatch.setattr(document_chat,'gemini_json',lambda *args:answer('99.000,00'))
+    assert not ask(app,'Cuál es el total',ident)['found_info']
+
+def test_quote_across_chunks_verified_against_same_original_page(app,monkeypatch):
+    ident=upload(app,pdf(['FACTURA SERVICIOS','Concepto: Servicio de internet','TOTAL: USD 23.00']))
+    monkeypatch.setenv('GEMINI_API_KEY','qa-fake-key')
+    original=app.store.get(ident)['pages'][0]['text']
+    monkeypatch.setattr(app.engine,'search',lambda *args,**kwargs:[
+        {'codigo_proyecto':ident,'pagina':1,'contenido':'Concepto: Servicio de internet'},
+        {'codigo_proyecto':ident,'pagina':1,'contenido':'TOTAL: USD 23.00'}])
+    monkeypatch.setattr(document_chat,'gemini_json',lambda *args:GroundedAnswer(
+        answer='El total es USD 23.00.',found_info=True,
+        citations=[{'document_id':ident,'page_number':1,'quote':original.strip()}]))
+    assert ask(app,'Cuál es el total',ident)['found_info']
+
+def test_invalid_summary_shows_original_text_without_invented_amount(app,monkeypatch):
+    ident=upload(app,pdf(['FACTURA SERVICIOS','TOTAL: USD 23.00']))
+    monkeypatch.setenv('GEMINI_API_KEY','qa-fake-key')
+    monkeypatch.setattr(document_chat,'gemini_json',lambda *args:GroundedAnswer(
+        answer='El total es USD 999.00.',found_info=True,
+        citations=[{'document_id':ident,'page_number':1,'quote':'TOTAL: USD 999.00'}]))
+    result=ask(app,'Qué contiene este documento',ident)
+    assert result['found_info'] and '23.00' in result['answer'] and '999' not in result['answer']
+    assert 'extractos literales' in result['answer'] and result['sources']==[ident]
+
+def test_invoice_missing_lessons_explains_document_type(app,monkeypatch):
+    ident=upload(app,pdf(['FACTURA SERVICIOS','TOTAL: USD 23.00']))
+    monkeypatch.setenv('GEMINI_API_KEY','qa-fake-key')
+    monkeypatch.setattr(document_chat,'gemini_json',lambda *args:GroundedAnswer(answer='No hay lecciones.',found_info=False,citations=[]))
+    result=ask(app,'Cuáles son las lecciones aprendidas',ident)
+    assert not result['found_info'] and 'es una factura' in result['answer'] and 'consultar el total' in result['answer']
+
+def test_render_does_not_claim_persistence_without_explicit_configuration(app,monkeypatch):
+    monkeypatch.setenv('RENDER','true');monkeypatch.delenv('PROCESA_PERSISTENT_STORAGE',raising=False)
+    assert app.client.get('/api/config').json()['storage_persistent'] is False
+
+def test_summary_completes_date_citation_from_retrieved_source(app,monkeypatch):
+    ident=upload(app,pdf(['FACTURA SERVICIOS','Fecha: 02/06/2026','TOTAL: USD 23.00']))
+    monkeypatch.setenv('GEMINI_API_KEY','qa-fake-key')
+    monkeypatch.setattr(document_chat,'gemini_json',lambda *args:GroundedAnswer(
+        answer='Factura del 02 de junio de 2026 por USD 23.00.',found_info=True,
+        citations=[{'document_id':ident,'page_number':1,'quote':'TOTAL: USD 23.00'}]))
+    result=ask(app,'Qué contiene el documento',ident)
+    assert result['found_info'] and 'extractos literales' not in result['answer']
+    assert 'Fecha: 02/06/2026' in result['answer']
+
+def test_bold_numbered_lists_are_formatting():
+    assert document_chat.number_tokens('**1. Factura**: USD 23.00.\n## 2. Otra: USD 91.00.',answer=True)=={'23','91'}
