@@ -448,8 +448,19 @@ FRONTEND_DIR = PROJECT_ROOT / "codigo" / "frontend"
 FRONTEND_DIST = FRONTEND_DIR / "dist"
 target_static_dir = FRONTEND_DIST if FRONTEND_DIST.exists() else FRONTEND_DIR
 
+@app.get("/")
+def serve_root_spa():
+    """Sirve la aplicación React principal."""
+    for candidate in [FRONTEND_DIST / "index.html", FRONTEND_DIR / "index.html"]:
+        if candidate.exists():
+            return FileResponse(candidate, media_type="text/html")
+    return {"status": "ok", "service": "Procesa Consultores IA Backend"}
+
 if target_static_dir.exists():
     app.mount("/app", StaticFiles(directory=str(target_static_dir), html=True), name="frontend")
+    assets_dir = FRONTEND_DIST / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
 
 # Rutas directas para páginas HTML complementarias
 for html_page in ["inicio.html", "guia.html", "nival.html", "solucion.html"]:
