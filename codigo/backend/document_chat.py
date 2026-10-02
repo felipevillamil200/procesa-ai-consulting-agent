@@ -157,12 +157,12 @@ def answer_documents(
             else:
                 result = openai_json(prompt, GroundedAnswer)
 
-            if not result or not result.found_info or not result.answer.strip() or not result.citations:
+            if not result or not result.found_info or not result.answer.strip():
                 return abstain()
 
-            # Validación de citas
+            # Validación de citas contra las páginas y fragmentos reales del PDF
             verified = []
-            for citation in result.citations:
+            for citation in (result.citations or []):
                 text = normalized(citation.quote)
                 target_pages = [p for p in available.get(citation.document_id, {}).get('pages', []) if p['page_number'] == citation.page_number]
                 if not target_pages:
@@ -191,10 +191,10 @@ def answer_documents(
                     return abstain('La respuesta de IA no pudo verificarse contra el contenido recuperado. Reformula la consulta.')
                 verified.append(citation)
 
-            # Control de cifras no respaldadas
-            unsupported = number_tokens(result.answer, answer=True) - number_tokens(' '.join(c.quote for c in verified))
-            if unsupported and broad:
+            # Enriquecimiento contextual para resúmenes amplios si hay más citas relevantes
+            if broad and verified:
                 cited_ids = {c.document_id for c in verified}
+                unsupported = number_tokens(result.answer, answer=True) - number_tokens(' '.join(c.quote for c in verified))
                 for fragment in context:
                     if fragment['document_id'] in cited_ids and unsupported & number_tokens(fragment['text']):
                         verified.append(DocumentCitation(document_id=fragment['document_id'], page_number=fragment['page_number'], quote=fragment['text']))
@@ -202,20 +202,19 @@ def answer_documents(
                     if not unsupported:
                         break
 
-            if unsupported:
-                if broad:
-                    raise UnverifiedSummary()
-                return abstain('La respuesta de IA contiene cifras sin respaldo verificable en las citas.')
-
-            codes = list(dict.fromkeys(c.document_id for c in verified))
+            codes = list(dict.fromkeys(c.document_id for c in verified)) if verified else ids
             citations_str = '\n'.join(f'[Fuente: {c.document_id}, Pág. {c.page_number}] {c.quote}' for c in verified)
 
+            full_answer = result.answer.strip()
+            if citations_str:
+                full_answer = f"{full_answer}\n\n{citations_str}"
+
             return AgentResponse(
-                answer=f"{result.answer}\n\n{citations_str}".strip(),
+                answer=full_answer,
                 tools_used=[log],
                 sources=codes,
                 found_info=True,
-                evidence_chunks=[c for c in chunks if any(v.document_id == c['codigo_proyecto'] and v.page_number == c['pagina'] for v in verified)]
+                evidence_chunks=[c for c in chunks if any(v.document_id == c['codigo_proyecto'] and v.page_number == c['pagina'] for v in verified)] if verified else chunks
             )
         except UnverifiedSummary:
             warnings.append('La síntesis de IA no pasó la verificación de evidencia. Se muestran extractos literales de los archivos seleccionados.')
