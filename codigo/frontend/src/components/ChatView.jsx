@@ -47,7 +47,8 @@ export default function ChatView({
   pendingPrompt, 
   onClearPendingPrompt,
   fichas = [],
-  onUploadPDF
+  onUploadPDF,
+  config
 }) {
   const [input, setInput] = useState('');
   const [uploadNotice, setUploadNotice] = useState('');
@@ -317,7 +318,11 @@ export default function ChatView({
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-extrabold tracking-tight text-slate-900">Agente Consultor</span>
                       <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-800 border border-cyan-200/80 font-mono font-bold">
-                        Gemini + SQL/RAG
+                        {config?.provider === 'openai' 
+                          ? (config?.model ? `ChatGPT (${config.model}) + SQL/RAG` : 'ChatGPT + SQL/RAG')
+                          : (config?.provider === 'gemini' 
+                            ? (config?.model ? `Gemini (${config.model}) + SQL/RAG` : 'Gemini + SQL/RAG')
+                            : 'Proveedor IA + SQL/RAG')}
                       </span>
                     </div>
                     {isWarning && (
@@ -430,7 +435,9 @@ export default function ChatView({
               </div>
               <div className="chat-bubble-ai p-4 px-5 rounded-2xl rounded-tl-sm text-xs flex items-center gap-3 text-slate-600 border border-cyan-200 bg-white/90 shadow-elevated">
                 <Loader2 className="w-4 h-4 text-cyan-600 animate-spin" />
-                <span className="font-medium">Consultando base de datos SQLite y analizando informes documentales con Gemini...</span>
+                <span className="font-medium">
+                  Consultando base de datos SQLite y analizando documentos con {config?.provider === 'openai' ? 'ChatGPT' : (config?.provider === 'gemini' ? 'Gemini' : 'el Proveedor IA')}...
+                </span>
               </div>
             </div>
           )}

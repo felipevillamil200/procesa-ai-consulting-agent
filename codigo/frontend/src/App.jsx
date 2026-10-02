@@ -13,7 +13,7 @@ import { api } from './services/api';
 
 const INITIAL_MESSAGE = {
   role: 'assistant',
-  content: `Puedes cargar facturas, contratos, informes y otros documentos PDF. Selecciona uno o varios documentos para preguntar, resumir o comparar su contenido. Cada respuesta incluye evidencia del archivo consultado. Los documentos escaneados requieren lectura visual con Gemini o un OCR previo.`,
+  content: `Puedes cargar facturas, contratos, informes y otros documentos PDF. Selecciona uno o varios documentos para preguntar, resumir o comparar su contenido. Cada respuesta incluye evidencia y trazabilidad del archivo consultado.`,
   tools_used: [],
   sources: [],
   found_info: true
@@ -310,8 +310,9 @@ export default function App() {
             isLoading={isLoading}
             pendingPrompt={pendingPrompt}
             onClearPendingPrompt={() => setPendingPrompt(null)}
-              fichas={fichas}
-              onUploadPDF={handleUploadSuccess}
+            fichas={fichas}
+            onUploadPDF={handleUploadSuccess}
+            config={config}
           />
         )}
 
