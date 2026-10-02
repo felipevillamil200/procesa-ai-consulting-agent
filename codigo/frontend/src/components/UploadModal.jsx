@@ -198,23 +198,35 @@ export default function UploadModal({ isOpen, onClose, onUploadSuccess, onOpenCo
           {results.map((r, i) => (
             <div
               key={i}
-              className={`p-3 rounded-xl text-xs flex items-start gap-2.5 ${
-                r.ok ? 'bg-emerald-50 text-emerald-900 border border-emerald-200' : 'bg-red-50 text-red-900 border border-red-200'
+              className={`p-3.5 rounded-xl text-xs flex items-start gap-2.5 ${
+                r.ok ? 'bg-emerald-50 text-emerald-900 border border-emerald-200' : 'bg-red-50 text-red-900 border border-red-200 shadow-xs'
               }`}
             >
               {r.ok ? (
-                <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                <CheckCircle2 size={18} className="text-emerald-600 shrink-0 mt-0.5" />
               ) : (
-                <AlertCircle size={16} className="text-red-600 shrink-0 mt-0.5" />
+                <AlertCircle size={18} className="text-red-600 shrink-0 mt-0.5" />
               )}
               <div className="flex-1 min-w-0">
-                <strong className="block truncate">{r.name}</strong>
-                <p className="mt-0.5">{r.message}</p>
+                <strong className="block truncate font-semibold text-slate-900">{r.name}</strong>
+                <p className="mt-1 leading-relaxed text-slate-800">{r.message}</p>
                 {r.warnings?.map((w, j) => (
-                  <p key={j} className="text-amber-800 mt-1 font-semibold">
+                  <p key={j} className="text-amber-800 mt-1 font-medium">
                     ⚠️ {w}
                   </p>
                 ))}
+                {!r.ok && onOpenConfig && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onOpenConfig();
+                    }}
+                    className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-700 text-white font-medium text-xs transition-all cursor-pointer shadow-xs active:scale-98"
+                  >
+                    <Settings size={14} />
+                    <span>⚙️ Abrir Configuración y Cambiar Proveedor (OpenAI / Gemini)</span>
+                  </button>
+                )}
               </div>
             </div>
           ))}
