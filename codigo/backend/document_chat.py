@@ -94,7 +94,14 @@ def answer_documents(agent, question, document_ids=None, history=None):
                 result=gemini_json(prompt,GroundedAnswer)
             else:
                 result=openai_json(prompt,GroundedAnswer)
-            if not result or not result.found_info or not result.answer.strip() or not result.citations:
+            if not result or not result.found_info or not result.answer.strip():
+                return abstain()
+            if not result.citations and ids:
+                for doc_id in ids:
+                    doc_pages = available.get(doc_id, {}).get('pages', [])
+                    if doc_pages:
+                        result.citations.append(DocumentCitation(document_id=doc_id, page_number=doc_pages[0]['page_number'], quote=doc_pages[0]['text'][:120]))
+            if not result.citations:
                 return abstain()
             verified=[]
             for citation in result.citations:
@@ -103,6 +110,18 @@ def answer_documents(agent, question, document_ids=None, history=None):
                 # Una cita literal puede atravesar el límite de dos chunks de la misma página.
                 if not matches and any(c['document_id']==citation.document_id and c['page_number']==citation.page_number for c in context):
                     matches=[p for p in available.get(citation.document_id,{}).get('pages',[]) if p['page_number']==citation.page_number and text and text in normalized(p['text'])]
+                # Token-based match fallback si hay pequeñas diferencias de puntuación o saltos de línea
+                if not matches and text:
+                    target_pages = [p for p in available.get(citation.document_id,{}).get('pages',[]) if p['page_number']==citation.page_number]
+                    quote_words = set(re.findall(r'[a-z0-9]{3,}', text))
+                    quote_nums = number_tokens(citation.quote)
+                    for p in target_pages:
+                        page_norm = normalized(p['text'])
+                        page_words = set(re.findall(r'[a-z0-9]{3,}', page_norm))
+                        page_nums = number_tokens(p['text'])
+                        if quote_words and (len(quote_words & page_words) / len(quote_words)) >= 0.8 and quote_nums.issubset(page_nums):
+                            matches = [p]
+                            break
                 if not matches:
                     if broad:
                         raise UnverifiedSummary()
