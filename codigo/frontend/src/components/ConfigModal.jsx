@@ -7,29 +7,32 @@ import {
 
 const PROVIDERS = [
   {
+    id: 'openai',
+    name: 'OpenAI (ChatGPT)',
+    description: 'Modelos GPT-4o-mini y GPT-4o con Function Calling y Structured Outputs de máxima fidelidad y velocidad.',
+    icon: Cpu,
+    badge: 'Activo & Disponible',
+    badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
+    enabled: true,
+    models: [
+      { id: 'gpt-4o-mini', name: 'GPT-4o-mini (Recomendado - Ultrarrápido, Económico & Universal)', desc: 'Excelente para extracción estructurada de cualquier PDF y SQL' },
+      { id: 'gpt-4o', name: 'GPT-4o (Omni - Máxima Inteligencia & Razonamiento)', desc: 'Modelo insignia para análisis documental profundo' }
+    ]
+  },
+  {
     id: 'gemini',
     name: 'Google Gemini',
-    description: 'API Gratuita de Google AI Studio. Máxima velocidad y optimización en Function Calling.',
+    description: 'API Gratuita de Google AI Studio. Velocidad y optimización en Function Calling.',
     icon: Sparkles,
     badge: 'Activo & Disponible',
     badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
     enabled: true,
     models: [
-      { id: 'gemini-flash-latest', name: 'Gemini Flash Latest (Recomendado - Ultrarrápido & Gratuito)', desc: 'Excelente para Function Calling y SQL en tiempo real' },
+      { id: 'gemini-flash-latest', name: 'Gemini Flash Latest (Ultrarrápido & Gratuito)', desc: 'Excelente para Function Calling y SQL en tiempo real' },
       { id: 'gemini-1.5-flash', name: 'Gemini 1.5 Flash (Alta fidelidad & Baja Latencia)', desc: 'Balance óptimo entre costo y velocidad' },
       { id: 'gemini-1.5-pro', name: 'Gemini 1.5 Pro (Razonamiento Complejo & Contexto 2M)', desc: 'Para análisis de contexto masivo y reportes densos' },
       { id: 'gemini-2.0-flash', name: 'Gemini 2.0 Flash (Next-Gen Multimodal)', desc: 'Generación de última generación' }
     ]
-  },
-  {
-    id: 'openai',
-    name: 'OpenAI (ChatGPT)',
-    description: 'Modelos GPT-4o y GPT-4o-mini con Structured Outputs nativos.',
-    icon: Cpu,
-    badge: 'Bloqueado / Pro',
-    badgeColor: 'bg-slate-100 text-slate-500 border-slate-300',
-    enabled: false,
-    lockReason: 'Requiere licencia Enterprise o clave OPENAI_API_KEY activa.'
   },
   {
     id: 'claude',
@@ -340,7 +343,14 @@ export default function ConfigModal({
                       <div
                         key={prov.id}
                         onClick={() => {
-                          if (isEnabled) setSelectedProvider(prov.id);
+                          if (isEnabled) {
+                            setSelectedProvider(prov.id);
+                            if (prov.id === 'openai') {
+                              if (!model || model.startsWith('gemini')) setModel('gpt-4o-mini');
+                            } else if (prov.id === 'gemini') {
+                              if (!model || model.startsWith('gpt')) setModel('gemini-flash-latest');
+                            }
+                          }
                         }}
                         className={`relative p-3.5 rounded-2xl border transition-all ${
                           isEnabled
@@ -396,7 +406,7 @@ export default function ConfigModal({
                 </div>
               </div>
 
-              {/* 2. PARÁMETROS DEL MODELO (GEMINI ACTIVO) */}
+              {/* 2. PARÁMETROS DEL MODELO ACTIVO */}
               <div className="space-y-4 pt-2 border-t border-slate-200">
                 <label className="font-bold text-slate-900 text-xs flex items-center gap-1.5">
                   <Sparkles className="w-4 h-4 text-cyan-600" />
@@ -421,7 +431,9 @@ export default function ConfigModal({
                         </option>
                       ))
                     ) : (
-                      <option value="gemini-flash-latest">Google Gemini Flash Latest</option>
+                      <option value={selectedProvider === 'openai' ? 'gpt-4o-mini' : 'gemini-flash-latest'}>
+                        {selectedProvider === 'openai' ? 'GPT-4o-mini' : 'Google Gemini Flash Latest'}
+                      </option>
                     )}
                   </select>
                 </div>
@@ -430,7 +442,7 @@ export default function ConfigModal({
                 <div className="space-y-2">
                   <div className="flex items-center justify-between flex-wrap gap-1">
                     <label className="font-semibold text-slate-800 flex items-center gap-2">
-                      <span>Google Gemini API Key</span>
+                      <span>{selectedProvider === 'openai' ? 'OpenAI API Key (ChatGPT)' : 'Google Gemini API Key'}</span>
                       {config?.has_api_key && (
                         <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-300 rounded-md text-[10px] font-mono font-bold flex items-center gap-1">
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -439,12 +451,12 @@ export default function ConfigModal({
                       )}
                     </label>
                     <a
-                      href="https://aistudio.google.com/app/apikey"
+                      href={selectedProvider === 'openai' ? "https://platform.openai.com/api-keys" : "https://aistudio.google.com/app/apikey"}
                       target="_blank"
                       rel="noreferrer"
                       className="text-[10px] text-cyan-600 hover:text-cyan-700 font-bold underline"
                     >
-                      Obtener Clave Gratis en Google AI Studio ↗
+                      {selectedProvider === 'openai' ? 'Obtener Clave en OpenAI Platform ↗' : 'Obtener Clave Gratis en Google AI Studio ↗'}
                     </a>
                   </div>
                   <div className="relative">
@@ -452,7 +464,7 @@ export default function ConfigModal({
                       type={showKey ? 'text' : 'password'}
                       value={apiKey}
                       onChange={(e) => setApiKey(e.target.value)}
-                      placeholder={config?.has_api_key ? "Clave configurada (escribe una nueva para reemplazarla)" : "Ingresa tu clave AIzaSy... (o déjalo vacío para usar la de .env)"}
+                      placeholder={config?.has_api_key ? "Clave configurada (escribe una nueva para reemplazarla)" : (selectedProvider === 'openai' ? "Ingresa tu clave sk-proj-... (o déjalo vacío para usar OPENAI_API_KEY)" : "Ingresa tu clave AIzaSy... (o déjalo vacío para usar GEMINI_API_KEY)")}
                       className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-slate-900 font-mono text-xs focus:ring-2 focus:ring-cyan-500 focus:outline-none transition pr-10 shadow-sm"
                     />
                     <button
@@ -470,7 +482,7 @@ export default function ConfigModal({
                     <p className="text-[11px] text-slate-500 max-w-sm">
                       {config?.has_api_key 
                         ? 'Puedes reemplazar la clave arriba o eliminarla para trabajar 100% en modo local.' 
-                        : 'La clave se inyecta en caliente en la variable de entorno `GEMINI_API_KEY` de Python.'}
+                        : (selectedProvider === 'openai' ? 'La clave se inyecta en caliente en la variable de entorno `OPENAI_API_KEY` de Python.' : 'La clave se inyecta en caliente en la variable de entorno `GEMINI_API_KEY` de Python.')}
                     </p>
                     {config?.has_api_key && (
                       <button

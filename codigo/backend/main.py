@@ -84,28 +84,24 @@ def get_config():
     """Retorna la configuración activa del LLM, temperatura y estado de la API Key."""
     import os
     from codigo.backend.config import GEMINI_API_KEY, OPENAI_API_KEY, LLM_MODEL, LLM_PROVIDER
-    gem_env = os.environ.get("GEMINI_API_KEY")
-    oai_env = os.environ.get("OPENAI_API_KEY")
+    active_prov = os.getenv("LLM_PROVIDER", LLM_PROVIDER)
+    gem_env = os.environ.get("GEMINI_API_KEY") if "GEMINI_API_KEY" in os.environ else GEMINI_API_KEY
+    oai_env = os.environ.get("OPENAI_API_KEY") if "OPENAI_API_KEY" in os.environ else OPENAI_API_KEY
     
-    current_key = ""
-    if gem_env is not None:
-        current_key = gem_env.strip()
-    elif oai_env is not None:
-        current_key = oai_env.strip()
-    else:
-        current_key = (GEMINI_API_KEY or OPENAI_API_KEY or "").strip()
+    current_key = (oai_env if active_prov == "openai" else gem_env) or oai_env or gem_env or ""
+    current_key = (current_key or "").strip()
 
     masked = f"{current_key[:6]}...{current_key[-4:]}" if len(current_key) > 10 else ("Configurada" if current_key else "No configurada")
     return {
         "success": True,
-        "provider": os.getenv("LLM_PROVIDER", LLM_PROVIDER),
+        "provider": active_prov,
         "backend_available": True,
         "storage_persistent": not bool(os.getenv('VERCEL')),
         "model": os.getenv("LLM_MODEL", LLM_MODEL),
         "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1")),
         "has_api_key": bool(current_key),
-        "gemini_api_key_set": bool(current_key),
-        "openai_api_key_set": False,
+        "gemini_api_key_set": bool(gem_env and gem_env.strip()),
+        "openai_api_key_set": bool(oai_env and oai_env.strip()),
         "masked_key": masked
     }
 
@@ -114,20 +110,40 @@ def get_config():
 def update_config(req: ConfigUpdateRequest):
     """Actualiza en memoria la clave de API, modelo LLM o temperatura con validación de rango."""
     import os
+    if req.provider and req.provider.strip():
+        os.environ["LLM_PROVIDER"] = req.provider.strip()
+    if req.model and req.model.strip():
+        os.environ["LLM_MODEL"] = req.model.strip()
+    if req.temperature is not None:
+        os.environ["LLM_TEMPERATURE"] = str(req.temperature)
+
+    active_provider = os.getenv("LLM_PROVIDER", "openai")
     if req.api_key is not None:
         clean_key = req.api_key.strip()
         if clean_key == "__DELETE__" or clean_key == "":
-            os.environ["GEMINI_API_KEY"] = ""
-            os.environ["OPENAI_API_KEY"] = ""
+            if active_provider == "openai":
+                os.environ["OPENAI_API_KEY"] = ""
+            else:
+                os.environ["GEMINI_API_KEY"] = ""
         else:
-            os.environ['OPENAI_API_KEY' if (req.provider or os.getenv('LLM_PROVIDER')) == 'openai' else 'GEMINI_API_KEY'] = clean_key
-    if req.model and req.model.strip():
-        os.environ["LLM_MODEL"] = req.model.strip()
-    if req.provider and req.provider.strip():
-        os.environ["LLM_PROVIDER"] = req.provider.strip()
-    if req.temperature is not None:
-        os.environ["LLM_TEMPERATURE"] = str(req.temperature)
-    return {"success": True, "message": "Configuración actualizada correctamente", "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1"))}
+            if active_provider == "openai" or (req.provider == "openai") or clean_key.startswith("sk-"):
+                os.environ["OPENAI_API_KEY"] = clean_key
+                os.environ["LLM_PROVIDER"] = "openai"
+                if not req.model:
+                    os.environ["LLM_MODEL"] = "gpt-4o-mini"
+            else:
+                os.environ["GEMINI_API_KEY"] = clean_key
+                os.environ["LLM_PROVIDER"] = "gemini"
+                if not req.model:
+                    os.environ["LLM_MODEL"] = "gemini-flash-latest"
+
+    return {
+        "success": True,
+        "message": "Configuración actualizada correctamente",
+        "provider": os.getenv("LLM_PROVIDER"),
+        "model": os.getenv("LLM_MODEL"),
+        "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1"))
+    }
 
 
 @app.delete("/api/config/key")
