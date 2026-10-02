@@ -373,55 +373,69 @@ export default function ChatView({
                   />
 
                   {/* Grounding & Evidence Callout Button */}
-                  {perplexityMode && hasEvidence && !isWarning && (
-                    <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
-                      <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="text-slate-400 text-xs font-semibold flex items-center gap-1">
-                          <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
-                          Fuentes:
-                        </span>
-                        {msg.sources && msg.sources.map((s, sIdx) => {
-                          const targetCode = resolveProjectCode(s, msg, userQuestion);
+                  {perplexityMode && !isWarning && (
+                    hasEvidence ? (
+                      <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="text-slate-400 text-xs font-semibold flex items-center gap-1">
+                            <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
+                            Fuentes del PDF:
+                          </span>
+                          {msg.sources && msg.sources.map((s, sIdx) => {
+                            const targetCode = resolveProjectCode(s, msg, userQuestion);
+                            return (
+                              <button
+                                key={sIdx}
+                                onClick={() => handleOpenEvidence({
+                                  projectCode: targetCode,
+                                  activeSource: targetCode,
+                                  chunks: (msg.evidence_chunks || []).filter(c => c.codigo_proyecto === targetCode || (msg.evidence_chunks || []).length === 0),
+                                  query: userQuestion
+                                })}
+                                className="px-2.5 py-0.5 rounded-lg bg-cyan-50 hover:bg-yellow-200 text-cyan-800 hover:text-yellow-950 border border-cyan-200 hover:border-yellow-400 font-mono text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer btn-tactile"
+                                title={`Inspeccionar fragmentos en PDF de ${targetCode}`}
+                              >
+                                <span>{s}</span>
+                                <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                              </button>
+                            );
+                          })}
+                        </div>
+
+                        {/* Prominent Evidence Inspector Trigger Button */}
+                        {(() => {
+                          const targetCode = resolveProjectCode(msg.sources?.[0], msg, userQuestion);
                           return (
                             <button
-                              key={sIdx}
                               onClick={() => handleOpenEvidence({
                                 projectCode: targetCode,
                                 activeSource: targetCode,
-                                chunks: (msg.evidence_chunks || []).filter(c => c.codigo_proyecto === targetCode || (msg.evidence_chunks || []).length === 0),
+                                chunks: msg.evidence_chunks || [],
                                 query: userQuestion
                               })}
-                              className="px-2.5 py-0.5 rounded-lg bg-cyan-50 hover:bg-yellow-200 text-cyan-800 hover:text-yellow-950 border border-cyan-200 hover:border-yellow-400 font-mono text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer btn-tactile"
-                              title={`Inspeccionar fragmentos en PDF de ${targetCode}`}
+                              className="px-3.5 py-1.5 bg-gradient-to-r from-amber-500/15 via-yellow-500/25 to-amber-500/15 hover:from-amber-500/30 hover:to-yellow-500/40 text-amber-950 border border-amber-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs group cursor-pointer btn-tactile"
+                              title="Abre el panel derecho con el texto original del PDF subrayado en amarillo"
                             >
-                              <span>{s}</span>
-                              <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                              <ShieldCheck className="w-3.5 h-3.5 text-yellow-600" />
+                              <span>Ver Evidencia en PDF</span>
+                              <ChevronRight className="w-3.5 h-3.5 text-yellow-600 group-hover:translate-x-0.5 transition" />
                             </button>
                           );
-                        })}
+                        })()}
                       </div>
-
-                      {/* Prominent Evidence Inspector Trigger Button */}
-                      {(() => {
-                        const targetCode = resolveProjectCode(msg.sources?.[0], msg, userQuestion);
-                        return (
-                          <button
-                            onClick={() => handleOpenEvidence({
-                              projectCode: targetCode,
-                              activeSource: targetCode,
-                              chunks: msg.evidence_chunks || [],
-                              query: userQuestion
-                            })}
-                            className="px-3.5 py-1.5 bg-gradient-to-r from-amber-500/15 via-yellow-500/25 to-amber-500/15 hover:from-amber-500/30 hover:to-yellow-500/40 text-amber-950 border border-amber-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs group cursor-pointer btn-tactile"
-                            title="Abre el panel derecho con el texto original del PDF subrayado en amarillo"
-                          >
-                            <ShieldCheck className="w-3.5 h-3.5 text-yellow-600" />
-                            <span>Ver Evidencia en PDF</span>
-                            <ChevronRight className="w-3.5 h-3.5 text-yellow-600 group-hover:translate-x-0.5 transition" />
-                          </button>
-                        );
-                      })()}
-                    </div>
+                    ) : (
+                      <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2 text-xs">
+                        <div className="flex items-center gap-2 flex-wrap text-slate-500">
+                          <span className="px-2.5 py-1 rounded-lg bg-purple-50 text-purple-900 border border-purple-200 font-sans font-semibold flex items-center gap-1.5 shadow-2xs">
+                            <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                            <span>Opinión / Razonamiento contextual de la IA</span>
+                          </span>
+                          <span className="text-[11px] text-slate-400 font-medium">
+                            (Respuesta basada en conocimiento del modelo, sin citas literales requeridas del PDF)
+                          </span>
+                        </div>
+                      </div>
+                    )
                   )}
 
                 </div>
