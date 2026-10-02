@@ -101,34 +101,67 @@ const getDynamicPrompts = (projects) => {
   return prompts;
 };
 
-export default function Sidebar({ projects = [], onSelectPrompt, config }) {
+export default function Sidebar({ projects = [], onSelectPrompt, config, isMobileOpen = false, onClose }) {
   const dynamicPrompts = getDynamicPrompts(projects);
   const [isDocsOpen, setIsDocsOpen] = useState(true);
   const [isPromptsOpen, setIsPromptsOpen] = useState(true);
 
+  const handleSelect = (query) => {
+    onSelectPrompt(query);
+    if (onClose) onClose();
+  };
+
   return (
-    <aside className="w-80 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white flex flex-col border-r border-slate-800/80 shrink-0 select-none shadow-2xl z-20">
-      {/* Brand Header */}
-      <div className="p-5 border-b border-slate-800/80 bg-slate-950/40 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-b from-blue-500 to-cyan-400 p-0.5 flex items-center justify-center text-white shadow-lg shadow-cyan-500/25 shrink-0 overflow-hidden">
-            <img src="/images/procesa_brand_logo.jpg" alt="PROCESA" className="w-full h-full object-cover rounded-[14px]" />
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <h1 className="font-extrabold text-lg tracking-tight text-white leading-none">
-                PROCESA
-              </h1>
-              <span className="px-1.5 py-0.2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[9px] font-mono font-bold rounded">
-                v2.0
-              </span>
+    <>
+      {/* Mobile Drawer Backdrop */}
+      {isMobileOpen && (
+        <div 
+          className="fixed inset-0 bg-slate-950/75 backdrop-blur-xs z-40 lg:hidden transition-opacity animate-fade-in"
+          onClick={onClose}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside className={`
+        fixed inset-y-0 left-0 z-50 w-80 max-w-[85vw] bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white flex flex-col border-r border-slate-800/80 shrink-0 select-none shadow-2xl transition-transform duration-300 ease-out
+        lg:static lg:translate-x-0 lg:z-20 lg:w-80
+        ${isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+      `}>
+        {/* Brand Header */}
+        <div className="p-4 sm:p-5 border-b border-slate-800/80 bg-slate-950/40 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-b from-blue-500 to-cyan-400 p-0.5 flex items-center justify-center text-white shadow-lg shadow-cyan-500/25 shrink-0 overflow-hidden">
+              <img src="/images/procesa_brand_logo.jpg" alt="PROCESA" className="w-full h-full object-cover rounded-[14px]" />
             </div>
-            <p className="text-[11px] text-cyan-400 font-semibold tracking-tight mt-0.5">
-              Consultores • Agente IA
-            </p>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h1 className="font-extrabold text-base sm:text-lg tracking-tight text-white leading-none">
+                  PROCESA
+                </h1>
+                <span className="px-1.5 py-0.2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[9px] font-mono font-bold rounded">
+                  v2.0
+                </span>
+              </div>
+              <p className="text-[11px] text-cyan-400 font-semibold tracking-tight mt-0.5">
+                Consultores • Agente IA
+              </p>
+            </div>
           </div>
+
+          {/* Mobile Close Button */}
+          {onClose && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="lg:hidden p-2 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-xl transition cursor-pointer"
+              title="Cerrar panel"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
         </div>
-      </div>
 
       {/* Live Status Badge Bar */}
       <div className="px-5 py-2.5 bg-slate-900/90 border-b border-slate-800/60 flex items-center justify-between text-xs">
@@ -195,7 +228,7 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
                         e.dataTransfer.setData('text/plain', p.codigo_proyecto);
                         e.dataTransfer.effectAllowed = 'copy';
                       }}
-                      onClick={() => onSelectPrompt(`¿Qué objetivos, metodologías y resultados se lograron en el proyecto ${p.codigo_proyecto}?`)}
+                      onClick={() => handleSelect(`¿Qué objetivos, metodologías y resultados se lograron en el proyecto ${p.codigo_proyecto}?`)}
                       className="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800/90 hover:border-cyan-500/60 hover:bg-slate-850 hover:shadow-lg hover:shadow-cyan-950/30 transition-all duration-200 group cursor-grab active:cursor-grabbing active:scale-[0.98] select-none relative"
                       title="Haz clic para consultar o arrastra este PDF directamente al Chat para enfocar el análisis"
                     >
@@ -260,7 +293,7 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
               {dynamicPrompts.map((item, idx) => (
                 <button
                   key={idx}
-                  onClick={() => onSelectPrompt(item.query)}
+                  onClick={() => handleSelect(item.query)}
                   className={`w-full text-left p-2.5 rounded-xl bg-slate-900/60 hover:bg-slate-850 text-slate-300 hover:text-white transition-all duration-200 border ${
                     item.isAntiHallucination
                       ? 'border-red-950/80 hover:border-red-500/60 bg-red-950/15 text-red-200'
@@ -299,5 +332,6 @@ export default function Sidebar({ projects = [], onSelectPrompt, config }) {
         </span>
       </div>
     </aside>
+  </>
   );
 }

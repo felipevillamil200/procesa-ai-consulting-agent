@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import SystemGuideModal from './SystemGuideModal';
 
 // ════════════════════════════════════════════════════════════════════════
@@ -88,55 +88,221 @@ function IconTrash({ className = "w-4 h-4" }) {
   );
 }
 
+// 9. Hamburger Menu Icon for Mobile
+function IconMenu({ className = "w-5 h-5" }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <line x1="4" y1="6" x2="20" y2="6" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="18" x2="20" y2="18" />
+    </svg>
+  );
+}
+
 const TABS = [
-  { id: 'chat', label: 'Chat Inteligente', icon: IconChat, badge: 'IA' },
-  { id: 'fichas', label: 'Fichas Estructuradas', icon: IconGrid, badge: null },
-  { id: 'sqlite', label: 'Explorador SQLite & CRUD', icon: IconDatabase, badge: 'SQL' },
-  { id: 'arquitectura', label: 'Arquitectura & Costos', icon: IconArchitecture, badge: null }
+  { id: 'chat', label: 'Chat Inteligente', shortLabel: 'Chat', icon: IconChat, badge: 'IA' },
+  { id: 'fichas', label: 'Fichas Estructuradas', shortLabel: 'Fichas', icon: IconGrid, badge: null },
+  { id: 'sqlite', label: 'Explorador SQLite', shortLabel: 'SQLite', icon: IconDatabase, badge: 'SQL' },
+  { id: 'arquitectura', label: 'Arquitectura & Costos', shortLabel: 'Arquitectura', icon: IconArchitecture, badge: null }
 ];
 
-export default function Header({ activeTab, onTabChange, onOpenConfig, onClearChat }) {
+export default function Header({ activeTab, onTabChange, onOpenConfig, onClearChat, onToggleMobileSidebar }) {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [showLeftGhost, setShowLeftGhost] = useState(false);
+  const [showRightGhost, setShowRightGhost] = useState(true);
+  const navRef = useRef(null);
+  const leftTimerRef = useRef(null);
+  const rightTimerRef = useRef(null);
+
+  const checkScroll = useCallback(() => {
+    if (!navRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = navRef.current;
+    const hasLeft = scrollLeft > 6;
+    const hasRight = scrollLeft < scrollWidth - clientWidth - 8;
+
+    setCanScrollLeft(hasLeft);
+    setCanScrollRight(hasRight);
+
+    if (hasLeft) {
+      setShowLeftGhost(true);
+      if (leftTimerRef.current) clearTimeout(leftTimerRef.current);
+      leftTimerRef.current = setTimeout(() => setShowLeftGhost(false), 2000);
+    } else {
+      setShowLeftGhost(false);
+    }
+
+    if (hasRight) {
+      setShowRightGhost(true);
+      if (rightTimerRef.current) clearTimeout(rightTimerRef.current);
+      rightTimerRef.current = setTimeout(() => setShowRightGhost(false), 2400);
+    } else {
+      setShowRightGhost(false);
+    }
+  }, []);
+
+  // Initial load ghost hint
+  useEffect(() => {
+    setShowRightGhost(true);
+    if (rightTimerRef.current) clearTimeout(rightTimerRef.current);
+    rightTimerRef.current = setTimeout(() => setShowRightGhost(false), 2400);
+
+    return () => {
+      if (leftTimerRef.current) clearTimeout(leftTimerRef.current);
+      if (rightTimerRef.current) clearTimeout(rightTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+    const el = navRef.current;
+    if (!el) return;
+
+    const timer = setTimeout(checkScroll, 100);
+    el.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('resize', checkScroll);
+
+    return () => {
+      clearTimeout(timer);
+      el.removeEventListener('scroll', checkScroll);
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [checkScroll, activeTab]);
+
+  useEffect(() => {
+    if (navRef.current) {
+      const activeEl = navRef.current.querySelector('[data-active="true"]');
+      if (activeEl) {
+        activeEl.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+  }, [activeTab]);
 
   return (
     <>
-      <header className="h-16 bg-white/70 backdrop-blur-xl border-b border-slate-200/70 px-6 flex items-center justify-between shrink-0 shadow-[0_2px_12px_rgba(28,52,92,0.03)] z-30 select-none">
+      <header className="h-14 sm:h-16 bg-white/80 backdrop-blur-xl border-b border-slate-200/70 px-2 sm:px-6 flex items-center justify-between shrink-0 shadow-[0_2px_12px_rgba(28,52,92,0.03)] z-30 select-none gap-1 sm:gap-4">
         
-        {/* Navigation Tabs Styled in Nival Pill Aesthetics */}
-        <nav className="flex items-center gap-1.5 bg-white/85 p-1.5 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl">
-          {TABS.map((tab, idx) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <React.Fragment key={tab.id}>
-                {idx > 0 && (
-                  <div className="w-[1.2px] h-4 bg-slate-200/80 my-auto" />
-                )}
+        {/* Left Section: Mobile Hamburger Toggle + Navigation Tabs */}
+        <div className="flex items-center gap-1.5 min-w-0 flex-1 sm:flex-none">
+          {/* Mobile Hamburger Drawer Button */}
+          {onToggleMobileSidebar && (
+            <button
+              type="button"
+              onClick={onToggleMobileSidebar}
+              className="lg:hidden p-2 rounded-xl text-slate-700 hover:text-black hover:bg-slate-100/90 active:bg-slate-200 transition shrink-0 cursor-pointer btn-tactile min-w-[40px] min-h-[40px] flex items-center justify-center"
+              title="Abrir menú y documentos fuente"
+              aria-label="Abrir menú lateral"
+            >
+              <IconMenu className="w-5 h-5 text-slate-800" />
+            </button>
+          )}
+
+          {/* Navigation Tabs Container with Interactive Scroll Affordance */}
+          <div className="relative flex items-center min-w-0 max-w-full">
+            
+            {/* Left Ghost Cue Indicator (Appears and fades away smoothly like a ghost) */}
+            {canScrollLeft && (
+              <>
                 <button
-                  onClick={() => onTabChange(tab.id)}
-                  className={`relative px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-2 cursor-pointer btn-tactile ${
-                    isActive
-                      ? 'bg-[#0F1B31] text-white shadow-md shadow-[#0B1A32]/20 font-bold'
-                      : 'text-[#202940] hover:text-black hover:bg-slate-100/70'
+                  type="button"
+                  onClick={() => {
+                    navRef.current?.scrollBy({ left: -140, behavior: 'smooth' });
+                    setShowLeftGhost(false);
+                  }}
+                  className={`absolute left-0 inset-y-0 z-20 flex items-center pl-1 pr-4 bg-gradient-to-r from-white via-white/95 to-transparent rounded-l-full cursor-pointer md:hidden shadow-xs select-none group transition-all duration-700 ease-out ${
+                    showLeftGhost ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none -translate-x-2'
                   }`}
+                  title="Deslizar hacia la izquierda"
+                  aria-label="Deslizar pestañas a la izquierda"
                 >
-                  <Icon className={`w-3.5 h-3.5 transition-colors ${isActive ? 'text-cyan-300' : 'text-[#202940]'}`} />
-                  <span className="tracking-tight">{tab.label}</span>
-                  {tab.badge && (
-                    <span className={`text-[9px] px-1.5 py-0.2 rounded-full font-mono font-bold ${
-                      isActive ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/30' : 'bg-slate-100 text-slate-600 border border-slate-200'
-                    }`}>
-                      {tab.badge}
-                    </span>
-                  )}
+                  <span className="flex items-center justify-center w-6 h-6 bg-[#0F1B31] text-cyan-300 rounded-full text-[10px] font-bold shadow-md shadow-cyan-950/30 border border-cyan-400/40">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  </span>
                 </button>
-              </React.Fragment>
-            );
-          })}
-        </nav>
+
+                {/* Subtle soft edge gradient when hint is gone */}
+                {!showLeftGhost && (
+                  <div className="absolute left-0 inset-y-0 w-3 bg-gradient-to-r from-white/90 to-transparent pointer-events-none rounded-l-full md:hidden" />
+                )}
+              </>
+            )}
+
+            {/* Navigation Tabs Styled in Nival Pill Aesthetics */}
+            <nav 
+              ref={navRef}
+              className="flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl overflow-x-auto no-scrollbar touch-pan-x min-w-0 scroll-smooth"
+            >
+              {TABS.map((tab, idx) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <React.Fragment key={tab.id}>
+                    {idx > 0 && (
+                      <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto shrink-0 hidden sm:block" />
+                    )}
+                    <button
+                      onClick={() => onTabChange(tab.id)}
+                      data-active={isActive ? 'true' : 'false'}
+                      className={`relative px-2.5 sm:px-4 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 flex items-center gap-1.5 sm:gap-2 cursor-pointer btn-tactile shrink-0 ${
+                        isActive
+                          ? 'bg-[#0F1B31] text-white shadow-md shadow-[#0B1A32]/20 font-bold'
+                          : 'text-[#202940] hover:text-black hover:bg-slate-100/70'
+                      }`}
+                    >
+                      <Icon className={`w-3.5 h-3.5 transition-colors shrink-0 ${isActive ? 'text-cyan-300' : 'text-[#202940]'}`} />
+                      <span className="tracking-tight hidden md:inline">{tab.label}</span>
+                      <span className="tracking-tight md:hidden">{tab.shortLabel}</span>
+                      {tab.badge && (
+                        <span className={`text-[9px] px-1 sm:px-1.5 py-0.2 rounded-full font-mono font-bold shrink-0 ${
+                          isActive ? 'bg-cyan-500/20 text-cyan-200 border border-cyan-400/30' : 'bg-slate-100 text-slate-600 border border-slate-200'
+                        }`}>
+                          {tab.badge}
+                        </span>
+                      )}
+                    </button>
+                  </React.Fragment>
+                );
+              })}
+            </nav>
+
+            {/* Right Ghost Cue Indicator (Appears and fades away automatically like a ghost) */}
+            {canScrollRight && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navRef.current?.scrollBy({ left: 140, behavior: 'smooth' });
+                    setShowRightGhost(false);
+                  }}
+                  className={`absolute right-0 inset-y-0 z-20 flex items-center pr-1 pl-6 bg-gradient-to-l from-white via-white/95 to-transparent rounded-r-full cursor-pointer md:hidden shadow-xs select-none group transition-all duration-700 ease-out ${
+                    showRightGhost ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none translate-x-2'
+                  }`}
+                  title="Deslizar hacia la derecha para ver más pestañas"
+                  aria-label="Deslizar pestañas a la derecha"
+                >
+                  <span className="flex items-center gap-1 bg-[#0F1B31] text-cyan-300 pl-2 pr-1.5 py-0.5 rounded-full text-[10px] font-bold shadow-md shadow-cyan-950/30 border border-cyan-400/40 animate-pulse">
+                    <span>Desliza</span>
+                    <svg className="w-3 h-3 text-cyan-300 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </button>
+
+                {/* Subtle soft edge gradient when hint is gone */}
+                {!showRightGhost && (
+                  <div className="absolute right-0 inset-y-0 w-3 bg-gradient-to-l from-white/90 to-transparent pointer-events-none rounded-r-full md:hidden" />
+                )}
+              </>
+            )}
+
+          </div>
+        </div>
 
         {/* Top Actions Floating Pill */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           
           {/* Action Pills Container (Inicio, Guía, Solución & Config) */}
           <div className="flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl">
@@ -144,43 +310,43 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             {/* Inicio Hero 3D */}
             <a
               href="/inicio.html"
-              className="px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
+              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
               title="Ir a la página de Inicio Hero 3D"
             >
               <IconHome className="w-3.5 h-3.5 text-[#202940]" />
-              <span>Inicio</span>
+              <span className="hidden md:inline">Inicio</span>
             </a>
 
-            <div className="w-[1.2px] h-4 bg-slate-200/80 my-auto" />
+            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto" />
 
             {/* Guía Técnica */}
             <a
               href="/guia.html"
-              className="px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
+              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
               title="Ver la Guía Técnica & Arquitectura"
             >
               <IconGuide className="w-3.5 h-3.5 text-[#202940]" />
-              <span>Guía</span>
+              <span className="hidden md:inline">Guía</span>
             </a>
 
-            <div className="w-[1.2px] h-4 bg-slate-200/80 my-auto" />
+            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto" />
 
             {/* Solución & Demostración */}
             <a
               href="/solucion.html"
-              className="px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
+              className="px-2.5 sm:px-3.5 py-1.5 text-xs rounded-full transition-all duration-150 flex items-center gap-1.5 font-semibold text-[#202940] hover:text-sky-700 hover:bg-slate-100/70 cursor-pointer btn-tactile"
               title="Ver la Solución & Simulador"
             >
               <IconGrid className="w-3.5 h-3.5 text-[#202940]" />
-              <span>Solución</span>
+              <span className="hidden md:inline">Solución</span>
             </a>
 
-            <div className="w-[1.2px] h-4 bg-slate-200/80 my-auto" />
+            <div className="w-[1.2px] h-3.5 sm:h-4 bg-slate-200/80 my-auto" />
 
             {/* Configuración AI */}
             <button
               onClick={onOpenConfig}
-              className="px-3 py-1.5 text-xs text-[#202940] hover:bg-slate-100/70 rounded-full transition-all duration-150 flex items-center gap-1 font-semibold cursor-pointer btn-tactile"
+              className="px-2.5 sm:px-3 py-1.5 text-xs text-[#202940] hover:bg-slate-100/70 rounded-full transition-all duration-150 flex items-center gap-1 font-semibold cursor-pointer btn-tactile"
               title="Configurar Proveedor de IA, Modelo y Parámetros"
             >
               <IconSettings className="w-3.5 h-3.5 text-[#202940]" />

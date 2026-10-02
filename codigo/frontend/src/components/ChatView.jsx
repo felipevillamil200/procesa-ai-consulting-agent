@@ -229,13 +229,13 @@ export default function ChatView({
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         
         {/* Messages Scroll Area */}
-        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-6 space-y-6">
+        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-3 sm:p-6 space-y-3.5 sm:space-y-6">
           
           {messages.map((msg, index) => {
             if (msg.role === 'user') {
               return (
-                <div key={index} className="flex gap-3.5 max-w-3xl ml-auto justify-end animate-slide-up">
-                  <div className="bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 text-white p-4 px-5 rounded-2xl rounded-tr-sm shadow-md shadow-blue-500/15 text-xs sm:text-sm font-medium leading-relaxed">
+                <div key={index} className="flex gap-2.5 sm:gap-3.5 max-w-[92%] sm:max-w-2xl ml-auto justify-end animate-slide-up">
+                  <div className="bg-gradient-to-r from-blue-600 via-cyan-600 to-blue-700 text-white p-3 sm:p-4 px-3.5 sm:px-5 rounded-2xl rounded-tr-sm shadow-md shadow-blue-500/15 text-xs sm:text-sm font-medium leading-relaxed">
                     {/* Attached Doc Pill inside User message if present */}
                     {msg.attachedDoc && (
                       <div className="flex items-center gap-2 mb-2 pb-2 border-b border-white/20 text-[11px] font-bold text-cyan-100">
@@ -250,7 +250,7 @@ export default function ChatView({
                     )}
                     <div>{msg.content}</div>
                   </div>
-                  <div className="w-9 h-9 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center text-white shrink-0 shadow-md">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-slate-900 border border-slate-700/80 flex items-center justify-center text-white shrink-0 shadow-md">
                     <User className="w-4 h-4 text-cyan-300" />
                   </div>
                 </div>
@@ -264,20 +264,20 @@ export default function ChatView({
             const hasEvidence = (msg.sources && msg.sources.length > 0) || (msg.evidence_chunks && msg.evidence_chunks.length > 0);
 
             return (
-              <div key={index} className="flex gap-3.5 max-w-4xl animate-slide-up">
+              <div key={index} className="flex gap-2.5 sm:gap-3.5 max-w-[98%] sm:max-w-4xl animate-slide-up">
                 {/* Avatar with subtle glow */}
                 <div className="relative shrink-0">
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 overflow-hidden">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 p-0.5 flex items-center justify-center text-white shadow-md shadow-cyan-500/20 overflow-hidden">
                     <img src="/images/procesa_ai_agent_avatar.jpg" alt="IA" className="w-full h-full object-cover rounded-[10px]" />
                   </div>
                 </div>
                 
                 <div
-                  className={`chat-bubble-ai p-5 rounded-2xl rounded-tl-sm text-sm space-y-3.5 border ${
+                  className={`chat-bubble-ai p-3.5 sm:p-5 rounded-2xl rounded-tl-sm text-xs sm:text-sm space-y-3 sm:space-y-3.5 border ${
                     isWarning 
                       ? 'border-red-300/80 bg-red-50/40 shadow-xs' 
                       : 'border-slate-200/90 bg-white/95 backdrop-blur-md shadow-elevated'
-                  } max-w-3xl flex-1`}
+                  } max-w-3xl flex-1 min-w-0`}
                 >
                   {/* Message Header */}
                   <div className="font-bold text-slate-900 flex items-center justify-between pb-1 border-b border-slate-100">
@@ -595,18 +595,18 @@ export default function ChatView({
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={attachedDoc ? `Pregunta sobre ${attachedDoc.codigo_proyecto} (${attachedDoc.cliente})...` : "Pregunta sobre proyectos o arrastra un PDF aquí..."}
-                className="flex-1 px-3 py-2 bg-transparent text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none"
+                placeholder={attachedDoc ? `Preguntar sobre ${attachedDoc.codigo_proyecto}...` : "Pregunta sobre proyectos o arrastra un PDF..."}
+                className="flex-1 px-2.5 sm:px-3 py-2 bg-transparent text-sm text-slate-800 placeholder-slate-400 focus:outline-none min-w-0"
                 disabled={isLoading}
               />
 
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="h-10 px-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:opacity-40 text-white font-bold rounded-xl text-xs transition flex items-center gap-2 shadow-sm shadow-cyan-600/30 shrink-0 cursor-pointer btn-tactile"
+                className="h-10 px-3 sm:px-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:opacity-40 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5 sm:gap-2 shadow-sm shadow-cyan-600/30 shrink-0 cursor-pointer btn-tactile"
               >
-                <span>Consultar</span>
-                <CornerDownLeft className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Consultar</span>
+                <CornerDownLeft className="w-4 h-4" />
               </button>
             </form>
           </div>

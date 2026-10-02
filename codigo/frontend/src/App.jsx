@@ -53,6 +53,9 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [pendingPrompt, setPendingPrompt] = useState(null);
 
+  // Mobile Drawer state
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
   // Modals state
   const [isConfigOpen, setIsConfigOpen] = useState(false);
   const [isUploadOpen, setIsUploadOpen] = useState(false);
@@ -150,6 +153,12 @@ export default function App() {
   const handleSelectPrompt = (promptText) => {
     setActiveTab('chat');
     setPendingPrompt(promptText);
+    setIsMobileSidebarOpen(false);
+  };
+
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    setIsMobileSidebarOpen(false);
   };
 
   // Clear chat
@@ -253,7 +262,7 @@ export default function App() {
   };
 
   const rootClasses = [
-    'h-screen flex overflow-hidden text-slate-800 transition-all duration-200',
+    'h-screen max-h-[100dvh] w-full flex overflow-hidden text-slate-800 transition-all duration-200 relative',
     isMonochrome ? 'monochrome-mode bg-slate-100' : 'bg-slate-50',
     uiDensity === 'compact' ? 'compact-mode' : '',
     !uiScrollbarsVisible ? 'hide-scrollbars' : '',
@@ -262,21 +271,24 @@ export default function App() {
 
   return (
     <div className={rootClasses}>
-      {/* Sidebar */}
+      {/* Sidebar Responsive Drawer */}
       <Sidebar
         projects={projects}
         onSelectPrompt={handleSelectPrompt}
         config={config}
+        isMobileOpen={isMobileSidebarOpen}
+        onClose={() => setIsMobileSidebarOpen(false)}
       />
 
       {/* Main Container */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden bg-slate-50">
+      <main className="flex-1 flex flex-col h-full min-w-0 overflow-hidden bg-slate-50">
         {/* Navigation Header */}
         <Header
           activeTab={activeTab}
-          onTabChange={setActiveTab}
+          onTabChange={handleTabChange}
           onOpenConfig={() => setIsConfigOpen(true)}
           onClearChat={handleClearChat}
+          onToggleMobileSidebar={() => setIsMobileSidebarOpen(prev => !prev)}
         />
 
         {/* Dynamic Tab Views */}

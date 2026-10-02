@@ -184,28 +184,36 @@ export default function EvidenceInspector({
   const totalPages = docPreview?.total_pages || 3;
 
   return (
-    <aside className="w-full md:w-[540px] lg:w-[620px] xl:w-[680px] bg-white border-l border-slate-200 h-full flex flex-col shadow-2xl z-30 animate-in slide-in-from-right duration-200 text-slate-800">
-      
-      {/* Inspector Header */}
-      <div className="p-4 bg-white border-b border-slate-200 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shadow-2xs">
-            <ShieldCheck className="w-5 h-5 text-amber-600" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-mono font-bold text-xs text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
-                {projectCode}
-              </span>
-              <span className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
-                <CheckCircle className="w-2.5 h-2.5 text-emerald-600" /> Grounding Verificado
-              </span>
+    <>
+      {/* Mobile / Tablet Backdrop */}
+      <div 
+        className="fixed inset-0 bg-slate-950/60 backdrop-blur-xs z-40 lg:hidden animate-fade-in"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      <aside className="fixed inset-y-0 right-0 z-50 w-full sm:max-w-xl lg:static lg:w-[540px] xl:w-[620px] bg-white border-l border-slate-200 h-full flex flex-col shadow-2xl animate-in slide-in-from-right duration-200 text-slate-800">
+        
+        {/* Inspector Header */}
+        <div className="p-4 bg-white border-b border-slate-200 flex items-center justify-between shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-9 h-9 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shadow-2xs shrink-0">
+              <ShieldCheck className="w-5 h-5 text-amber-600" />
             </div>
-            <h3 className="font-bold text-xs text-slate-900 truncate max-w-[340px] mt-0.5">
-              {clientName}
-            </h3>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="font-mono font-bold text-xs text-slate-800 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                  {projectCode}
+                </span>
+                <span className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-bold flex items-center gap-1">
+                  <CheckCircle className="w-2.5 h-2.5 text-emerald-600" /> Grounding
+                </span>
+              </div>
+              <h3 className="font-bold text-xs text-slate-900 truncate max-w-[240px] sm:max-w-[340px] mt-0.5">
+                {clientName}
+              </h3>
+            </div>
           </div>
-        </div>
 
         <div className="flex items-center gap-1">
           <button
@@ -546,5 +554,6 @@ export default function EvidenceInspector({
       )}
 
     </aside>
+  </>
   );
 }

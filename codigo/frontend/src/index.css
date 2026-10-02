@@ -285,4 +285,19 @@
   transform: none !important;
 }
 
+/* 5. Responsive Scrollbar Utilities & Mobile Viewport */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth touch scrolling */
+.touch-pan-y {
+  -webkit-overflow-scrolling: touch;
+}
+
+
 
