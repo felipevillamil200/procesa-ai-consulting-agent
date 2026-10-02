@@ -95,7 +95,7 @@ export default function SqlExplorerView({
               className="flex-1 sm:flex-none px-4 py-2.5 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-xl text-xs shadow-sm shadow-cyan-600/25 transition flex items-center justify-center gap-2 cursor-pointer btn-tactile min-h-[42px]"
             >
               <Upload className="w-3.5 h-3.5" />
-              <span>Subir Informe PDF</span>
+              <span>Subir PDF</span>
             </button>
             <button
               onClick={onResetProjects}
@@ -127,7 +127,7 @@ export default function SqlExplorerView({
             {projects.length === 0 ? (
               <div className="p-8 text-center text-slate-400 space-y-2 bg-white rounded-2xl border border-slate-200">
                 <div className="text-sm font-semibold text-slate-600">No hay proyectos registrados en SQLite.</div>
-                <div className="text-xs text-slate-400">Haz clic en "Restaurar Originales" o "Subir Informe PDF".</div>
+                <div className="text-xs text-slate-400">Haz clic en "Restaurar Originales" o "Subir PDF".</div>
               </div>
             ) : (
               projects.map((p) => {
@@ -214,7 +214,7 @@ export default function SqlExplorerView({
                     <tr>
                       <td colSpan={6} className="p-8 text-center text-slate-400 space-y-2">
                         <div className="text-sm font-semibold text-slate-600">No hay proyectos registrados en SQLite.</div>
-                        <div className="text-xs text-slate-400">Haz clic arriba en "Restaurar Originales" o "Subir Informe PDF".</div>
+                        <div className="text-xs text-slate-400">Haz clic arriba en "Restaurar Originales" o "Subir PDF".</div>
                       </td>
                     </tr>
                   ) : (
