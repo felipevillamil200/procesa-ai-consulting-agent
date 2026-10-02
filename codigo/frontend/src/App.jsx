@@ -13,7 +13,7 @@ import { api } from './services/api';
 
 const INITIAL_MESSAGE = {
   role: 'assistant',
-  content: `Puedes cargar facturas, contratos, informes y otros documentos PDF. Selecciona uno o varios documentos para preguntar, resumir o comparar su contenido. Cada respuesta incluye evidencia y trazabilidad del archivo consultado.`,
+  content: `¡Hola! Soy tu asistente técnico de Inteligencia Artificial. Puedo analizar cualquier documento PDF (informes, contratos, facturas, certificados) combinando consultas a la **Base de Datos Relacional (SQLite)** y búsqueda profunda en los **PDFs originales (RAG)**.\n\nPrueba haciendo una pregunta abajo o subiendo un archivo PDF.`,
   tools_used: [],
   sources: [],
   found_info: true

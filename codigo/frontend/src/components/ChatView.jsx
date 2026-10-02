@@ -292,6 +292,7 @@ export default function ChatView({
             }
 
             // AI Response
+            const isGreeting = index === 0;
             const isWarning = msg.found_info === false;
             const userQuestion = messages[index - 1]?.role === 'user' ? messages[index - 1].content : '';
             const htmlContent = formatMarkdownWithPerplexityCitations(msg.content || '', perplexityMode);
@@ -373,7 +374,7 @@ export default function ChatView({
                   />
 
                   {/* Grounding & Evidence Callout Button */}
-                  {perplexityMode && !isWarning && (
+                  {perplexityMode && !isGreeting && !isWarning && (
                     hasEvidence ? (
                       <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
                         <div className="flex items-center gap-1.5 flex-wrap">
