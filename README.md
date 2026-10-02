@@ -30,8 +30,9 @@ Validación de esta ampliación: **42 pruebas Python aprobadas**, **6 verificaci
 7. [Mecanismos de Confiabilidad, Trazabilidad y Anti-Alucinación](#7-mecanismos-de-confiabilidad-trazabilidad-y-anti-alucinación)
 8. [Estimación de Costos de Operación (50 Consultores / Día)](#8-estimación-de-costos-de-operación-50-consultores--día)
 9. [Supuestos y Limitaciones Conocidas](#9-supuestos-y-limitaciones-conocidas)
-10. [Batería de Pruebas Automatizadas](#10-batería-de-pruebas-automatizadas)
-11. [Propuesta de Integración con SharePoint y Power BI](#11-propuesta-de-integración-con-sharepoint-y-power-bi)
+10. [Batería de Pruebas Automatizadas](#10--batería-de-pruebas-automatizadas)
+11. [Propuesta de Integración con SharePoint y Power BI](#11--propuesta-de-integración-con-sharepoint-y-power-bi)
+12. [Licencia y Términos de Uso](#12--licencia-y-términos-de-uso)
 
 ---
 
@@ -328,3 +329,14 @@ Como valor agregado para la firma:
 2. **Integración con Power BI (Dashboard Ejecutivo):**
    * Conectar Power BI directamente a la base de datos relacional mediante el conector ODBC de SQLite/PostgreSQL.
    * Visualizar en tiempo real: ranking de reducción de tiempos por sector, mapa geográfico de proyectos y análisis de Pareto de KPIs alcanzados.
+
+---
+
+## 12. 📜 Licencia y Términos de Uso
+
+Este proyecto y su código fuente fueron desarrollados y diseñados originalmente por **Felipe Villamil** como solución técnica demostrativa y evaluación de arquitectura de software e Inteligencia Artificial (prueba técnica).
+
+* **Propósito Evaluativo y Demostrativo:** El código, arquitectura, prompts e interfaces están disponibles exclusivamente para fines de evaluación técnica, revisión y validación de capacidades por parte del equipo evaluador (Tech Lead / Recursos Humanos).
+* **Derechos de Autor y Propiedad Intelectual:** Queda prohibida la reproducción, distribución, explotación comercial, redistribución o uso en entornos de producción ajenos a esta evaluación sin la **autorización previa y expresa de Felipe Villamil**.
+* **Contacto y Permisos:** Para cualquier solicitud de uso, licenciamiento o colaboraciones profesionales, contactar directamente con el autor.
+
