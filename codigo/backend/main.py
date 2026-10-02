@@ -83,6 +83,7 @@ def health_check():
 
 
 @app.get("/api/config")
+@app.get("/config")
 def get_config():
     """Retorna la configuración activa del LLM, temperatura y estado de la API Key."""
     import os
@@ -110,6 +111,7 @@ def get_config():
 
 
 @app.post("/api/config")
+@app.post("/config")
 def update_config(req: ConfigUpdateRequest):
     """Actualiza en memoria la clave de API, modelo LLM o temperatura con validación de rango."""
     import os
@@ -151,6 +153,8 @@ def update_config(req: ConfigUpdateRequest):
 
 @app.delete("/api/config/key")
 @app.delete("/api/config")
+@app.delete("/config/key")
+@app.delete("/config")
 def delete_api_key():
     """Elimina la clave de API activa en memoria para volver al modo local/offline."""
     import os
@@ -161,6 +165,7 @@ def delete_api_key():
 
 
 @app.post("/api/chat")
+@app.post("/chat")
 def chat_with_agent(req: ChatRequest):
     """
     Envía una pregunta al Agente de IA.
