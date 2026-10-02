@@ -1,0 +1,6 @@
+{
+  "status": 422,
+  "upload": {
+    "detail": "No se pudo leer este PDF escaneado con gemini. Gemini devolvió HTTP 429: cuota o límite de solicitudes. Revisa la clave/modelo o aplica OCR antes de subirlo."
+  }
+}

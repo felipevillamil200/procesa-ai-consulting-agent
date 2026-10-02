@@ -1,0 +1,308 @@
+[
+  {
+    "kind": "factura",
+    "status": 200,
+    "upload": {
+      "success": true,
+      "message": "Documento 'QA_GEMINI_factura.pdf' procesado e indexado con éxito.",
+      "proyecto": {
+        "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+        "document_id": "DOC-222E48DE0AADC5A1",
+        "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+        "sector": "Factura",
+        "tipo_documento": "Factura",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_factura.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+        "resumen": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Operadora Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Operadora Ejemplo"
+          },
+          {
+            "name": "Servicio",
+            "value": "Telefonia",
+            "page_number": 1,
+            "quote": "Servicio: Telefonia"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 23.00",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 23.00"
+          },
+          {
+            "name": "Vencimiento",
+            "value": "15 de noviembre de 2026",
+            "page_number": 1,
+            "quote": "Vencimiento: 15 de noviembre de 2026"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "openai_text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "documento": {
+        "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+        "document_id": "DOC-222E48DE0AADC5A1",
+        "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+        "sector": "Factura",
+        "tipo_documento": "Factura",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_factura.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+        "resumen": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Operadora Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Operadora Ejemplo"
+          },
+          {
+            "name": "Servicio",
+            "value": "Telefonia",
+            "page_number": 1,
+            "quote": "Servicio: Telefonia"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 23.00",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 23.00"
+          },
+          {
+            "name": "Vencimiento",
+            "value": "15 de noviembre de 2026",
+            "page_number": 1,
+            "quote": "Vencimiento: 15 de noviembre de 2026"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "openai_text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "warnings": []
+    }
+  },
+  {
+    "kind": "escaneado",
+    "status": 200,
+    "upload": {
+      "success": true,
+      "message": "Documento 'QA_GEMINI_escaneado.pdf' procesado e indexado con éxito.",
+      "proyecto": {
+        "codigo_proyecto": "DOC-FACA870D5831CE78",
+        "document_id": "DOC-FACA870D5831CE78",
+        "cliente": "Factura Escaneada QA - Datos Ficticios",
+        "sector": "Factura",
+        "tipo_documento": "Factura",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_escaneado.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "Factura escaneada con datos ficticios del proveedor Escaneos Ejemplo, con un total a pagar de USD 47.80 y número de factura QA-778.",
+        "resumen": "Factura escaneada con datos ficticios del proveedor Escaneos Ejemplo, con un total a pagar de USD 47.80 y número de factura QA-778.",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Escaneos Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Escaneos Ejemplo"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 47.80",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 47.80"
+          },
+          {
+            "name": "Número de factura",
+            "value": "QA-778",
+            "page_number": 1,
+            "quote": "Numero de factura: QA-778"
+          },
+          {
+            "name": "Proveedor",
+            "value": "Escaneos Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Escaneos Ejemplo"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 47.80",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 47.80"
+          },
+          {
+            "name": "Número de factura",
+            "value": "QA-778",
+            "page_number": 1,
+            "quote": "Numero de factura: QA-778"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "openai_pdf",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "documento": {
+        "codigo_proyecto": "DOC-FACA870D5831CE78",
+        "document_id": "DOC-FACA870D5831CE78",
+        "cliente": "Factura Escaneada QA - Datos Ficticios",
+        "sector": "Factura",
+        "tipo_documento": "Factura",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_escaneado.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "Factura escaneada con datos ficticios del proveedor Escaneos Ejemplo, con un total a pagar de USD 47.80 y número de factura QA-778.",
+        "resumen": "Factura escaneada con datos ficticios del proveedor Escaneos Ejemplo, con un total a pagar de USD 47.80 y número de factura QA-778.",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Escaneos Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Escaneos Ejemplo"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 47.80",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 47.80"
+          },
+          {
+            "name": "Número de factura",
+            "value": "QA-778",
+            "page_number": 1,
+            "quote": "Numero de factura: QA-778"
+          },
+          {
+            "name": "Proveedor",
+            "value": "Escaneos Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Escaneos Ejemplo"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 47.80",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 47.80"
+          },
+          {
+            "name": "Número de factura",
+            "value": "QA-778",
+            "page_number": 1,
+            "quote": "Numero de factura: QA-778"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "openai_pdf",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "warnings": []
+    }
+  },
+  {
+    "question": "Compara los totales de ambas facturas. Reproduce las cifras, no las sumes. Cita ambos documentos.",
+    "response": {
+      "success": true,
+      "answer": "La respuesta de IA contiene cifras sin respaldo verificable en las citas.",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "Compara los totales de ambas facturas. Reproduce las cifras, no las sumes. Cita ambos documentos.",
+            "document_ids": [
+              "DOC-222E48DE0AADC5A1",
+              "DOC-FACA870D5831CE78"
+            ]
+          },
+          "result_summary": "2 fragmentos; 2 documentos seleccionados.",
+          "execution_time_ms": 0.17
+        }
+      ],
+      "sources": [],
+      "found_info": false,
+      "evidence_chunks": []
+    }
+  },
+  {
+    "question": "Compara los totales de ambas facturas con viñetas sin numeración. Reproduce las cifras, no las sumes. No incluyas números de página en la respuesta; las citas ya contienen sus páginas.",
+    "response": {
+      "success": true,
+      "answer": "- Total de la primera factura: USD 23.00 (Documento: DOC-222E48DE0AADC5A1)\n- Total de la segunda factura: USD 47.80 (Documento: DOC-FACA870D5831CE78)\n\n[Fuente: DOC-222E48DE0AADC5A1, Pág. 1] Total a pagar: USD 23.00\n[Fuente: DOC-FACA870D5831CE78, Pág. 1] Total a pagar: USD 47.80",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "Compara los totales de ambas facturas con viñetas sin numeración. Reproduce las cifras, no las sumes. No incluyas números de página en la respuesta; las citas ya contienen sus páginas.",
+            "document_ids": [
+              "DOC-222E48DE0AADC5A1",
+              "DOC-FACA870D5831CE78"
+            ]
+          },
+          "result_summary": "2 fragmentos; 2 documentos seleccionados.",
+          "execution_time_ms": 0.11
+        }
+      ],
+      "sources": [
+        "DOC-222E48DE0AADC5A1",
+        "DOC-FACA870D5831CE78"
+      ],
+      "found_info": true,
+      "evidence_chunks": [
+        {
+          "chunk_id": "DOC-222E48DE0AADC5A1_P1_C1",
+          "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+          "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+          "pagina": 1,
+          "contenido": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nServicio: Telefonia\nTotal a pagar: USD 23.00\nVencimiento: 15 de noviembre de 2026",
+          "fuente": "[Fuente: DOC-222E48DE0AADC5A1 - FACTURA DE SERVICIOS QA - DATOS FICTICIOS, Pág. 1]"
+        },
+        {
+          "chunk_id": "DOC-FACA870D5831CE78_P1_C1",
+          "codigo_proyecto": "DOC-FACA870D5831CE78",
+          "cliente": "Factura Escaneada QA - Datos Ficticios",
+          "pagina": 1,
+          "contenido": "FACTURA ESCANEADA QA - DATOS FICTICIOS\nProveedor: Escaneos Ejemplo\nTotal a pagar: USD 47.80\nNumero de factura: QA-778",
+          "fuente": "[Fuente: DOC-FACA870D5831CE78 - Factura Escaneada QA - Datos Ficticios, Pág. 1]"
+        }
+      ]
+    }
+  }
+]

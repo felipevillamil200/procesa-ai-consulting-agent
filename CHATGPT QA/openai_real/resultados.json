@@ -1,0 +1,1486 @@
+{
+  "backend": "http://localhost:8000",
+  "cases": [
+    {
+      "name": "carga_factura",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 4311,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_GEMINI_factura.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+          "document_id": "DOC-222E48DE0AADC5A1",
+          "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+          "sector": "Factura",
+          "tipo_documento": "Factura",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_factura.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+          "resumen": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Servicio",
+              "value": "Telefonia",
+              "page_number": 1,
+              "quote": "Servicio: Telefonia"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 23.00",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 23.00"
+            },
+            {
+              "name": "Vencimiento",
+              "value": "15 de noviembre de 2026",
+              "page_number": 1,
+              "quote": "Vencimiento: 15 de noviembre de 2026"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+          "document_id": "DOC-222E48DE0AADC5A1",
+          "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+          "sector": "Factura",
+          "tipo_documento": "Factura",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_factura.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+          "resumen": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Servicio",
+              "value": "Telefonia",
+              "page_number": 1,
+              "quote": "Servicio: Telefonia"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 23.00",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 23.00"
+            },
+            {
+              "name": "Vencimiento",
+              "value": "15 de noviembre de 2026",
+              "page_number": 1,
+              "quote": "Vencimiento: 15 de noviembre de 2026"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "name": "carga_contrato",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 5058,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_GEMINI_contrato.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-FD6ADDA43DBAC769",
+          "document_id": "DOC-FD6ADDA43DBAC769",
+          "cliente": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS",
+          "sector": "Contrato",
+          "tipo_documento": "Contrato",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_contrato.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este documento es un contrato de telecomunicaciones que detalla las condiciones del servicio de internet proporcionado por la Operadora Ejemplo.",
+          "resumen": "Este documento es un contrato de telecomunicaciones que detalla las condiciones del servicio de internet proporcionado por la Operadora Ejemplo.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Objeto",
+              "value": "Servicio de internet",
+              "page_number": 1,
+              "quote": "Objeto: Servicio de internet"
+            },
+            {
+              "name": "Plazo",
+              "value": "12 meses",
+              "page_number": 2,
+              "quote": "Plazo: 12 meses"
+            },
+            {
+              "name": "Penalidad por cancelacion",
+              "value": "USD 50.00",
+              "page_number": 2,
+              "quote": "Penalidad por cancelacion: USD 50.00"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-FD6ADDA43DBAC769",
+          "document_id": "DOC-FD6ADDA43DBAC769",
+          "cliente": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS",
+          "sector": "Contrato",
+          "tipo_documento": "Contrato",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_contrato.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este documento es un contrato de telecomunicaciones que detalla las condiciones del servicio de internet proporcionado por la Operadora Ejemplo.",
+          "resumen": "Este documento es un contrato de telecomunicaciones que detalla las condiciones del servicio de internet proporcionado por la Operadora Ejemplo.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Objeto",
+              "value": "Servicio de internet",
+              "page_number": 1,
+              "quote": "Objeto: Servicio de internet"
+            },
+            {
+              "name": "Plazo",
+              "value": "12 meses",
+              "page_number": 2,
+              "quote": "Plazo: 12 meses"
+            },
+            {
+              "name": "Penalidad por cancelacion",
+              "value": "USD 50.00",
+              "page_number": 2,
+              "quote": "Penalidad por cancelacion: USD 50.00"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "name": "carga_manual",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 3755,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_GEMINI_manual.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-1E173324F79B4B32",
+          "document_id": "DOC-1E173324F79B4B32",
+          "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+          "sector": "Manual",
+          "tipo_documento": "Manual",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_manual.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este manual proporciona instrucciones sobre la operación y el apagado de una bomba industrial, incluyendo advertencias y procedimientos específicos.",
+          "resumen": "Este manual proporciona instrucciones sobre la operación y el apagado de una bomba industrial, incluyendo advertencias y procedimientos específicos.",
+          "campos": [
+            {
+              "name": "Equipo",
+              "value": "Bomba industrial",
+              "page_number": 1,
+              "quote": "Equipo: Bomba industrial"
+            },
+            {
+              "name": "Advertencia",
+              "value": "No operar sin proteccion",
+              "page_number": 1,
+              "quote": "Advertencia: No operar sin proteccion"
+            },
+            {
+              "name": "Procedimiento de Apagado",
+              "value": "Cerrar la valvula azul y desconectar la energia",
+              "page_number": 2,
+              "quote": "Paso final: Cerrar la valvula azul y desconectar la energia"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-1E173324F79B4B32",
+          "document_id": "DOC-1E173324F79B4B32",
+          "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+          "sector": "Manual",
+          "tipo_documento": "Manual",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_manual.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este manual proporciona instrucciones sobre la operación y el apagado de una bomba industrial, incluyendo advertencias y procedimientos específicos.",
+          "resumen": "Este manual proporciona instrucciones sobre la operación y el apagado de una bomba industrial, incluyendo advertencias y procedimientos específicos.",
+          "campos": [
+            {
+              "name": "Equipo",
+              "value": "Bomba industrial",
+              "page_number": 1,
+              "quote": "Equipo: Bomba industrial"
+            },
+            {
+              "name": "Advertencia",
+              "value": "No operar sin proteccion",
+              "page_number": 1,
+              "quote": "Advertencia: No operar sin proteccion"
+            },
+            {
+              "name": "Procedimiento de Apagado",
+              "value": "Cerrar la valvula azul y desconectar la energia",
+              "page_number": 2,
+              "quote": "Paso final: Cerrar la valvula azul y desconectar la energia"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "name": "carga_escaneado",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 5892,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_GEMINI_escaneado.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-FACA870D5831CE78",
+          "document_id": "DOC-FACA870D5831CE78",
+          "cliente": "FACTURA ESCANEADA QA - DATOS FICTICIOS",
+          "sector": "Factura",
+          "tipo_documento": "Factura",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_escaneado.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Factura escaneada con datos ficticios, incluyendo información del proveedor y total a pagar.",
+          "resumen": "Factura escaneada con datos ficticios, incluyendo información del proveedor y total a pagar.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Escaneos Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Escaneos Ejemplo"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 47.80",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 47.80"
+            },
+            {
+              "name": "Numero de factura",
+              "value": "QA-778",
+              "page_number": 1,
+              "quote": "Numero de factura: QA-778"
+            },
+            {
+              "name": "Proveedor",
+              "value": "Escaneos Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Escaneos Ejemplo"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 47.80",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 47.80"
+            },
+            {
+              "name": "Número de factura",
+              "value": "QA-778",
+              "page_number": 1,
+              "quote": "Numero de factura: QA-778"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_pdf",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-FACA870D5831CE78",
+          "document_id": "DOC-FACA870D5831CE78",
+          "cliente": "FACTURA ESCANEADA QA - DATOS FICTICIOS",
+          "sector": "Factura",
+          "tipo_documento": "Factura",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_escaneado.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Factura escaneada con datos ficticios, incluyendo información del proveedor y total a pagar.",
+          "resumen": "Factura escaneada con datos ficticios, incluyendo información del proveedor y total a pagar.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Escaneos Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Escaneos Ejemplo"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 47.80",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 47.80"
+            },
+            {
+              "name": "Numero de factura",
+              "value": "QA-778",
+              "page_number": 1,
+              "quote": "Numero de factura: QA-778"
+            },
+            {
+              "name": "Proveedor",
+              "value": "Escaneos Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Escaneos Ejemplo"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 47.80",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 47.80"
+            },
+            {
+              "name": "Número de factura",
+              "value": "QA-778",
+              "page_number": 1,
+              "quote": "Numero de factura: QA-778"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_pdf",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "name": "carga_tabla",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 2695,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_OPENAI_tabla.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-FD1CE4F00E4B809F",
+          "document_id": "DOC-FD1CE4F00E4B809F",
+          "cliente": "INVENTARIO QA - DATOS FICTICIOS",
+          "sector": "Inventario",
+          "tipo_documento": "Inventario",
+          "es_documento": true,
+          "nombre_archivo": "QA_OPENAI_tabla.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este documento presenta un inventario ficticio de artículos, incluyendo sus existencias y ubicación en el almacén.",
+          "resumen": "Este documento presenta un inventario ficticio de artículos, incluyendo sus existencias y ubicación en el almacén.",
+          "campos": [
+            {
+              "name": "Articulo",
+              "value": "Cable-A",
+              "page_number": 1,
+              "quote": "Cable-A"
+            },
+            {
+              "name": "Existencias",
+              "value": "31",
+              "page_number": 1,
+              "quote": "31"
+            },
+            {
+              "name": "Almacen",
+              "value": "Norte",
+              "page_number": 1,
+              "quote": "Norte"
+            },
+            {
+              "name": "Articulo",
+              "value": "Router-B",
+              "page_number": 1,
+              "quote": "Router-B"
+            },
+            {
+              "name": "Existencias",
+              "value": "17",
+              "page_number": 1,
+              "quote": "17"
+            },
+            {
+              "name": "Almacen",
+              "value": "Sur",
+              "page_number": 1,
+              "quote": "Sur"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-FD1CE4F00E4B809F",
+          "document_id": "DOC-FD1CE4F00E4B809F",
+          "cliente": "INVENTARIO QA - DATOS FICTICIOS",
+          "sector": "Inventario",
+          "tipo_documento": "Inventario",
+          "es_documento": true,
+          "nombre_archivo": "QA_OPENAI_tabla.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este documento presenta un inventario ficticio de artículos, incluyendo sus existencias y ubicación en el almacén.",
+          "resumen": "Este documento presenta un inventario ficticio de artículos, incluyendo sus existencias y ubicación en el almacén.",
+          "campos": [
+            {
+              "name": "Articulo",
+              "value": "Cable-A",
+              "page_number": 1,
+              "quote": "Cable-A"
+            },
+            {
+              "name": "Existencias",
+              "value": "31",
+              "page_number": 1,
+              "quote": "31"
+            },
+            {
+              "name": "Almacen",
+              "value": "Norte",
+              "page_number": 1,
+              "quote": "Norte"
+            },
+            {
+              "name": "Articulo",
+              "value": "Router-B",
+              "page_number": 1,
+              "quote": "Router-B"
+            },
+            {
+              "name": "Existencias",
+              "value": "17",
+              "page_number": 1,
+              "quote": "17"
+            },
+            {
+              "name": "Almacen",
+              "value": "Sur",
+              "page_number": 1,
+              "quote": "Sur"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "name": "carga_mixto",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 7964,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_OPENAI_mixto.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-CD21CAA26ADBBBE3",
+          "document_id": "DOC-CD21CAA26ADBBBE3",
+          "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+          "sector": "Manual",
+          "tipo_documento": "Manual",
+          "es_documento": true,
+          "nombre_archivo": "QA_OPENAI_mixto.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este documento incluye un manual de operación para una bomba industrial y una factura escaneada con datos ficticios.",
+          "resumen": "Este documento incluye un manual de operación para una bomba industrial y una factura escaneada con datos ficticios.",
+          "campos": [
+            {
+              "name": "Equipo",
+              "value": "Bomba industrial",
+              "page_number": 1,
+              "quote": "Equipo: Bomba industrial"
+            },
+            {
+              "name": "Advertencia",
+              "value": "No operar sin protección",
+              "page_number": 1,
+              "quote": "Advertencia: No operar sin proteccion"
+            },
+            {
+              "name": "Proveedor",
+              "value": "Escaneos Ejemplo",
+              "page_number": 2,
+              "quote": "Proveedor: Escaneos Ejemplo"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 47.80",
+              "page_number": 2,
+              "quote": "Total a pagar: USD 47.80"
+            },
+            {
+              "name": "Numero de factura",
+              "value": "QA-778",
+              "page_number": 2,
+              "quote": "Numero de factura: QA-778"
+            },
+            {
+              "name": "Proveedor",
+              "value": "Escaneos Ejemplo",
+              "page_number": 2,
+              "quote": "Proveedor: Escaneos Ejemplo"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 47.80",
+              "page_number": 2,
+              "quote": "Total a pagar: USD 47.80"
+            },
+            {
+              "name": "Número de factura",
+              "value": "QA-778",
+              "page_number": 2,
+              "quote": "Numero de factura: QA-778"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_mixed",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-CD21CAA26ADBBBE3",
+          "document_id": "DOC-CD21CAA26ADBBBE3",
+          "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+          "sector": "Manual",
+          "tipo_documento": "Manual",
+          "es_documento": true,
+          "nombre_archivo": "QA_OPENAI_mixto.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este documento incluye un manual de operación para una bomba industrial y una factura escaneada con datos ficticios.",
+          "resumen": "Este documento incluye un manual de operación para una bomba industrial y una factura escaneada con datos ficticios.",
+          "campos": [
+            {
+              "name": "Equipo",
+              "value": "Bomba industrial",
+              "page_number": 1,
+              "quote": "Equipo: Bomba industrial"
+            },
+            {
+              "name": "Advertencia",
+              "value": "No operar sin protección",
+              "page_number": 1,
+              "quote": "Advertencia: No operar sin proteccion"
+            },
+            {
+              "name": "Proveedor",
+              "value": "Escaneos Ejemplo",
+              "page_number": 2,
+              "quote": "Proveedor: Escaneos Ejemplo"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 47.80",
+              "page_number": 2,
+              "quote": "Total a pagar: USD 47.80"
+            },
+            {
+              "name": "Numero de factura",
+              "value": "QA-778",
+              "page_number": 2,
+              "quote": "Numero de factura: QA-778"
+            },
+            {
+              "name": "Proveedor",
+              "value": "Escaneos Ejemplo",
+              "page_number": 2,
+              "quote": "Proveedor: Escaneos Ejemplo"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 47.80",
+              "page_number": 2,
+              "quote": "Total a pagar: USD 47.80"
+            },
+            {
+              "name": "Número de factura",
+              "value": "QA-778",
+              "page_number": 2,
+              "quote": "Numero de factura: QA-778"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_mixed",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "name": "carga_largo",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 9355,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_OPENAI_largo.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-52ABF6D6B336CFFD",
+          "document_id": "DOC-52ABF6D6B336CFFD",
+          "cliente": "MANUAL MULTIPAGINA QA - DATOS FICTICIOS",
+          "sector": "Manual",
+          "tipo_documento": "Manual",
+          "es_documento": true,
+          "nombre_archivo": "QA_OPENAI_largo.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este manual contiene procedimientos de seguridad para la operación de equipos, distribuidos en doce secciones, cada una con instrucciones específicas.",
+          "resumen": "Este manual contiene procedimientos de seguridad para la operación de equipos, distribuidos en doce secciones, cada una con instrucciones específicas.",
+          "campos": [
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 1,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 2,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 3,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 4,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 5,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 6,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 7,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 8,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 9,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 10,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 11,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 12,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Código de cierre",
+              "value": "AZUL-735",
+              "page_number": 12,
+              "quote": "Codigo de cierre: AZUL-735"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 12,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-52ABF6D6B336CFFD",
+          "document_id": "DOC-52ABF6D6B336CFFD",
+          "cliente": "MANUAL MULTIPAGINA QA - DATOS FICTICIOS",
+          "sector": "Manual",
+          "tipo_documento": "Manual",
+          "es_documento": true,
+          "nombre_archivo": "QA_OPENAI_largo.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Este manual contiene procedimientos de seguridad para la operación de equipos, distribuidos en doce secciones, cada una con instrucciones específicas.",
+          "resumen": "Este manual contiene procedimientos de seguridad para la operación de equipos, distribuidos en doce secciones, cada una con instrucciones específicas.",
+          "campos": [
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 1,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 2,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 3,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 4,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 5,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 6,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 7,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 8,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 9,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 10,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 11,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Procedimiento de seguridad",
+              "value": "Revisar equipo antes de operar.",
+              "page_number": 12,
+              "quote": "Procedimiento de seguridad: Revisar equipo antes de operar."
+            },
+            {
+              "name": "Código de cierre",
+              "value": "AZUL-735",
+              "page_number": 12,
+              "quote": "Codigo de cierre: AZUL-735"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 12,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "name": "factura_total",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 2236,
+      "ai_synthesis": true,
+      "response": {
+        "success": true,
+        "answer": "El total a pagar es USD 23.00.\n\n[Fuente: DOC-222E48DE0AADC5A1, Pág. 1] Total a pagar: USD 23.00",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es el total a pagar?",
+              "document_ids": [
+                "DOC-222E48DE0AADC5A1"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.11
+          }
+        ],
+        "sources": [
+          "DOC-222E48DE0AADC5A1"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-222E48DE0AADC5A1_P1_C1",
+            "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+            "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+            "pagina": 1,
+            "contenido": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nServicio: Telefonia\nTotal a pagar: USD 23.00\nVencimiento: 15 de noviembre de 2026",
+            "fuente": "[Fuente: DOC-222E48DE0AADC5A1 - FACTURA DE SERVICIOS QA - DATOS FICTICIOS, Pág. 1]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "contrato_plazo",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 1482,
+      "ai_synthesis": true,
+      "response": {
+        "success": true,
+        "answer": "El plazo del contrato de telecomunicaciones es de 12 meses.\n\n[Fuente: DOC-FD6ADDA43DBAC769, Pág. 2] Plazo: 12 meses",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es el plazo del contrato de telecomunicaciones?",
+              "document_ids": [
+                "DOC-FD6ADDA43DBAC769"
+              ]
+            },
+            "result_summary": "2 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.11
+          }
+        ],
+        "sources": [
+          "DOC-FD6ADDA43DBAC769"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-FD6ADDA43DBAC769_P2_C1",
+            "codigo_proyecto": "DOC-FD6ADDA43DBAC769",
+            "cliente": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS",
+            "pagina": 2,
+            "contenido": "CONDICIONES DEL SERVICIO\nPlazo: 12 meses\nPenalidad por cancelacion: USD 50.00",
+            "fuente": "[Fuente: DOC-FD6ADDA43DBAC769 - CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS, Pág. 2]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "manual_apagado",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 2064,
+      "ai_synthesis": true,
+      "response": {
+        "success": true,
+        "answer": "En el paso final del apagado, debes \"cerrar la valvula azul y desconectar la energia\".\n\n[Fuente: DOC-1E173324F79B4B32, Pág. 2] Cerrar la valvula azul y desconectar la energia",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Que debo hacer en el paso final del apagado?",
+              "document_ids": [
+                "DOC-1E173324F79B4B32"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.06
+          }
+        ],
+        "sources": [
+          "DOC-1E173324F79B4B32"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-1E173324F79B4B32_P2_C1",
+            "codigo_proyecto": "DOC-1E173324F79B4B32",
+            "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+            "pagina": 2,
+            "contenido": "PROCEDIMIENTO DE APAGADO\nPaso final: Cerrar la valvula azul y desconectar la energia",
+            "fuente": "[Fuente: DOC-1E173324F79B4B32 - MANUAL DE OPERACION QA - DATOS FICTICIOS, Pág. 2]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "escaneado_total",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 1341,
+      "ai_synthesis": true,
+      "response": {
+        "success": true,
+        "answer": "El total a pagar es USD 47.80.\n\n[Fuente: DOC-FACA870D5831CE78, Pág. 1] Total a pagar: USD 47.80",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es el total a pagar?",
+              "document_ids": [
+                "DOC-FACA870D5831CE78"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.06
+          }
+        ],
+        "sources": [
+          "DOC-FACA870D5831CE78"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-FACA870D5831CE78_P1_C1",
+            "codigo_proyecto": "DOC-FACA870D5831CE78",
+            "cliente": "FACTURA ESCANEADA QA - DATOS FICTICIOS",
+            "pagina": 1,
+            "contenido": "FACTURA ESCANEADA QA - DATOS FICTICIOS\nProveedor: Escaneos Ejemplo\nTotal a pagar: USD 47.80\nNumero de factura: QA-778",
+            "fuente": "[Fuente: DOC-FACA870D5831CE78 - FACTURA ESCANEADA QA - DATOS FICTICIOS, Pág. 1]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "tabla_inventario",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 1635,
+      "ai_synthesis": true,
+      "response": {
+        "success": true,
+        "answer": "Hay 17 existencias del Router-B y se encuentran en el almacén Sur.\n\n[Fuente: DOC-FD1CE4F00E4B809F, Pág. 1] Router-B          17               Sur",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cuantas existencias del Router-B hay y en que almacen estan?",
+              "document_ids": [
+                "DOC-FD1CE4F00E4B809F"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.05
+          }
+        ],
+        "sources": [
+          "DOC-FD1CE4F00E4B809F"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-FD1CE4F00E4B809F_P1_C1",
+            "codigo_proyecto": "DOC-FD1CE4F00E4B809F",
+            "cliente": "INVENTARIO QA - DATOS FICTICIOS",
+            "pagina": 1,
+            "contenido": "INVENTARIO QA - DATOS FICTICIOS\nArticulo       Existencias       Almacen\nCable-A           31               Norte\nRouter-B          17               Sur",
+            "fuente": "[Fuente: DOC-FD1CE4F00E4B809F - INVENTARIO QA - DATOS FICTICIOS, Pág. 1]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "mixto_pagina_visual",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 1416,
+      "ai_synthesis": true,
+      "response": {
+        "success": true,
+        "answer": "El total a pagar de la factura que aparece en la segunda página es de USD 47.80.\n\n[Fuente: DOC-CD21CAA26ADBBBE3, Pág. 2] Total a pagar: USD 47.80",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es el total a pagar de la factura que aparece en la segunda pagina?",
+              "document_ids": [
+                "DOC-CD21CAA26ADBBBE3"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.05
+          }
+        ],
+        "sources": [
+          "DOC-CD21CAA26ADBBBE3"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-CD21CAA26ADBBBE3_P2_C1",
+            "codigo_proyecto": "DOC-CD21CAA26ADBBBE3",
+            "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+            "pagina": 2,
+            "contenido": "FACTURA ESCANEADA QA - DATOS FICTICIOS\nProveedor: Escaneos Ejemplo\nTotal a pagar: USD 47.80\nNumero de factura: QA-778",
+            "fuente": "[Fuente: DOC-CD21CAA26ADBBBE3 - MANUAL DE OPERACION QA - DATOS FICTICIOS, Pág. 2]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ultima_pagina",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 1373,
+      "ai_synthesis": true,
+      "response": {
+        "success": true,
+        "answer": "El código de cierre del manual es \"AZUL-735\".\n\n[Fuente: DOC-52ABF6D6B336CFFD, Pág. 12] Codigo de cierre: AZUL-735",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es el codigo de cierre del manual?",
+              "document_ids": [
+                "DOC-52ABF6D6B336CFFD"
+              ]
+            },
+            "result_summary": "6 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.13
+          }
+        ],
+        "sources": [
+          "DOC-52ABF6D6B336CFFD"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-52ABF6D6B336CFFD_P12_C1",
+            "codigo_proyecto": "DOC-52ABF6D6B336CFFD",
+            "cliente": "MANUAL MULTIPAGINA QA - DATOS FICTICIOS",
+            "pagina": 12,
+            "contenido": "MANUAL MULTIPAGINA QA - DATOS FICTICIOS\nSeccion numero 12\nProcedimiento de seguridad: Revisar equipo antes de operar.\nCodigo de cierre: AZUL-735",
+            "fuente": "[Fuente: DOC-52ABF6D6B336CFFD - MANUAL MULTIPAGINA QA - DATOS FICTICIOS, Pág. 12]"
+          }
+        ]
+      }
+    },
+    {
+      "name": "comparacion_multiple",
+      "passed": false,
+      "response": {
+        "success": true,
+        "answer": "La respuesta de IA contiene cifras sin respaldo verificable en las citas.",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Compara los totales de ambas facturas. Reproduce las cifras, no las sumes. Cita ambos documentos.",
+              "document_ids": [
+                "DOC-222E48DE0AADC5A1",
+                "DOC-FACA870D5831CE78"
+              ]
+            },
+            "result_summary": "2 fragmentos; 2 documentos seleccionados.",
+            "execution_time_ms": 0.13
+          }
+        ],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      }
+    },
+    {
+      "name": "abstencion_dato_ausente",
+      "passed": true,
+      "response": {
+        "success": true,
+        "answer": "No se dispone de información verificable para esa pregunta en los documentos seleccionados.",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es la contrasena bancaria secreta del cliente?",
+              "document_ids": [
+                "DOC-222E48DE0AADC5A1"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.05
+          }
+        ],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      }
+    },
+    {
+      "name": "fuente_inexistente",
+      "passed": true,
+      "response": {
+        "success": true,
+        "answer": "No se dispone de información: uno de los documentos seleccionados no está disponible.",
+        "tools_used": [],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      }
+    },
+    {
+      "name": "duplicado_idempotente",
+      "passed": true,
+      "response": {
+        "success": true,
+        "message": "Documento 'mismo_contenido.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+          "document_id": "DOC-222E48DE0AADC5A1",
+          "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+          "sector": "Factura",
+          "tipo_documento": "Factura",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_factura.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+          "resumen": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Servicio",
+              "value": "Telefonia",
+              "page_number": 1,
+              "quote": "Servicio: Telefonia"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 23.00",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 23.00"
+            },
+            {
+              "name": "Vencimiento",
+              "value": "15 de noviembre de 2026",
+              "page_number": 1,
+              "quote": "Vencimiento: 15 de noviembre de 2026"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+          "document_id": "DOC-222E48DE0AADC5A1",
+          "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+          "sector": "Factura",
+          "tipo_documento": "Factura",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_factura.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+          "resumen": "Factura de servicios de telefonía con detalles del proveedor y monto a pagar.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Servicio",
+              "value": "Telefonia",
+              "page_number": 1,
+              "quote": "Servicio: Telefonia"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 23.00",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 23.00"
+            },
+            {
+              "name": "Vencimiento",
+              "value": "15 de noviembre de 2026",
+              "page_number": 1,
+              "quote": "Vencimiento: 15 de noviembre de 2026"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "openai_text",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      }
+    },
+    {
+      "name": "aislamiento_entre_documentos",
+      "passed": true,
+      "response": {
+        "success": true,
+        "answer": "No se dispone de información verificable para esa pregunta en los documentos seleccionados.",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es la penalidad de cancelacion del contrato?",
+              "document_ids": [
+                "DOC-222E48DE0AADC5A1"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.05
+          }
+        ],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "document_id": "DOC-222E48DE0AADC5A1",
+      "status": 200,
+      "deleted": true
+    },
+    {
+      "document_id": "DOC-FD6ADDA43DBAC769",
+      "status": 200,
+      "deleted": true
+    },
+    {
+      "document_id": "DOC-1E173324F79B4B32",
+      "status": 200,
+      "deleted": true
+    },
+    {
+      "document_id": "DOC-FACA870D5831CE78",
+      "status": 200,
+      "deleted": true
+    },
+    {
+      "document_id": "DOC-FD1CE4F00E4B809F",
+      "status": 200,
+      "deleted": true
+    },
+    {
+      "document_id": "DOC-CD21CAA26ADBBBE3",
+      "status": 200,
+      "deleted": true
+    },
+    {
+      "document_id": "DOC-52ABF6D6B336CFFD",
+      "status": 200,
+      "deleted": true
+    }
+  ],
+  "config": {
+    "provider": "openai",
+    "model": "gpt-4o-mini",
+    "temperature": 0.1,
+    "has_api_key": true,
+    "backend_available": true
+  },
+  "passed": 18,
+  "total": 19,
+  "verdict": "HAY CASOS SIN APROBAR",
+  "comparison_retest": [
+    {
+      "question": "Compara los totales de ambas facturas. Reproduce las cifras, no las sumes. Cita ambos documentos.",
+      "found_info": false,
+      "sources": []
+    },
+    {
+      "question": "Compara los totales de ambas facturas con viñetas sin numeración. Reproduce las cifras, no las sumes. No incluyas números de página en la respuesta; las citas ya contienen sus páginas.",
+      "found_info": true,
+      "sources": [
+        "DOC-222E48DE0AADC5A1",
+        "DOC-FACA870D5831CE78"
+      ]
+    }
+  ],
+  "limitations": [
+    "La comparación con la pregunta original fue rechazada por validación de cifras; la variante sin numeración devolvió ambos totales correctamente.",
+    "42 pruebas automatizadas y 6 contratos frontend aprobados no certifican lectura perfecta de cualquier PDF.",
+    "Los documentos escaneados requieren proveedor disponible; las citas de OCR verifican la transcripción, no garantizan exactitud visual universal.",
+    "La clave configurada en memoria debe volver a introducirse al reiniciar el backend."
+  ]
+}

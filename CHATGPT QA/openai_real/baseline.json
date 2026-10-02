@@ -1,0 +1,147 @@
+[
+  {
+    "kind": "factura",
+    "status": 200,
+    "upload": {
+      "success": true,
+      "message": "Documento 'QA_GEMINI_factura.pdf' procesado e indexado con éxito.",
+      "proyecto": {
+        "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+        "document_id": "DOC-222E48DE0AADC5A1",
+        "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+        "sector": "factura",
+        "tipo_documento": "factura",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_factura.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nServicio: Telefonia\nTotal a pagar: USD 23.00\nVencimiento: 15 de noviembre de 2026",
+        "resumen": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nServicio: Telefonia\nTotal a pagar: USD 23.00\nVencimiento: 15 de noviembre de 2026",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Operadora Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Operadora Ejemplo"
+          },
+          {
+            "name": "Servicio",
+            "value": "Telefonia",
+            "page_number": 1,
+            "quote": "Servicio: Telefonia"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 23.00",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 23.00"
+          },
+          {
+            "name": "Vencimiento",
+            "value": "15 de noviembre de 2026",
+            "page_number": 1,
+            "quote": "Vencimiento: 15 de noviembre de 2026"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "documento": {
+        "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+        "document_id": "DOC-222E48DE0AADC5A1",
+        "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+        "sector": "factura",
+        "tipo_documento": "factura",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_factura.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nServicio: Telefonia\nTotal a pagar: USD 23.00\nVencimiento: 15 de noviembre de 2026",
+        "resumen": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nServicio: Telefonia\nTotal a pagar: USD 23.00\nVencimiento: 15 de noviembre de 2026",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Operadora Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Operadora Ejemplo"
+          },
+          {
+            "name": "Servicio",
+            "value": "Telefonia",
+            "page_number": 1,
+            "quote": "Servicio: Telefonia"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 23.00",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 23.00"
+          },
+          {
+            "name": "Vencimiento",
+            "value": "15 de noviembre de 2026",
+            "page_number": 1,
+            "quote": "Vencimiento: 15 de noviembre de 2026"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "warnings": []
+    },
+    "chat": {
+      "success": true,
+      "answer": "El total a pagar es USD 23.00.\n\n[Fuente: DOC-222E48DE0AADC5A1, Pág. 1] Total a pagar: USD 23.00",
+      "tools_used": [
+        {
+          "tool_name": "search_project_documents",
+          "arguments": {
+            "query": "Cual es el total a pagar?",
+            "document_ids": [
+              "DOC-222E48DE0AADC5A1"
+            ]
+          },
+          "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+          "execution_time_ms": 0.11
+        }
+      ],
+      "sources": [
+        "DOC-222E48DE0AADC5A1"
+      ],
+      "found_info": true,
+      "evidence_chunks": [
+        {
+          "chunk_id": "DOC-222E48DE0AADC5A1_P1_C1",
+          "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+          "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+          "pagina": 1,
+          "contenido": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nServicio: Telefonia\nTotal a pagar: USD 23.00\nVencimiento: 15 de noviembre de 2026",
+          "fuente": "[Fuente: DOC-222E48DE0AADC5A1 - FACTURA DE SERVICIOS QA - DATOS FICTICIOS, Pág. 1]"
+        }
+      ]
+    }
+  },
+  {
+    "kind": "escaneado",
+    "status": 422,
+    "upload": {
+      "detail": "PDF sin texto seleccionable. Configura Gemini para lectura visual o aplica OCR antes de subirlo."
+    }
+  }
+]
