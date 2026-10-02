@@ -108,67 +108,36 @@ const TABS = [
 
 export default function Header({ activeTab, onTabChange, onOpenConfig, onClearChat, onToggleMobileSidebar }) {
   const [isGuideOpen, setIsGuideOpen] = useState(false);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-  const [showLeftGhost, setShowLeftGhost] = useState(false);
-  const [showRightGhost, setShowRightGhost] = useState(true);
+  const [showInitialHint, setShowInitialHint] = useState(true);
   const navRef = useRef(null);
-  const leftTimerRef = useRef(null);
-  const rightTimerRef = useRef(null);
 
-  const checkScroll = useCallback(() => {
-    if (!navRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = navRef.current;
-    const hasLeft = scrollLeft > 6;
-    const hasRight = scrollLeft < scrollWidth - clientWidth - 8;
+  // El indicador fantasma solo aparece UNA SOLA VEZ cuando se recarga la página
+  useEffect(() => {
+    setShowInitialHint(true);
+    const timer = setTimeout(() => {
+      setShowInitialHint(false);
+    }, 2400);
 
-    setCanScrollLeft(hasLeft);
-    setCanScrollRight(hasRight);
-
-    if (hasLeft) {
-      setShowLeftGhost(true);
-      if (leftTimerRef.current) clearTimeout(leftTimerRef.current);
-      leftTimerRef.current = setTimeout(() => setShowLeftGhost(false), 2000);
-    } else {
-      setShowLeftGhost(false);
-    }
-
-    if (hasRight) {
-      setShowRightGhost(true);
-      if (rightTimerRef.current) clearTimeout(rightTimerRef.current);
-      rightTimerRef.current = setTimeout(() => setShowRightGhost(false), 2400);
-    } else {
-      setShowRightGhost(false);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
-  // Initial load ghost hint
+  // Si el usuario toca o desliza la barra antes del tiempo, se desvanece de inmediato
   useEffect(() => {
-    setShowRightGhost(true);
-    if (rightTimerRef.current) clearTimeout(rightTimerRef.current);
-    rightTimerRef.current = setTimeout(() => setShowRightGhost(false), 2400);
-
-    return () => {
-      if (leftTimerRef.current) clearTimeout(leftTimerRef.current);
-      if (rightTimerRef.current) clearTimeout(rightTimerRef.current);
-    };
-  }, []);
-
-  useEffect(() => {
-    checkScroll();
     const el = navRef.current;
     if (!el) return;
 
-    const timer = setTimeout(checkScroll, 100);
-    el.addEventListener('scroll', checkScroll, { passive: true });
-    window.addEventListener('resize', checkScroll);
+    const handleInteract = () => {
+      setShowInitialHint(false);
+    };
+
+    el.addEventListener('scroll', handleInteract, { passive: true });
+    el.addEventListener('touchstart', handleInteract, { passive: true });
 
     return () => {
-      clearTimeout(timer);
-      el.removeEventListener('scroll', checkScroll);
-      window.removeEventListener('resize', checkScroll);
+      el.removeEventListener('scroll', handleInteract);
+      el.removeEventListener('touchstart', handleInteract);
     };
-  }, [checkScroll, activeTab]);
+  }, []);
 
   useEffect(() => {
     if (navRef.current) {
@@ -198,38 +167,9 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             </button>
           )}
 
-          {/* Navigation Tabs Container with Interactive Scroll Affordance */}
+          {/* Navigation Tabs Container with Interactive Scroll */}
           <div className="relative flex items-center min-w-0 max-w-full">
             
-            {/* Left Ghost Cue Indicator (Appears and fades away smoothly like a ghost) */}
-            {canScrollLeft && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => {
-                    navRef.current?.scrollBy({ left: -140, behavior: 'smooth' });
-                    setShowLeftGhost(false);
-                  }}
-                  className={`absolute left-0 inset-y-0 z-20 flex items-center pl-1 pr-4 bg-gradient-to-r from-white via-white/95 to-transparent rounded-l-full cursor-pointer md:hidden shadow-xs select-none group transition-all duration-700 ease-out ${
-                    showLeftGhost ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none -translate-x-2'
-                  }`}
-                  title="Deslizar hacia la izquierda"
-                  aria-label="Deslizar pestañas a la izquierda"
-                >
-                  <span className="flex items-center justify-center w-6 h-6 bg-[#0F1B31] text-cyan-300 rounded-full text-[10px] font-bold shadow-md shadow-cyan-950/30 border border-cyan-400/40">
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </span>
-                </button>
-
-                {/* Subtle soft edge gradient when hint is gone */}
-                {!showLeftGhost && (
-                  <div className="absolute left-0 inset-y-0 w-3 bg-gradient-to-r from-white/90 to-transparent pointer-events-none rounded-l-full md:hidden" />
-                )}
-              </>
-            )}
-
             {/* Navigation Tabs Styled in Nival Pill Aesthetics */}
             <nav 
               ref={navRef}
@@ -268,34 +208,18 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
               })}
             </nav>
 
-            {/* Right Ghost Cue Indicator (Appears and fades away automatically like a ghost) */}
-            {canScrollRight && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => {
-                    navRef.current?.scrollBy({ left: 140, behavior: 'smooth' });
-                    setShowRightGhost(false);
-                  }}
-                  className={`absolute right-0 inset-y-0 z-20 flex items-center pr-1 pl-6 bg-gradient-to-l from-white via-white/95 to-transparent rounded-r-full cursor-pointer md:hidden shadow-xs select-none group transition-all duration-700 ease-out ${
-                    showRightGhost ? 'opacity-100 translate-x-0' : 'opacity-0 pointer-events-none translate-x-2'
-                  }`}
-                  title="Deslizar hacia la derecha para ver más pestañas"
-                  aria-label="Deslizar pestañas a la derecha"
-                >
-                  <span className="flex items-center gap-1 bg-[#0F1B31] text-cyan-300 pl-2 pr-1.5 py-0.5 rounded-full text-[10px] font-bold shadow-md shadow-cyan-950/30 border border-cyan-400/40 animate-pulse">
-                    <span>Desliza</span>
-                    <svg className="w-3 h-3 text-cyan-300 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </span>
-                </button>
-
-                {/* Subtle soft edge gradient when hint is gone */}
-                {!showRightGhost && (
-                  <div className="absolute right-0 inset-y-0 w-3 bg-gradient-to-l from-white/90 to-transparent pointer-events-none rounded-r-full md:hidden" />
-                )}
-              </>
+            {/* Right Ghost Cue Indicator: ONLY appears ONCE on page reload, then disappears forever */}
+            {showInitialHint && (
+              <div
+                className="absolute right-0 inset-y-0 z-20 flex items-center pr-1 pl-6 bg-gradient-to-l from-white via-white/95 to-transparent rounded-r-full md:hidden select-none pointer-events-none transition-all duration-700 ease-out animate-fade-in"
+              >
+                <span className="flex items-center gap-1 bg-[#0F1B31] text-cyan-300 pl-2 pr-1.5 py-0.5 rounded-full text-[10px] font-bold shadow-md shadow-cyan-950/30 border border-cyan-400/40 animate-pulse">
+                  <span>Desliza</span>
+                  <svg className="w-3 h-3 text-cyan-300 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
             )}
 
           </div>
