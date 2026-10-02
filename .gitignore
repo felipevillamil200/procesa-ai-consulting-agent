@@ -10,6 +10,7 @@ __pycache__/
 *$py.class
 *.so
 .pytest_cache/
+.pytest_temp/
 
 # Archivos de configuración sensible y secretos
 .env

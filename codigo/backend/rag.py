@@ -57,19 +57,20 @@ class DocumentSearchEngine:
 
     def _extract_project_metadata(self, filename: str) -> tuple[str, str]:
         """Extrae el código y nombre legible del cliente a partir del nombre del archivo."""
+        for p_code, p_name in [
+            ("PC-2025-014", "Cooperativa Horizonte Andino"),
+            ("PC-2025-027", "Plásticos del Pacífico S.A."),
+            ("PC-2025-033", "Clínica Santa Lucía del Valle"),
+            ("PC-2026-006", "Supermercados La Canasta")
+        ]:
+            if p_code in filename:
+                return p_code, p_name
+
         from codigo.backend.documents import DocumentStore
-        registry = DocumentStore(db_path=self.db_path,reports_dir=self.reports_dir)
+        registry = DocumentStore(db_path=self.db_path, reports_dir=self.reports_dir)
         document = registry.by_filename(filename)
         if document:
             return document['document_id'], document['title']
-        if "PC-2025-014" in filename:
-            return "PC-2025-014", "Cooperativa Horizonte Andino"
-        elif "PC-2025-027" in filename:
-            return "PC-2025-027", "Plásticos del Pacífico S.A."
-        elif "PC-2025-033" in filename:
-            return "PC-2025-033", "Clínica Santa Lucía del Valle"
-        elif "PC-2026-006" in filename:
-            return "PC-2026-006", "Supermercados La Canasta"
         
         match = re.search(r"(PC-\d{4}-\d{3})", filename)
         if match:

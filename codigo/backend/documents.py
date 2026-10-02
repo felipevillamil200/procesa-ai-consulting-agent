@@ -262,9 +262,9 @@ class DocumentStore:
                     raise ValueError('El PDF no tiene contenido legible.')
                 extracted, method = enriched, provider+('_pdf' if not has_text else '_mixed' if provider=='openai' and visual else '_text')
             except Exception as exc:
-                if not has_text:
-                    raise ValueError('No se pudo leer este PDF escaneado con '+provider+'. '+provider_error_reason(exc)+' Revisa la clave/modelo o aplica OCR antes de subirlo.') from exc
-                warnings.append(provider_error_reason(exc)+' El texto se indexó y se puede consultar; la extracción de campos es básica.')
+                label = 'OpenAI' if provider == 'openai' else 'Gemini'
+                reason = provider_error_reason(exc)
+                raise ValueError(f"No se pudo procesar el documento con {label}: {reason} El archivo no fue guardado. Cambia de proveedor en Configuración (ej. a OpenAI/ChatGPT) o reintenta.") from exc
         elif not has_text:
             raise ValueError('PDF sin texto seleccionable. Configura Gemini u OpenAI para lectura visual o aplica OCR antes de subirlo.')
         unreadable = [str(p.page_number) for p in extracted.pages if len(p.text.strip())<20]

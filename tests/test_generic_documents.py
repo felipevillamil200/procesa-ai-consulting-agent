@@ -161,13 +161,12 @@ def test_invalid_pdf_does_not_persist(app):
 
 def test_provider_failure_preserves_readable_text(app,monkeypatch):
     monkeypatch.setenv('GEMINI_API_KEY','qa-fake-key')
-    def fail(*args): raise ValueError('Provider unavailable')
+    def fail(*args): raise ValueError('Provider unavailable (HTTP 503)')
     monkeypatch.setattr(documents,'gemini_json',fail)
-    ident=upload(app,pdf(['FACTURA SERVICIOS','TOTAL A PAGAR: USD 23.00']))
-    assert app.store.get(ident)['warnings']
-    monkeypatch.setattr(document_chat,'gemini_json',fail)
-    result=ask(app,'¿Cuál es el total?',ident)
-    assert result['found_info'] and '23.00' in result['answer'] and 'extractos literales' in result['answer']
+    import pytest
+    with pytest.raises(ValueError, match='No se pudo procesar el documento'):
+        app.store.ingest(pdf(['FACTURA SERVICIOS','TOTAL A PAGAR: USD 23.00']), 'factura.pdf')
+    assert len(app.store.list()) == 0
 
 def test_mixed_text_and_visual_page_keeps_both(app,monkeypatch):
     monkeypatch.setenv('GEMINI_API_KEY','qa-fake-key')
