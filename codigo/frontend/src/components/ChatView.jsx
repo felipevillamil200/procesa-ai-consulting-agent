@@ -6,20 +6,22 @@ import {
   ArrowUpRight, CornerDownLeft, Search, FileCode2
 } from 'lucide-react';
 import { marked } from 'marked';
+import { sanitizeHtml } from '../services/safeHtml';
+import { api } from '../services/api';
 import EvidenceInspector from './EvidenceInspector';
 
 // Función para transformar citas y negritas en botones interactivos estilo Perplexity
 function formatMarkdownWithPerplexityCitations(rawContent, isPerplexityEnabled = true) {
   if (!rawContent) return '';
   if (!isPerplexityEnabled) {
-    return marked.parse(rawContent);
+    return sanitizeHtml(marked.parse(rawContent));
   }
 
   let processed = rawContent;
 
   // 1. Reemplazar negritas de proyectos: **PC-XXXX-XXX - Nombre Cliente**
   processed = processed.replace(
-    /\*\*(PC-\d{4}-\d{3})(?:([^\*]*))?\*\*/g,
+    /\*\*((?:PC-\d{4}-\d{3}|DOC-[A-Fa-f0-9]{16}))(?:([^\*]*))?\*\*/g,
     (match, code, rest) => {
       const restClean = rest ? rest.trim() : '';
       return `<button type="button" class="perplexity-citation-btn inline-flex items-center gap-1.5 font-bold text-slate-900 bg-amber-100/90 hover:bg-yellow-300 border border-amber-300 hover:border-yellow-500 text-xs px-2.5 py-0.5 rounded-lg transition-all duration-150 shadow-2xs my-0.5 cursor-pointer ring-1 ring-amber-300/40 btn-tactile" data-project-code="${code}" title="Ver evidencia original de ${code} en el PDF"><span>${code}${restClean ? ` ${restClean}` : ''}</span><span class="text-[9px] bg-amber-600 text-white font-mono px-1 py-0.2 rounded font-bold">📄 PDF</span></button>`;
@@ -27,7 +29,7 @@ function formatMarkdownWithPerplexityCitations(rawContent, isPerplexityEnabled =
   );
 
   // 2. Reemplazar códigos de proyecto sueltos: PC-2025-014, etc.
-  ['PC-2025-014', 'PC-2025-027', 'PC-2025-033', 'PC-2026-006'].forEach(code => {
+  [...new Set(processed.match(/\b(?:PC-\d{4}-\d{3}|DOC-[A-Fa-f0-9]{16})\b/g) || [])].forEach(code => {
     const regex = new RegExp(`(?<!data-project-code=")(?<!>)\\b(${code})\\b(?![^<]*>)`, 'g');
     processed = processed.replace(
       regex, 
@@ -35,7 +37,7 @@ function formatMarkdownWithPerplexityCitations(rawContent, isPerplexityEnabled =
     );
   });
 
-  return marked.parse(processed);
+  return sanitizeHtml(marked.parse(processed));
 }
 
 export default function ChatView({ 
@@ -44,9 +46,12 @@ export default function ChatView({
   isLoading, 
   pendingPrompt, 
   onClearPendingPrompt,
-  fichas = []
+  fichas = [],
+  onUploadPDF
 }) {
   const [input, setInput] = useState('');
+  const [uploadNotice, setUploadNotice] = useState('');
+  const [uploadBusy, setUploadBusy] = useState(false);
   const [attachedDoc, setAttachedDoc] = useState(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [selectedEvidence, setSelectedEvidence] = useState(null);
@@ -86,7 +91,7 @@ export default function ChatView({
   const handleSubmit = (e) => {
     e.preventDefault();
     const q = input.trim();
-    if (!q || isLoading) return;
+    if (!q || isLoading || uploadBusy) return;
     setInput('');
     onSendMessage(q, attachedDoc);
   };
@@ -121,7 +126,7 @@ export default function ChatView({
     e.dataTransfer.dropEffect = 'copy';
   };
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragOver(false);
@@ -143,7 +148,7 @@ export default function ChatView({
 
     // 2. Verificar si se arrastró texto plano con código de proyecto
     const plainText = e.dataTransfer.getData('text/plain');
-    if (plainText && plainText.startsWith('PC-')) {
+    if (plainText && /^(PC-|DOC-)/.test(plainText)) {
       const match = fichas.find(f => f.codigo_proyecto === plainText);
       if (match) {
         setAttachedDoc({
@@ -158,35 +163,35 @@ export default function ChatView({
 
     // 3. Verificar si se arrastró un archivo PDF nativo
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      const file = e.dataTransfer.files[0];
-      if (file.name.endsWith('.pdf')) {
-        // Buscar si coincide con alguno existente
-        const matchedFicha = fichas.find(f => file.name.toUpperCase().includes(f.codigo_proyecto.toUpperCase()));
-        if (matchedFicha) {
-          setAttachedDoc({
-            codigo_proyecto: matchedFicha.codigo_proyecto,
-            cliente: matchedFicha.cliente,
-            sector: matchedFicha.sector,
-            duracion_semanas: matchedFicha.duracion_semanas,
-            pdf_name: file.name
-          });
-        } else {
-          setAttachedDoc({
-            codigo_proyecto: file.name.replace('.pdf', '').slice(0, 15),
-            cliente: file.name,
-            sector: 'Documento PDF',
-            pdf_name: file.name,
-            isCustomFile: true
-          });
-        }
+      if (onUploadPDF) {
+        if (uploadBusy) return;
+        setUploadBusy(true);
+        setUploadNotice('Leyendo documentos…');
+        const documents = [];
+        const errors = [];
+          for (const file of Array.from(e.dataTransfer.files)) {
+            try {
+            if (!file.name.toLowerCase().endsWith('.pdf')) throw new Error('Solo se admiten archivos PDF.');
+            const result = await onUploadPDF(file);
+            if (!result.success) throw new Error(result.detail || 'No se pudo cargar el PDF.');
+            documents.push(result.documento || result.proyecto);
+            errors.push(...(result.warnings || []).map(w => `${file.name}: ${w}`));
+            } catch (err) { errors.push(`${file.name}: ${err.message}`); }
+          }
+          if (documents.length)
+          setAttachedDoc({codigo_proyecto:documents[0].codigo_proyecto,cliente:documents.map(d=>d.cliente).join(', '),document_ids:documents.map(d=>d.codigo_proyecto)});
+        setUploadNotice([documents.length ? `${documents.length} documento(s) cargado(s).` : '', ...errors].filter(Boolean).join(' '));
+        setUploadBusy(false);
+        return;
       }
+      setUploadNotice('La carga de documentos no está disponible.');
     }
   };
 
   // Helper to resolve real project code from source strings, query, or message content
   const resolveProjectCode = (sourceStr, msgObj, userQ) => {
-    if (sourceStr && /PC-\d{4}-\d{3}/i.test(sourceStr)) {
-      return sourceStr.match(/PC-\d{4}-\d{3}/i)[0].toUpperCase();
+    if (sourceStr && /(?:PC-\d{4}-\d{3}|DOC-[A-Fa-f0-9]{16})/i.test(sourceStr)) {
+      return sourceStr.match(/(?:PC-\d{4}-\d{3}|DOC-[A-Fa-f0-9]{16})/i)[0].toUpperCase();
     }
     if (attachedDoc?.codigo_proyecto) {
       return attachedDoc.codigo_proyecto;
@@ -207,7 +212,7 @@ export default function ChatView({
       );
       if (byClient) return byClient.codigo_proyecto;
     }
-    return 'PC-2025-014';
+    return null;
   };
 
   // Manejador de clics en las negritas y citas interactivas dentro del mensaje (Perplexity Style)
@@ -436,6 +441,20 @@ export default function ChatView({
         {/* Floating Chat Input Dock */}
         <div className="p-4 pt-2 bg-gradient-to-t from-slate-100/90 via-slate-100/50 to-transparent shrink-0">
           <div className="max-w-4xl mx-auto space-y-2">
+            <details className="rounded-xl border border-slate-200 bg-white p-2 text-xs">
+              <summary className="cursor-pointer font-medium text-slate-700">Seleccionar documentos para consultar o comparar</summary>
+              <div className="mt-2 max-h-36 overflow-y-auto space-y-1">
+                {fichas.map(f => {
+                  const ids = attachedDoc?.document_ids || (attachedDoc?.codigo_proyecto ? [attachedDoc.codigo_proyecto] : []);
+                  return <label key={f.codigo_proyecto} className="flex items-center gap-2 min-h-9 cursor-pointer">
+                    <input type="checkbox" checked={ids.includes(f.codigo_proyecto)} onChange={e => {
+                      const next = e.target.checked ? [...ids,f.codigo_proyecto] : ids.filter(id=>id!==f.codigo_proyecto);
+                      setAttachedDoc(next.length ? {codigo_proyecto:next[0],document_ids:next,cliente:`${next.length} documento(s) seleccionados`} : null);
+                    }}/><span>{f.cliente} <span className="text-slate-500">({f.tipo_documento || f.sector})</span></span>
+                  </label>;
+                })}
+              </div>
+            </details>
             
             {/* Attached PDF Badge Pill */}
             {attachedDoc && (
@@ -474,6 +493,7 @@ export default function ChatView({
               </div>
             )}
 
+            {uploadNotice && <div role="status" className="mb-2 p-3 text-xs rounded-xl bg-amber-50 text-amber-900 border border-amber-200">{uploadNotice}</div>}
             <form onSubmit={handleSubmit} className="glass-panel p-1.5 rounded-2xl shadow-elevated border border-slate-200/90 flex items-center gap-2">
               
               {/* Botón de Opciones Grounding / Inspector */}

@@ -1,299 +1,44 @@
-/**
- * Servicio API de comunicación con el Backend FastAPI de Procesa Consultores.
- */
+/** Cliente API: los fallos nunca se convierten en cargas ni respuestas ficticias. */
+export const getApiBase = () => (localStorage.getItem('custom_backend_url') || import.meta.env.VITE_API_BASE || (window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin)).replace(/\/$/, '');
 
-// Detectar base URL dinámicamente según el entorno, variable VITE_API_BASE o localStorage
-export const getApiBase = () => {
-  return localStorage.getItem('custom_backend_url') || import.meta.env.VITE_API_BASE || (window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin);
-};
-
-import { OFFICIAL_FICHAS, OFFICIAL_PROJECTS, executeClientSQL, smartClientChat, getDocumentPreviewFallback } from './fallbackData';
-
-const getDeletedCodes = () => {
-  try {
-    return JSON.parse(localStorage.getItem('deleted_project_codes') || '[]');
-  } catch {
-    return [];
-  }
-};
-
-const saveDeletedCode = (code) => {
-  const codes = getDeletedCodes();
-  if (!codes.includes(code)) {
-    codes.push(code);
-    localStorage.setItem('deleted_project_codes', JSON.stringify(codes));
-  }
-};
-
-const clearDeletedCodes = () => {
-  localStorage.removeItem('deleted_project_codes');
-};
+async function request(path, options = {}) {
+  const response = await fetch(`${getApiBase()}${path}`, options);
+  const data = await response.json().catch(() => null);
+  if (!response.ok) throw new Error(typeof data?.detail === 'string' ? data.detail : `La API devolvió HTTP ${response.status}.`);
+  if (!data) throw new Error('La API no devolvió JSON. Revisa la dirección del backend.');
+  return data;
+}
+const post = (path, body) => request(path, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
 
 export const api = {
-  /**
-   * Envía una pregunta al Agente de IA (con fallback inteligente)
-   */
-  async sendMessage(question, history = null) {
-    try {
-      const res = await fetch(`${getApiBase()}/api/chat`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question, history })
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (data && (data.answer || data.success)) return data;
-      throw new Error("Respuesta inválida");
-    } catch (err) {
-      console.warn("Utilizando motor de IA contextual de respaldo:", err);
-      return smartClientChat(question);
-    }
+  sendMessage(question, history = null, documentIds = []) {
+    return post('/api/chat', {question, history, document_ids: documentIds.length ? documentIds : undefined});
   },
-
-  /**
-   * Obtiene todos los proyectos registrados
-   */
-  async getProjects() {
-    const deletedCodes = getDeletedCodes();
-    try {
-      const res = await fetch(`${getApiBase()}/api/proyectos`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (data && data.success && Array.isArray(data.proyectos) && data.proyectos.length > 0) {
-        // Filtrar si alguno fue marcado localmente como eliminado
-        const filtered = data.proyectos.filter(p => !deletedCodes.includes(p.codigo_proyecto));
-        return {
-          ...data,
-          proyectos: filtered,
-          count: filtered.length
-        };
-      }
-      throw new Error("Datos no encontrados");
-    } catch (err) {
-      const activeProjects = OFFICIAL_PROJECTS.filter(p => !deletedCodes.includes(p.codigo_proyecto));
-      return {
-        success: true,
-        proyectos: activeProjects,
-        total: activeProjects.length
-      };
-    }
-  },
-
-  /**
-   * Obtiene las fichas técnicas estructuradas
-   */
-  async getFichas() {
-    const deletedCodes = getDeletedCodes();
-    try {
-      const res = await fetch(`${getApiBase()}/api/fichas`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (data && data.success && Array.isArray(data.fichas) && data.fichas.length > 0) {
-        const filtered = data.fichas.filter(f => !deletedCodes.includes(f.codigo_proyecto));
-        return {
-          ...data,
-          fichas: filtered,
-          count: filtered.length
-        };
-      }
-      throw new Error("Fichas no encontradas");
-    } catch (err) {
-      const activeFichas = OFFICIAL_FICHAS.filter(f => !deletedCodes.includes(f.codigo_proyecto));
-      return {
-        success: true,
-        fichas: activeFichas,
-        total: activeFichas.length
-      };
-    }
-  },
-
-  /**
-   * Obtiene la vista previa del documento PDF
-   */
-  async getDocumentPreview(codigo) {
-    try {
-      const res = await fetch(`${getApiBase()}/api/proyectos/${codigo}/preview`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (data && data.success && Array.isArray(data.pages) && data.pages.length > 0) {
-        return data;
-      }
-      throw new Error("Preview no encontrado");
-    } catch (err) {
-      return getDocumentPreviewFallback(codigo);
-    }
-  },
-
-  /**
-   * Ejecuta una consulta SQL
-   */
-  async executeSQL(query) {
-    try {
-      const res = await fetch(`${getApiBase()}/api/sql`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query })
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      return executeClientSQL(query);
-    }
-  },
-
-  /**
-   * Obtiene la configuración
-   */
+  getProjects() { return request('/api/proyectos'); },
+  getFichas() { return request('/api/fichas'); },
+  getDocuments() { return request('/api/documentos'); },
+  getDocumentPreview(code) { return request(`/api/proyectos/${encodeURIComponent(code)}/preview`); },
+  executeSQL(query) { return post('/api/sql', {query}); },
   async getConfig() {
-    const localGeminiKey = localStorage.getItem('gemini_api_key');
-    const localOpenAIKey = localStorage.getItem('openai_api_key');
-    const hasLocalKey = Boolean(localGeminiKey || localOpenAIKey);
-
-    try {
-      const res = await fetch(`${getApiBase()}/api/config`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (hasLocalKey && !data.has_api_key) {
-        data.has_api_key = true;
-        data.gemini_api_key_set = Boolean(localGeminiKey);
-        data.openai_api_key_set = Boolean(localOpenAIKey);
-      }
-      return data;
-    } catch (err) {
-      return {
-        success: true,
-        has_api_key: hasLocalKey,
-        gemini_api_key_set: Boolean(localGeminiKey),
-        openai_api_key_set: Boolean(localOpenAIKey),
-        active_provider: localStorage.getItem('custom_provider') || "gemini",
-        active_model: localStorage.getItem('custom_model') || "gemini-flash-latest",
-        temperature: Number(localStorage.getItem('custom_temperature') || 0.2),
-        embedding_model: "text-embedding-3-small",
-        masked_key: hasLocalKey ? "Configurada (Local)" : "No configurada"
-      };
-    }
+    try { return await request('/api/config'); }
+    catch { return {success:false,backend_available:false,has_api_key:false,provider:localStorage.getItem('custom_provider') || 'gemini',model:localStorage.getItem('custom_model') || 'gemini-flash-latest',temperature:Number(localStorage.getItem('custom_temperature') || 0.1)}; }
   },
-
-  /**
-   * Actualiza la configuración
-   */
   async updateConfig(apiKey, model, provider, temperature) {
-    if (apiKey && apiKey.trim()) {
-      if (provider === 'openai') {
-        localStorage.setItem('openai_api_key', apiKey.trim());
-      } else {
-        localStorage.setItem('gemini_api_key', apiKey.trim());
-      }
+    const result = await post('/api/config', {api_key:apiKey || undefined,model,provider,temperature:Number(temperature)});
+    if (result.success) {
+      localStorage.setItem('custom_provider',provider); localStorage.setItem('custom_model',model); localStorage.setItem('custom_temperature',String(temperature));
+      localStorage.removeItem('gemini_api_key'); localStorage.removeItem('openai_api_key');
     }
-    if (model) localStorage.setItem('custom_model', model);
-    if (provider) localStorage.setItem('custom_provider', provider);
-    if (temperature !== undefined) localStorage.setItem('custom_temperature', String(temperature));
-
-    try {
-      const res = await fetch(`${getApiBase()}/api/config`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          api_key: apiKey || undefined,
-          model,
-          provider: provider || (model && model.startsWith('gemini') ? 'gemini' : 'openai'),
-          temperature: temperature !== undefined ? Number(temperature) : undefined
-        })
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      return {
-        success: true,
-        has_api_key: Boolean(apiKey && apiKey.trim()),
-        message: "Configuración actualizada correctamente en sesión local",
-        provider: provider || "gemini",
-        model: model || "gemini-flash-latest"
-      };
-    }
+    return result;
   },
-
-  /**
-   * Elimina la clave de API activa
-   */
-  async deleteApiKey() {
-    localStorage.removeItem('gemini_api_key');
-    localStorage.removeItem('openai_api_key');
-    try {
-      const res = await fetch(`${getApiBase()}/api/config/key`, {
-        method: 'DELETE'
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      return {
-        success: true,
-        has_api_key: false,
-        message: "Clave de API eliminada. Modo Local activo."
-      };
-    }
+  deleteApiKey() {
+    localStorage.removeItem('gemini_api_key'); localStorage.removeItem('openai_api_key');
+    return request('/api/config/key', {method:'DELETE'});
   },
-
-  /**
-   * Sube un archivo PDF
-   */
-  async uploadPDF(file) {
-    const formData = new FormData();
-    formData.append('file', file);
-    try {
-      const res = await fetch(`${getApiBase()}/api/upload`, {
-        method: 'POST',
-        body: formData
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      return {
-        success: true,
-        message: `Informe ${file.name} recibido correctamente e indexado en la sesión.`,
-        codigo_proyecto: `PC-NEW-${Date.now().toString().slice(-3)}`
-      };
-    }
+  uploadPDF(file) {
+    const formData = new FormData(); formData.append('file',file);
+    return request('/api/upload', {method:'POST',body:formData});
   },
-
-  /**
-   * Elimina un proyecto
-   */
-  async deleteProject(codigo) {
-    saveDeletedCode(codigo);
-    try {
-      const res = await fetch(`${getApiBase()}/api/proyectos/${codigo}`, {
-        method: 'DELETE'
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      return {
-        success: true,
-        deleted: true,
-        codigo_proyecto: codigo,
-        message: `Proyecto ${codigo} eliminado correctamente.`
-      };
-    }
-  },
-
-  /**
-   * Restaura los proyectos oficiales
-   */
-  async resetProjects() {
-    clearDeletedCodes();
-    try {
-      const res = await fetch(`${getApiBase()}/api/proyectos/reset`, {
-        method: 'POST'
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
-    } catch (err) {
-      return {
-        success: true,
-        message: "Se restauraron los 4 proyectos oficiales de Procesa Consultores.",
-        total: 4
-      };
-    }
-  }
+  deleteProject(code) { return request(`/api/proyectos/${encodeURIComponent(code)}`, {method:'DELETE'}); },
+  resetProjects() { return post('/api/proyectos/reset', {}); }
 };

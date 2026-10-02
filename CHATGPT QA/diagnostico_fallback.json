@@ -1,0 +1,26 @@
+{
+  "network_calls": 0,
+  "warnings": [
+    "Utilizando motor de IA contextual de respaldo:"
+  ],
+  "upload": {
+    "success": true,
+    "message": "Informe factura.pdf recibido correctamente e indexado en la sesión.",
+    "codigo_proyecto": "PC-NEW-420"
+  },
+  "chat": {
+    "success": true,
+    "answer": "### 🤖 Respuesta del Asistente Técnico Procesa IA\n\nHe procesado tu consulta: *\"¿Cuál es el total de mi factura de telefonía?\"* contrastando la base de datos relacional (SQLite) y los informes documentales RAG:\n\n- **Proyectos disponibles:** 4 informes de cierre oficiales (Financiero, Manufactura, Salud y Retail).\n- **Duraciones:** Entre 21 y 25 semanas.\n- **Metodologías aplicadas:** Lean, VSM, TPM, SMED, Lean Healthcare y Gestión de Cadena de Suministro.\n\nPuedes consultar KPIs específicos de cada proyecto, lecciones aprendidas o hacer clic en los badges para ver la evidencia original en el PDF.",
+    "tools_used": [
+      "sql_query",
+      "rag_semantic_search"
+    ],
+    "sources": [
+      "PC-2025-014",
+      "PC-2025-027",
+      "PC-2025-033",
+      "PC-2026-006"
+    ],
+    "found_info": true
+  }
+}

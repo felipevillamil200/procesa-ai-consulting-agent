@@ -1,0 +1,6 @@
+{
+  "status": 422,
+  "response": {
+    "detail": "No se pudo leer este PDF escaneado con Gemini. Gemini devolvió HTTP 503: error del proveedor. Revisa la clave/modelo o aplica OCR antes de subirlo."
+  }
+}

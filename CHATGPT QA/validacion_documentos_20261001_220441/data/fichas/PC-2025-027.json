@@ -1,0 +1,84 @@
+{
+  "codigo_proyecto": "PC-2025-027",
+  "cliente": "Plásticos del Pacífico S.A.",
+  "sector": "Manufactura – plásticos y envases",
+  "ubicacion": "Planta industrial de Durán, provincia del Guayas",
+  "fecha_inicio": "2025-07-07",
+  "fecha_fin": "2025-12-12",
+  "duracion_semanas": 23,
+  "gerente_proyecto": "Ing. Martín Aguirre",
+  "equipo_consultor": [
+    "1 gerente",
+    "1 consultor senior en TPM",
+    "2 consultores",
+    "1 analista de datos"
+  ],
+  "objetivo_general": "Mejora de la Efectividad Global de los Equipos (OEE) en la planta de Durán (Línea 1 de inyección).",
+  "metodologias_herramientas": [
+    "Mantenimiento Productivo Total (TPM)",
+    "SMED (Single-Minute Exchange of Die)",
+    "Mantenimiento Autónomo y Preventivo",
+    "Gestión Diaria de Paradas (registro en tablet)",
+    "Mejoras en alimentación de material (tolvas con sensores)"
+  ],
+  "kpis_impacto": [
+    {
+      "indicador": "OEE Global Línea 1 (Inyección)",
+      "linea_base_antes": "58%",
+      "resultado_despues": "71%",
+      "variacion_porcentual": "+13 pp"
+    },
+    {
+      "indicador": "Tiempo promedio de cambio de formato",
+      "linea_base_antes": "95 min",
+      "resultado_despues": "38 min",
+      "variacion_porcentual": "-60%"
+    },
+    {
+      "indicador": "Paradas no programadas",
+      "linea_base_antes": "64 h/mes",
+      "resultado_despues": "31 h/mes",
+      "variacion_porcentual": "-52%"
+    },
+    {
+      "indicador": "Tasa de desperdicio (scrap)",
+      "linea_base_antes": "6,0%",
+      "resultado_despues": "5,0%",
+      "variacion_porcentual": "-1 pp"
+    },
+    {
+      "indicador": "Disponibilidad",
+      "linea_base_antes": "72%",
+      "resultado_despues": "82%",
+      "variacion_porcentual": "+10 pp"
+    },
+    {
+      "indicador": "Rendimiento",
+      "linea_base_antes": "86%",
+      "resultado_despues": "91%",
+      "variacion_porcentual": "+5 pp"
+    },
+    {
+      "indicador": "Calidad",
+      "linea_base_antes": "94%",
+      "resultado_despues": "95%",
+      "variacion_porcentual": "+1 pp"
+    }
+  ],
+  "beneficios_economicos": "El informe no declara montos monetarios en USD; la mejora en OEE generó una capacidad adicional estimada de 1,9 millones de tapas al mes para cubrir nuevos contratos sin inversión en maquinaria.",
+  "principales_hitos": [
+    "Fase 1: Diagnóstico y línea base OEE (Semanas 1-4)",
+    "Fase 2: Diseño de estándares SMED y mantenimiento autónomo (Semanas 5-8)",
+    "Fase 3: Implementación talleres SMED y tablets en planta (Semanas 9-19)",
+    "Fase 4: Estabilización y transferencia autónoma al equipo de planta (Semanas 20-23)"
+  ],
+  "lecciones_aprendidas": [
+    "La resistencia al cambio se concentró en los mandos medios. Los supervisores de turno veían el registro detallado de paradas como un mecanismo de control sobre su desempeño. La situación cambió cuando se les dio la responsabilidad de conducir la reunión diaria y de proponer las acciones, en lugar de solo reportar.",
+    "Sin datos confiables no hay mejora sostenible. El registro manual subestimaba las paradas en cerca de un 40%. Invertir las primeras semanas en medir bien evitó atacar causas equivocadas.",
+    "SMED genera resultados rápidos y visibles. Empezar por los cambios de formato permitió mostrar resultados en el primer mes de implementación y ganar credibilidad en planta."
+  ],
+  "factores_riesgo": [
+    "Desgaste mecánico de inyectoras antiguas",
+    "Subregistro inicial de microparadas en registros manuales"
+  ]
+}

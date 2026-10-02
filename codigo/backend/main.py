@@ -45,6 +45,8 @@ app.add_middleware(
 # Instancias compartidas
 db_manager = DatabaseManager()
 agent = ConsultorAgent(db_manager=db_manager)
+from codigo.backend.documents import DocumentStore, MAX_PDF_BYTES
+document_store = DocumentStore(db_manager.db_path)
 
 @app.get("/health")
 @app.get("/api/health")
@@ -57,6 +59,7 @@ async def health_check():
 class ChatRequest(BaseModel):
     question: str = Field(..., description="Pregunta del usuario en lenguaje natural")
     history: Optional[List[Dict[str, str]]] = Field(default=None, description="Historial previo de mensajes")
+    document_ids: Optional[List[str]] = Field(default=None, max_length=20, description="Identificadores exactos de documentos seleccionados")
 
 
 class SQLRequest(BaseModel):
@@ -96,6 +99,8 @@ def get_config():
     return {
         "success": True,
         "provider": os.getenv("LLM_PROVIDER", LLM_PROVIDER),
+        "backend_available": True,
+        "storage_persistent": not bool(os.getenv('VERCEL')),
         "model": os.getenv("LLM_MODEL", LLM_MODEL),
         "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1")),
         "has_api_key": bool(current_key),
@@ -115,8 +120,7 @@ def update_config(req: ConfigUpdateRequest):
             os.environ["GEMINI_API_KEY"] = ""
             os.environ["OPENAI_API_KEY"] = ""
         else:
-            os.environ["GEMINI_API_KEY"] = clean_key
-            os.environ["OPENAI_API_KEY"] = clean_key
+            os.environ['OPENAI_API_KEY' if (req.provider or os.getenv('LLM_PROVIDER')) == 'openai' else 'GEMINI_API_KEY'] = clean_key
     if req.model and req.model.strip():
         os.environ["LLM_MODEL"] = req.model.strip()
     if req.provider and req.provider.strip():
@@ -144,7 +148,7 @@ def chat_with_agent(req: ChatRequest):
     Ejecuta el ciclo de razonamiento (SQL + RAG) y retorna respuesta con citas, trazabilidad y fragmentos de evidencia.
     """
     try:
-        response = agent.ask(req.question, chat_history=req.history)
+        response = agent.ask(req.question, chat_history=req.history, document_ids=req.document_ids)
         return {
             "success": True,
             "answer": response.answer,
@@ -189,6 +193,12 @@ def get_project_pdf_file(codigo_proyecto: str):
     Sirve directamente el archivo PDF físico original para renderizado embebido en el Visor de Evidencia.
     """
     from codigo.backend.config import RAW_REPORTS_DIR
+    document = document_store.get(codigo_proyecto)
+    if document:
+        target = document_store.pdf_path(document)
+        if not target.exists():
+            raise HTTPException(status_code=404, detail='Archivo no disponible.')
+        return FileResponse(target,media_type='application/pdf',filename=document['filename'],headers={'Content-Disposition':'inline'})
     code_clean = codigo_proyecto.strip().upper()
     pdf_files = list(RAW_REPORTS_DIR.glob("*.pdf"))
 
@@ -229,13 +239,20 @@ def get_all_projects():
                     item[json_col] = json.loads(item[json_col])
                 except Exception:
                     pass
-        formatted.append(item)
+        import re
+        if re.fullmatch(r'PC-\d{4}-\d{3}',item['codigo_proyecto']):
+            formatted.append(item)
+    formatted.extend(document_store.adapter(d) for d in document_store.list())
     return {"success": True, "count": len(formatted), "proyectos": formatted}
 
 
 @app.delete("/api/proyectos/{codigo_proyecto}")
 def delete_project(codigo_proyecto: str):
     """Elimina un proyecto de la base de datos SQLite, borra su ficha JSON y actualiza el índice RAG."""
+    if codigo_proyecto.upper().startswith('DOC-'):
+        deleted = document_store.delete(codigo_proyecto)
+        agent.search_engine.reload_index()
+        return {'success':True,'deleted':deleted,'codigo_proyecto':codigo_proyecto}
     # 1. Eliminar de SQLite
     deleted = db_manager.delete_proyecto(codigo_proyecto)
     
@@ -269,6 +286,7 @@ def reset_projects():
     conn = db_manager.get_connection()
     try:
         conn.execute("DELETE FROM proyectos")
+        conn.execute("DELETE FROM documentos")
         conn.commit()
     finally:
         conn.close()
@@ -318,7 +336,9 @@ async def upload_document(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="Solo se permiten archivos con extensión .pdf.")
 
     # Leer contenido en memoria antes de guardar en disco
-    content = await file.read()
+    content = await file.read(MAX_PDF_BYTES + 1)
+    if len(content) > MAX_PDF_BYTES:
+        raise HTTPException(status_code=413,detail='El PDF supera el límite de 15 MB.')
     if len(content) < 50 or not content.startswith(b"%PDF"):
         raise HTTPException(status_code=400, detail="El archivo proporcionado no es un documento PDF válido.")
 
@@ -335,20 +355,20 @@ async def upload_document(file: UploadFile = File(...)):
     if not str(save_path).startswith(str(RAW_REPORTS_DIR.resolve())):
         raise HTTPException(status_code=400, detail="Ruta de archivo no permitida.")
 
-    save_path.write_bytes(content)
-
     try:
-        ficha = process_single_pdf(save_path, db_manager)
+        document = document_store.ingest(content,safe_filename)
         agent.search_engine.reload_index()
         return {
             "success": True,
             "message": f"Documento '{safe_filename}' procesado e indexado con éxito.",
-            "proyecto": ficha.model_dump()
+            "proyecto": document_store.adapter(document),
+            "documento": document_store.adapter(document),
+            "warnings": document.get('warnings',[]) + (['Almacenamiento temporal de Vercel: usa un backend persistente para conservar los archivos entre reinicios.'] if os.getenv('VERCEL') else [])
         }
+    except ValueError as e:
+        raise HTTPException(status_code=422,detail=str(e))
     except Exception as e:
-        if save_path.exists():
-            save_path.unlink()
-        raise HTTPException(status_code=500, detail=f"Error procesando PDF: {str(e)}")
+        raise HTTPException(status_code=500, detail='No se pudo guardar el documento.') from e
 
 
 @app.get("/api/fichas")
@@ -358,7 +378,15 @@ def get_fichas_json():
     for jf in sorted(list(FICHAS_DIR.glob("*.json"))):
         with open(jf, "r", encoding="utf-8") as f:
             fichas.append(json.load(f))
+    import re
+    fichas = [f for f in fichas if re.fullmatch(r'PC-\d{4}-\d{3}',f.get('codigo_proyecto',''))]
+    fichas.extend(document_store.adapter(d) for d in document_store.list())
     return {"success": True, "count": len(fichas), "fichas": fichas}
+
+@app.get('/api/documentos')
+def get_documents():
+    docs=[document_store.adapter(d) for d in document_store.list()]
+    return {'success':True,'documentos':docs,'count':len(docs)}
 
 
 @app.post("/api/sql")
@@ -399,7 +427,9 @@ def get_static_image(image_name: str):
         BASE_DIR / "codigo" / "frontend" / "dist" / "images",
         PROJECT_ROOT / "codigo" / "frontend" / "public" / "images"
     ]:
-        target = base / image_name
+        target = (base / image_name).resolve()
+        if not target.is_relative_to(base.resolve()):
+            continue
         if target.exists() and target.is_file():
             return FileResponse(target)
     raise HTTPException(status_code=404, detail="Imagen no encontrada")
@@ -413,5 +443,4 @@ for img_dir in [FRONTEND_DIR / "public" / "images", FRONTEND_DIST / "images", FR
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
-
 

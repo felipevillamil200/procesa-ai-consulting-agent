@@ -1,0 +1,72 @@
+{
+  "codigo_proyecto": "PC-2025-033",
+  "cliente": "Clínica Santa Lucía del Valle",
+  "sector": "Salud – clínicas y hospitales privados",
+  "ubicacion": "Valle de los Chillos, Quito",
+  "fecha_inicio": "2025-10-06",
+  "fecha_fin": "2026-02-27",
+  "duracion_semanas": 21,
+  "gerente_proyecto": "Ing. Martín Aguirre",
+  "equipo_consultor": [
+    "1 gerente",
+    "1 consultora senior en procesos de salud",
+    "1 consultor",
+    "1 analista de datos"
+  ],
+  "objetivo_general": "Reducción de tiempos de admisión y espera en consulta externa.",
+  "metodologias_herramientas": [
+    "Lean Healthcare",
+    "Análisis de colas",
+    "Agenda diferenciada por especialidad",
+    "Pre-admisión digital",
+    "Reorganización de ventanillas",
+    "Recordatorios y confirmación automática de citas"
+  ],
+  "kpis_impacto": [
+    {
+      "indicador": "Tiempo total de espera del paciente",
+      "linea_base_antes": "52 min",
+      "resultado_despues": "39,5 min",
+      "variacion_porcentual": "-24%"
+    },
+    {
+      "indicador": "Tiempo de admisión en ventanilla",
+      "linea_base_antes": "14 min",
+      "resultado_despues": "6 min",
+      "variacion_porcentual": "-57%"
+    },
+    {
+      "indicador": "Pacientes con pre-admisión digital",
+      "linea_base_antes": "0%",
+      "resultado_despues": "41%",
+      "variacion_porcentual": "+41 pp"
+    },
+    {
+      "indicador": "Ausentismo de citas",
+      "linea_base_antes": "22%",
+      "resultado_despues": "15%",
+      "variacion_porcentual": "-7 pp"
+    },
+    {
+      "indicador": "Satisfacción del paciente (NPS)",
+      "linea_base_antes": "18",
+      "resultado_despues": "37",
+      "variacion_porcentual": "+19 puntos"
+    }
+  ],
+  "beneficios_economicos": "El informe no incluye estimaciones de ahorro o facturación en USD; se focaliza en indicadores de tiempo de espera, ausentismo (15%) y duplicación del NPS de pacientes.",
+  "principales_hitos": [
+    "Diagnóstico con seguimiento presencial de 420 pacientes (Semanas 1-5)",
+    "Diseño y piloto de agenda y pre-admisión en 3 especialidades (Semanas 6-12)",
+    "Despliegue integral a todas las especialidades y medición final (Semanas 13-21)"
+  ],
+  "lecciones_aprendidas": [
+    "Involucrar a los médicos desde el diagnóstico. El rediseño de la agenda generó inicialmente rechazo de algunos especialistas. Presentarles los tiempos reales de sus propias consultas, medidos en el diagnóstico, facilitó el acuerdo sobre los nuevos bloques.",
+    "La medición manual de tiempos tiene límites. El seguimiento presencial de pacientes es costoso y difícil de repetir. Se recomendó al cliente registrar automáticamente las marcas de tiempo de llegada, admisión e ingreso a consulta para dar seguimiento continuo.",
+    "La adopción digital requiere acompañamiento. La pre-admisión creció de forma sostenida solo después de ubicar personal de apoyo en la entrada durante las primeras semanas para guiar a los pacientes."
+  ],
+  "factores_riesgo": [
+    "Resistencia inicial del cuerpo médico al cambio de bloques de agendamiento",
+    "Variabilidad en la demanda de traumatología y dermatología"
+  ]
+}

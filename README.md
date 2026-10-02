@@ -1,6 +1,20 @@
 # 🏢 Procesa Consultores - Agente de Consulta de Proyectos Históricos
 
-Sistema de Inteligencia Artificial para la consulta interactiva, analítica y documental sobre informes de cierre de proyectos de consultoría, desarrollado bajo un enfoque híbrido **Text-to-SQL Relacional + RAG Semántico**, con trazabilidad completa, citas obligatorias de fuente y estrictos mecanismos anti-alucinación.
+Sistema de consulta de proyectos y documentos PDF. Admite facturas, contratos, manuales e informes mediante un catálogo documental independiente, además de conservar SQL para los proyectos de consultoría. El contenido de los archivos cargados se recupera con citas por documento y página.
+
+## PDFs de distintos tipos y carga múltiple
+
+La carga ya no convierte todos los PDFs en proyectos: guarda cada archivo en la tabla `documentos` de SQLite, con identidad `DOC-…` basada en su contenido, páginas, tipo y campos extraídos. Dos archivos distintos con el mismo nombre conservan identidades diferentes; una carga repetida del mismo contenido devuelve la identidad existente. El índice documental se actualiza después de cada carga.
+
+En la aplicación se pueden cargar varios PDFs en el diálogo de carga o arrastrarlos al chat. El selector «Seleccionar documentos para consultar o comparar» permite delimitar las fuentes. Las citas abren el archivo correspondiente, su texto por página y los campos extraídos. Los errores de API se muestran como errores; no se sustituyen por respuestas de los cuatro documentos de demostración.
+
+Configura Gemini en **Config** para clasificación, extracción visual y respuestas sintetizadas. El backend envía el PDF al proveedor configurado para su lectura visual. Sin clave, los PDFs con texto seleccionable siguen disponibles en modo extractivo, identificado expresamente en la respuesta. Los PDFs escaneados requieren Gemini operativo o un OCR previo; una lectura fallida se rechaza con un mensaje claro. El límite por archivo es 15 MiB y 200 páginas, y cada consulta permite seleccionar hasta 20 documentos.
+
+Para iniciar con un catálogo vacío, establece `PROCESA_SEED_OFFICIAL=0` y `PROCESA_DATA_DIR` apuntando a una carpeta nueva antes de iniciar el backend. La opción no elimina datos existentes. `GET /api/documentos` lista documentos generales; `POST /api/chat` acepta `document_ids`; los PDFs y vistas previas conservan las rutas existentes con el nuevo identificador.
+
+En Vercel, `/tmp` es temporal: esta versión procesa nuevos documentos dentro de la instancia activa, pero no ofrece conservación entre reinicios ni sincronización entre instancias. Para uso persistente, configura un backend con disco/volumen persistente mediante `PROCESA_DATA_DIR` y su URL en la interfaz. No se ha desplegado ese servicio como parte de esta corrección.
+
+Validación de esta ampliación: **36 pruebas Python aprobadas**, **6 verificaciones del cliente web aprobadas**, compilación Vite y comprobación en navegador de factura + contrato con evidencia. Se verificó también el inicio sin ningún informe oficial. La verificación posterior con la clave Gemini del backend activo obtuvo 8 de 10 comprobaciones funcionales: dos documentos se extrajeron con Gemini, pero hubo errores HTTP 503 y 429. El escaneado falló y algunas consultas usaron extractos locales; por tanto, la operación completa con IA permanece sin aprobar. Se añadieron reintentos limitados para errores temporales y diagnósticos que no exponen credenciales. Resultados reales: `CHATGPT QA/gemini_real/resultados.json` y `reintento_escaneado_final.json`. Estos resultados no certifican exactitud universal de OCR, interpretación semántica o cálculos. Los resúmenes usan fragmentos recuperados, que pueden ser parciales en archivos largos. Evidencia: `CHATGPT QA/suite_documentos.log`, `suite_documentos.xml`, `prueba_ui_documentos.json` y `prueba_sin_oficiales.json`.
 
 ---
 

@@ -85,6 +85,13 @@ export default function FichasView({ fichas = [] }) {
         {/* Fichas Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {filteredFichas.map((f) => {
+            if (f.es_documento) return <article key={f.codigo_proyecto} className="glass-card p-6 rounded-3xl border border-slate-200 space-y-3">
+              <div className="flex items-center justify-between gap-2"><span className="text-xs font-mono text-cyan-700 break-all">{f.document_id}</span><span className="rounded-full px-3 py-1 bg-slate-100 text-xs">{f.tipo_documento}</span></div>
+              <h3 className="font-bold text-lg">{f.cliente}</h3><p className="text-xs text-slate-500">{f.nombre_archivo} · {f.total_pages} página(s)</p>
+              <p className="text-sm whitespace-pre-wrap text-slate-700">{f.resumen}</p>
+              <dl className="space-y-2">{(f.campos || []).map((field,i)=><div key={i} className="border-t pt-2 text-sm"><dt className="font-semibold">{field.name}</dt><dd>{field.value} <span className="text-xs text-slate-500">· pág. {field.page_number}</span></dd></div>)}</dl>
+              {f.warnings?.map((w,i)=><p key={i} className="text-xs text-amber-800">{w}</p>)}
+            </article>;
             const rawSector = (f.sector || '').split(' - ')[0] || 'General';
             const theme = SECTOR_THEMES[rawSector] || { badge: 'bg-slate-100 text-slate-800 border-slate-200', border: 'hover:border-cyan-400', accent: 'text-cyan-600' };
 

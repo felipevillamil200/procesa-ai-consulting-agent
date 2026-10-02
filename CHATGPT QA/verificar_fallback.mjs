@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+const apiUrl=new URL('../codigo/frontend/src/services/api.js',import.meta.url);
+let source=fs.readFileSync(apiUrl,'utf8').replace("'./fallbackData'",JSON.stringify(new URL('../codigo/frontend/src/services/fallbackData.js',import.meta.url).href));
+globalThis.localStorage={getItem:k=>k==='custom_backend_url'?'http://qa.invalid':null,setItem(){},removeItem(){}};
+globalThis.fetch=async()=>{throw new Error('QA: API inaccesible simulada; no se realizó red');};
+const warnings=[];
+console.warn=(message)=>warnings.push(message);
+const {api}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+const uploaded=await api.uploadPDF(new File(['factura sintética'],'factura.pdf',{type:'application/pdf'}));
+const answer=await api.sendMessage('¿Cuál es el total de mi factura de telefonía?');
+const result={network_calls:0,warnings,upload:uploaded,chat:answer};
+fs.writeFileSync(new URL('diagnostico_fallback.json',import.meta.url),JSON.stringify(result,null,2));
+console.log(JSON.stringify(result,null,2));

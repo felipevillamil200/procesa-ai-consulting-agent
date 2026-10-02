@@ -1,11 +1,10 @@
 {
   "version": 2,
   "buildCommand": "if [ -d \"codigo/frontend\" ]; then npm --prefix codigo/frontend run build; else npm run build; fi",
-  "outputDirectory": "dist",
+  "outputDirectory": "codigo/frontend/dist",
   "functions": {
     "api/index.py": {
-      "runtime": "python3.11",
-      "maxDuration": 30
+      "maxDuration": 60
     }
   },
   "rewrites": [

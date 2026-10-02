@@ -1,0 +1,669 @@
+{
+  "backend": "http://localhost:8000",
+  "cases": [
+    {
+      "name": "upload_factura",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 10563,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_GEMINI_factura.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+          "document_id": "DOC-222E48DE0AADC5A1",
+          "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+          "sector": "Factura de servicios",
+          "tipo_documento": "Factura de servicios",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_factura.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Factura ficticia por servicios de telefonía provista por Operadora Ejemplo, con un total a pagar de USD 23.00 y vencimiento el 15 de noviembre de 2026.",
+          "resumen": "Factura ficticia por servicios de telefonía provista por Operadora Ejemplo, con un total a pagar de USD 23.00 y vencimiento el 15 de noviembre de 2026.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Servicio",
+              "value": "Telefonia",
+              "page_number": 1,
+              "quote": "Servicio: Telefonia"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 23.00",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 23.00"
+            },
+            {
+              "name": "Vencimiento",
+              "value": "15 de noviembre de 2026",
+              "page_number": 1,
+              "quote": "Vencimiento: 15 de noviembre de 2026"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "gemini_text",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+          "document_id": "DOC-222E48DE0AADC5A1",
+          "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+          "sector": "Factura de servicios",
+          "tipo_documento": "Factura de servicios",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_factura.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Factura ficticia por servicios de telefonía provista por Operadora Ejemplo, con un total a pagar de USD 23.00 y vencimiento el 15 de noviembre de 2026.",
+          "resumen": "Factura ficticia por servicios de telefonía provista por Operadora Ejemplo, con un total a pagar de USD 23.00 y vencimiento el 15 de noviembre de 2026.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Servicio",
+              "value": "Telefonia",
+              "page_number": 1,
+              "quote": "Servicio: Telefonia"
+            },
+            {
+              "name": "Total a pagar",
+              "value": "USD 23.00",
+              "page_number": 1,
+              "quote": "Total a pagar: USD 23.00"
+            },
+            {
+              "name": "Vencimiento",
+              "value": "15 de noviembre de 2026",
+              "page_number": 1,
+              "quote": "Vencimiento: 15 de noviembre de 2026"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "gemini_text",
+          "total_pages": 1,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      },
+      "document": {
+        "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+        "document_id": "DOC-222E48DE0AADC5A1",
+        "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+        "sector": "Factura de servicios",
+        "tipo_documento": "Factura de servicios",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_factura.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "Factura ficticia por servicios de telefonía provista por Operadora Ejemplo, con un total a pagar de USD 23.00 y vencimiento el 15 de noviembre de 2026.",
+        "resumen": "Factura ficticia por servicios de telefonía provista por Operadora Ejemplo, con un total a pagar de USD 23.00 y vencimiento el 15 de noviembre de 2026.",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Operadora Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Operadora Ejemplo"
+          },
+          {
+            "name": "Servicio",
+            "value": "Telefonia",
+            "page_number": 1,
+            "quote": "Servicio: Telefonia"
+          },
+          {
+            "name": "Total a pagar",
+            "value": "USD 23.00",
+            "page_number": 1,
+            "quote": "Total a pagar: USD 23.00"
+          },
+          {
+            "name": "Vencimiento",
+            "value": "15 de noviembre de 2026",
+            "page_number": 1,
+            "quote": "Vencimiento: 15 de noviembre de 2026"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "gemini_text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      }
+    },
+    {
+      "name": "upload_contrato",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 6502,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_GEMINI_contrato.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-FD6ADDA43DBAC769",
+          "document_id": "DOC-FD6ADDA43DBAC769",
+          "cliente": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS",
+          "sector": "Contrato de telecomunicaciones",
+          "tipo_documento": "Contrato de telecomunicaciones",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_contrato.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Documento contractual de prueba con datos ficticios para el servicio de internet provisto por Operadora Ejemplo, con vigencia de 12 meses y penalidad por cancelación de USD 50.00.",
+          "resumen": "Documento contractual de prueba con datos ficticios para el servicio de internet provisto por Operadora Ejemplo, con vigencia de 12 meses y penalidad por cancelación de USD 50.00.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Objeto",
+              "value": "Servicio de internet",
+              "page_number": 1,
+              "quote": "Objeto: Servicio de internet"
+            },
+            {
+              "name": "Plazo",
+              "value": "12 meses",
+              "page_number": 2,
+              "quote": "Plazo: 12 meses"
+            },
+            {
+              "name": "Penalidad por cancelación",
+              "value": "USD 50.00",
+              "page_number": 2,
+              "quote": "Penalidad por cancelacion: USD 50.00"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "gemini_text",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-FD6ADDA43DBAC769",
+          "document_id": "DOC-FD6ADDA43DBAC769",
+          "cliente": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS",
+          "sector": "Contrato de telecomunicaciones",
+          "tipo_documento": "Contrato de telecomunicaciones",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_contrato.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "Documento contractual de prueba con datos ficticios para el servicio de internet provisto por Operadora Ejemplo, con vigencia de 12 meses y penalidad por cancelación de USD 50.00.",
+          "resumen": "Documento contractual de prueba con datos ficticios para el servicio de internet provisto por Operadora Ejemplo, con vigencia de 12 meses y penalidad por cancelación de USD 50.00.",
+          "campos": [
+            {
+              "name": "Proveedor",
+              "value": "Operadora Ejemplo",
+              "page_number": 1,
+              "quote": "Proveedor: Operadora Ejemplo"
+            },
+            {
+              "name": "Objeto",
+              "value": "Servicio de internet",
+              "page_number": 1,
+              "quote": "Objeto: Servicio de internet"
+            },
+            {
+              "name": "Plazo",
+              "value": "12 meses",
+              "page_number": 2,
+              "quote": "Plazo: 12 meses"
+            },
+            {
+              "name": "Penalidad por cancelación",
+              "value": "USD 50.00",
+              "page_number": 2,
+              "quote": "Penalidad por cancelacion: USD 50.00"
+            }
+          ],
+          "warnings": [],
+          "extraction_method": "gemini_text",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": []
+      },
+      "document": {
+        "codigo_proyecto": "DOC-FD6ADDA43DBAC769",
+        "document_id": "DOC-FD6ADDA43DBAC769",
+        "cliente": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS",
+        "sector": "Contrato de telecomunicaciones",
+        "tipo_documento": "Contrato de telecomunicaciones",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_contrato.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "Documento contractual de prueba con datos ficticios para el servicio de internet provisto por Operadora Ejemplo, con vigencia de 12 meses y penalidad por cancelación de USD 50.00.",
+        "resumen": "Documento contractual de prueba con datos ficticios para el servicio de internet provisto por Operadora Ejemplo, con vigencia de 12 meses y penalidad por cancelación de USD 50.00.",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Operadora Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Operadora Ejemplo"
+          },
+          {
+            "name": "Objeto",
+            "value": "Servicio de internet",
+            "page_number": 1,
+            "quote": "Objeto: Servicio de internet"
+          },
+          {
+            "name": "Plazo",
+            "value": "12 meses",
+            "page_number": 2,
+            "quote": "Plazo: 12 meses"
+          },
+          {
+            "name": "Penalidad por cancelación",
+            "value": "USD 50.00",
+            "page_number": 2,
+            "quote": "Penalidad por cancelacion: USD 50.00"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "gemini_text",
+        "total_pages": 2,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      }
+    },
+    {
+      "name": "upload_manual",
+      "passed": true,
+      "status": 200,
+      "elapsed_ms": 32907,
+      "response": {
+        "success": true,
+        "message": "Documento 'QA_GEMINI_manual.pdf' procesado e indexado con éxito.",
+        "proyecto": {
+          "codigo_proyecto": "DOC-1E173324F79B4B32",
+          "document_id": "DOC-1E173324F79B4B32",
+          "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+          "sector": "manual",
+          "tipo_documento": "manual",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_manual.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "MANUAL DE OPERACION QA - DATOS FICTICIOS\nEquipo: Bomba industrial\nAdvertencia: No operar sin proteccion\n\nPROCEDIMIENTO DE APAGADO\nPaso final: Cerrar la valvula azul y desconectar la energia",
+          "resumen": "MANUAL DE OPERACION QA - DATOS FICTICIOS\nEquipo: Bomba industrial\nAdvertencia: No operar sin proteccion\n\nPROCEDIMIENTO DE APAGADO\nPaso final: Cerrar la valvula azul y desconectar la energia",
+          "campos": [
+            {
+              "name": "Equipo",
+              "value": "Bomba industrial",
+              "page_number": 1,
+              "quote": "Equipo: Bomba industrial"
+            },
+            {
+              "name": "Advertencia",
+              "value": "No operar sin proteccion",
+              "page_number": 1,
+              "quote": "Advertencia: No operar sin proteccion"
+            },
+            {
+              "name": "Paso final",
+              "value": "Cerrar la valvula azul y desconectar la energia",
+              "page_number": 2,
+              "quote": "Paso final: Cerrar la valvula azul y desconectar la energia"
+            }
+          ],
+          "warnings": [
+            "Gemini devolvió HTTP 503: servicio temporalmente no disponible. El texto se indexó y se puede consultar; la extracción de campos es básica."
+          ],
+          "extraction_method": "text",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "documento": {
+          "codigo_proyecto": "DOC-1E173324F79B4B32",
+          "document_id": "DOC-1E173324F79B4B32",
+          "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+          "sector": "manual",
+          "tipo_documento": "manual",
+          "es_documento": true,
+          "nombre_archivo": "QA_GEMINI_manual.pdf",
+          "duracion_semanas": null,
+          "gerente_proyecto": null,
+          "fecha_inicio": null,
+          "fecha_fin": null,
+          "ubicacion": null,
+          "objetivo_general": "MANUAL DE OPERACION QA - DATOS FICTICIOS\nEquipo: Bomba industrial\nAdvertencia: No operar sin proteccion\n\nPROCEDIMIENTO DE APAGADO\nPaso final: Cerrar la valvula azul y desconectar la energia",
+          "resumen": "MANUAL DE OPERACION QA - DATOS FICTICIOS\nEquipo: Bomba industrial\nAdvertencia: No operar sin proteccion\n\nPROCEDIMIENTO DE APAGADO\nPaso final: Cerrar la valvula azul y desconectar la energia",
+          "campos": [
+            {
+              "name": "Equipo",
+              "value": "Bomba industrial",
+              "page_number": 1,
+              "quote": "Equipo: Bomba industrial"
+            },
+            {
+              "name": "Advertencia",
+              "value": "No operar sin proteccion",
+              "page_number": 1,
+              "quote": "Advertencia: No operar sin proteccion"
+            },
+            {
+              "name": "Paso final",
+              "value": "Cerrar la valvula azul y desconectar la energia",
+              "page_number": 2,
+              "quote": "Paso final: Cerrar la valvula azul y desconectar la energia"
+            }
+          ],
+          "warnings": [
+            "Gemini devolvió HTTP 503: servicio temporalmente no disponible. El texto se indexó y se puede consultar; la extracción de campos es básica."
+          ],
+          "extraction_method": "text",
+          "total_pages": 2,
+          "kpis_impacto": [],
+          "lecciones_aprendidas": [],
+          "metodologias_herramientas": [],
+          "factores_riesgo": []
+        },
+        "warnings": [
+          "Gemini devolvió HTTP 503: servicio temporalmente no disponible. El texto se indexó y se puede consultar; la extracción de campos es básica."
+        ]
+      },
+      "document": {
+        "codigo_proyecto": "DOC-1E173324F79B4B32",
+        "document_id": "DOC-1E173324F79B4B32",
+        "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+        "sector": "manual",
+        "tipo_documento": "manual",
+        "es_documento": true,
+        "nombre_archivo": "QA_GEMINI_manual.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "MANUAL DE OPERACION QA - DATOS FICTICIOS\nEquipo: Bomba industrial\nAdvertencia: No operar sin proteccion\n\nPROCEDIMIENTO DE APAGADO\nPaso final: Cerrar la valvula azul y desconectar la energia",
+        "resumen": "MANUAL DE OPERACION QA - DATOS FICTICIOS\nEquipo: Bomba industrial\nAdvertencia: No operar sin proteccion\n\nPROCEDIMIENTO DE APAGADO\nPaso final: Cerrar la valvula azul y desconectar la energia",
+        "campos": [
+          {
+            "name": "Equipo",
+            "value": "Bomba industrial",
+            "page_number": 1,
+            "quote": "Equipo: Bomba industrial"
+          },
+          {
+            "name": "Advertencia",
+            "value": "No operar sin proteccion",
+            "page_number": 1,
+            "quote": "Advertencia: No operar sin proteccion"
+          },
+          {
+            "name": "Paso final",
+            "value": "Cerrar la valvula azul y desconectar la energia",
+            "page_number": 2,
+            "quote": "Paso final: Cerrar la valvula azul y desconectar la energia"
+          }
+        ],
+        "warnings": [
+          "Gemini devolvió HTTP 503: servicio temporalmente no disponible. El texto se indexó y se puede consultar; la extracción de campos es básica."
+        ],
+        "extraction_method": "text",
+        "total_pages": 2,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      }
+    },
+    {
+      "name": "upload_escaneado",
+      "passed": false,
+      "status": 422,
+      "elapsed_ms": 946,
+      "response": {
+        "detail": "No se pudo leer este PDF escaneado con Gemini. Gemini devolvió HTTP 429: cuota o límite de solicitudes. Revisa la clave/modelo o aplica OCR antes de subirlo."
+      },
+      "document": {}
+    },
+    {
+      "name": "total_factura",
+      "passed": true,
+      "status": 200,
+      "response": {
+        "success": true,
+        "answer": "Gemini devolvió HTTP 429: cuota o límite de solicitudes. La IA no está disponible; se muestran extractos literales del documento.\n\n**FACTURA DE SERVICIOS QA - DATOS FICTICIOS** (Factura de servicios)\n\nTotal a pagar: USD 23.00\n[Fuente: DOC-222E48DE0AADC5A1, Pág. 1]",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es el total a pagar de esta factura?",
+              "document_ids": [
+                "DOC-222E48DE0AADC5A1"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.3
+          }
+        ],
+        "sources": [
+          "DOC-222E48DE0AADC5A1"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-222E48DE0AADC5A1_P1_C1",
+            "codigo_proyecto": "DOC-222E48DE0AADC5A1",
+            "cliente": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS",
+            "pagina": 1,
+            "contenido": "FACTURA DE SERVICIOS QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nServicio: Telefonia\nTotal a pagar: USD 23.00\nVencimiento: 15 de noviembre de 2026",
+            "fuente": "[Fuente: DOC-222E48DE0AADC5A1 - FACTURA DE SERVICIOS QA - DATOS FICTICIOS, Pág. 1]"
+          }
+        ]
+      },
+      "synthetized_by_ai": false
+    },
+    {
+      "name": "contrato_pagina_2",
+      "passed": true,
+      "status": 200,
+      "response": {
+        "success": true,
+        "answer": "Gemini devolvió HTTP 429: cuota o límite de solicitudes. La IA no está disponible; se muestran extractos literales del documento.\n\n**CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS** (Contrato de telecomunicaciones)\n\nPlazo: 12 meses\n[Fuente: DOC-FD6ADDA43DBAC769, Pág. 2]",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es el plazo del contrato de telecomunicaciones?",
+              "document_ids": [
+                "DOC-FD6ADDA43DBAC769"
+              ]
+            },
+            "result_summary": "2 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.12
+          }
+        ],
+        "sources": [
+          "DOC-FD6ADDA43DBAC769"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-FD6ADDA43DBAC769_P1_C1",
+            "codigo_proyecto": "DOC-FD6ADDA43DBAC769",
+            "cliente": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS",
+            "pagina": 1,
+            "contenido": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS\nProveedor: Operadora Ejemplo\nObjeto: Servicio de internet",
+            "fuente": "[Fuente: DOC-FD6ADDA43DBAC769 - CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS, Pág. 1]"
+          },
+          {
+            "chunk_id": "DOC-FD6ADDA43DBAC769_P2_C1",
+            "codigo_proyecto": "DOC-FD6ADDA43DBAC769",
+            "cliente": "CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS",
+            "pagina": 2,
+            "contenido": "CONDICIONES DEL SERVICIO\nPlazo: 12 meses\nPenalidad por cancelacion: USD 50.00",
+            "fuente": "[Fuente: DOC-FD6ADDA43DBAC769 - CONTRATO DE TELECOMUNICACIONES QA - DATOS FICTICIOS, Pág. 2]"
+          }
+        ]
+      },
+      "synthetized_by_ai": false
+    },
+    {
+      "name": "manual_pagina_2",
+      "passed": true,
+      "status": 200,
+      "response": {
+        "success": true,
+        "answer": "Gemini devolvió HTTP 429: cuota o límite de solicitudes. La IA no está disponible; se muestran extractos literales del documento.\n\n**MANUAL DE OPERACION QA - DATOS FICTICIOS** (manual)\n\nPaso final: Cerrar la valvula azul y desconectar la energia\n[Fuente: DOC-1E173324F79B4B32, Pág. 2]",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Que debo hacer en el paso final del apagado?",
+              "document_ids": [
+                "DOC-1E173324F79B4B32"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.13
+          }
+        ],
+        "sources": [
+          "DOC-1E173324F79B4B32"
+        ],
+        "found_info": true,
+        "evidence_chunks": [
+          {
+            "chunk_id": "DOC-1E173324F79B4B32_P2_C1",
+            "codigo_proyecto": "DOC-1E173324F79B4B32",
+            "cliente": "MANUAL DE OPERACION QA - DATOS FICTICIOS",
+            "pagina": 2,
+            "contenido": "PROCEDIMIENTO DE APAGADO\nPaso final: Cerrar la valvula azul y desconectar la energia",
+            "fuente": "[Fuente: DOC-1E173324F79B4B32 - MANUAL DE OPERACION QA - DATOS FICTICIOS, Pág. 2]"
+          }
+        ]
+      },
+      "synthetized_by_ai": false
+    },
+    {
+      "name": "lectura_escaneado",
+      "passed": false,
+      "reason": "Carga fallida"
+    },
+    {
+      "name": "abstencion_dato_ausente",
+      "passed": true,
+      "response": {
+        "success": true,
+        "answer": "No se dispone de información verificable para esa pregunta en los documentos seleccionados.",
+        "tools_used": [
+          {
+            "tool_name": "search_project_documents",
+            "arguments": {
+              "query": "Cual es la contrasena bancaria secreta del cliente?",
+              "document_ids": [
+                "DOC-222E48DE0AADC5A1"
+              ]
+            },
+            "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+            "execution_time_ms": 0.1
+          }
+        ],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      }
+    },
+    {
+      "name": "fuente_inexistente_sin_contaminacion",
+      "passed": true,
+      "response": {
+        "success": true,
+        "answer": "No se dispone de información: uno de los documentos seleccionados no está disponible.",
+        "tools_used": [],
+        "sources": [],
+        "found_info": false,
+        "evidence_chunks": []
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "document_id": "DOC-222E48DE0AADC5A1",
+      "status": 200,
+      "deleted": true
+    },
+    {
+      "document_id": "DOC-FD6ADDA43DBAC769",
+      "status": 200,
+      "deleted": true
+    },
+    {
+      "document_id": "DOC-1E173324F79B4B32",
+      "status": 200,
+      "deleted": true
+    }
+  ],
+  "config": {
+    "provider": "gemini",
+    "model": "gemini-flash-latest",
+    "temperature": 0.1,
+    "has_api_key": true,
+    "backend_available": true
+  },
+  "verdict": "NO APROBADO para lectura general con IA en este entorno: Gemini devolvio HTTP 503 y HTTP 429; escaneado no validado.",
+  "functional_passed": 8,
+  "functional_total": 10,
+  "uploads_with_gemini": 2,
+  "queries_with_ai_synthesis": 0,
+  "scanned_pdf_verified": false
+}

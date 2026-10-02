@@ -33,6 +33,12 @@ const getDynamicPrompts = (projects) => {
   }
 
   const prompts = [];
+  if (projects.some(p=>p.es_documento)) {
+    return [
+      ...projects.filter(p=>p.es_documento).slice(0,4).map(p=>({icon:'📄',label:`Leer ${p.cliente.slice(0,24)}`,badge:p.tipo_documento || 'Documento',query:`¿Qué contiene el documento ${p.codigo_proyecto}?`})),
+      {icon:'🔎',label:'Comparar documentos',badge:'Documentos',query:'Compara el contenido de los documentos cargados y cita cada archivo.'}
+    ];
+  }
 
   // 1. Pregunta analítica cuantitativa (SQL)
   prompts.push({
@@ -165,7 +171,7 @@ export default function Sidebar({ projects = [], onSelectPrompt, config, isMobil
 
       {/* Live Status Badge Bar */}
       {(() => {
-        const isKeyActive = Boolean(config?.has_api_key || config?.gemini_api_key_set || config?.openai_api_key_set);
+                        const isKeyActive = Boolean(config?.backend_available !== false && (config?.has_api_key || config?.gemini_api_key_set || config?.openai_api_key_set));
         return (
           <div className="px-5 py-2.5 bg-slate-900/90 border-b border-slate-800/60 flex items-center justify-between text-xs">
             <span className="flex items-center gap-2 text-slate-300 font-medium text-[11px]">
@@ -180,7 +186,7 @@ export default function Sidebar({ projects = [], onSelectPrompt, config, isMobil
                 ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
                 : 'bg-amber-500/10 text-amber-400 border-amber-500/30'
             }`}>
-              {isKeyActive ? '● CONECTADO' : '● SIN CLAVE API'}
+              {config?.backend_available === false ? '● SIN CONEXIÓN' : isKeyActive ? '● CLAVE CONFIGURADA' : '● SIN CLAVE API'}
             </span>
           </div>
         );
@@ -237,7 +243,7 @@ export default function Sidebar({ projects = [], onSelectPrompt, config, isMobil
                         e.dataTransfer.setData('text/plain', p.codigo_proyecto);
                         e.dataTransfer.effectAllowed = 'copy';
                       }}
-                      onClick={() => handleSelect(`¿Qué objetivos, metodologías y resultados se lograron en el proyecto ${p.codigo_proyecto}?`)}
+                      onClick={() => handleSelect(p.es_documento ? `¿Qué contiene el documento ${p.codigo_proyecto}?` : `¿Qué objetivos, metodologías y resultados se lograron en el proyecto ${p.codigo_proyecto}?`)}
                       className="p-2.5 rounded-xl bg-slate-900/70 border border-slate-800/90 hover:border-cyan-500/60 hover:bg-slate-850 hover:shadow-lg hover:shadow-cyan-950/30 transition-all duration-200 group cursor-grab active:cursor-grabbing active:scale-[0.98] select-none relative"
                       title="Haz clic para consultar o arrastra este PDF directamente al Chat para enfocar el análisis"
                     >

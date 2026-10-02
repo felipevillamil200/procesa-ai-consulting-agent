@@ -1,0 +1,17 @@
+import fs from 'node:fs';
+import assert from 'node:assert/strict';
+const source=fs.readFileSync(new URL('../codigo/frontend/src/services/api.js',import.meta.url),'utf8');
+globalThis.localStorage={getItem:k=>k==='custom_backend_url'?'http://qa.invalid':null,setItem(){},removeItem(){}};
+const {api}=await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+globalThis.fetch=async()=>{throw new Error('API no disponible');};
+await assert.rejects(()=>api.uploadPDF(new File(['qa'],'factura.pdf',{type:'application/pdf'})));
+await assert.rejects(()=>api.sendMessage('total de la factura'));
+await assert.rejects(()=>api.getProjects());
+const config=await api.getConfig(); assert.equal(config.backend_available,false);assert.equal(config.has_api_key,false);
+let posted;
+globalThis.fetch=async(url,options)=>{posted=JSON.parse(options.body);return {ok:true,json:async()=>({success:true,answer:'TOTAL: 23',sources:['DOC-0000000000000001']})};};
+await api.sendMessage('compara',[],['DOC-0000000000000001','DOC-0000000000000002']);
+assert.equal(posted.document_ids.length,2);
+globalThis.fetch=async()=>({ok:false,status:422,json:async()=>({detail:'PDF sin texto, requiere OCR'})});
+await assert.rejects(()=>api.uploadPDF(new File(['qa'],'scan.pdf')),/requiere OCR/);
+console.log('PASS: 6 contratos frontend: sin éxito ficticio, desconexión honesta, foco múltiple y error OCR.');

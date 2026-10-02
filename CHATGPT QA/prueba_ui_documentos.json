@@ -1,0 +1,168 @@
+[
+  {
+    "filename": "factura_qa.pdf",
+    "status": 200,
+    "body": {
+      "success": true,
+      "message": "Documento 'factura_qa.pdf' procesado e indexado con éxito.",
+      "proyecto": {
+        "codigo_proyecto": "DOC-838938F7909D901D",
+        "document_id": "DOC-838938F7909D901D",
+        "cliente": "FACTURA TELEFONIA",
+        "sector": "factura",
+        "tipo_documento": "factura",
+        "es_documento": true,
+        "nombre_archivo": "factura_qa.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "FACTURA TELEFONIA\nProveedor: Telefonia Ejemplo\nTotal: 23.00 USD",
+        "resumen": "FACTURA TELEFONIA\nProveedor: Telefonia Ejemplo\nTotal: 23.00 USD",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Telefonia Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Telefonia Ejemplo"
+          },
+          {
+            "name": "Total",
+            "value": "23.00 USD",
+            "page_number": 1,
+            "quote": "Total: 23.00 USD"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "documento": {
+        "codigo_proyecto": "DOC-838938F7909D901D",
+        "document_id": "DOC-838938F7909D901D",
+        "cliente": "FACTURA TELEFONIA",
+        "sector": "factura",
+        "tipo_documento": "factura",
+        "es_documento": true,
+        "nombre_archivo": "factura_qa.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "FACTURA TELEFONIA\nProveedor: Telefonia Ejemplo\nTotal: 23.00 USD",
+        "resumen": "FACTURA TELEFONIA\nProveedor: Telefonia Ejemplo\nTotal: 23.00 USD",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Telefonia Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Telefonia Ejemplo"
+          },
+          {
+            "name": "Total",
+            "value": "23.00 USD",
+            "page_number": 1,
+            "quote": "Total: 23.00 USD"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "warnings": []
+    }
+  },
+  {
+    "filename": "contrato_qa.pdf",
+    "status": 200,
+    "body": {
+      "success": true,
+      "message": "Documento 'contrato_qa.pdf' procesado e indexado con éxito.",
+      "proyecto": {
+        "codigo_proyecto": "DOC-4297B6D4FEEA38D0",
+        "document_id": "DOC-4297B6D4FEEA38D0",
+        "cliente": "CONTRATO TELECOMUNICACIONES",
+        "sector": "contrato",
+        "tipo_documento": "contrato",
+        "es_documento": true,
+        "nombre_archivo": "contrato_qa.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "CONTRATO TELECOMUNICACIONES\nProveedor: Telefonia Ejemplo\nVigencia: 12 meses",
+        "resumen": "CONTRATO TELECOMUNICACIONES\nProveedor: Telefonia Ejemplo\nVigencia: 12 meses",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Telefonia Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Telefonia Ejemplo"
+          },
+          {
+            "name": "Vigencia",
+            "value": "12 meses",
+            "page_number": 1,
+            "quote": "Vigencia: 12 meses"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "documento": {
+        "codigo_proyecto": "DOC-4297B6D4FEEA38D0",
+        "document_id": "DOC-4297B6D4FEEA38D0",
+        "cliente": "CONTRATO TELECOMUNICACIONES",
+        "sector": "contrato",
+        "tipo_documento": "contrato",
+        "es_documento": true,
+        "nombre_archivo": "contrato_qa.pdf",
+        "duracion_semanas": null,
+        "gerente_proyecto": null,
+        "fecha_inicio": null,
+        "fecha_fin": null,
+        "ubicacion": null,
+        "objetivo_general": "CONTRATO TELECOMUNICACIONES\nProveedor: Telefonia Ejemplo\nVigencia: 12 meses",
+        "resumen": "CONTRATO TELECOMUNICACIONES\nProveedor: Telefonia Ejemplo\nVigencia: 12 meses",
+        "campos": [
+          {
+            "name": "Proveedor",
+            "value": "Telefonia Ejemplo",
+            "page_number": 1,
+            "quote": "Proveedor: Telefonia Ejemplo"
+          },
+          {
+            "name": "Vigencia",
+            "value": "12 meses",
+            "page_number": 1,
+            "quote": "Vigencia: 12 meses"
+          }
+        ],
+        "warnings": [],
+        "extraction_method": "text",
+        "total_pages": 1,
+        "kpis_impacto": [],
+        "lecciones_aprendidas": [],
+        "metodologias_herramientas": [],
+        "factores_riesgo": []
+      },
+      "warnings": []
+    }
+  }
+]

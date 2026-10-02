@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#E6EDF6">
+  <title>Solución & Demostración • PROCESA Intelligence</title>
+  <link rel="icon" type="image/jpeg" href="/images/procesa_brand_logo.jpg" />
+  <link rel="apple-touch-icon" href="/images/procesa_brand_logo.jpg" />
+  
+  <!-- Inter & JetBrains Mono Fonts (Exact Nival Standard) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            ink: '#020C21',
+            'ink-soft': '#0F182F',
+            muted: '#59627E',
+            muted2: '#4D5B77',
+            frame: '#E6EDF6',
+            cta: '#0F1B31',
+            'cta-knob': '#384B64',
+            accent: '#0284c7',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --ink: #020C21;
+      --ink-soft: #0F182F;
+      --muted: #59627E;
+      --muted2: #4D5B77;
+      --frame: #E6EDF6;
+      --cta: #0F1B31;
+      --accent: #0284c7;
+    }
+
+    body {
+      background-color: var(--frame);
+      color: var(--ink);
+      font-family: Inter, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    /* Nival Studio Glass Cards */
+    .nival-glass {
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(40px) saturate(120%);
+      -webkit-backdrop-filter: blur(40px) saturate(120%);
+      border: 1px solid rgba(255, 255, 255, 0.90);
+      box-shadow: 0 0 0 1.2px rgba(120, 145, 180, 0.18), 0 8px 30px rgba(28, 52, 92, 0.05);
+    }
+
+    .nival-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.65) 100%);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0 0 1px rgba(120, 145, 180, 0.12), 0 10px 24px -6px rgba(28, 52, 92, 0.04);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nival-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 0 1.2px rgba(2, 132, 199, 0.35), 0 16px 36px -8px rgba(2, 132, 199, 0.12);
+    }
+
+    .nival-pill {
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(255, 255, 255, 0.90);
+      backdrop-filter: blur(40px);
+      -webkit-backdrop-filter: blur(40px);
+      box-shadow: 0 0 0 1.3px rgba(120, 145, 180, 0.2), 0 4px 14px rgba(28, 52, 92, 0.06);
+    }
+
+    /* Range Slider Styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #DDE4EE;
+      height: 6px;
+      border-radius: 9999px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: #0284c7;
+      box-shadow: 0 0 10px rgba(2, 132, 199, 0.5);
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      transition: transform 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .btn-tactile {
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-tactile:active {
+      transform: scale(0.96);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden selection:bg-sky-200 selection:text-ink">
+
+  <!-- Ambient Light Reflection -->
+  <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-gradient-to-b from-sky-200/40 via-blue-100/20 to-transparent pointer-events-none z-0"></div>
+
+  <!-- Header Floating Bar Identical to Nival -->
+  <header class="sticky top-5 z-50 max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between">
+      
+      <!-- Brand Logo con Isotipo 3D -->
+      <a href="/nival.html" class="flex items-center gap-2.5 group text-decoration-none">
+        <span class="w-10 h-10 rounded-full overflow-hidden block shrink-0 shadow-[0_2px_8px_rgba(14,165,233,0.25),inset_0_0_0_1.2px_rgba(255,255,255,0.85)] group-hover:scale-105 transition-transform duration-200">
+          <img src="/images/procesa_brand_logo.jpg" alt="PROCESA Logo" class="w-full h-full object-cover" />
+        </span>
+        <b class="text-xl font-medium tracking-tight text-ink">PROCESA</b>
+      </a>
+
+      <!-- Center Nav Pill (Guía & Solución) -->
+      <nav class="nival-pill px-6 py-3 flex items-center gap-6">
+        <a href="/guia.html" class="flex items-center gap-2 text-muted hover:text-ink font-medium text-sm transition-colors group">
+          <svg viewBox="0 0 20 21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" class="w-4 h-4 text-muted group-hover:text-ink">
+            <path d="M2 8.4 10 2l8 6.4V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+          </svg>
+          <span class="tracking-tight">Guía</span>
+        </a>
+
+        <div class="w-[1.5px] h-6 bg-[#CED5E0]"></div>
+
+        <a href="/solucion.html" class="flex items-center gap-2 text-ink font-semibold text-sm group">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" class="w-4 h-4 text-sky-600">
+            <rect x="1" y="1" width="7.4" height="7.4" rx="1.7"/>
+            <rect x="11.6" y="1" width="7.4" height="7.4" rx="1.7"/>
+            <rect x="1" y="11.6" width="7.4" height="7.4" rx="1.7"/>
+            <rect x="11.6" y="11.6" width="7.4" height="7.4" rx="1.7"/>
+          </svg>
+          <span class="tracking-tight text-sky-700 font-bold">Solución</span>
+        </a>
+      </nav>
+
+      <!-- Primary CTA Button («Abrir Aplicación») -->
+      <a href="/" class="h-12 pl-6 pr-2 rounded-full bg-[#0F1B31] text-white flex items-center gap-4 shadow-[0_10px_24px_rgba(11,26,50,0.18)] hover:bg-[#182a4a] transition-all btn-tactile">
+        <span class="text-sm font-normal tracking-tight">Abrir Aplicación</span>
+        <span class="w-8 h-8 rounded-full bg-[#384B64] flex items-center justify-center shrink-0">
+          <svg viewBox="0 0 18 18" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
+            <path d="m6.6 3.6 6 5.4-6 5.4"/>
+          </svg>
+        </span>
+      </a>
+
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-12 space-y-16 relative z-10">
+    
+    <!-- Hero Showcase: De 4 horas leyendo PDFs a 3 segundos -->
+    <section class="nival-glass rounded-[40px] p-8 sm:p-12 relative overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 text-xs font-mono text-ink shadow-2xs">
+            <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+            <span>Inteligencia Artificial Documental & Forense</span>
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-light tracking-tight text-ink leading-[1.08]">
+            De <span class="line-through text-red-500/80 decoration-red-400">4 horas leyendo PDFs</span><br>
+            a <span class="font-normal text-sky-700">3 segundos de respuesta exacta</span>.
+          </h1>
+
+          <p class="text-muted leading-relaxed text-sm sm:text-base max-w-xl">
+            Diseñado para que secretarias, analistas y directivos consulten <strong>facturas de servicios, balances, contratos e informes técnicos</strong> arrastrando el archivo al chat, con <strong>evidencia subrayada y cero alucinaciones</strong>.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3.5 pt-2">
+            <a href="/" class="h-12 px-7 rounded-full bg-[#0F1B31] text-white flex items-center gap-3 text-sm font-medium shadow-[0_10px_24px_rgba(11,26,50,0.18)] hover:bg-[#182a4a] transition-all btn-tactile">
+              <span>Probar Demo Interactiva</span>
+              <svg viewBox="0 0 18 18" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5">
+                <path d="m6.6 3.6 6 5.4-6 5.4"/>
+              </svg>
+            </a>
+
+            <a href="#piloto" class="h-12 px-6 rounded-full bg-white text-ink border border-slate-300 flex items-center gap-2 text-sm font-medium hover:bg-slate-50 transition-all btn-tactile shadow-2xs">
+              <span>Solicitar Piloto VIP</span>
+            </a>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2 text-xs font-mono text-muted">
+            <div class="flex items-center gap-1.5 text-sky-700 font-semibold">
+              <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+              <span>Latencia: ~240 ms</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-emerald-700 font-semibold">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>100% Grounding</span>
+            </div>
+            <div class="flex items-center gap-1.5 text-ink font-semibold">
+              <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+              <span>Confidencialidad Local</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Hero Artwork -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-[360px] aspect-square rounded-[32px] overflow-hidden border-2 border-white shadow-2xl shadow-sky-900/10 group">
+            <img src="/images/procesa_glass_doc_nodes.jpg" alt="Núcleo Documental 3D" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#020C21]/70 via-transparent to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 p-3.5 rounded-2xl bg-white/95 backdrop-blur border border-white/90 shadow-md flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <img src="/images/procesa_brand_logo.jpg" class="w-7 h-7 rounded-full object-cover" />
+                <div>
+                  <div class="font-semibold text-ink text-xs leading-none">PROCESA AI Core</div>
+                  <div class="text-[10px] text-muted font-mono mt-0.5">Dual SQLite + RAG</div>
+                </div>
+              </div>
+              <span class="text-[10px] font-mono text-emerald-700 font-bold px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200">
+                ● En Línea
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SIMULADOR INTERACTIVO DE 3 CASOS DE USO -->
+    <section id="demostracion" class="space-y-6">
+      <div class="text-center space-y-2">
+        <p class="text-xs font-semibold tracking-wider uppercase text-sky-700 font-mono">Prueba Interactiva en Vivo</p>
+        <h2 class="text-2xl sm:text-4xl font-light text-ink tracking-tight">Simula la extracción con un solo clic</h2>
+        <p class="text-xs sm:text-sm text-muted max-w-xl mx-auto">Selecciona un tipo de documento para ver cómo el motor extrae datos y citas de página en tiempo real.</p>
+      </div>
+
+      <div class="nival-card rounded-[32px] p-6 sm:p-8 space-y-6">
+        
+        <!-- Tab Selector -->
+        <div class="flex flex-wrap items-center justify-center gap-2 border-b border-slate-200/80 pb-4">
+          <button id="tab-facturas" onclick="switchDemoTab('facturas')" class="demo-tab-btn px-5 py-2.5 rounded-full text-xs font-semibold transition-all bg-[#0F1B31] text-white shadow-sm">
+            ⚡ Facturas de Servicios (Luz/Agua)
+          </button>
+          <button id="tab-contratos" onclick="switchDemoTab('contratos')" class="demo-tab-btn px-5 py-2.5 rounded-full text-xs font-medium transition-all text-muted hover:text-ink hover:bg-slate-100">
+            📄 Contratos & Penalidades
+          </button>
+          <button id="tab-informes" onclick="switchDemoTab('informes')" class="demo-tab-btn px-5 py-2.5 rounded-full text-xs font-medium transition-all text-muted hover:text-ink hover:bg-slate-100">
+            📊 Informes de Cierre & KPIs
+          </button>
+        </div>
+
+        <!-- Simulator Viewer Body -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+          
+          <!-- Left: Document Context & Query -->
+          <div class="md:col-span-5 space-y-4">
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-wider">Archivo Simulado</span>
+              <div id="demo-filename" class="font-mono text-xs font-bold text-sky-900 truncate">Factura_Energia_Enel_Enero_2026.pdf</div>
+              <div id="demo-tag" class="text-[10px] font-mono text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded inline-block">1.4 MB • Digital Estructurado</div>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-2">
+              <span class="text-[10px] font-mono text-muted uppercase tracking-wider">Pregunta en Lenguaje Natural</span>
+              <p id="demo-query" class="text-xs font-medium text-ink leading-relaxed">
+                "¿Cuál fue el consumo total en kWh, el valor del cargo fijo y la fecha límite de pago?"
+              </p>
+            </div>
+          </div>
+
+          <!-- Right: Extraction Result & Evidence Grounding -->
+          <div class="md:col-span-7 space-y-4">
+            <div class="p-5 rounded-2xl bg-white/95 border border-slate-200 shadow-md space-y-3">
+              <div class="flex items-center justify-between pb-2 border-b border-slate-100 text-xs">
+                <span class="font-bold text-ink flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  Respuesta del Agente PROCESA
+                </span>
+                <span class="text-[10px] font-mono text-muted">210 ms</span>
+              </div>
+
+              <div id="demo-answer" class="text-xs text-slate-700 leading-relaxed space-y-2">
+                <p>De acuerdo con la <strong>Factura N° 8492048</strong> de Enel Colombia:</p>
+                <ul class="list-disc list-inside space-y-1 text-slate-800 font-medium">
+                  <li><strong>Consumo total activo:</strong> 12,450 kWh</li>
+                  <li><strong>Cargo Fijo Mensual:</strong> $14,250.00 COP</li>
+                  <li><strong>Fecha Límite de Pago:</strong> 28 de Enero de 2026</li>
+                </ul>
+              </div>
+
+              <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+                <span id="demo-citation" class="text-[11px] font-mono text-sky-800 font-bold bg-sky-50 px-2.5 py-1 rounded-lg border border-sky-200">
+                  📄 Página 1 • Tabla Resumen de Liquidación
+                </span>
+                <a href="/" class="text-[11px] font-semibold text-sky-700 hover:text-sky-900 underline">
+                  Probar en Chat Real →
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CALCULADORA DE AHORRO Y ROI -->
+    <section id="calculadora" class="space-y-6">
+      <div class="text-center space-y-2">
+        <p class="text-xs font-semibold tracking-wider uppercase text-sky-700 font-mono">Eficiencia Operacional</p>
+        <h2 class="text-2xl sm:text-4xl font-light text-ink tracking-tight">Calcula el Retorno de Inversión (ROI)</h2>
+        <p class="text-xs sm:text-sm text-muted max-w-xl mx-auto">Comprueba cuántas horas y dinero ahorra tu equipo al automatizar la lectura de informes y facturas.</p>
+      </div>
+
+      <div class="nival-card rounded-[32px] p-8 sm:p-10">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Slider Controls -->
+          <div class="lg:col-span-6 space-y-6">
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-medium">
+                <span class="text-muted">Documentos / Facturas al mes:</span>
+                <span id="docs-val" class="font-bold text-ink font-mono text-sm">120 PDFs</span>
+              </div>
+              <input id="docs-slider" type="range" min="20" max="1000" step="10" value="120" oninput="calculateROI()" class="w-full" />
+            </div>
+
+            <div class="space-y-2">
+              <div class="flex justify-between text-xs font-medium">
+                <span class="text-muted">Costo por hora de analista/consultor:</span>
+                <span id="rate-val" class="font-bold text-ink font-mono text-sm">$25 USD/hora</span>
+              </div>
+              <input id="rate-slider" type="range" min="10" max="100" step="5" value="25" oninput="calculateROI()" class="w-full" />
+            </div>
+          </div>
+
+          <!-- Results Metric Cards -->
+          <div class="lg:col-span-6 grid grid-cols-2 gap-4">
+            <div class="p-5 rounded-2xl bg-white/90 border border-slate-200 text-center shadow-sm space-y-1">
+              <div class="text-[10px] uppercase font-mono text-muted">Horas Ahorradas / Mes</div>
+              <div id="res-hours" class="text-3xl sm:text-4xl font-light text-sky-700">48h</div>
+              <div class="text-[10px] text-muted font-mono">De 60h a 12h</div>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-white/90 border border-slate-200 text-center shadow-sm space-y-1">
+              <div class="text-[10px] uppercase font-mono text-muted">Ahorro Estimado / Mes</div>
+              <div id="res-money" class="text-3xl sm:text-4xl font-semibold text-emerald-700">$1,200</div>
+              <div class="text-[10px] text-muted font-mono">USD Mensuales</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- CAPACIDADES REALES -->
+    <section id="capacidades" class="space-y-6">
+      <div class="text-center space-y-2">
+        <p class="text-xs font-semibold tracking-wider uppercase text-sky-700 font-mono">Casos de Uso</p>
+        <h2 class="text-2xl sm:text-4xl font-light text-ink tracking-tight">Capacidades Documentales Clave</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <div class="nival-card rounded-[28px] p-6 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">Finanzas & Facturas</span>
+            <span class="text-xs text-muted font-mono">SQLite + RAG</span>
+          </div>
+          <h3 class="font-medium text-lg text-ink">Facturas de Servicios, Luz y Proveedores</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            Elimina la necesidad de abrir decenas de PDFs para comparar consumos, cargos fijos y fechas de corte. Preguntas en lenguaje natural y recibes sumatorias y tablas exactas.
+          </p>
+        </div>
+
+        <div class="nival-card rounded-[28px] p-6 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-indigo-800 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-200">Legal & Contratos</span>
+            <span class="text-xs text-muted font-mono">Citas Exactas</span>
+          </div>
+          <h3 class="font-medium text-lg text-ink">Contratos, Pólizas y Acuerdos</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            Localiza cláusulas de penalización por retraso, términos de confidencialidad y condiciones de resolución sin tener que leer documentos de 80 páginas.
+          </p>
+        </div>
+
+        <div class="nival-card rounded-[28px] p-6 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-sky-800 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">Operaciones & Proyectos</span>
+            <span class="text-xs text-muted font-mono">Memoria de Lecciones</span>
+          </div>
+          <h3 class="font-medium text-lg text-ink">Informes de Cierre, KPIs y Metodologías</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            Cruza metodologías Lean, SMED y TPM con datos estructurados de duración, ahorros económicos alcanzados y lecciones aprendidas de clientes pasados.
+          </p>
+        </div>
+
+        <div class="nival-card rounded-[28px] p-6 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold text-amber-800 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">Garantía Forense</span>
+            <span class="text-xs text-muted font-mono">Cero Alucinación</span>
+          </div>
+          <h3 class="font-medium text-lg text-ink">Verificación Estricta y Honestidad</h3>
+          <p class="text-xs text-muted leading-relaxed">
+            A diferencia de chats convencionales que inventan datos cuando no saben la respuesta, PROCESA declara honestamente si una información no existe en el archivo.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FORMULARIO DE ACCESO VIP / PILOTO -->
+    <section id="piloto" class="nival-glass rounded-[36px] p-8 sm:p-12 space-y-6">
+      <div class="text-center space-y-2 max-w-xl mx-auto">
+        <h2 class="text-2xl sm:text-3xl font-light text-ink tracking-tight">Solicita una Prueba con Tus Propios Documentos</h2>
+        <p class="text-xs sm:text-sm text-muted">Configuramos un entorno seguro y privado con tus facturas o informes para que compruebes la precisión.</p>
+      </div>
+
+      <form id="lead-form" onsubmit="handleLeadSubmit(event)" class="max-w-xl mx-auto space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-ink mb-1">Nombre Completo</label>
+            <input type="text" required class="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-xs text-ink focus:outline-none focus:border-sky-600 shadow-2xs" placeholder="Ej: Diana Mendoza" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-ink mb-1">Empresa u Organización</label>
+            <input type="text" required class="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-xs text-ink focus:outline-none focus:border-sky-600 shadow-2xs" placeholder="Ej: Consultores Asociados" />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-medium text-ink mb-1">Correo Corporativo</label>
+            <input type="email" required class="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-xs text-ink focus:outline-none focus:border-sky-600 shadow-2xs" placeholder="diana@empresa.com" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-ink mb-1">Tipo de Documentos</label>
+            <select class="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-xs text-ink focus:outline-none focus:border-sky-600 shadow-2xs">
+              <option>Facturas de Servicios & Finanzas</option>
+              <option>Contratos & Acuerdos Legales</option>
+              <option>Informes Técnicos de Consultoría</option>
+              <option>Balances & Estados Financieros</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full h-12 rounded-full bg-[#0F1B31] text-white font-medium text-sm shadow-[0_10px_24px_rgba(11,26,50,0.18)] hover:bg-[#182a4a] transition-all btn-tactile">
+          Enviar Solicitud de Piloto VIP
+        </button>
+      </form>
+
+      <!-- Toast Confirmation Container -->
+      <div id="toast-success" class="hidden max-w-md mx-auto p-4 rounded-2xl bg-emerald-50 border border-emerald-300 text-emerald-900 text-xs font-medium text-center shadow-md animate-fade-in">
+        ✓ ¡Solicitud recibida con éxito! Nos comunicaremos a tu correo en menos de 2 horas.
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-300/80 py-8 text-center text-xs text-muted">
+    <p>© 2026 PROCESA Consultores • Todos los derechos reservados. Arquitectura RAG & Forense Documental.</p>
+  </footer>
+
+  <script>
+    // Demo Simulator Switcher
+    const DEMO_CASES = {
+      facturas: {
+        filename: "Factura_Energia_Enel_Enero_2026.pdf",
+        tag: "1.4 MB • Digital Estructurado",
+        query: '"¿Cuál fue el consumo total en kWh, el valor del cargo fijo y la fecha límite de pago?"',
+        answer: `<p>De acuerdo con la <strong>Factura N° 8492048</strong> de Enel Colombia:</p>
+                 <ul class="list-disc list-inside space-y-1 text-slate-800 font-medium">
+                   <li><strong>Consumo total activo:</strong> 12,450 kWh</li>
+                   <li><strong>Cargo Fijo Mensual:</strong> $14,250.00 COP</li>
+                   <li><strong>Fecha Límite de Pago:</strong> 28 de Enero de 2026</li>
+                 </ul>`,
+        citation: "📄 Página 1 • Tabla Resumen de Liquidación"
+      },
+      contratos: {
+        filename: "Contrato_Servicios_Fase2_Logistica.pdf",
+        tag: "3.2 MB • Legal & Pólizas",
+        query: '"¿Cuáles son las penalidades por retraso en la entrega de la fase 2?"',
+        answer: `<p>Según la <strong>Cláusula Décima Cuarta (Penalidades)</strong>:</p>
+                 <ul class="list-disc list-inside space-y-1 text-slate-800 font-medium">
+                   <li><strong>Multa diaria:</strong> 0.5% del valor contractual por día de mora.</li>
+                   <li><strong>Tope máximo:</strong> 15% del valor total antes de rescisión.</li>
+                   <li><strong>Plazo de gracia:</strong> 3 días hábiles notificados por escrito.</li>
+                 </ul>`,
+        citation: "📄 Página 14 • Cláusula 14.2 Incumplimiento"
+      },
+      informes: {
+        filename: "Informe_Cierre_PC-2025-027_Plasticos_del_Pacifico.pdf",
+        tag: "4.8 MB • Lean & Manufactura",
+        query: '"¿Qué resultados de OEE se obtuvieron y cuánto duró el proyecto?"',
+        answer: `<p>Datos cruzados con <strong>Base de Datos SQLite & RAG Forense</strong>:</p>
+                 <ul class="list-disc list-inside space-y-1 text-slate-800 font-medium">
+                   <li><strong>Duración del proyecto:</strong> 16 semanas de implementación.</li>
+                   <li><strong>OEE Línea Base vs Final:</strong> Incrementó de 58% a 79.4%.</li>
+                   <li><strong>Ahorro económico anualizado:</strong> $42,500 USD en mermas.</li>
+                 </ul>`,
+        citation: "📄 Página 8 • Tabla 3.1 KPIs Antes vs Después"
+      }
+    };
+
+    function switchDemoTab(key) {
+      const data = DEMO_CASES[key];
+      if (!data) return;
+
+      document.getElementById('demo-filename').innerText = data.filename;
+      document.getElementById('demo-tag').innerText = data.tag;
+      document.getElementById('demo-query').innerText = data.query;
+      document.getElementById('demo-answer').innerHTML = data.answer;
+      document.getElementById('demo-citation').innerText = data.citation;
+
+      document.querySelectorAll('.demo-tab-btn').forEach(btn => {
+        btn.classList.remove('bg-[#0F1B31]', 'text-white', 'shadow-sm');
+        btn.classList.add('text-muted', 'hover:text-ink', 'hover:bg-slate-100');
+      });
+
+      const activeBtn = document.getElementById('tab-' + key);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-muted', 'hover:text-ink', 'hover:bg-slate-100');
+        activeBtn.classList.add('bg-[#0F1B31]', 'text-white', 'shadow-sm');
+      }
+    }
+
+    // ROI Calculator
+    function calculateROI() {
+      const docs = parseInt(document.getElementById('docs-slider').value, 10);
+      const rate = parseInt(document.getElementById('rate-slider').value, 10);
+
+      document.getElementById('docs-val').innerText = docs + ' PDFs';
+      document.getElementById('rate-val').innerText = '$' + rate + ' USD/hora';
+
+      const manualHours = docs * 0.5; // 30 min por doc
+      const aiHours = docs * 0.1;     // 6 min por doc
+      const savedHours = Math.round(manualHours - aiHours);
+      const savedMoney = Math.round(savedHours * rate);
+
+      document.getElementById('res-hours').innerText = savedHours + 'h';
+      document.getElementById('res-money').innerText = '$' + savedMoney.toLocaleString();
+    }
+
+    // Lead Submit Handler
+    function handleLeadSubmit(e) {
+      e.preventDefault();
+      document.getElementById('toast-success').classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => {
+        document.getElementById('toast-success').classList.add('hidden');
+      }, 6000);
+    }
+  </script>
+
+</body>
+</html>

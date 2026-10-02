@@ -1,0 +1,95 @@
+[*] Procesando 0 informes de cierre...
+[OK] Pipeline completado: 0 proyectos extraidos y persistidos.
+{
+  "test_document": "Factura sintética, no documento real del usuario",
+  "sandbox": "D:\\Program Files\\Felipe\\Downloads\\Talen GV\\CHATGPT QA\\diagnostico_factura_20261001_213030",
+  "upload_http": 200,
+  "ficha": {
+    "codigo_proyecto": "PC-ad09004201",
+    "cliente": "ad09004201220072622380266",
+    "sector": "General",
+    "ubicacion": "No especificada",
+    "fecha_inicio": "",
+    "fecha_fin": "",
+    "duracion_semanas": 0,
+    "gerente_proyecto": "",
+    "equipo_consultor": [],
+    "objetivo_general": "Informe de consultoría.",
+    "metodologias_herramientas": [],
+    "kpis_impacto": [],
+    "beneficios_economicos": "No especificados",
+    "principales_hitos": [],
+    "lecciones_aprendidas": [],
+    "factores_riesgo": []
+  },
+  "sqlite_count": 1,
+  "rag_codes": [
+    "PC-DOC"
+  ],
+  "focused_hits": [],
+  "unfiltered_hits": [
+    {
+      "chunk_id": "PC-DOC_P1_C1",
+      "codigo_proyecto": "PC-DOC",
+      "cliente": "ad09004201220072622380266",
+      "pagina": 1,
+      "contenido": "FACTURA DE SERVICIOS DE TELEFONIA\nProveedor: Operadora Ejemplo S.A.\nNumero de factura: FAC-2026-123\nFecha de emision: 2026-10-01\nConcepto: Plan de telefonia movil mensual\nSubtotal: USD 20.00\nIVA: USD 3.00\nTOTAL A PAGAR: USD 23.00\nVencimiento: 2026-10-15",
+      "fuente": "[Fuente: PC-DOC - ad09004201220072622380266, Pág. 1]"
+    }
+  ],
+  "answers": [
+    {
+      "question": "que es esto",
+      "http": 200,
+      "success": true,
+      "answer": "• **PC-ad09004201 - ad09004201220072622380266** (General): Duración de 0 semanas. Gerente: .\n\n**Fuentes Consultadas:** PC-ad09004201",
+      "tools_used": [
+        {
+          "tool_name": "query_project_database",
+          "arguments": {
+            "sql_query": "SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto, kpis_impacto FROM proyectos"
+          },
+          "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+          "execution_time_ms": 1.0
+        }
+      ],
+      "sources": [
+        "PC-ad09004201"
+      ],
+      "found_info": true,
+      "evidence_chunks": []
+    },
+    {
+      "question": "¿Cuál es el total a pagar de esta factura?",
+      "http": 200,
+      "success": true,
+      "answer": "• **PC-ad09004201 - ad09004201220072622380266** (General): Duración de 0 semanas. Gerente: .\n\n**Fuentes Consultadas:** PC-ad09004201",
+      "tools_used": [
+        {
+          "tool_name": "query_project_database",
+          "arguments": {
+            "sql_query": "SELECT codigo_proyecto, cliente, sector, duracion_semanas, gerente_proyecto, kpis_impacto FROM proyectos"
+          },
+          "result_summary": "SQL exitoso: 1 fila(s) retornada(s).",
+          "execution_time_ms": 0.0
+        }
+      ],
+      "sources": [
+        "PC-ad09004201"
+      ],
+      "found_info": true,
+      "evidence_chunks": []
+    },
+    {
+      "question": "¿Qué contiene esta factura de telecomunicaciones?",
+      "http": 200,
+      "success": true,
+      "answer": "No se dispone de información sobre ese aspecto o sector en los informes de cierre de proyectos analizados.",
+      "tools_used": [],
+      "sources": [],
+      "found_info": false,
+      "evidence_chunks": []
+    }
+  ],
+  "live_llm_calls": 0
+}

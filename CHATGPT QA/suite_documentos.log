@@ -1,0 +1,49 @@
+============================= test session starts =============================
+platform win32 -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Felipe\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\python.exe
+cachedir: .pytest_cache
+rootdir: D:\Program Files\Felipe\Downloads\Talen GV\CHATGPT QA\validacion_documentos_20261001_221701
+configfile: pytest.ini
+testpaths: tests
+plugins: anyio-4.15.1
+collecting ... collected 36 items
+
+tests/test_agent.py::TestConsultorAgent::test_anti_hallucination_unsupported_domain PASSED [  2%]
+tests/test_agent.py::TestConsultorAgent::test_rag_routing_qualitative_query PASSED [  5%]
+tests/test_agent.py::TestConsultorAgent::test_sql_routing_quantitative_query PASSED [  8%]
+tests/test_agent.py::TestConsultorAgent::test_traceability_logging PASSED [ 11%]
+tests/test_extractor_and_database.py::TestExtractorAndDatabase::test_fichas_json_files_exist PASSED [ 13%]
+tests/test_extractor_and_database.py::TestExtractorAndDatabase::test_proyecto_ficha_model PASSED [ 16%]
+tests/test_extractor_and_database.py::TestExtractorAndDatabase::test_sqlite_read_and_guardrails PASSED [ 19%]
+tests/test_generic_documents.py::test_invoice_is_not_a_project PASSED    [ 22%]
+tests/test_generic_documents.py::test_contract_unknown_sector_and_page_two PASSED [ 25%]
+tests/test_generic_documents.py::test_missing_fact_abstains PASSED       [ 27%]
+tests/test_generic_documents.py::test_two_files_same_name_are_isolated PASSED [ 30%]
+tests/test_generic_documents.py::test_duplicate_is_idempotent_and_survives_reload PASSED [ 33%]
+tests/test_generic_documents.py::test_delete_does_not_touch_other_file PASSED [ 36%]
+tests/test_generic_documents.py::test_unknown_id_does_not_use_other_document PASSED [ 38%]
+tests/test_generic_documents.py::test_scan_requires_visual_or_ocr PASSED [ 41%]
+tests/test_generic_documents.py::test_visual_scan_and_gemini_grounded_answer PASSED [ 44%]
+tests/test_generic_documents.py::test_gemini_unsupported_answer_rejected[fake_quote] PASSED [ 47%]
+tests/test_generic_documents.py::test_gemini_unsupported_answer_rejected[wrong_source] PASSED [ 50%]
+tests/test_generic_documents.py::test_gemini_unsupported_answer_rejected[wrong_page] PASSED [ 52%]
+tests/test_generic_documents.py::test_gemini_unsupported_answer_rejected[fake_amount] PASSED [ 55%]
+tests/test_generic_documents.py::test_gemini_unsupported_answer_rejected[empty_answer] PASSED [ 58%]
+tests/test_generic_documents.py::test_native_gemini_pdf_request_has_schema_and_temperature PASSED [ 61%]
+tests/test_generic_documents.py::test_neutral_filename_migration_has_consistent_id PASSED [ 63%]
+tests/test_generic_documents.py::test_path_name_does_not_escape_storage PASSED [ 66%]
+tests/test_generic_documents.py::test_invalid_pdf_does_not_persist PASSED [ 69%]
+tests/test_generic_documents.py::test_provider_failure_preserves_readable_text PASSED [ 72%]
+tests/test_generic_documents.py::test_mixed_text_and_visual_page_keeps_both PASSED [ 75%]
+tests/test_generic_documents.py::test_field_not_supported_by_quote_is_discarded PASSED [ 77%]
+tests/test_generic_documents.py::test_summary_includes_final_page PASSED [ 80%]
+tests/test_generic_documents.py::test_valid_model_answer_can_name_source_identifier PASSED [ 83%]
+tests/test_generic_documents.py::test_gemini_retries_temporary_provider_errors PASSED [ 86%]
+tests/test_generic_documents.py::test_provider_diagnostic_does_not_expose_sensitive_error_details PASSED [ 88%]
+tests/test_rag.py::TestRAGEngine::test_chunks_indexed PASSED             [ 91%]
+tests/test_rag.py::TestRAGEngine::test_search_oee_and_smed PASSED        [ 94%]
+tests/test_rag.py::TestRAGEngine::test_search_resistance_to_change PASSED [ 97%]
+tests/test_rag.py::TestRAGEngine::test_search_with_project_filter PASSED [100%]
+
+- generated xml file: D:\Program Files\Felipe\Downloads\Talen GV\CHATGPT QA\suite_documentos.xml -
+============================= 36 passed in 5.60s ==============================
+

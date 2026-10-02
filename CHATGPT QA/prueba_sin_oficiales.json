@@ -1,0 +1,37 @@
+{
+  "initial_catalog_count": 0,
+  "upload_status": 200,
+  "document_id": "DOC-725B1BF58E4CDD84",
+  "answer": {
+    "success": true,
+    "answer": "Lectura del texto disponible (sin síntesis de IA).\n\n**FACTURA SERVICIOS** (factura)\n\nTotal: USD 23.00\n[Fuente: DOC-725B1BF58E4CDD84, Pág. 1]",
+    "tools_used": [
+      {
+        "tool_name": "search_project_documents",
+        "arguments": {
+          "query": "Cual es el total?",
+          "document_ids": [
+            "DOC-725B1BF58E4CDD84"
+          ]
+        },
+        "result_summary": "1 fragmentos; 1 documentos seleccionados.",
+        "execution_time_ms": 0.25
+      }
+    ],
+    "sources": [
+      "DOC-725B1BF58E4CDD84"
+    ],
+    "found_info": true,
+    "evidence_chunks": [
+      {
+        "chunk_id": "DOC-725B1BF58E4CDD84_P1_C1",
+        "codigo_proyecto": "DOC-725B1BF58E4CDD84",
+        "cliente": "FACTURA SERVICIOS",
+        "pagina": 1,
+        "contenido": "FACTURA SERVICIOS\nTotal: USD 23.00",
+        "fuente": "[Fuente: DOC-725B1BF58E4CDD84 - FACTURA SERVICIOS, Pág. 1]"
+      }
+    ]
+  },
+  "official_seed_disabled": true
+}

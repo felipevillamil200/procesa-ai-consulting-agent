@@ -13,7 +13,7 @@ import { api } from './services/api';
 
 const INITIAL_MESSAGE = {
   role: 'assistant',
-  content: `¡Hola! Soy tu asistente técnico de inteligencia artificial. Puedo responder preguntas sobre los informes de cierre de proyectos terminados (Financiero, Manufactura, Salud y Retail) combinando consultas a la **Base de Datos Relacional (SQLite)** y búsqueda profunda en los **PDFs originales (RAG)**.\n\nPrueba haciendo una pregunta abajo o eligiendo una opción del menú lateral.`,
+  content: `Puedes cargar facturas, contratos, informes y otros documentos PDF. Selecciona uno o varios documentos para preguntar, resumir o comparar su contenido. Cada respuesta incluye evidencia del archivo consultado. Los documentos escaneados requieren lectura visual con Gemini o un OCR previo.`,
   tools_used: [],
   sources: [],
   found_info: true
@@ -86,6 +86,7 @@ export default function App() {
       if (configRes.success) setConfig(configRes);
     } catch (err) {
       console.error('Error cargando datos iniciales:', err);
+      setConfig({backend_available:false,has_api_key:false});
     }
   }, []);
 
@@ -110,14 +111,16 @@ export default function App() {
     }
 
     try {
-      const res = await api.sendMessage(finalQuery);
+      const selectedIds = attachedDoc?.document_ids || (attachedDoc?.codigo_proyecto ? [attachedDoc.codigo_proyecto] : []);
+      const history = messages.filter(m => m.content).slice(-6).map(m => ({role:m.role,content:m.content}));
+      const res = await api.sendMessage(finalQuery, history, selectedIds);
       if (res.success) {
         const assistantMsg = {
           role: 'assistant',
-          content: res.answer,
+          content: res.answer || 'No se recibió una respuesta legible. Revisa la conexión con el proveedor de IA.',
           tools_used: res.tools_used || [],
           sources: res.sources || [],
-          found_info: res.found_info !== false,
+          found_info: res.found_info === true && Boolean(res.answer),
           evidence_chunks: res.evidence_chunks || []
         };
         setMessages((prev) => [...prev, assistantMsg]);
@@ -307,7 +310,8 @@ export default function App() {
             isLoading={isLoading}
             pendingPrompt={pendingPrompt}
             onClearPendingPrompt={() => setPendingPrompt(null)}
-            fichas={fichas}
+              fichas={fichas}
+              onUploadPDF={handleUploadSuccess}
           />
         )}
 

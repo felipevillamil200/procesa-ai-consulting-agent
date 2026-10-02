@@ -75,7 +75,7 @@ export default function ConfigModal({
   const [selectedProvider, setSelectedProvider] = useState('gemini');
   const [apiKey, setApiKey] = useState('');
   const [model, setModel] = useState(config?.model || 'gemini-flash-latest');
-  const [temperature, setTemperature] = useState(0.1);
+  const [temperature, setTemperature] = useState(config?.temperature ?? 0.1);
   const [showKey, setShowKey] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null);
@@ -109,6 +109,7 @@ export default function ConfigModal({
     if (config?.provider) {
       setSelectedProvider(config.provider);
     }
+    if (config?.temperature !== undefined) setTemperature(config.temperature);
   }, [config]);
 
   if (!isOpen) return null;

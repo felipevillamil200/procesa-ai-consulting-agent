@@ -43,7 +43,9 @@ class DocumentChunk:
 class DocumentSearchEngine:
     """Motor de indexación y recuperación semántica de fragmentos de informes."""
 
-    def __init__(self, reports_dir: Path = RAW_REPORTS_DIR):
+    def __init__(self, reports_dir: Path = RAW_REPORTS_DIR, db_path=None):
+        from codigo.backend.config import DATABASE_PATH
+        self.db_path = db_path or DATABASE_PATH
         self.reports_dir = reports_dir
         self.chunks: List[DocumentChunk] = []
         self._build_index()
@@ -55,6 +57,11 @@ class DocumentSearchEngine:
 
     def _extract_project_metadata(self, filename: str) -> tuple[str, str]:
         """Extrae el código y nombre legible del cliente a partir del nombre del archivo."""
+        from codigo.backend.documents import DocumentStore
+        registry = DocumentStore(db_path=self.db_path,reports_dir=self.reports_dir)
+        document = registry.by_filename(filename)
+        if document:
+            return document['document_id'], document['title']
         if "PC-2025-014" in filename:
             return "PC-2025-014", "Cooperativa Horizonte Andino"
         elif "PC-2025-027" in filename:
@@ -71,7 +78,10 @@ class DocumentSearchEngine:
             return code, name or "Proyecto " + code
 
         clean_name = filename.replace(".pdf", "").replace("_", " ").strip()
-        return "PC-DOC", clean_name or "Documento Adicional"
+        import hashlib
+        path = self.reports_dir / filename
+        identity = hashlib.sha256(path.read_bytes()).hexdigest()[:16].upper() if path.exists() else hashlib.sha256(filename.encode()).hexdigest()[:16].upper()
+        return "DOC-" + identity, clean_name or "Documento Adicional"
 
 
     def _sanitize_text(self, text: str) -> str:
@@ -144,15 +154,19 @@ class DocumentSearchEngine:
     def _build_index(self) -> None:
         """Lee todos los informes PDF y construye la colección de chunks con metadatos."""
         self.chunks = []
+        from codigo.backend.documents import DocumentStore
+        registry = DocumentStore(db_path=self.db_path,reports_dir=self.reports_dir)
+        registry.migrate()
         pdf_files = sorted(list(self.reports_dir.glob("*.pdf")))
 
         for pdf_path in pdf_files:
             codigo, cliente = self._extract_project_metadata(pdf_path.name)
             try:
-                reader = pypdf.PdfReader(str(pdf_path))
-                for page_idx, page in enumerate(reader.pages):
-                    page_num = page_idx + 1
-                    page_text = page.extract_text() or ""
+                document = registry.by_filename(pdf_path.name)
+                pages = document['pages'] if document else [{'page_number':i+1,'text':p.extract_text() or ''} for i,p in enumerate(pypdf.PdfReader(str(pdf_path)).pages)]
+                for page in pages:
+                    page_num = page['page_number']
+                    page_text = page['text']
                     page_chunks = self._chunk_text(page_text)
 
                     for chunk_idx, chunk_text in enumerate(page_chunks):
@@ -218,7 +232,7 @@ class DocumentSearchEngine:
         candidate_chunks = self.chunks
         if project_id:
             pid_clean = project_id.strip().upper()
-            candidate_chunks = [c for c in self.chunks if pid_clean in c.codigo_proyecto.upper()]
+            candidate_chunks = [c for c in self.chunks if pid_clean == c.codigo_proyecto.upper()]
             if not candidate_chunks:
                 return []
 
@@ -247,6 +261,12 @@ class DocumentSearchEngine:
     def get_document_preview(self, codigo_proyecto: str) -> Optional[Dict[str, Any]]:
         """Extrae el contenido página por página y fragmentos indexados de un informe PDF."""
         code_clean = codigo_proyecto.strip().upper()
+        from codigo.backend.documents import DocumentStore
+        document = DocumentStore(db_path=self.db_path,reports_dir=self.reports_dir).get(code_clean)
+        if document:
+            return {'codigo_proyecto':document['document_id'],'document_id':document['document_id'],
+                    'cliente':document['title'],'filename':document['filename'],'total_pages':len(document['pages']),
+                    'pages':document['pages'],'chunks':[c.to_dict() for c in self.chunks if c.codigo_proyecto==code_clean]}
         pdf_files = list(self.reports_dir.glob("*.pdf"))
         target_pdf = None
 

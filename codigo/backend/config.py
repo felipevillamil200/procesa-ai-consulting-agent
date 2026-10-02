@@ -13,7 +13,9 @@ load_dotenv()
 # Rutas Base del Proyecto
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-if os.environ.get("VERCEL"):
+if os.environ.get('PROCESA_DATA_DIR'):
+    DATA_DIR = Path(os.environ['PROCESA_DATA_DIR']).resolve()
+elif os.environ.get("VERCEL"):
     DATA_DIR = Path("/tmp/data")
 else:
     DATA_DIR = BASE_DIR / "data"
@@ -32,6 +34,8 @@ except Exception:
 def ensure_official_data():
     """Garantiza que data/ contenga los 4 PDFs oficiales desde extracted."""
     import shutil
+    if os.getenv('PROCESA_SEED_OFFICIAL','1') != '1':
+        return
     extracted_dir = BASE_DIR / "extracted"
     if extracted_dir.exists():
         for pdf in extracted_dir.glob("Informe_Cierre_*.pdf"):

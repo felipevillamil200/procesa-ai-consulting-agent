@@ -60,7 +60,7 @@ AGENT_TOOLS_SCHEMA = [
         "function": {
             "name": "search_project_documents",
             "description": (
-                "Busca fragmentos relevantes en el texto completo de los 4 informes de cierre de proyectos (RAG). "
+                "Busca fragmentos relevantes en el texto de los documentos disponibles (RAG). "
                 "Úsala para responder preguntas narrativas, explicaciones de metodologías, causas de problemas, "
                 "resistencia al cambio, factores humanos o lecciones aprendidas cualitativas."
             ),
@@ -94,13 +94,11 @@ class ConsultorAgent:
     def _build_system_prompt(self) -> str:
         """Construye el system prompt con el esquema de la base de datos y directivas de control."""
         schema = self.db_manager.get_schema_description()
+        catalog = json.dumps([{'codigo':p['codigo_proyecto'],'titulo':p['cliente'],'sector':p['sector']} for p in self.db_manager.get_all_proyectos()],ensure_ascii=False)
         return f"""
 Eres el Agente Consultor Experto de **Procesa Consultores**, una firma de optimización de procesos.
-Tu misión es responder preguntas de los consultores de la firma sobre 4 proyectos históricos cerrados:
-- PC-2025-014: Cooperativa Horizonte Andino (Servicios financieros / Aprobación de créditos)
-- PC-2025-027: Plásticos del Pacífico S.A. (Manufactura / Mejora de OEE)
-- PC-2025-033: Clínica Santa Lucía del Valle (Salud / Admisión y consulta externa)
-- PC-2026-006: Supermercados La Canasta (Retail / Reposición de inventarios)
+Tu misión es responder preguntas sobre proyectos y documentos disponibles. Catálogo actual de fichas:
+{catalog}
 
 ESQUEMA DE BASE DE DATOS SQL DISPONIBLE:
 {schema}
@@ -183,12 +181,19 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
     def ask(
         self,
         question: str,
-        chat_history: Optional[List[Dict[str, str]]] = None
+        chat_history: Optional[List[Dict[str, str]]] = None,
+        document_ids: Optional[List[str]] = None
     ) -> AgentResponse:
         """
         Procesa una consulta del usuario mediante el bucle de razonamiento y herramientas.
         Utiliza OpenAI Function Calling si hay API Key disponible, o motor de razonamiento heurístico de respaldo.
         """
+        from codigo.backend.documents import DocumentStore
+        import re
+        documents = DocumentStore(self.db_manager.db_path,self.search_engine.reports_dir).list()
+        if document_ids or re.search(r'\bDOC-[A-Fa-f0-9]{16}\b',question) or (documents and not re.search(r'\bPC-\d{4}-\d{3}\b',question,re.I)):
+            from codigo.backend.document_chat import answer_documents
+            return answer_documents(self,question,document_ids,chat_history)
         tools_log: List[ToolExecutionLog] = []
         sources: set[str] = set()
         evidence_chunks: List[Dict[str, Any]] = []
@@ -254,7 +259,7 @@ REGLAS INVIOLABLES DE COMPORTAMIENTO:
                             had_successful_data = True
 
                         # Detectar fuentes citadas en argumentos o resultados
-                        for code in ["PC-2025-014", "PC-2025-027", "PC-2025-033", "PC-2026-006"]:
+                        for code in [p['codigo_proyecto'] for p in self.db_manager.get_all_proyectos()]:
                             if code in tool_result:
                                 sources.add(code)
 
