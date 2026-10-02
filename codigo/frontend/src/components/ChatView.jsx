@@ -51,6 +51,7 @@ export default function ChatView({
   config,
   onClearChat
 }) {
+  const isKeyActive = Boolean(config?.backend_available !== false && (config?.has_api_key || config?.gemini_api_key_set || config?.openai_api_key_set));
   const [input, setInput] = useState('');
   const [uploadNotice, setUploadNotice] = useState('');
   const [uploadBusy, setUploadBusy] = useState(false);
@@ -266,9 +267,19 @@ export default function ChatView({
         {/* Chat Top Subheader & Status Bar */}
         <div className="px-3.5 sm:px-6 py-2 bg-white/70 backdrop-blur-md border-b border-slate-200/70 flex items-center justify-between shrink-0 shadow-2xs z-10">
           <div className="flex items-center gap-2 text-xs">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-xs ring-2 ring-emerald-500/20" />
+            <span className="relative flex h-2 w-2">
+              <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${isKeyActive ? 'bg-emerald-400' : 'bg-amber-400'} opacity-75`}></span>
+              <span className={`relative inline-flex rounded-full h-2 w-2 ${isKeyActive ? 'bg-emerald-500 ring-2 ring-emerald-500/20' : 'bg-amber-500 ring-2 ring-amber-500/20'}`}></span>
+            </span>
             <span className="font-bold text-slate-800">Chat Inteligente IA</span>
-            <span className="text-[11px] text-slate-400 hidden sm:inline">● Consultas RAG & Base de Datos SQLite</span>
+            <span className="text-[11px] text-slate-400 hidden sm:inline">
+              ● {isKeyActive ? 'Consultas RAG & Base de Datos SQLite' : 'Motor Local & SQLite'}
+            </span>
+            {!isKeyActive && (
+              <span className="px-1.5 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                SIN CLAVE API
+              </span>
+            )}
           </div>
 
           <div className="flex items-center gap-2">
@@ -342,13 +353,18 @@ export default function ChatView({
                   <div className="font-bold text-slate-900 flex items-center justify-between pb-1 border-b border-slate-100">
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-extrabold tracking-tight text-slate-900">Agente Consultor</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-cyan-50 text-cyan-800 border border-cyan-200/80 font-mono font-bold">
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-mono font-bold border ${
+                        isKeyActive 
+                          ? 'bg-cyan-50 text-cyan-800 border-cyan-200/80' 
+                          : 'bg-amber-50 text-amber-800 border-amber-200/80'
+                      }`}>
                         {(() => {
                           const p = config?.provider || localStorage.getItem('custom_provider') || 'openai';
                           const m = config?.model || localStorage.getItem('custom_model') || (p === 'openai' ? 'gpt-4o-mini' : 'gemini-flash-latest');
-                          if (p === 'openai') return `ChatGPT (${m}) + SQL/RAG`;
-                          if (p === 'gemini') return `Gemini (${m}) + SQL/RAG`;
-                          return `IA (${m}) + SQL/RAG`;
+                          if (!isKeyActive) return 'Motor Local & SQLite';
+                          if (p === 'openai') return `ChatGPT (${m}) • SQL/RAG`;
+                          if (p === 'gemini') return `Gemini (${m}) • SQL/RAG`;
+                          return `IA (${m}) • SQL/RAG`;
                         })()}
                       </span>
                     </div>
