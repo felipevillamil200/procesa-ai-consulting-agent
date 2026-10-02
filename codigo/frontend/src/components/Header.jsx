@@ -134,7 +134,16 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
   const [showInitialHint, setShowInitialHint] = useState(true);
-  const [isActionsOpen, setIsActionsOpen] = useState(true);
+  
+  // En versión móvil (<768px) inicia cerrado por defecto para dejar ver las pestañas y el aviso "Desliza"
+  // En versión web (>=768px) inicia abierto por defecto para acceso inmediato
+  const [isActionsOpen, setIsActionsOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth >= 768;
+    }
+    return false;
+  });
+  
   const navRef = useRef(null);
 
   // El indicador fantasma solo aparece UNA SOLA VEZ cuando se recarga la página
