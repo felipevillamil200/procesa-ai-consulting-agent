@@ -114,10 +114,10 @@ function IconMenu({ className = "w-5 h-5" }) {
 }
 
 
-// 10. Arrow Toggle Icon for Mobile
+// 10. Arrow Toggle Icon for Web & Mobile
 function IconArrowToggle({ isOpen, className = "w-3.5 h-3.5" }) {
   return (
-    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={`${className} transition-transform duration-200 ${isOpen ? 'rotate-180' : 'rotate-0'}`} aria-hidden="true">
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={`${className} transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`} aria-hidden="true">
       <path d="M12.5 15l-5-5 5-5" />
     </svg>
   );
@@ -134,7 +134,7 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isAboutUsOpen, setIsAboutUsOpen] = useState(false);
   const [showInitialHint, setShowInitialHint] = useState(true);
-  const [isMobileActionsOpen, setIsMobileActionsOpen] = useState(false);
+  const [isActionsOpen, setIsActionsOpen] = useState(true);
   const navRef = useRef(null);
 
   // El indicador fantasma solo aparece UNA SOLA VEZ cuando se recarga la página
@@ -249,14 +249,14 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
           </div>
         </div>
 
-        {/* Right Section: Action Pills (Permanent on Desktop, Expandable on Mobile) + Admin */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        {/* Right Section: Action Pills (Expandable on both Web & Mobile) + Toggle Arrow + Admin */}
+        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
           
           {/* Action Pills Container */}
           <div className={`flex items-center gap-1 bg-white/85 p-1 rounded-full border border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_4px_14px_rgba(28,52,92,0.04)] backdrop-blur-xl transition-all duration-300 ease-out shrink-0 overflow-hidden ${
-            isMobileActionsOpen 
-              ? 'max-w-[340px] opacity-100' 
-              : 'max-w-0 opacity-0 p-0 border-0 pointer-events-none md:max-w-none md:opacity-100 md:p-1 md:border md:pointer-events-auto'
+            isActionsOpen 
+              ? 'max-w-[480px] opacity-100 scale-100' 
+              : 'max-w-0 opacity-0 p-0 border-0 pointer-events-none scale-95 m-0'
           }`}>
             
             {/* Inicio Hero 3D */}
@@ -318,19 +318,19 @@ export default function Header({ activeTab, onTabChange, onOpenConfig, onClearCh
             </button>
           </div>
 
-          {/* Flecha Toggle: SOLO VISIBLE EN MÓVIL (md:hidden) para mostrar / ocultar */}
+          {/* Flecha Toggle: Activa tanto en Web como en Móvil para mostrar / ocultar */}
           <button
             type="button"
-            onClick={() => setIsMobileActionsOpen(prev => !prev)}
-            className={`md:hidden p-2 rounded-full border transition-all duration-200 flex items-center justify-center cursor-pointer btn-tactile shrink-0 ${
-              isMobileActionsOpen
-                ? 'bg-[#0F1B31] text-cyan-300 border-[#0F1B31] shadow-sm'
-                : 'bg-white/85 text-[#202940] hover:text-black border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_2px_8px_rgba(28,52,92,0.04)]'
+            onClick={() => setIsActionsOpen(prev => !prev)}
+            className={`p-2 rounded-full border transition-all duration-200 flex items-center justify-center cursor-pointer btn-tactile shrink-0 ${
+              isActionsOpen
+                ? 'bg-[#0F1B31] text-cyan-300 border-[#0F1B31] shadow-sm shadow-[#0F1B31]/20'
+                : 'bg-white/85 text-[#202940] hover:text-black border-white shadow-[0_0_0_1.2px_rgba(120,145,180,0.18),0_2px_8px_rgba(28,52,92,0.04)] hover:bg-slate-100/80'
             }`}
-            title={isMobileActionsOpen ? "Ocultar accesos rápidos" : "Mostrar accesos rápidos (Inicio, Nosotros, Guía, Config)"}
-            aria-label={isMobileActionsOpen ? "Ocultar accesos rápidos" : "Mostrar accesos rápidos"}
+            title={isActionsOpen ? "Ocultar accesos rápidos (Inicio, Nosotros, Guía, Config)" : "Mostrar accesos rápidos"}
+            aria-label={isActionsOpen ? "Ocultar accesos" : "Mostrar accesos"}
           >
-            <IconArrowToggle isOpen={isMobileActionsOpen} className="w-3.5 h-3.5" />
+            <IconArrowToggle isOpen={isActionsOpen} className="w-3.5 h-3.5" />
           </button>
 
           {/* Badge Admin (Informativo / Decorativo) */}
