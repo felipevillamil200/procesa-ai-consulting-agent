@@ -110,7 +110,7 @@ flowchart TD
 El código fuente está estrictamente modularizado en frontend y backend, siguiendo las mejores prácticas de la industria:
 
 ```
-Talen GV/
+procesa-ai-consulting-agent/
 ├── codigo/                         # 💻 CÓDIGO FUENTE DE LA APLICACIÓN
 │   ├── backend/                    # 🐍 Backend FastAPI, Motor IA y Base de Datos
 │   │   ├── prompts/                # 📝 Prompts de IA desacoplados en Markdown
