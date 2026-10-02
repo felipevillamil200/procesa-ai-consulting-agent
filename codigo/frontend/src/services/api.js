@@ -108,9 +108,17 @@ export const api = {
       return { success: true, message: 'Clave eliminada localmente.', has_api_key: false };
     }
   },
-  uploadPDF(file) {
-    const formData = new FormData(); formData.append('file',file);
-    return request('/api/upload', {method:'POST',body:formData});
+  async uploadPDF(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      return await request('/api/upload', {method:'POST', body:formData});
+    } catch (err) {
+      if (err.message && (err.message.includes('405') || err.message.includes('404'))) {
+        return await request('/upload', {method:'POST', body:formData});
+      }
+      throw err;
+    }
   },
   deleteProject(code) { return request(`/api/proyectos/${encodeURIComponent(code)}`, {method:'DELETE'}); },
   resetProjects() { return post('/api/proyectos/reset', {}); }

@@ -200,6 +200,7 @@ def chat_with_agent(req: ChatRequest):
 
 
 @app.get("/api/proyectos/{codigo_proyecto}/preview")
+@app.get("/proyectos/{codigo_proyecto}/preview")
 def get_project_document_preview(codigo_proyecto: str):
     """
     Retorna el visor completo del informe PDF (páginas extraídas, texto original y fragmentos RAG)
@@ -226,6 +227,7 @@ def get_project_document_preview(codigo_proyecto: str):
 
 
 @app.get("/api/pdf/{codigo_proyecto}")
+@app.get("/pdf/{codigo_proyecto}")
 def get_project_pdf_file(codigo_proyecto: str):
     """
     Sirve directamente el archivo PDF físico original para renderizado embebido en el Visor de Evidencia.
@@ -265,6 +267,7 @@ def get_project_pdf_file(codigo_proyecto: str):
 
 
 @app.get("/api/proyectos")
+@app.get("/proyectos")
 def get_all_projects():
     """Obtiene la lista de todos los proyectos registrados en la base de datos SQLite."""
     proyectos = db_manager.get_all_proyectos()
@@ -285,6 +288,7 @@ def get_all_projects():
 
 
 @app.delete("/api/proyectos/{codigo_proyecto}")
+@app.delete("/proyectos/{codigo_proyecto}")
 def delete_project(codigo_proyecto: str):
     """Elimina un proyecto de la base de datos SQLite, borra su ficha JSON y actualiza el índice RAG."""
     if codigo_proyecto.upper().startswith('DOC-'):
@@ -314,6 +318,7 @@ def delete_project(codigo_proyecto: str):
 
 
 @app.post("/api/proyectos/reset")
+@app.post("/proyectos/reset")
 def reset_projects():
     """Restaura exactamente los 4 proyectos oficiales de prueba técnica regenerando fichas, SQLite y RAG."""
     from codigo.backend.extractor import process_all_reports
@@ -361,6 +366,7 @@ import os
 import pypdf
 
 @app.post("/api/upload")
+@app.post("/upload")
 async def upload_document(file: UploadFile = File(...)):
     """
     Sube un nuevo informe PDF con validación estricta de estructura y protección anti path-traversal.
@@ -410,6 +416,7 @@ async def upload_document(file: UploadFile = File(...)):
 
 
 @app.get("/api/fichas")
+@app.get("/fichas")
 def get_fichas_json():
     """Retorna las fichas estructuradas completas en formato JSON."""
     fichas = []
@@ -422,12 +429,14 @@ def get_fichas_json():
     return {"success": True, "count": len(fichas), "fichas": fichas}
 
 @app.get('/api/documentos')
+@app.get('/documentos')
 def get_documents():
     docs=[document_store.adapter(d) for d in document_store.list()]
     return {'success':True,'documentos':docs,'count':len(docs)}
 
 
 @app.post("/api/sql")
+@app.post("/sql")
 def execute_custom_sql(req: SQLRequest):
     """Ejecuta una consulta SQL segura (solo lectura) sobre la base SQLite."""
     result = db_manager.execute_read_query(req.query)
