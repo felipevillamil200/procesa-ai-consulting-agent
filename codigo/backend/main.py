@@ -60,6 +60,9 @@ class ChatRequest(BaseModel):
     question: str = Field(..., description="Pregunta del usuario en lenguaje natural")
     history: Optional[List[Dict[str, str]]] = Field(default=None, description="Historial previo de mensajes")
     document_ids: Optional[List[str]] = Field(default=None, max_length=20, description="Identificadores exactos de documentos seleccionados")
+    api_key: Optional[str] = Field(default=None, description="Clave de API opcional enviada por el cliente")
+    provider: Optional[str] = Field(default=None, description="Proveedor opcional (openai/gemini)")
+    model: Optional[str] = Field(default=None, description="Modelo LLM opcional")
 
 
 class SQLRequest(BaseModel):
@@ -164,6 +167,20 @@ def chat_with_agent(req: ChatRequest):
     Ejecuta el ciclo de razonamiento (SQL + RAG) y retorna respuesta con citas, trazabilidad y fragmentos de evidencia.
     """
     try:
+        import os
+        if req.api_key and req.api_key.strip():
+            k = req.api_key.strip()
+            if (req.provider == "openai") or k.startswith("sk-"):
+                os.environ["OPENAI_API_KEY"] = k
+                os.environ["LLM_PROVIDER"] = "openai"
+            else:
+                os.environ["GEMINI_API_KEY"] = k
+                os.environ["LLM_PROVIDER"] = "gemini"
+        if req.provider and req.provider.strip():
+            os.environ["LLM_PROVIDER"] = req.provider.strip()
+        if req.model and req.model.strip():
+            os.environ["LLM_MODEL"] = req.model.strip()
+
         response = agent.ask(req.question, chat_history=req.history, document_ids=req.document_ids)
         return {
             "success": True,
