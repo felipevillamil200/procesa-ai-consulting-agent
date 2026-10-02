@@ -539,13 +539,25 @@
           <!-- MENU CONTAINER (Contains Nav Pill + CTA) -->
           <div class="menu" id="site-menu">
             
-            <!-- NAV PILL CON INICIO, GUÍA Y SOLUCIÓN -->
+            <!-- NAV PILL CON INICIO, NOSOTROS, GUÍA Y SOLUCIÓN -->
             <nav class="nav">
               <a href="/inicio.html" class="active" title="Inicio">
                 <svg viewBox="0 0 20 21" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true">
                   <path d="M2 8.4 10 2l8 6.4V18a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
                 </svg>
                 <span>Inicio</span>
+              </a>
+
+              <div class="n-div"></div>
+
+              <a href="javascript:void(0)" onclick="openNosotrosModal()" title="Sobre Procesa Consultores">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M13.5 16.5v-1a2.8 2.8 0 0 0-2.8-2.8H6.3A2.8 2.8 0 0 0 3.5 15.5v1"/>
+                  <circle cx="8.5" cy="7.2" r="2.8"/>
+                  <path d="M13.8 10.2a2.4 2.4 0 0 0 0-4.6"/>
+                  <path d="M16.5 16.5v-1a2.8 2.8 0 0 0-1.8-2.6"/>
+                </svg>
+                <span>Nosotros</span>
               </a>
 
               <div class="n-div"></div>
@@ -801,6 +813,131 @@
       const m = matchMedia('(min-aspect-ratio: 1/1)');
       m.addEventListener('change', () => { if (m.matches) toggle(false); });
     })();
+  </script>
+
+  <!-- MODAL SOBRE NOSOTROS (PROCESA CONSULTORES) -->
+  <div id="nosotros-modal" class="nosotros-modal-overlay" style="display:none; position:fixed; inset:0; background:rgba(15,27,49,0.65); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:9999; align-items:center; justify-content:center; padding:16px; opacity:0; transition:opacity 0.2s ease;">
+    <div class="nosotros-modal-content" style="background:#ffffff; border-radius:24px; max-width:600px; width:100%; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); border:1px solid #e2e8f0; overflow:hidden; display:flex; flex-direction:column; max-height:90vh; transform:scale(0.95); transition:transform 0.2s ease; font-family:inherit;">
+      
+      <!-- Header -->
+      <div style="padding:18px 22px; background:linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(59,130,246,0.08) 50%, rgba(99,102,241,0.12) 100%); border-bottom:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:42px; height:42px; border-radius:14px; background:linear-gradient(135deg, #0891b2, #1d4ed8); display:flex; align-items:center; justify-content:center; color:#fff; box-shadow:0 4px 12px rgba(8,145,178,0.25);">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px; height:22px;">
+              <path d="M13.5 16.5v-1a2.8 2.8 0 0 0-2.8-2.8H6.3A2.8 2.8 0 0 0 3.5 15.5v1"/>
+              <circle cx="8.5" cy="7.2" r="2.8"/>
+              <path d="M13.8 10.2a2.4 2.4 0 0 0 0-4.6"/>
+              <path d="M16.5 16.5v-1a2.8 2.8 0 0 0-1.8-2.6"/>
+            </svg>
+          </div>
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <h3 style="margin:0; font-size:16px; font-weight:800; color:#0f172a;">Nosotros • Procesa Consultores</h3>
+              <span style="font-size:10px; font-weight:700; background:#e0f2fe; color:#0369a1; padding:2px 8px; border-radius:999px; border:1px solid #bae6fd;">v2.0</span>
+            </div>
+            <p style="margin:2px 0 0; font-size:11px; color:#64748b;">Excelencia Operacional, Procesos e Inteligencia Artificial</p>
+          </div>
+        </div>
+        <button onclick="closeNosotrosModal()" style="width:32px; height:32px; border-radius:10px; border:none; background:transparent; color:#94a3b8; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s, color 0.15s;" onmouseover="this.style.background='#f1f5f9';this.style.color='#1e293b'" onmouseout="this.style.background='transparent';this.style.color='#94a3b8'">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px; height:18px;"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div style="padding:20px 22px; overflow-y:auto; font-size:12px; line-height:1.6; color:#334155;">
+        
+        <!-- Welcome Box -->
+        <div style="padding:12px 16px; border-radius:14px; background:linear-gradient(135deg, rgba(236,254,255,0.8), rgba(239,246,255,0.8)); border:1px solid #cffafe; margin-bottom:16px;">
+          <div style="font-weight:800; font-size:13px; color:#0e7490; margin-bottom:4px; display:flex; align-items:center; gap:6px;">
+            <span>✨ ¡Bienvenido/a a Procesa Consultores!</span>
+          </div>
+          <p style="margin:0; font-size:12px; color:#475569;">
+            Optimizamos operaciones complejas, eliminamos desperdicios y convertimos datos e informes estáticos en decisiones cuantitativas verificadas con inteligencia artificial.
+          </p>
+        </div>
+
+        <!-- Who we are -->
+        <div style="margin-bottom:16px;">
+          <h4 style="margin:0 0 6px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#0f172a;">
+            🏢 ¿Quiénes Somos y Qué Hacemos?
+          </h4>
+          <p style="margin:0 0 10px; color:#475569; font-size:12px;">
+            Somos una firma consultora estratégica especializada en <strong>excelencia operacional, mejora de procesos y transformación digital</strong>. Diseñamos e implementamos soluciones medibles en diversos sectores.
+          </p>
+          
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:8px;">
+            <div style="padding:10px 12px; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0;">
+              <div style="font-weight:700; color:#0f172a; font-size:12px; margin-bottom:2px;">📈 Excelencia Operacional</div>
+              <div style="font-size:11px; color:#64748b;">Lean, Six Sigma, SMED, TPM y Rediseño de flujos en servicios y manufactura.</div>
+            </div>
+            <div style="padding:10px 12px; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0;">
+              <div style="font-weight:700; color:#0f172a; font-size:12px; margin-bottom:2px;">🎯 Resultados Medibles</div>
+              <div style="font-size:11px; color:#64748b;">Métricas antes vs después: reducción de tiempos de ciclo y aumento de OEE.</div>
+            </div>
+            <div style="padding:10px 12px; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0;">
+              <div style="font-weight:700; color:#0f172a; font-size:12px; margin-bottom:2px;">💡 Gestión del Conocimiento</div>
+              <div style="font-size:11px; color:#64748b;">Capitalizamos informes de cierre en un asistente inteligente institucional.</div>
+            </div>
+            <div style="padding:10px 12px; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0;">
+              <div style="font-weight:700; color:#0f172a; font-size:12px; margin-bottom:2px;">🛡️ Cero Alucinación</div>
+              <div style="font-size:11px; color:#64748b;">IA Híbrida (SQL exacto + RAG) con citas de página verificables en cada respuesta.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sectors -->
+        <div style="margin-bottom:10px;">
+          <h4 style="margin:0 0 6px; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:0.05em; color:#0f172a;">
+            Sectores de Impacto
+          </h4>
+          <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; text-align:center;">
+            <div style="padding:6px 2px; border-radius:8px; background:#eff6ff; border:1px solid #dbeafe; font-weight:700; font-size:10px; color:#1e40af;">🏦 Finanzas</div>
+            <div style="padding:6px 2px; border-radius:8px; background:#ecfdf5; border:1px solid #d1fae5; font-weight:700; font-size:10px; color:#065f46;">🏥 Salud</div>
+            <div style="padding:6px 2px; border-radius:8px; background:#faf5ff; border:1px solid #f3e8ff; font-weight:700; font-size:10px; color:#6b21a8;">🏭 Planta</div>
+            <div style="padding:6px 2px; border-radius:8px; background:#fffbeb; border:1px solid #fef3c7; font-weight:700; font-size:10px; color:#92400e;">🛒 Retail</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div style="padding:12px 22px; background:#f8fafc; border-top:1px solid #e2e8f0; display:flex; align-items:center; justify-content:space-between;">
+        <span style="font-size:11px; color:#64748b;">Procesa Consultores © 2026</span>
+        <a href="/" style="padding:7px 16px; border-radius:10px; background:linear-gradient(135deg, #0891b2, #2563eb); color:#ffffff; font-size:11px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 8px rgba(8,145,178,0.25);">
+          <span>Entrar a la Aplicación</span>
+          <svg viewBox="0 0 18 18" fill="none" stroke="#fff" stroke-width="2" style="width:11px; height:11px;"><path stroke-linecap="round" stroke-linejoin="round" d="m6.6 3.6 6 5.4-6 5.4"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function openNosotrosModal() {
+      const m = document.getElementById('nosotros-modal');
+      if (!m) return;
+      m.style.display = 'flex';
+      setTimeout(() => {
+        m.style.opacity = '1';
+        m.querySelector('.nosotros-modal-content').style.transform = 'scale(1)';
+      }, 10);
+    }
+    function closeNosotrosModal() {
+      const m = document.getElementById('nosotros-modal');
+      if (!m) return;
+      m.style.opacity = '0';
+      m.querySelector('.nosotros-modal-content').style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        m.style.display = 'none';
+      }, 200);
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeNosotrosModal();
+    });
+    document.addEventListener('click', function(e) {
+      const m = document.getElementById('nosotros-modal');
+      if (m && e.target === m) closeNosotrosModal();
+    });
   </script>
 
 </body>
