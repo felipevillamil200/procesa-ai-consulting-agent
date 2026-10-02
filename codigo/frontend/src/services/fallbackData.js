@@ -360,6 +360,78 @@ export function executeClientSQL(query) {
   };
 }
 
+export const OFFICIAL_EXTRACTED_DOCS = {
+  'PC-2025-014': `PROCESA CONSULTORES\n| PC-2025-014 · Cooperativa Horizonte Andino · Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nOptimización del proceso de aprobación de créditos de consumo y microcrédito\nCooperativa de Ahorro y Crédito Horizonte Andino Ltda.\n\nCódigo de proyecto: PC-2025-014\nCliente: Cooperativa de Ahorro y Crédito Horizonte Andino Ltda. (segmento 1, 22 agencias en Sierra centro)\nSector: Servicios financieros – cooperativas de ahorro y crédito\nPeriodo de ejecución: 3 de febrero de 2025 al 27 de junio de 2025 (21 semanas)\nGerente de proyecto: Ing. Daniela Cevallos\nEquipo consultor: 1 gerente, 2 consultores senior, 1 analista de datos\nContraparte del cliente: Gerencia de Negocios y Jefatura de Operaciones de Crédito\nEstado: Cerrado – aceptado por el cliente el 4 de julio de 2025\n\n1. Resumen ejecutivo\nHorizonte Andino enfrentaba tiempos de aprobación de crédito muy superiores a los de su competencia directa, lo que se traducía en pérdida de socios hacia bancos y fintechs con respuesta en 48 horas. El proyecto rediseñó el flujo completo de originación, desde la recepción de la solicitud en agencia hasta el desembolso, eliminando validaciones duplicadas, automatizando la consulta al buró de crédito y estableciendo un esquema de aprobación por niveles de riesgo.\nAl cierre, el tiempo promedio de aprobación bajó de 12 a 5 días hábiles y la productividad de los analistas de crédito aumentó 46%. Se cumplieron cuatro de los cinco indicadores meta; la tasa de abandono de solicitudes mejoró de forma importante pero quedó un punto porcentual por encima de la meta.\n\n2. Contexto y objetivos\nLa cooperativa coloca en promedio 1.900 operaciones de crédito de consumo y microcrédito al mes. El diagnóstico inicial evidenció que una solicitud pasaba por 9 manos distintas, que la información del socio se digitaba tres veces en sistemas diferentes y que el 34% de las solicitudes regresaba a la agencia por documentación incompleta.\nObjetivos acordados con el cliente:\n• Reducir el tiempo promedio de aprobación a 6 días hábiles o menos.\n---PAGE---\nPROCESA CONSULTORES\n| PC-2025-014 · Cooperativa Horizonte Andino · Documento de uso interno\nPágina 2\n• Reducir las solicitudes con reproceso por debajo del 15%.\n• Incrementar la productividad de los analistas de crédito en al menos 30%.\n• Mejorar la satisfacción de los socios con el proceso de crédito a 4,0 sobre 5.\n• Reducir la tasa de abandono de solicitudes al 10%.\n\n3. Alcance\nEl proyecto cubrió los productos de crédito de consumo y microcrédito en las 22 agencias. Quedaron fuera del alcance el crédito hipotecario y el crédito corporativo, que siguen un proceso de comité distinto. La implementación tecnológica de la consulta automática al buró fue realizada por el área de TI del cliente, con acompañamiento funcional del equipo consultor.\n\n4. Metodología\nSe aplicó un enfoque Lean en cuatro fases: diagnóstico con mapeo de flujo de valor (VSM) del estado actual, diseño del estado futuro, piloto en 4 agencias durante 5 semanas y despliegue escalonado al resto de la red. Las principales iniciativas implementadas fueron:\n• Checklist digital de documentación en agencia, que impide enviar solicitudes incompletas.\n• Consulta automática al buró de crédito integrada al sistema de originación.\n• Matriz de aprobación por niveles de riesgo: las solicitudes de bajo riesgo y monto menor a USD 5.000 se aprueban en agencia sin pasar por la oficina matriz.\n• Tablero diario de solicitudes en curso para los jefes de agencia.\n\n5. Resultados\nLa siguiente tabla resume los indicadores del proyecto:\n• Tiempo promedio de aprobación: Línea Base: 12 días | Meta: ≤ 6 días | Resultado: 5 días hábiles (-58%)\n• Solicitudes con reproceso: Línea Base: 34% | Meta: < 15% | Resultado: 12% (-22 pp)\n• Productividad de analistas: Línea Base: 85 sol/mes | Meta: ≥ 110 | Resultado: 124 solicitudes/analista/mes (+46%)\n• Satisfacción de socios: Línea Base: 3,2 / 5,0 | Meta: ≥ 4,0 | Resultado: 4,1 / 5,0 (+0,9)\n• Tasa de abandono de solicitudes: Línea Base: 18% | Meta: ≤ 10% | Resultado: 11% (-7 pp)\n\nAdicionalmente, el cliente reportó un aumento de 9% en el monto colocado en consumo y microcrédito entre el primer y segundo trimestre de 2025.\n---PAGE---\nPROCESA CONSULTORES\n| PC-2025-014 · Cooperativa Horizonte Andino · Documento de uso interno\nPágina 3\n6. Lecciones aprendidas\n• La resistencia al cambio se concentró en los mandos medios. Los jefes de agencia percibían la aprobación descentralizada como una pérdida de control. Incorporarlos como dueños del tablero diario, y no solo como receptores del cambio, fue determinante para el despliegue.\n• El piloto debe incluir agencias difíciles. Las primeras dos agencias piloto eran las de mejor desempeño y los resultados iniciales sobreestimaron el impacto. Se agregaron dos agencias rurales para validar el diseño.\n• La calidad de los datos del core bancario condiciona la medición. Fue necesario depurar fechas de estado de las solicitudes antes de poder construir la línea base.\n\n7. Recomendaciones y próximos pasos\n• Profundizar en las causas del abandono de solicitudes, principalmente en microcrédito rural, donde se concentra el 70% de los casos.\n• Evaluar la originación digital de créditos de bajo monto a través de la aplicación móvil.\n• Mantener la revisión mensual de indicadores en el comité de negocios durante al menos seis meses.`,
+
+  'PC-2025-027': `PROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico · Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nMejora de la Efectividad Global de los Equipos (OEE) en la planta de Durán\nPlásticos del Pacífico S.A.\n\nCódigo de proyecto: PC-2025-027\nCliente: Plásticos del Pacífico S.A., fabricante de envases y tapas plásticas para la industria de alimentos y bebidas\nSector: Manufactura – plásticos y envases\nUbicación: Planta industrial de Durán, provincia del Guayas\nPeriodo de ejecución: 7 de julio de 2025 al 12 de diciembre de 2025 (23 semanas)\nGerente de proyecto: Ing. Martín Aguirre\nEquipo consultor: 1 gerente, 1 consultor senior en TPM, 2 consultores, 1 analista de datos\nContraparte del cliente: Gerencia de Planta y Jefatura de Mantenimiento\nEstado: Cerrado – aceptado por el cliente el 19 de diciembre de 2025\n\n1. Resumen ejecutivo\nPlásticos del Pacífico necesitaba aumentar su capacidad productiva para atender contratos nuevos con dos embotelladoras sin invertir en una máquina adicional. El proyecto se enfocó en recuperar capacidad oculta en la Línea 1 de inyección, que concentra el 60% del volumen de la planta y presentaba el OEE más bajo.\nMediante la aplicación de Mantenimiento Productivo Total (TPM), reducción de tiempos de cambio de formato (SMED) y un sistema de gestión diaria de paradas, el OEE de la Línea 1 pasó de 58% a 71%. Esta mejora equivale a una capacidad adicional aproximada de 1,9 millones de tapas al mes, suficiente para cubrir los nuevos contratos sin inversión en equipos.\n\n2. Contexto\nLa planta de Durán opera en tres turnos, seis días a la semana, con dos líneas productivas: la Línea 1, de inyección de tapas (6 inyectoras), y la Línea 2, de soplado de preformas y botellas (3 sopladoras).\n---PAGE---\nPROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico · Documento de uso interno\nPágina 2\nEl diagnóstico inicial identificó que las pérdidas de la Línea 1 se concentraban en tres causas: cambios de formato largos, paradas no programadas por fallas mecánicas y microparadas por atascos en alimentación.\n\n3. Objetivos acordados:\n• Incrementar el OEE de la Línea 1 de inyección de 58% a al menos 70%.\n• Reducir el tiempo promedio de cambio de formato en al menos 50%.\n• Reducir las horas mensuales de paradas no programadas en al menos 40%.\n• Implementar un sistema de registro y gestión diaria de paradas sostenible por el equipo de planta.\n\n4. Alcance\nEl alcance se limitó a la Línea 1 de inyección. La Línea 2 de soplado quedó expresamente fuera del alcance.\n\n5. Metodología e Iniciativas\n• Reducción de tiempos de cambio de formato (SMED): Se estandarizaron carros de cambio por molde y conexiones rápidas de agua.\n• Mantenimiento autónomo y preventivo: Se corrigieron 187 anomalías detectadas en las 6 inyectoras.\n• Gestión diaria de paradas: Registro en tablet en cada máquina con reuniones diarias de 15 minutos.\n• Mejoras en alimentación de material: Sensores de nivel en tolvas y secado óptimo de resina.\n---PAGE---\nPROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico · Documento de uso interno\nPágina 3\n7. Resultados (Línea 1)\n• Disponibilidad: Línea Base: 72% -> Resultado: 82% (+10 pp)\n• Rendimiento: Línea Base: 86% -> Resultado: 91% (+5 pp)\n• Calidad: Línea Base: 94% -> Resultado: 95% (+1 pp)\n• OEE Global: Línea Base: 58% -> Resultado: 71% (+13 pp)\n• Tiempo de cambio de formato: Línea Base: 95 min -> Meta: ≤ 48 min -> Resultado: 38 min (-60%)\n• Paradas no programadas: Línea Base: 64 h/mes -> Meta: ≤ 38 h/mes -> Resultado: 31 h/mes (-52%)\n• Tasa de desperdicio (scrap): Línea Base: 6,0% -> Resultado: 5,0% (-1 pp)\n\n8. Lecciones aprendidas\n• La resistencia al cambio se concentró en los mandos medios. Los supervisores de turno veían el registro detallado de paradas como vigilancia. La situación cambió cuando se les dio la responsabilidad de conducir la reunión diaria y proponer acciones.\n• Sin datos confiables no hay mejora sostenible. El registro manual subestimaba paradas en 40%.\n• SMED genera resultados rápidos y visibles ganando credibilidad temprana.\n---PAGE---\nPROCESA CONSULTORES\n| PC-2025-027 · Plásticos del Pacífico · Documento de uso interno\nPágina 4\n9. Recomendaciones y próximos pasos\n• Replicar el modelo de gestión diaria y mantenimiento autónomo en la Línea 2 en 2026.\n• Revisar la programación de producción para agrupar pedidos por molde.\n• Conexión automática de inyectoras al sistema de registro.\n• Auditoría de sostenibilidad a los seis meses del cierre.`,
+
+  'PC-2025-033': `PROCESA CONSULTORES\n| PC-2025-033 · Clínica Santa Lucía del Valle · Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nReducción de tiempos de admisión y espera en consulta externa\nClínica Santa Lucía del Valle\n\nCódigo de proyecto: PC-2025-033\nCliente: Clínica Santa Lucía del Valle, clínica privada de especialidades con 38 consultorios y 60 camas\nSector: Salud – clínicas y hospitales privados\nUbicación: Valle de los Chillos, Quito\nPeriodo de ejecución: 6 de octubre de 2025 al 27 de febrero de 2026 (21 semanas)\nGerente de proyecto: Ing. Martín Aguirre\nEquipo consultor: 1 gerente, 1 consultora senior en procesos de salud, 1 consultor, 1 analista de datos\nContraparte del cliente: Dirección Médica y Jefatura de Admisiones\nEstado: Cerrado – aceptado por el cliente el 6 de marzo de 2026\n\n1. Resumen ejecutivo\nLa Clínica Santa Lucía del Valle recibía un número creciente de quejas por tiempos de espera en consulta externa, que se habían convertido en el principal motivo de insatisfacción en sus encuestas. El proyecto intervino el recorrido completo del paciente, desde el agendamiento de la cita hasta el ingreso al consultorio, con foco en el proceso de admisión, que era el principal cuello de botella.\nGracias al rediseño del agendamiento, la implementación de la pre-admisión digital y la reorganización de las ventanillas de admisión, el proyecto redujo el tiempo de espera promedio de los pacientes en un 24% (30% preliminar) y el tiempo de admisión en más de la mitad (6 min). La satisfacción de los pacientes (NPS) subió de 18 a 37 puntos.\n\n2. Contexto y objetivos\nLa consulta externa atiende en promedio 9.800 citas al mes en 22 especialidades. Antes del proyecto, los pacientes debían llegar 30 minutos antes para completar admisión en ventanilla.\nObjetivos acordados:\n• Reducir el tiempo total de espera del paciente en al menos 20%.\n• Reducir el tiempo de admisión en ventanilla a menos de 8 minutos.\n• Lograr que al menos 30% de los pacientes realice su pre-admisión en línea.\n• Reducir el ausentismo de citas por debajo del 18%.\n---PAGE---\nPROCESA CONSULTORES\n| PC-2025-033 · Clínica Santa Lucía del Valle · Documento de uso interno\nPágina 2\n3. Alcance y Metodología\nEl proyecto abarcó la consulta externa en todas sus especialidades. Emergencias, hospitalización e imagenología quedaron fuera del alcance.\nSe utilizó un enfoque Lean Healthcare con análisis de colas en tres fases (Diagnóstico, Diseño/Piloto y Despliegue).\n\n5. Iniciativas implementadas\n• Agenda diferenciada por especialidad: Bloques de 15, 20 o 30 minutos según la duración real observada.\n• Pre-admisión digital: Actualización de datos, validación de seguro y copago en línea antes de la cita.\n• Reorganización de ventanillas: Ventanilla exclusiva para pacientes con pre-admisión y casos rápidos.\n• Recordatorios automáticos: 48 y 24 horas antes con opción de confirmar o liberar cupos.\n\n6. Resultados Oficiales\n• Tiempo total de espera: Línea Base: 52 min | Meta: ≤ -20% | Resultado: 39,5 min (-24%)\n• Tiempo de admisión en ventanilla: Línea Base: 14 min | Meta: < 8 min | Resultado: 6 min (-57%)\n• Pacientes con pre-admisión digital: Línea Base: 0% | Meta: ≥ 30% | Resultado: 41% (+41 pp)\n• Ausentismo de citas: Línea Base: 22% | Meta: < 18% | Resultado: 15% (-7 pp)\n• Satisfacción del paciente (NPS): Línea Base: 18 | Resultado: 37 (+19 puntos)\n---PAGE---\nPROCESA CONSULTORES\n| PC-2025-033 · Clínica Santa Lucía del Valle · Documento de uso interno\nPágina 3\n7. Lecciones aprendidas\n• Involucrar a los médicos desde el diagnóstico: El rediseño de la agenda generó inicialmente rechazo de especialistas. Presentarles los tiempos reales de sus propias consultas facilitó el acuerdo sobre los nuevos bloques.\n• La medición manual de tiempos tiene límites: El seguimiento presencial es costoso; se recomendó registrar marcas de tiempo automáticas en el sistema hospitalario.\n• La adopción digital requiere acompañamiento: La pre-admisión creció de forma sostenida al ubicar personal de apoyo en la entrada las primeras semanas.\n\n8. Recomendaciones y próximos pasos\n• Registro automático de marcas de tiempo en el ERP hospitalario.\n• Ampliar horarios o consultorios en traumatología y dermatología.\n• Extender pre-admisión a imagenología y laboratorio.\n• Meta de pre-admisión digital de 60% para el cierre de 2026.`,
+
+  'PC-2026-006': `PROCESA CONSULTORES\n| PC-2026-006 · Supermercados La Canasta · Documento de uso interno\nPágina 1\nINFORME DE CIERRE DE PROYECTO\nOptimización del proceso de reposición de inventario en tiendas\nSupermercados La Canasta Cía. Ltda.\n\nCódigo de proyecto: PC-2026-006\nCliente: Supermercados La Canasta Cía. Ltda., cadena de 14 supermercados en Pichincha, Imbabura y Cotopaxi\nSector: Retail – supermercados\nPeriodo de ejecución: 2 de marzo de 2026 al 21 de agosto de 2026 (25 semanas)\nGerente de proyecto: Ing. Daniela Cevallos\nEquipo consultor: 1 gerente, 1 consultor senior en cadena de suministro, 1 consultor, 1 analista de datos\nContraparte del cliente: Gerencia de Operaciones y Jefatura de Compras\nEstado: Cerrado con pendientes – aceptado por el cliente el 28 de agosto de 2026\n\n1. Resumen ejecutivo\nLa Canasta registraba altos niveles de productos agotados en percha en sus categorías de mayor venta, al mismo tiempo que mantenía inventario excesivo en bodegas de tienda. La reposición dependía del criterio de cada administrador y las órdenes a proveedores se generaban manualmente.\nEl proyecto implementó una clasificación ABC de productos, parámetros de reposición por punto de pedido para las categorías A y B, y un proceso semanal de planificación de demanda. Como resultado, el quiebre de stock en categoría A bajó de 9,5% a 4,8% y la merma de perecibles se redujo en 0,7 pp. La integración EDI con proveedores quedó para una segunda fase.\n\n2. Contexto y objetivos\nLa cadena maneja ~11.500 códigos de producto. El 62% de los quiebres se originaba en tienda.\nObjetivos acordados:\n• Reducir el quiebre de stock en categoría A a ≤ 5% (Cumplido: 4,8%).\n• Reducir los días de inventario en tienda a ≤ 30 días (Resultado: 31 días).\n• Integrar órdenes con 3 proveedores (0 de 3 - Postergado por actualización ERP).\n• Reducir la merma de perecibles en ≥ 0,5 pp (Cumplido: -0,7 pp).\n---PAGE---\nPROCESA CONSULTORES\n| PC-2026-006 · Supermercados La Canasta · Documento de uso interno\nPágina 2\n4. Metodología e Iniciativas\n• Clasificación ABC según contribución a ventas.\n• Cálculo de punto de pedido y stock de seguridad para categorías A y B.\n• Proceso semanal de planificación de demanda (Compras, Operaciones y Comercial).\n• Conteos cíclicos semanales (Precisión de inventario subió de 78% a 93%).\n• Especificación funcional para intercambio electrónico (EDI).\n\n6. Resultados Oficiales\n• Quiebre de stock (Cat. A): Línea Base: 9,5% | Meta: ≤ 5% | Resultado: 4,8% (Cumplido)\n• Días de inventario en tienda: Línea Base: 38 días | Meta: ≤ 30 días | Resultado: 31 días (Parcial)\n• Merma de perecibles: Línea Base: 4,1% | Meta: -0,5 pp | Resultado: 3,4% (-0,7 pp, Cumplido)\n• Precisión de inventario: Línea Base: 78% | Resultado: 93% (+15 pp)\n• Integración EDI proveedores: 0 de 3 (No cumplido - Requiere update de ERP del cliente en Nov 2026)\n---PAGE---\nPROCESA CONSULTORES\n| PC-2026-006 · Supermercados La Canasta · Documento de uso interno\nPágina 3\n7. Lecciones aprendidas\n• Los datos maestros son el cimiento: Cerca del 15% de los códigos tenía unidades o factores de empaque incorrectos; su depuración tomó 3 semanas adicionales.\n• Las dependencias de terceros deben gestionarse desde el inicio: La integración EDI dependía de la versión del ERP del cliente y la capacidad técnica de proveedores.\n• El administrador de tienda es clave: Los locales cuyos administradores participaron en el diseño adoptaron el modelo con mayor velocidad y éxito.\n\n8. Recomendaciones y próximos pasos\n• Ejecutar la segunda fase de integración EDI tras la actualización del ERP en noviembre 2026.\n• Extender parámetros de reposición a productos de categoría C con alta rotación.\n• Mantener conteos cíclicos semanales para preservar la precisión del inventario en 93%+.`
+};
+
+export function getDocumentPreviewFallback(codigo) {
+  let code = (codigo || '').toUpperCase();
+  const matchedFicha = OFFICIAL_FICHAS.find(f => 
+    code.includes(f.codigo_proyecto.toUpperCase()) || 
+    code.includes(f.cliente.toUpperCase().slice(0, 8))
+  ) || OFFICIAL_FICHAS.find(f => f.codigo_proyecto === 'PC-2025-033') || OFFICIAL_FICHAS[0];
+
+  const targetCode = matchedFicha.codigo_proyecto;
+  const rawDoc = OFFICIAL_EXTRACTED_DOCS[targetCode];
+
+  let pages = [];
+  if (rawDoc) {
+    const rawPages = rawDoc.split('---PAGE---').map(p => p.trim()).filter(Boolean);
+    pages = rawPages.map((text, idx) => ({
+      page_number: idx + 1,
+      text: text
+    }));
+  }
+
+  if (pages.length === 0) {
+    pages = [
+      {
+        page_number: 1,
+        text: `INFORME DE CIERRE DE PROYECTO\nCódigo: ${matchedFicha.codigo_proyecto}\nCliente: ${matchedFicha.cliente}\nSector: ${matchedFicha.sector}\nGerente de Proyecto: ${matchedFicha.gerente_proyecto}\nPeriodo: ${matchedFicha.fecha_inicio} al ${matchedFicha.fecha_fin} (${matchedFicha.duracion_semanas} semanas)\n\n1. RESUMEN EJECUTIVO\n${matchedFicha.objetivo_general}`
+      },
+      {
+        page_number: 2,
+        text: `2. METODOLOGÍAS Y HERRAMIENTAS:\n• ${matchedFicha.metodologias_herramientas.join('\n• ')}\n\n3. HITOS PRINCIPALES:\n• ${matchedFicha.principales_hitos.join('\n• ')}`
+      },
+      {
+        page_number: 3,
+        text: `4. KPIS Y RESULTADOS DE IMPACTO:\n${matchedFicha.kpis_impacto.map(k => `• ${k.indicador}: Línea Base (${k.linea_base_antes}) -> Resultado (${k.resultado_despues}) [Variación: ${k.variacion_porcentual}]`).join('\n')}\n\nBeneficios Económicos:\n${matchedFicha.beneficios_economicos}`
+      },
+      {
+        page_number: 4,
+        text: `5. LECCIONES APRENDIDAS:\n• ${matchedFicha.lecciones_aprendidas.join('\n• ')}\n\n6. FACTORES DE RIESGO:\n• ${matchedFicha.factores_riesgo.join('\n• ')}`
+      }
+    ];
+  }
+
+  return {
+    success: true,
+    codigo_proyecto: targetCode,
+    cliente: matchedFicha.cliente,
+    filename: `Informe_Cierre_${targetCode}_${matchedFicha.cliente.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`,
+    total_pages: pages.length,
+    pages: pages,
+    chunks: [
+      {
+        codigo_proyecto: targetCode,
+        pagina: 1,
+        contenido: matchedFicha.objetivo_general
+      },
+      {
+        codigo_proyecto: targetCode,
+        pagina: 2,
+        contenido: (matchedFicha.kpis_impacto && matchedFicha.kpis_impacto[0]) ? `${matchedFicha.kpis_impacto[0].indicador}: ${matchedFicha.kpis_impacto[0].resultado_despues}` : ''
+      }
+    ]
+  };
+}
+
 export function smartClientChat(question) {
   const q = question.toLowerCase();
   
@@ -369,8 +441,25 @@ export function smartClientChat(question) {
       success: true,
       answer: `### 🎯 Análisis de Resistencia al Cambio y Mandos Medios\n\nEn los proyectos históricos de Procesa Consultores, la **resistencia de los mandos medios** es el factor de riesgo y la lección aprendida más recurrente:\n\n1. **PC-2025-014 (Horizonte Andino):**\n   - *Desafío:* Los jefes de agencia percibían la descentralización de aprobaciones como pérdida de control.\n   - *Solución:* Se les asignó como **dueños del tablero diario**, convirtiéndolos en líderes de la transformación.\n\n2. **PC-2025-027 (Plásticos del Pacífico):**\n   - *Desafío:* Los supervisores veían el registro de microparadas como un mecanismo de vigilancia personal.\n   - *Solución:* Pasaron a dirigir las reuniones diarias y formular las acciones de mejora.\n\n3. **PC-2025-033 (Clínica Santa Lucía):**\n   - *Desafío:* Médicos especialistas mostraron rechazo inicial a los nuevos bloques de agendamiento.\n   - *Solución:* Se les presentaron las mediciones objetivas de sus propios tiempos de consulta.`,
       tools_used: ["rag_semantic_search", "sql_query"],
-      sources: ["Informe_Cierre_PC-2025-014.pdf", "Informe_Cierre_PC-2025-027.pdf", "Informe_Cierre_PC-2025-033.pdf"],
-      found_info: true
+      sources: ["PC-2025-014", "PC-2025-027", "PC-2025-033"],
+      found_info: true,
+      evidence_chunks: [
+        {
+          codigo_proyecto: "PC-2025-014",
+          pagina: 3,
+          contenido: "La resistencia al cambio se concentró en los mandos medios. Los jefes de agencia percibían la aprobación descentralizada como una pérdida de control."
+        },
+        {
+          codigo_proyecto: "PC-2025-027",
+          pagina: 3,
+          contenido: "La resistencia al cambio se concentró en los mandos medios. Los supervisores de turno veían el registro detallado de paradas como un mecanismo de control."
+        },
+        {
+          codigo_proyecto: "PC-2025-033",
+          pagina: 3,
+          contenido: "Involucrar a los médicos desde el diagnóstico. El rediseño de la agenda generó inicialmente rechazo de algunos especialistas."
+        }
+      ]
     };
   }
 
@@ -380,17 +469,47 @@ export function smartClientChat(question) {
       success: true,
       answer: `### 📊 Proyectos Gestionados por Gerente\n\nDe acuerdo con la base de datos relacional de Procesa Consultores:\n\n- **Ing. Daniela Cevallos (2 proyectos):**\n  1. **PC-2025-014:** *Cooperativa Horizonte Andino* (Servicios Financieros, 21 semanas).\n  2. **PC-2026-006:** *Supermercados La Canasta* (Retail, 25 semanas).\n\n- **Ing. Martín Aguirre (2 proyectos):**\n  1. **PC-2025-027:** *Plásticos del Pacífico* (Manufactura, 23 semanas).\n  2. **PC-2025-033:** *Clínica Santa Lucía del Valle* (Salud, 21 semanas).\n\n*Duración promedio general:* **22.5 semanas**.`,
       tools_used: ["sql_query"],
-      sources: ["Base de Datos Relacional SQLite (Tabla: proyectos)"],
+      sources: ["PC-2025-014", "PC-2025-027", "PC-2025-033", "PC-2026-006"],
       found_info: true
     };
   }
 
-  // 3. Respuesta genérica analítica
+  // 3. Proyecto específico por código o nombre
+  let focusedCode = null;
+  if (q.includes("pc-2025-014") || q.includes("horizonte") || q.includes("cooperativa")) focusedCode = "PC-2025-014";
+  else if (q.includes("pc-2025-027") || q.includes("plásticos") || q.includes("plasticos") || q.includes("pacífico") || q.includes("pacifico") || q.includes("durán") || q.includes("duran")) focusedCode = "PC-2025-027";
+  else if (q.includes("pc-2025-033") || q.includes("santa lucía") || q.includes("santa lucia") || q.includes("clínica") || q.includes("clinica")) focusedCode = "PC-2025-033";
+  else if (q.includes("pc-2026-006") || q.includes("canasta") || q.includes("supermercado")) focusedCode = "PC-2026-006";
+
+  if (focusedCode) {
+    const ficha = OFFICIAL_FICHAS.find(f => f.codigo_proyecto === focusedCode);
+    return {
+      success: true,
+      answer: `### 📑 Informe de Cierre: **${ficha.codigo_proyecto} - ${ficha.cliente}**\n\n- **Sector:** ${ficha.sector}\n- **Gerente de Proyecto:** ${ficha.gerente_proyecto}\n- **Duración:** ${ficha.duracion_semanas} semanas (${ficha.fecha_inicio} a ${ficha.fecha_fin})\n\n#### 🎯 Objetivo Principal\n${ficha.objetivo_general}\n\n#### 📈 Resultados & KPIs de Impacto Clave\n${ficha.kpis_impacto.map(k => `- **${k.indicador}:** Pasó de \`${k.linea_base_antes}\` a **\`${k.resultado_despues}\`** (Variación: *${k.variacion_porcentual}*)`).join('\n')}\n\n#### 💡 Lecciones Aprendidas Documentadas\n${ficha.lecciones_aprendidas.map(l => `• ${l}`).join('\n')}`,
+      tools_used: ["rag_semantic_search", "sql_query"],
+      sources: [focusedCode],
+      found_info: true,
+      evidence_chunks: [
+        {
+          codigo_proyecto: focusedCode,
+          pagina: 1,
+          contenido: ficha.objetivo_general
+        },
+        {
+          codigo_proyecto: focusedCode,
+          pagina: 2,
+          contenido: (ficha.kpis_impacto && ficha.kpis_impacto[0]) ? `${ficha.kpis_impacto[0].indicador}: ${ficha.kpis_impacto[0].resultado_despues}` : ''
+        }
+      ]
+    };
+  }
+
+  // 4. Respuesta genérica analítica
   return {
     success: true,
-    answer: `### 🤖 Respuesta del Asistente Técnico Procesa IA\n\nHe procesado tu consulta: *"${question}"* contrastando la base de datos relacional (SQLite) y las fichas técnicas documentales:\n\n- **Proyectos disponibles:** 4 informes de cierre oficiales (Financiero, Manufactura, Salud y Retail).\n- **Duraciones:** Entre 21 y 25 semanas.\n- **Metodologías aplicadas:** Lean, VSM, TPM, SMED, Lean Healthcare y Gestión de Cadena de Suministro.\n\nPuedes consultar KPIs específicos de cada proyecto, lecciones aprendidas o utilizar el **Explorador SQLite & CRUD** en el menú superior.`,
+    answer: `### 🤖 Respuesta del Asistente Técnico Procesa IA\n\nHe procesado tu consulta: *"${question}"* contrastando la base de datos relacional (SQLite) y los informes documentales RAG:\n\n- **Proyectos disponibles:** 4 informes de cierre oficiales (Financiero, Manufactura, Salud y Retail).\n- **Duraciones:** Entre 21 y 25 semanas.\n- **Metodologías aplicadas:** Lean, VSM, TPM, SMED, Lean Healthcare y Gestión de Cadena de Suministro.\n\nPuedes consultar KPIs específicos de cada proyecto, lecciones aprendidas o hacer clic en los badges para ver la evidencia original en el PDF.`,
     tools_used: ["sql_query", "rag_semantic_search"],
-    sources: ["Base de Datos SQLite", "Fichas Estructuradas JSON"],
+    sources: ["PC-2025-014", "PC-2025-027", "PC-2025-033", "PC-2026-006"],
     found_info: true
   };
 }

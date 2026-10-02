@@ -7,7 +7,7 @@ export const getApiBase = () => {
   return localStorage.getItem('custom_backend_url') || import.meta.env.VITE_API_BASE || (window.location.port === '5173' ? 'http://localhost:8000' : window.location.origin);
 };
 
-import { OFFICIAL_FICHAS, OFFICIAL_PROJECTS, executeClientSQL, smartClientChat } from './fallbackData';
+import { OFFICIAL_FICHAS, OFFICIAL_PROJECTS, executeClientSQL, smartClientChat, getDocumentPreviewFallback } from './fallbackData';
 
 export const api = {
   /**
@@ -79,33 +79,13 @@ export const api = {
     try {
       const res = await fetch(`${getApiBase()}/api/proyectos/${codigo}/preview`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      return await res.json();
+      const data = await res.json();
+      if (data && data.success && Array.isArray(data.pages) && data.pages.length > 0) {
+        return data;
+      }
+      throw new Error("Preview no encontrado");
     } catch (err) {
-      const ficha = OFFICIAL_FICHAS.find(f => f.codigo_proyecto === codigo) || OFFICIAL_FICHAS[0];
-      return {
-        success: true,
-        codigo_proyecto: codigo,
-        cliente: ficha.cliente,
-        num_paginas: 4,
-        paginas: [
-          {
-            pagina: 1,
-            texto: `INFORME DE CIERRE DE PROYECTO\nCódigo: ${ficha.codigo_proyecto}\nCliente: ${ficha.cliente}\nSector: ${ficha.sector}\nGerente: ${ficha.gerente_proyecto}\nObjetivo: ${ficha.objetivo_general}`
-          },
-          {
-            pagina: 2,
-            texto: `METODOLOGÍAS Y HERRAMIENTAS:\n${ficha.metodologias_herramientas.join(', ')}\n\nHITOS PRINCIPALES:\n${ficha.principales_hitos.join('\n')}`
-          },
-          {
-            pagina: 3,
-            texto: `KPIS DE IMPACTO:\n${ficha.kpis_impacto.map(k => `${k.indicador}: Antes (${k.linea_base_antes}) -> Después (${k.resultado_despues}) [${k.variacion_porcentual}]`).join('\n')}`
-          },
-          {
-            pagina: 4,
-            texto: `LECCIONES APRENDIDAS:\n${ficha.lecciones_aprendidas.join('\n\n')}\n\nFACTORES DE RIESGO:\n${ficha.factores_riesgo.join('\n')}`
-          }
-        ]
-      };
+      return getDocumentPreviewFallback(codigo);
     }
   },
 

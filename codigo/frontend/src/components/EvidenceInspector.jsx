@@ -15,6 +15,7 @@ const PDF_NAMES = {
 };
 
 import { getApiBase } from '../services/api';
+import { getDocumentPreviewFallback } from '../services/fallbackData';
 const API_BASE = getApiBase();
 
 export default function EvidenceInspector({ 
@@ -23,41 +24,57 @@ export default function EvidenceInspector({
   fichas = []
 }) {
   const [activeTab, setActiveTab] = useState('doc_sheet'); // 'doc_sheet' | 'pdf_embed' | 'ficha'
-  const [docPreview, setDocPreview] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [selectedPage, setSelectedPage] = useState(1);
   const [showHelpModal, setShowHelpModal] = useState(false);
   const highlightRef = useRef(null);
 
-  const projectCode = evidenceData?.projectCode || evidenceData?.activeSource || 'PC-2025-014';
+  const rawCode = evidenceData?.projectCode || evidenceData?.activeSource || '';
   const query = evidenceData?.query || '';
   const evidenceChunks = evidenceData?.chunks || [];
 
+  // Normalize project code
+  let projectCode = 'PC-2025-014';
+  const matchedCode = ['PC-2025-014', 'PC-2025-027', 'PC-2025-033', 'PC-2026-006'].find(c => 
+    rawCode.toUpperCase().includes(c) || query.toUpperCase().includes(c)
+  );
+  if (matchedCode) {
+    projectCode = matchedCode;
+  } else if (fichas && fichas.length > 0) {
+    const byClient = fichas.find(f => 
+      rawCode.toLowerCase().includes(f.cliente.toLowerCase().slice(0, 8)) || 
+      query.toLowerCase().includes(f.cliente.toLowerCase().slice(0, 8))
+    );
+    if (byClient) projectCode = byClient.codigo_proyecto;
+  }
+
+  // Pre-cargar inmediatamente el fallback para respuesta instantánea en 0ms
+  const [docPreview, setDocPreview] = useState(() => getDocumentPreviewFallback(projectCode));
+  const [isLoading, setIsLoading] = useState(false);
+
   // Buscar ficha estructurada correspondiente
-  const currentFicha = fichas.find(f => f.codigo_proyecto === projectCode);
+  const currentFicha = fichas.find(f => f.codigo_proyecto === projectCode) || 
+                       fichas.find(f => f.codigo_proyecto === 'PC-2025-014');
 
   useEffect(() => {
     if (projectCode) {
+      setDocPreview(getDocumentPreviewFallback(projectCode));
       loadPreview(projectCode);
     }
   }, [projectCode]);
 
   const loadPreview = async (code) => {
-    setIsLoading(true);
     try {
       const res = await api.getDocumentPreview(code);
-      if (res.success) {
+      if (res && res.success && ((res.pages && res.pages.length > 0) || (res.paginas && res.paginas.length > 0))) {
         setDocPreview(res);
-        // Si hay un chunk de evidencia con número de página, posicionar en esa página
         if (evidenceChunks && evidenceChunks.length > 0 && evidenceChunks[0].pagina) {
           setSelectedPage(evidenceChunks[0].pagina);
         }
       }
     } catch (err) {
-      console.error('Error cargando preview:', err);
-    } finally {
-      setIsLoading(false);
+      console.warn('Utilizando vista previa de respaldo local:', err);
+      setDocPreview(getDocumentPreviewFallback(code));
     }
   };
 
@@ -177,11 +194,24 @@ export default function EvidenceInspector({
 
   if (!evidenceData) return null;
 
-  const clientName = docPreview?.cliente || currentFicha?.cliente || 'Informe de Proyecto';
-  const pdfFilename = docPreview?.filename || PDF_NAMES[projectCode] || `${projectCode}.pdf`;
+  const fallbackPreview = getDocumentPreviewFallback(projectCode);
+  const rawPages = (docPreview?.pages && docPreview.pages.length > 0)
+    ? docPreview.pages
+    : (docPreview?.paginas && docPreview.paginas.length > 0)
+      ? docPreview.paginas
+      : (fallbackPreview?.pages || []);
+
+  const clientName = (docPreview?.cliente && docPreview.cliente !== 'Documento' && !docPreview.cliente.includes('Base de Datos'))
+    ? docPreview.cliente
+    : (currentFicha?.cliente || fallbackPreview?.cliente || 'Informe de Proyecto');
+
+  const pdfFilename = (docPreview?.filename && !docPreview.filename.includes('Base de Datos'))
+    ? docPreview.filename
+    : (PDF_NAMES[projectCode] || `${projectCode}.pdf`);
+
   const pdfUrl = `${API_BASE}/api/pdf/${projectCode}`;
-  const displayChunks = evidenceChunks.length > 0 ? evidenceChunks : (docPreview?.chunks || []);
-  const totalPages = docPreview?.total_pages || 3;
+  const displayChunks = evidenceChunks.length > 0 ? evidenceChunks : (docPreview?.chunks || fallbackPreview?.chunks || []);
+  const totalPages = rawPages.length || docPreview?.total_pages || docPreview?.total_paginas || 3;
 
   return (
     <>
@@ -361,10 +391,11 @@ export default function EvidenceInspector({
 
                     {/* Page Extracted Content with In-Document Yellow Highlights */}
                     <div className="text-slate-800 space-y-1">
-                      {docPreview?.pages && docPreview.pages.length > 0 ? (
+                      {rawPages && rawPages.length > 0 ? (
                         (() => {
-                          const currentPageObj = docPreview.pages.find(p => p.page_number === selectedPage) || docPreview.pages[0];
-                          return renderDocumentTextWithHighlights(currentPageObj.text, displayChunks);
+                          const currentPageObj = rawPages.find(p => (p.page_number === selectedPage || p.pagina === selectedPage)) || rawPages[0];
+                          const pageText = currentPageObj?.text || currentPageObj?.contenido || currentPageObj?.content || '';
+                          return renderDocumentTextWithHighlights(pageText, displayChunks);
                         })()
                       ) : (
                         <div className="p-4 text-center text-slate-400 text-xs">

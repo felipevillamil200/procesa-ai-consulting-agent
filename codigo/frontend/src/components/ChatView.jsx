@@ -183,11 +183,39 @@ export default function ChatView({
     }
   };
 
+  // Helper to resolve real project code from source strings, query, or message content
+  const resolveProjectCode = (sourceStr, msgObj, userQ) => {
+    if (sourceStr && /PC-\d{4}-\d{3}/i.test(sourceStr)) {
+      return sourceStr.match(/PC-\d{4}-\d{3}/i)[0].toUpperCase();
+    }
+    if (attachedDoc?.codigo_proyecto) {
+      return attachedDoc.codigo_proyecto;
+    }
+    const chunkWithCode = (msgObj?.evidence_chunks || []).find(c => c.codigo_proyecto);
+    if (chunkWithCode) {
+      return chunkWithCode.codigo_proyecto;
+    }
+    const combined = `${sourceStr || ''} ${msgObj?.content || ''} ${userQ || ''}`;
+    const matched = ['PC-2025-014', 'PC-2025-027', 'PC-2025-033', 'PC-2026-006'].find(c =>
+      combined.toUpperCase().includes(c)
+    );
+    if (matched) return matched;
+
+    if (fichas && fichas.length > 0) {
+      const byClient = fichas.find(f =>
+        combined.toLowerCase().includes(f.cliente.toLowerCase().slice(0, 8))
+      );
+      if (byClient) return byClient.codigo_proyecto;
+    }
+    return 'PC-2025-014';
+  };
+
   // Manejador de clics en las negritas y citas interactivas dentro del mensaje (Perplexity Style)
   const handleMessageClick = (e, msg, userQuestion) => {
     const target = e.target.closest('[data-project-code]');
     if (target) {
-      const code = target.getAttribute('data-project-code');
+      const raw = target.getAttribute('data-project-code');
+      const code = resolveProjectCode(raw, msg, userQuestion);
       handleOpenEvidence({
         projectCode: code,
         activeSource: code,
@@ -340,39 +368,47 @@ export default function ChatView({
                           <CheckCircle className="w-3.5 h-3.5 text-emerald-500" />
                           Fuentes:
                         </span>
-                        {msg.sources && msg.sources.map((s, sIdx) => (
-                          <button
-                            key={sIdx}
-                            onClick={() => handleOpenEvidence({
-                              projectCode: s,
-                              activeSource: s,
-                              chunks: (msg.evidence_chunks || []).filter(c => c.codigo_proyecto === s || (msg.evidence_chunks || []).length === 0),
-                              query: userQuestion
-                            })}
-                            className="px-2.5 py-0.5 rounded-lg bg-cyan-50 hover:bg-yellow-200 text-cyan-800 hover:text-yellow-950 border border-cyan-200 hover:border-yellow-400 font-mono text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer btn-tactile"
-                            title={`Inspeccionar fragmentos en PDF de ${s}`}
-                          >
-                            <span>{s}</span>
-                            <ExternalLink className="w-2.5 h-2.5 opacity-70" />
-                          </button>
-                        ))}
+                        {msg.sources && msg.sources.map((s, sIdx) => {
+                          const targetCode = resolveProjectCode(s, msg, userQuestion);
+                          return (
+                            <button
+                              key={sIdx}
+                              onClick={() => handleOpenEvidence({
+                                projectCode: targetCode,
+                                activeSource: targetCode,
+                                chunks: (msg.evidence_chunks || []).filter(c => c.codigo_proyecto === targetCode || (msg.evidence_chunks || []).length === 0),
+                                query: userQuestion
+                              })}
+                              className="px-2.5 py-0.5 rounded-lg bg-cyan-50 hover:bg-yellow-200 text-cyan-800 hover:text-yellow-950 border border-cyan-200 hover:border-yellow-400 font-mono text-[11px] font-bold transition-all flex items-center gap-1 cursor-pointer btn-tactile"
+                              title={`Inspeccionar fragmentos en PDF de ${targetCode}`}
+                            >
+                              <span>{s}</span>
+                              <ExternalLink className="w-2.5 h-2.5 opacity-70" />
+                            </button>
+                          );
+                        })}
                       </div>
 
                       {/* Prominent Evidence Inspector Trigger Button */}
-                      <button
-                        onClick={() => handleOpenEvidence({
-                          projectCode: msg.sources?.[0] || 'PC-2025-014',
-                          activeSource: msg.sources?.[0] || 'PC-2025-014',
-                          chunks: msg.evidence_chunks || [],
-                          query: userQuestion
-                        })}
-                        className="px-3.5 py-1.5 bg-gradient-to-r from-amber-500/15 via-yellow-500/25 to-amber-500/15 hover:from-amber-500/30 hover:to-yellow-500/40 text-amber-950 border border-amber-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs group cursor-pointer btn-tactile"
-                        title="Abre el panel derecho con el texto original del PDF subrayado en amarillo"
-                      >
-                        <ShieldCheck className="w-3.5 h-3.5 text-yellow-600" />
-                        <span>Ver Evidencia en PDF</span>
-                        <ChevronRight className="w-3.5 h-3.5 text-yellow-600 group-hover:translate-x-0.5 transition" />
-                      </button>
+                      {(() => {
+                        const targetCode = resolveProjectCode(msg.sources?.[0], msg, userQuestion);
+                        return (
+                          <button
+                            onClick={() => handleOpenEvidence({
+                              projectCode: targetCode,
+                              activeSource: targetCode,
+                              chunks: msg.evidence_chunks || [],
+                              query: userQuestion
+                            })}
+                            className="px-3.5 py-1.5 bg-gradient-to-r from-amber-500/15 via-yellow-500/25 to-amber-500/15 hover:from-amber-500/30 hover:to-yellow-500/40 text-amber-950 border border-amber-300 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs group cursor-pointer btn-tactile"
+                            title="Abre el panel derecho con el texto original del PDF subrayado en amarillo"
+                          >
+                            <ShieldCheck className="w-3.5 h-3.5 text-yellow-600" />
+                            <span>Ver Evidencia en PDF</span>
+                            <ChevronRight className="w-3.5 h-3.5 text-yellow-600 group-hover:translate-x-0.5 transition" />
+                          </button>
+                        );
+                      })()}
                     </div>
                   )}
 
