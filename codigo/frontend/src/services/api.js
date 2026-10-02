@@ -89,7 +89,7 @@ export const api = {
       });
       return result;
     } catch {
-      // En entornos Serverless como Vercel donde los cambios de memoria son efímeros
+      // Fallback si el backend no responde
       return {
         success: true,
         message: 'Configuración guardada y aplicada en sesión.',

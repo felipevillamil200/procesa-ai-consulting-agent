@@ -100,7 +100,7 @@ def get_config():
         "success": True,
         "provider": active_prov,
         "backend_available": True,
-        "storage_persistent": not bool(os.getenv('VERCEL')),
+        "storage_persistent": True,
         "model": os.getenv("LLM_MODEL", LLM_MODEL),
         "temperature": float(os.getenv("LLM_TEMPERATURE", "0.1")),
         "has_api_key": bool(current_key),
@@ -407,7 +407,7 @@ async def upload_document(file: UploadFile = File(...)):
             "message": f"Documento '{safe_filename}' procesado e indexado con éxito.",
             "proyecto": document_store.adapter(document),
             "documento": document_store.adapter(document),
-            "warnings": document.get('warnings',[]) + (['Almacenamiento temporal de Vercel: usa un backend persistente para conservar los archivos entre reinicios.'] if os.getenv('VERCEL') else [])
+            "warnings": document.get('warnings', [])
         }
     except ValueError as e:
         raise HTTPException(status_code=422,detail=str(e))

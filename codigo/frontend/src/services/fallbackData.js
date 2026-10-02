@@ -1,7 +1,7 @@
 /**
  * Base de Datos y Motor de IA Local/Offline para Procesa Consultores.
  * Permite que el frontend funcione de forma autónoma con los 4 proyectos oficiales
- * en cualquier entorno web (Vercel, GitHub Pages, Netlify) sin errores de desconexión.
+ * en cualquier entorno web o contenedor sin errores de desconexión.
  */
 
 export const OFFICIAL_FICHAS = [

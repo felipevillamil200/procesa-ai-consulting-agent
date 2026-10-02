@@ -15,8 +15,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 if os.environ.get('PROCESA_DATA_DIR'):
     DATA_DIR = Path(os.environ['PROCESA_DATA_DIR']).resolve()
-elif os.environ.get("VERCEL"):
-    DATA_DIR = Path("/tmp/data")
 else:
     DATA_DIR = BASE_DIR / "data"
 
