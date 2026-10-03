@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { Puzzle } from 'lucide-react';
 import SystemGuideModal from './SystemGuideModal';
 import AboutUsModal from './AboutUsModal';
 
@@ -27,7 +28,7 @@ function IconHome({ className = "w-4 h-4" }) {
   );
 }
 
-// 2. 4-Square Rounded Grid Icon (Identical to Nival.html n-grid)
+// 2. 4-Square Rounded Grid Icon (para Solución / Dashboard)
 function IconGrid({ className = "w-4 h-4" }) {
   return (
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.7" className={className} aria-hidden="true">
@@ -125,7 +126,7 @@ function IconArrowToggle({ isOpen, className = "w-3.5 h-3.5" }) {
 
 const TABS = [
   { id: 'chat', label: 'Chat Inteligente', shortLabel: 'Chat', icon: IconChat, badge: 'IA' },
-  { id: 'fichas', label: 'Fichas Estructuradas', shortLabel: 'Fichas', icon: IconGrid, badge: null },
+  { id: 'fichas', label: 'Fichas Estructuradas', shortLabel: 'Fichas', icon: Puzzle, badge: null },
   { id: 'sqlite', label: 'Explorador SQLite', shortLabel: 'SQLite', icon: IconDatabase, badge: 'SQL' },
   { id: 'arquitectura', label: 'Arquitectura & Costos', shortLabel: 'Arquitectura', icon: IconArchitecture, badge: null }
 ];

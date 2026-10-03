@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
   X, MessageSquare, Table, Database, Network, Settings, Trash2, 
-  Files, Zap, Sparkles, FileText, HelpCircle, ShieldCheck, Compass, ExternalLink
+  Files, Zap, Sparkles, FileText, HelpCircle, ShieldCheck, Compass, ExternalLink, Puzzle
 } from 'lucide-react';
 
 export default function SystemGuideModal({ isOpen, onClose }) {
@@ -59,7 +59,7 @@ export default function SystemGuideModal({ isOpen, onClose }) {
               {/* Fichas Estructuradas */}
               <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-1">
                 <div className="flex items-center gap-2 text-brand-700 font-bold text-xs">
-                  <Table className="w-4 h-4 text-brand-600" />
+                  <Puzzle className="w-4 h-4 text-brand-600" />
                   <span>Fichas Estructuradas</span>
                 </div>
                 <p className="text-[11px] text-slate-600 leading-snug">
